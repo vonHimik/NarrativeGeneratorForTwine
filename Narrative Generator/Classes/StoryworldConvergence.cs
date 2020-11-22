@@ -10,6 +10,8 @@ namespace Narrative_Generator
     {
         World currentWorldState;
 
+        List<Constraint> constraints;
+
         public void ActionRequest()
         {
 

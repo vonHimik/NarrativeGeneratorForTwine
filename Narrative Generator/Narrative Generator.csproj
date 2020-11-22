@@ -75,6 +75,8 @@
     <Compile Include="Classes\World.cs" />
     <Compile Include="Classes\StoryAlgorithm.cs" />
     <Compile Include="Classes\StoryDomain.cs" />
+    <Compile Include="Classes\TwineCompiler.cs" />
+    <Compile Include="Classes\TwineGraph.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

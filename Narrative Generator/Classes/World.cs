@@ -8,9 +8,9 @@ namespace Narrative_Generator
 {
     class World
     {
-        StoryDomain domain;
-        List<Goal> goalStates;
-        List<CSPVariable> variables;
-        List<Agent> agents;
+        StoryDomain domain;          // PDDL domain.
+        List<Goal> goalStates;       // List of goal state(s).
+        List<CSPVariable> variables; // Variables for CSP model. 
+        List<Agent> agents;          // Agents (include agents states).
     }
 }

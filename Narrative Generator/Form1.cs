@@ -17,8 +17,12 @@ namespace Narrative_Generator
             InitializeComponent();
         }
 
+        StoryAlgorithm system = new StoryAlgorithm();
+
         private void btnStart_Click(object sender, EventArgs e)
         {
+            // system.Start();
+
             FastDownward fastDownward = new FastDownward();
             fastDownward.Run();
         }

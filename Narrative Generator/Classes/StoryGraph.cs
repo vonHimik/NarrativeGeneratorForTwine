@@ -8,16 +8,27 @@ namespace Narrative_Generator
 {
     class StoryGraph
     {
-        StoryNode startNode; // Root
+        public StoryNode startNode; // Root
         List<StoryNode> nodes;
         List<Edge> edges;
 
-        public void AddNode()
+        public void AddNode() // State
         {
-
+            // nodes.Add();
         }
 
-        public void AddEdge()
+        public void AddEdge() // Action
+        {
+            // edges.Add();
+        }
+
+        public void ExpandNode()
+        {
+            AddNode();
+            AddEdge();
+        }
+
+        public void CyclesControl()
         {
 
         }

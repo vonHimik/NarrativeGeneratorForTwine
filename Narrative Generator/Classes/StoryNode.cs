@@ -8,8 +8,8 @@ namespace Narrative_Generator
 {
     class StoryNode
     {
-        World worldState;
+        World worldState;  // Story state.
         bool activePlayer; // Active player = true, active agent = false.
-        Agent ActiveAgent;
+        Agent ActiveAgent; // If the player does not move, then one of the agents move - which?
     }
 }
