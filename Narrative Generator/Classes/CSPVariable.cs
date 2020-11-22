@@ -9,5 +9,11 @@ namespace Narrative_Generator
     class CSPVariable
     {
         CSPVariablesDomain domain;
+        CSPVariableValue actualValue;
+
+        public void ChooseValueFromDomain()
+        {
+
+        }
     }
 }

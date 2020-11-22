@@ -8,6 +8,16 @@ namespace Narrative_Generator
 {
     class Plan
     {
-        List<Action> actions;
+        private List<Action> actions;
+
+        public void AddAction(Action action)
+        {
+            actions.Add(action);
+        }
+
+        public Action GetAction(int index)
+        {
+            return actions[index];
+        }
     }
 }

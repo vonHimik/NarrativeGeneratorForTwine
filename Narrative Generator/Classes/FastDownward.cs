@@ -10,7 +10,6 @@ namespace Narrative_Generator
     class FastDownward
     {
         Wrapper wrapper;
-
         public bool isSuccess;
 
         public FastDownward()
@@ -29,13 +28,52 @@ namespace Narrative_Generator
         {
             Plan readedPlan = null;
 
+            Action action = new Action();
+
             using (StreamReader streamReader = new StreamReader("sas_plan.txt", Encoding.Default))
             {
-                string line;
+                string word = null;
+                bool startLineReading = false;
+                bool haveName = false;
 
-                while ((line = streamReader.ReadLine()) != null)
+                while (!streamReader.EndOfStream)
                 {
-                    
+                    char c = (char)streamReader.Read();
+
+                    if (c == '(') { startLineReading = true; }
+                    else if (c == ')')
+                    {
+                        startLineReading = false;
+                        haveName = false;
+
+                        action.AddParameter(word);
+                        word = null;
+
+                        readedPlan.AddAction(action);
+                        action.Clear();
+                    }
+                    else if (c == ';') { break; }
+                    else if (c== ' ')
+                    {
+                        if (startLineReading && haveName)
+                        {
+                            action.AddParameter(word);
+                            word = null;
+                        }
+                        else if (startLineReading && !haveName)
+                        {
+                            action.SetName(word);
+                            word = null;
+                            haveName = true;
+                        }
+                    }
+                    else
+                    {
+                        if (startLineReading)
+                        {
+                            word.Insert(word.Length, c.ToString());
+                        }
+                    }
                 }
             }
 

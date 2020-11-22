@@ -17,14 +17,15 @@ namespace Narrative_Generator
         private bool alive;
         private string role;
 
-        public Agent()
+        public Agent(bool alive, string role)
         {
-
+            this.alive = alive;
+            this.role = role;
         }
 
-        public void AssignRole()
+        public void AssignRole(string role)
         {
-
+            this.role = role;
         }
 
         public string GetRole()
@@ -32,9 +33,9 @@ namespace Narrative_Generator
             return role;
         }
 
-        public void RefreshKnowledgeAboutTheWorld()
+        public void RefreshKnowledgeAboutTheWorld(World currentWorldState)
         {
-
+            this.myWorld = currentWorldState;
         }
 
         public void CalculatePlan()
@@ -52,12 +53,12 @@ namespace Narrative_Generator
 
         }
 
-        public void ChooseAction()
+        public void ChooseAction(List<Action> availableActions)
         {
 
         }
 
-        public void SendAction()
+        public void SendAction(Action choosedAction)
         {
 
         }

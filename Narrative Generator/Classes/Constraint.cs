@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class Constraint
+    class Constraint // Predicates
     {
     }
 }

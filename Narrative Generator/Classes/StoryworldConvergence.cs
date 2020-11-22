@@ -12,6 +12,8 @@ namespace Narrative_Generator
 
         List<Constraint> constraints;
 
+        List<Agent> agents;
+
         public void ActionRequest()
         {
 

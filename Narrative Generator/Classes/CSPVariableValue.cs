@@ -8,5 +8,6 @@ namespace Narrative_Generator
 {
     class CSPVariableValue
     {
+        public string value;
     }
 }
