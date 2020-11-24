@@ -12,13 +12,18 @@ namespace Narrative_Generator
         Plan myCurrentPlan;
         List<Action> myAvailableActions;
         List<Goal> myGoals;
-        World myWorld;
+        World myWorld; // Beliefs
 
         private bool alive;
         private string role;
 
-        public Agent(bool alive, string role)
+        public Agent(bool alive, string role, List<Goal> goals, World world)
         {
+            fastDownward = new FastDownward();
+            myCurrentPlan = new Plan();
+            myAvailableActions = new List<Action>();
+            myGoals = goals;
+            myWorld = world;
             this.alive = alive;
             this.role = role;
         }
@@ -33,9 +38,10 @@ namespace Narrative_Generator
             return role;
         }
 
-        public void RefreshKnowledgeAboutTheWorld(World currentWorldState)
+        public void RefreshKnowledgeAboutTheWorld(World currentWorldState) // Should depend on factors such as role, location of the agent, and so on. 
+                                                                           // The system shouldn't tell the agent who the killer is.
         {
-            this.myWorld = currentWorldState;
+            myWorld = currentWorldState;
         }
 
         public void CalculatePlan()
@@ -55,7 +61,7 @@ namespace Narrative_Generator
 
         public void ChooseAction(List<Action> availableActions)
         {
-
+            CalculatePlan();
         }
 
         public void SendAction(Action choosedAction)

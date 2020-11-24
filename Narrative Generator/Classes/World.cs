@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class World
+    class World // Story state
     {
         StoryDomain domain;          // PDDL domain.
         List<Goal> goalStates;       // List of goal state(s). // Or it must be StoryNode?

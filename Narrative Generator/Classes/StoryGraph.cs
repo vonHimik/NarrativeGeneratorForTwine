@@ -22,10 +22,13 @@ namespace Narrative_Generator
             // edges.Add();
         }
 
-        public void ExpandNode()
+        public void ExpandNode(StoryworldConvergence storyworldConvergence)
         {
-            AddNode();
-            AddEdge();
+            // AddNode();
+            // AddEdge();
+
+            // storyworldConvergence.ActionRequest();
+
         }
 
         public void CyclesControl()

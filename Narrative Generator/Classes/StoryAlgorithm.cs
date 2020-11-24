@@ -12,6 +12,10 @@ namespace Narrative_Generator
         public bool reachedGoalState = false;
         public StoryGraph newStoryGraph = new StoryGraph();
 
+        public World currentStoryState = new World();
+        public StoryworldConvergence storyworldConvergence = new StoryworldConvergence();
+        public List<Agent> agents = new List<Agent>();
+
         public void ReadUserSettingsInput()
         {
 
@@ -39,17 +43,22 @@ namespace Narrative_Generator
             
         }
 
-        public void CreateStoryworldConvergence()
+        public void CreateWorld()
         {
 
         }
 
-        public void CreateAgents(int number)
+        public void CreateStoryworldConvergence()
         {
-            for (int i = 0; i < number; i++)
-            {
-                CreateAgent();
-            }
+            storyworldConvergence.SetNewStoryState(currentStoryState);
+            storyworldConvergence.SetListOfAgents(agents);
+        }
+
+        public void CreateAgents()
+        {
+            // We get info about agents from user input.
+            // From it we find out how many agents there are, what roles they have, their beliefs, 
+            //    and we will have to design them and add them to the game world.
         }
 
         public void CreateAgent()
@@ -70,7 +79,10 @@ namespace Narrative_Generator
         public void Start()
         {
             // ReadUserSettingsInput();
-            ReadPDDLDomain();
+            CreateWorld();
+            CreateStoryworldConvergence();
+            CreateAgents();
+
             StoryNode rootNode = newStoryGraph.startNode;
             newStoryGraph = CreateStoryGraph(rootNode);
             GenerateGraphForTwine(newStoryGraph);
@@ -90,7 +102,7 @@ namespace Narrative_Generator
 
         public StoryNode Step (StoryNode currentNode)
         {
-            newStoryGraph.ExpandNode();
+            // newStoryGraph.ExpandNode();
             return currentNode;
         }
 
