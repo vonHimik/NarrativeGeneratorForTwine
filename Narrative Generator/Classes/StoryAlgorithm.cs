@@ -9,12 +9,13 @@ namespace Narrative_Generator
 {
     class StoryAlgorithm
     {
+        public bool manualInput = true;
         public bool reachedGoalState = false;
-        public StoryGraph newStoryGraph = new StoryGraph();
 
+        public StoryGraph newStoryGraph = new StoryGraph();
         public World currentStoryState = new World();
+
         public StoryworldConvergence storyworldConvergence = new StoryworldConvergence();
-        public List<Agent> agents = new List<Agent>();
 
         public void ReadUserSettingsInput()
         {
@@ -31,49 +32,181 @@ namespace Narrative_Generator
 
         }
 
-        // We reading predicates and actions from domain.pddl file.
-        public void ReadPDDLDomain()
-        {
-           // newStoryGraph.startNode = ...
-        }
-
-        // We reading objects, init state and goals from problem.pddl file.
-        public void ReadPDDLProblem()
-        {
-            
-        }
-
         public void CreateWorld()
         {
+            if (manualInput) // Demo story
+            {
+                Location kitchen = new Location("Kitchen");
+                Location diningRoom = new Location("Dining room");
+                Location hall = new Location("Hall");
+                Location garden = new Location("Garden");
+                Location bedroom = new Location("Bedroom");
+                Location guestBedroom = new Location("Guest bedroom");
+                Location bathroom = new Location("Bathroom");
+                Location attic = new Location("Attic");
 
+                List<Location> locations = new List<Location>
+                {
+                    kitchen, diningRoom, hall, garden, bedroom, guestBedroom, bathroom, attic
+                };
+
+                // The first step in creating the initial state is setting up the environment, that is - locations.
+                CreateEnviroment(locations);
+
+                List<string> names = new List<string>()
+                {
+                    "Clerk",
+                    "Rich",
+                    "Politician",
+                    "Mafia-boss",
+                    "Journalist",
+                    "Judge"
+                };
+
+                List<bool> statuses = new List<bool>()
+                {
+                    true, true, true, true, true, true
+                };
+
+                List<string> roles = new List<string>()
+                {
+                    "usual", "usual", "usual", "usual", "usual", "killer"
+                };
+
+                World standardAgentsGoalState = new World();
+                Goal standardAgentGoal = new Goal(false, true, false, standardAgentsGoalState);
+
+                World killersGoalState = new World();
+                Goal killerAgentGoal = new Goal(false, true, false, killersGoalState);
+
+                List<Goal> goals = new List<Goal>()
+                {
+                    standardAgentGoal, standardAgentGoal, standardAgentGoal, standardAgentGoal, standardAgentGoal, killerAgentGoal
+                };
+
+                World usualAgentsBeliefs = new World();
+                World killerBeliefs = new World();
+                List<World> beliefs = new List<World>
+                {
+                    usualAgentsBeliefs, usualAgentsBeliefs, usualAgentsBeliefs, usualAgentsBeliefs, usualAgentsBeliefs, killerBeliefs
+                };
+
+                // The second step in creating the initial state is the creation of agents, initially with empty goals and beliefs, 
+                // since they are highly dependent on the agents themselves existing in the "world". We'll finish setting this up in the next step.
+                CreateAgents(names, statuses, roles, goals, beliefs, 6);
+
+                DistributionOfInitiative();
+
+                // The third step in creating an initial state is assigning to agents their goals and beliefs.
+                // Goals
+                for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
+                {
+                    if (currentStoryState.GetAgent(i).GetGoal().goalTypeStatus == true)
+                    {
+                        if (currentStoryState.GetAgent(i).GetRole() != "killer")
+                        {
+                            for (int j = 0; j < currentStoryState.GetAgent(i).GetGoal().goalState.GetAgents().Count(); j++)
+                            {
+                                if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() != "killer")
+                                {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(true);
+                                }
+                                else if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() == "killer")
+                                {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(false);
+                                }
+                            }
+                        }
+                        else if (currentStoryState.GetAgent(i).GetRole() == "killer")
+                        {
+                            for (int j = 0; j < currentStoryState.GetAgent(i).GetGoal().goalState.GetAgents().Count(); j++)
+                            {
+                                if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() != "killer")
+                                {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(false);
+                                }
+                                else if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() == "killer")
+                                {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(true);
+                                }
+                            }
+                        }
+                    }
+                }
+                // Beliefs
+                for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
+                {
+                    if (currentStoryState.GetAgent(i).GetRole() != "killer")
+                    {
+                        currentStoryState.GetAgent(i).GetBeliefs()
+                    }
+                    else if (currentStoryState.GetAgent(i).GetRole() == "killer")
+                    {
+                        currentStoryState.GetAgent(i).GetBeliefs()
+                    }
+                }
+            }
         }
 
         public void CreateStoryworldConvergence()
         {
             storyworldConvergence.SetNewStoryState(currentStoryState);
-            storyworldConvergence.SetListOfAgents(agents);
+            // storyworldConvergence.SetListOfAgents(agents);
         }
 
-        public void CreateAgents()
+        public void CreateAgents (List<string> names, List<bool> statuses, List<string> roles, List<Goal> goals, List<World> beliefs, int numbers)
         {
             // We get info about agents from user input.
             // From it we find out how many agents there are, what roles they have, their beliefs, 
             //    and we will have to design them and add them to the game world.
+
+            for (int i = 0; i < numbers; i++)
+            {
+                CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i]);
+            }
         }
 
-        public void CreateAgent()
+        public void CreateAgent(string name, bool status, string role, Goal goals, World beliefs)
         {
-
+            Agent newAgent = new Agent(name, status, role, goals, beliefs);
+            currentStoryState.AddAgent(newAgent);
         }
 
-        public void CreateEnviroment()
+        public void CreateEnviroment(List<Location> locations)
         {
-
+            currentStoryState.AddLocations(locations);
         }
 
         public void DistributionOfInitiative()
         {
+            List<int> valuesOfInitiative = NumberGenerator(currentStoryState.GetNumberOfAgents());
 
+            for (int i = 0; i < currentStoryState.GetNumberOfAgents(); i++)
+            {
+                currentStoryState.GetAgent(i).SetInitiative(valuesOfInitiative[i]);
+            }
+        }
+
+        public List<int> NumberGenerator (int maximum)
+        {
+            Random random = new Random();
+            List<int> result = new List<int>();
+
+            while (result.Count != maximum)
+            {
+                int temp = random.Next(1, 100);
+
+                if (result.Contains(temp))
+                {
+                    continue;
+                }
+                else
+                {
+                    result.Add(temp);
+                }
+            }
+
+            return result;
         }
 
         public void Start()
@@ -81,8 +214,9 @@ namespace Narrative_Generator
             // ReadUserSettingsInput();
             CreateWorld();
             CreateStoryworldConvergence();
-            CreateAgents();
+            // CreateAgents();
 
+            // newStoryGraph.startNode = currentStoryState;
             StoryNode rootNode = newStoryGraph.startNode;
             newStoryGraph = CreateStoryGraph(rootNode);
             GenerateGraphForTwine(newStoryGraph);
