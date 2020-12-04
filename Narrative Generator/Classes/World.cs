@@ -51,6 +51,12 @@ namespace Narrative_Generator
             agents.Add(newAgent);
         }
 
+        public void AddEmptyAgent()
+        {
+            Agent newAgent = new Agent();
+            agents.Add(newAgent);
+        }
+
         public List<Agent> GetAgents()
         {
             return agents;

@@ -105,28 +105,36 @@ namespace Narrative_Generator
                     {
                         if (currentStoryState.GetAgent(i).GetRole() != "killer")
                         {
-                            for (int j = 0; j < currentStoryState.GetAgent(i).GetGoal().goalState.GetAgents().Count(); j++)
+                            for (int j = 0; j < currentStoryState.GetAgents().Count(); j++)
                             {
-                                if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() != "killer")
+                                if ((j + 1) != (currentStoryState.GetAgents().Count()))
                                 {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("usual");
                                     currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(true);
                                 }
-                                else if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() == "killer")
+                                else 
                                 {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("killer");
                                     currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(false);
                                 }
                             }
                         }
                         else if (currentStoryState.GetAgent(i).GetRole() == "killer")
                         {
-                            for (int j = 0; j < currentStoryState.GetAgent(i).GetGoal().goalState.GetAgents().Count(); j++)
+                            for (int j = 0; j < currentStoryState.GetAgents().Count(); j++)
                             {
-                                if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() != "killer")
+                                if ((j + 1) != (currentStoryState.GetAgents().Count()))
                                 {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("usual");
                                     currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(false);
                                 }
-                                else if (currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).GetRole() == "killer")
+                                else
                                 {
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
+                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("killer");
                                     currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(true);
                                 }
                             }
@@ -136,14 +144,24 @@ namespace Narrative_Generator
                 // Beliefs
                 for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
                 {
-                    if (currentStoryState.GetAgent(i).GetRole() != "killer")
+                    for (int j = 0; j < currentStoryState.GetAgents().Count(); j++)
                     {
-                        currentStoryState.GetAgent(i).GetBeliefs()
+                        if (i == j)
+                        {
+                            currentStoryState.GetAgent(i).GetBeliefs().AddAgent(currentStoryState.GetAgent(i));
+                        }
+                        else
+                        {
+                            currentStoryState.GetAgent(i).GetBeliefs().AddEmptyAgent();
+                            currentStoryState.GetAgent(i).GetBeliefs().GetAgent(j).AssignRole("usual");
+                            currentStoryState.GetAgent(i).GetBeliefs().GetAgent(j).SetName(currentStoryState.GetAgent(j).GetName());
+                        }
                     }
-                    else if (currentStoryState.GetAgent(i).GetRole() == "killer")
-                    {
-                        currentStoryState.GetAgent(i).GetBeliefs()
-                    }
+                }
+                // Locations
+                for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
+                {
+                    currentStoryState.GetAgent(i).GetBeliefs().AddLocations(currentStoryState.GetLocations());
                 }
             }
         }

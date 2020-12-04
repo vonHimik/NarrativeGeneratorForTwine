@@ -34,6 +34,11 @@ namespace Narrative_Generator
             initiative = 0;
         }
 
+        public Agent()
+        {
+
+        }
+
         public void SetName(string name)
         {
             this.name = name;
