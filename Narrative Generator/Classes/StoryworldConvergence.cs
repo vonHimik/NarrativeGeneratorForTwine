@@ -8,30 +8,11 @@ namespace Narrative_Generator
 {
     class StoryworldConvergence
     {
-        private World currentStoryState; // This is absolutely true and complete information about the world, unlike other agents. 
+        private List<Constraint> constraints;
 
-        List<Constraint> constraints;
-
-        private List<Agent> agents;
-
-        public void SetNewStoryState(World newStoryState)
+        public void AddConstraint(Constraint constraint)
         {
-            currentStoryState = newStoryState;
-        }
-
-        public World GetCurrentStoryState()
-        {
-            return currentStoryState;
-        }
-
-        public void SetListOfAgents(List<Agent> agents)
-        {
-            this.agents = agents;
-        }
-
-        public List<Agent> GetListOfAgents()
-        {
-            return agents;
+            constraints.Add(constraint);
         }
 
         public void ActionRequest()

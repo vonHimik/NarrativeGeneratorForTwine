@@ -20,15 +20,14 @@ namespace Narrative_Generator
 
         public void Run()
         {
-            wrapper.RunFastDownward("Detective-Domain.pddl", "Detective-Problem.pddl");
+            wrapper.RunFastDownward("test-domain.pddl", "test-problem.pddl");
             isSuccess = true;
         }
 
         public Plan GetResultPlan()
         {
             Plan readedPlan = null;
-
-            Action action = new Action();
+            string actionName = null;
 
             using (StreamReader streamReader = new StreamReader("sas_plan.txt", Encoding.Default))
             {
@@ -46,23 +45,23 @@ namespace Narrative_Generator
                         startLineReading = false;
                         haveName = false;
 
-                        action.AddParameter(word);
+                        //action.AddParameter(word);
                         word = null;
 
-                        readedPlan.AddAction(action);
-                        action.Clear();
+                        readedPlan.AddAction(actionName);
+                        actionName = null; ;
                     }
                     else if (c == ';') { break; }
                     else if (c== ' ')
                     {
                         if (startLineReading && haveName)
                         {
-                            action.AddParameter(word);
+                            //action.AddParameter(word);
                             word = null;
                         }
                         else if (startLineReading && !haveName)
                         {
-                            action.SetName(word);
+                            actionName = word;
                             word = null;
                             haveName = true;
                         }

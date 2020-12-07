@@ -10,9 +10,10 @@ namespace Narrative_Generator
     {
         private List<Action> actions;
 
-        public void AddAction(Action action)
+        public void AddAction(string actionName)
         {
-            actions.Add(action);
+            Action newAction = new Action(actionName, false, false, false);
+            actions.Add(newAction);
         }
 
         public Action GetAction(int index)

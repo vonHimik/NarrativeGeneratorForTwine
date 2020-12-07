@@ -122,17 +122,36 @@ namespace Narrative_Generator
 
         public void GetAvailableActions()
         {
-
+            for (int i = 0; i < myBeliefsAboutWorld.CountActions(); i++)
+            {
+                if (role == "usual")
+                {
+                    if (myBeliefsAboutWorld.GetAction(i).forAllAgents || myBeliefsAboutWorld.GetAction(i).forUsualAgents)
+                    {
+                        myAvailableActions.Add(myBeliefsAboutWorld.GetAction(i));
+                    }
+                }
+                else if (role == "killer")
+                {
+                    if (myBeliefsAboutWorld.GetAction(i).forAllAgents || myBeliefsAboutWorld.GetAction(i).forKillers)
+                    {
+                        myAvailableActions.Add(myBeliefsAboutWorld.GetAction(i));
+                    }
+                }
+            }
         }
 
-        public void ChooseAction(List<Action> availableActions)
+        public void ChooseAction()
         {
             CalculatePlan();
-        }
 
-        public void SendAction(Action choosedAction)
-        {
+            for (int i = 0; i < myAvailableActions.Count(); i++)
+            {
+                if (myCurrentPlan.GetAction(0) == myAvailableActions[i])
+                {
 
+                }
+            }
         }
     }
 }

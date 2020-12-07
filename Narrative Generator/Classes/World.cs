@@ -12,13 +12,18 @@ namespace Narrative_Generator
         // Some classes can be used him as a "real" description of the world, others - as THEIR assumption about the current state of the "world", 
         // the third - to display their goal state of the "world".
 
-        private List<Location> locations;
-        private List<Agent> agents;             // Agents (include agents states).
-        List<Goal> goalStates;                  // List of goal state(s). 
-        List<Action> allActionsInGame;
+        private List<Location> locations;                  // List of locations.
+        private List<Agent> agents;                        // Agents (include agents states).
+        List<Goal> goalStates;                             // List of goal state(s). 
 
-        // StoryDomain domain;          // PDDL domain.
-        // List<CSPVariable> variables; // Variables for CSP model. 
+        static Action agentMove = new Action("agent_move", true, false, false);
+        static Action kill = new Action("kill", false, false, true);
+        List<Action> allActionsInGame = new List<Action>() // List of all actions.
+        {
+            agentMove, kill
+        };
+
+        private int turn = 0;
 
         public void AddLocations(List<Location> locations)
         {
@@ -67,9 +72,52 @@ namespace Narrative_Generator
             return agents[index];
         }
 
+        public Agent GetAgentByRole(string role)
+        {
+            for (int i = 0; i < agents.Count(); i++)
+            {
+                if (agents[i].GetRole() == role)
+                {
+                    return agents[i];
+                }
+            }
+
+            return null;
+        }
+
         public int GetNumberOfAgents()
         {
             return agents.Count();
+        }
+
+        public List<Action> GetAllActions()
+        {
+            return allActionsInGame;
+        }
+
+        public Action GetAction (int index)
+        {
+            return allActionsInGame[index];
+        }
+
+        public int CountActions()
+        {
+            return allActionsInGame.Count();
+        }
+
+        public int GetTurnNumber()
+        {
+            return turn;
+        }
+
+        public void IncreaseTurnNumber()
+        {
+            turn++;
+        }
+
+        public void OrderByInitiative()
+        {
+            agents = agents.OrderBy(x => x.GetInitiative()).ToList();
         }
     }
 }

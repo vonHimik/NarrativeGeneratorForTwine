@@ -32,7 +32,7 @@ namespace Narrative_Generator
 
         }
 
-        public void CreateWorld()
+        public void CreateStartState()
         {
             if (manualInput) // Demo story
             {
@@ -96,6 +96,7 @@ namespace Narrative_Generator
                 CreateAgents(names, statuses, roles, goals, beliefs, 6);
 
                 DistributionOfInitiative();
+                currentStoryState.OrderByInitiative();
 
                 // The third step in creating an initial state is assigning to agents their goals and beliefs.
                 // Goals
@@ -166,12 +167,6 @@ namespace Narrative_Generator
             }
         }
 
-        public void CreateStoryworldConvergence()
-        {
-            storyworldConvergence.SetNewStoryState(currentStoryState);
-            // storyworldConvergence.SetListOfAgents(agents);
-        }
-
         public void CreateAgents (List<string> names, List<bool> statuses, List<string> roles, List<Goal> goals, List<World> beliefs, int numbers)
         {
             // We get info about agents from user input.
@@ -227,16 +222,25 @@ namespace Narrative_Generator
             return result;
         }
 
+        public void CreateConstraints()
+        {
+            if (manualInput) // Constraints for demo-story
+            {
+                Constraint killerMustBeAliveFiveTurns = new Constraint(true, false, currentStoryState.GetAgentByRole("killer"), 5);
+                storyworldConvergence.AddConstraint(killerMustBeAliveFiveTurns);
+            }
+        }
+
         public void Start()
         {
             // ReadUserSettingsInput();
-            CreateWorld();
-            CreateStoryworldConvergence();
-            // CreateAgents();
+            CreateStartState();
+            CreateConstraints();
 
-            // newStoryGraph.startNode = currentStoryState;
-            StoryNode rootNode = newStoryGraph.startNode;
-            newStoryGraph = CreateStoryGraph(rootNode);
+            newStoryGraph.startNode.SetWorldState(currentStoryState);
+            newStoryGraph.startNode.SetActivePlayer(false);
+            newStoryGraph.startNode.SetActiveAgent(currentStoryState.GetAgent(0));
+            newStoryGraph = CreateStoryGraph(newStoryGraph.startNode);
             GenerateGraphForTwine(newStoryGraph);
         }
 
