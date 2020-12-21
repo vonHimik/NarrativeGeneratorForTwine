@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Narrative_Generator
+{
+    class Run : PlanAction
+    {
+        public Agent Agent
+        {
+            get
+            {
+                return (Agent)Arguments[0];
+            }
+        }
+
+        public Location From
+        {
+            get
+            {
+                return (Location)Arguments[1];
+            }
+        }
+
+        public Location To
+        {
+            get
+            {
+                return (Location)Arguments[2];
+            }
+        }
+
+        public Run(params Object[] args) : base(args) { }
+
+        public Run(ref Agent agent, ref Location from, ref Location to)
+        {
+            Arguments.Add(agent);
+            Arguments.Add(from);
+            Arguments.Add(to);
+        }
+
+        public override bool CheckPreconditions(WorldBeliefs state)
+        {
+            return Agent.GetStatus() && Agent.CheckScared() && From.SearchAgent(Agent) && !To.SearchAgent(Agent);
+        }
+
+        public override void ApplyEffects(WorldBeliefs state)
+        {
+            From.RemoveAgent(Agent);
+            To.AddAgent(Agent);
+
+            if (To == Agent.GetTargetLocation())
+            {
+                Agent.ClearTargetLocation();
+            }
+        }
+
+        public static void GetPossibleActions(Agent agent, List<PlanAction> result)
+        {
+            // Based on agent beliefs, generate possible actions that are valid in its world and output to result
+
+            if (agent.GetStatus())
+            {
+                Move move = new Move();
+                result.Add(move);
+
+                NothingToDo nothingToDo = new NothingToDo();
+                result.Add(nothingToDo);
+
+                if (agent.ThinksThatSomeoneIsAngry())
+                {
+                    Reassure reassure = new Reassure();
+                    result.Add(reassure);
+                }
+
+                if (agent.CheckScared())
+                {
+                    Run run = new Run();
+                    result.Add(run);
+                }
+
+                if (agent.GetRole() == "killer")
+                {
+                    Kill kill = new Kill();
+                    result.Add(kill);
+
+                    Entrap entrap = new Entrap();
+                    result.Add(entrap);
+
+                    TellAboutASuspicious tellAboutASuspicious = new TellAboutASuspicious();
+                    result.Add(tellAboutASuspicious);
+                }
+
+                if (agent.GetRole() == "usual")
+                {
+                    if (agent.GetObjectOfAngry().AngryCheck())
+                    {
+                        Fight fight = new Fight();
+                        result.Add(fight);
+
+                        if (agent.GetEvidenceStatus().CheckEvidence())
+                        {
+                            NeutralizeKiller neutralizeKiller = new NeutralizeKiller();
+                            result.Add(neutralizeKiller);
+                        }
+                    }
+
+                    if (!agent.SearchAmongExploredLocations(agent.GetBeliefs().GetStaticWorldPart().SearchAgentAmongLocations(agent)))
+                    {
+                        InvestigateRoom investigateRoom = new InvestigateRoom();
+                        result.Add(investigateRoom);
+                    }
+                }
+            }
+        }
+    }
+}

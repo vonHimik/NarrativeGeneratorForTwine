@@ -48,32 +48,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Action.cs" />
-    <Compile Include="Classes\Agent.cs" />
-    <Compile Include="Classes\FastDownward.cs" />
-    <Compile Include="Classes\StoryGraph.cs" />
-    <Compile Include="Classes\StoryNode.cs" />
-    <Compile Include="Classes\StoryworldConvergence.cs" />
-    <Compile Include="Classes\Wrapper.cs" />
-    <Compile Include="Classes\Edge.cs" />
-    <Compile Include="Classes\Effect.cs" />
-    <Compile Include="Classes\Constraint.cs" />
+    <Compile Include="Classes\Actions\ActionGenerator.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\Entrap.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\Fight.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\InvestigateRoom.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\Kill.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\Move.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\NeutralizeKiller.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\NothingToDo.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\Reassure.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\Run.cs" />
+    <Compile Include="Classes\Actions\ActionTypes\TellAboutASuspicious.cs" />
+    <Compile Include="Classes\Actions\PlanAction.cs" />
+    <Compile Include="Classes\Agents\Agent.cs" />
+    <Compile Include="Classes\Agents\Properties\AgentAngryAt.cs" />
+    <Compile Include="Classes\Agents\Properties\AgentFoundEvidence.cs" />
+    <Compile Include="Classes\Agents\Properties\AgentProperty.cs" />
+    <Compile Include="Classes\Constraints\ConstraintAlive.cs" />
+    <Compile Include="Classes\Constraints\WorldConstraint.cs" />
+    <Compile Include="Classes\ForAPI\FastDownward.cs" />
+    <Compile Include="Classes\StoryGraph\StoryGraph.cs" />
+    <Compile Include="Classes\StoryGraph\StoryNode.cs" />
+    <Compile Include="Classes\Agents\StoryworldConvergence.cs" />
+    <Compile Include="Classes\Twine\TwineGraphConstructor.cs" />
+    <Compile Include="Classes\World\WorldBeliefs.cs" />
+    <Compile Include="Classes\World\WorldStatic.cs" />
+    <Compile Include="Classes\ForAPI\Wrapper.cs" />
+    <Compile Include="Classes\StoryGraph\Edge.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Program.cs" />
-    <Compile Include="Classes\Plan.cs" />
-    <Compile Include="Classes\Goal.cs" />
-    <Compile Include="Classes\Location.cs" />
+    <Compile Include="Classes\Common\Program.cs" />
+    <Compile Include="Classes\Actions\Plan.cs" />
+    <Compile Include="Classes\Agents\Goal.cs" />
+    <Compile Include="Classes\World\Location.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Classes\World.cs" />
-    <Compile Include="Classes\StoryAlgorithm.cs" />
-    <Compile Include="Classes\StoryDomain.cs" />
-    <Compile Include="Classes\TwineCompiler.cs" />
-    <Compile Include="Classes\TwineGraph.cs" />
+    <Compile Include="Classes\Common\StoryAlgorithm.cs" />
+    <Compile Include="Classes\Twine\TwineGraph.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,5 +114,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
