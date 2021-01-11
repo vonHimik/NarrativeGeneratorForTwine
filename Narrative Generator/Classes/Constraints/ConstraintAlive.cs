@@ -11,7 +11,7 @@ namespace Narrative_Generator
         public bool temporaryInvulnerability;
         public bool permanentInvulnerability;
 
-        public Agent targetAgent = null;
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent;
         public int termOfProtection = 0;
 
         public ConstraintAlive(bool temporaryInvulnerability, bool permanentInvulnerability)
@@ -20,14 +20,19 @@ namespace Narrative_Generator
             this.permanentInvulnerability = permanentInvulnerability;
         }
 
-        public ConstraintAlive(bool temporaryInvulnerability, bool permanentInvulnerability, Agent targetAgent)
+        public ConstraintAlive(bool temporaryInvulnerability, 
+                               bool permanentInvulnerability, 
+                               KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent)
         {
             this.temporaryInvulnerability = temporaryInvulnerability;
             this.permanentInvulnerability = permanentInvulnerability;
             this.targetAgent = targetAgent;
         }
 
-        public ConstraintAlive(bool temporaryInvulnerability, bool permanentInvulnerability, Agent targetAgent, int termOfProtection)
+        public ConstraintAlive(bool temporaryInvulnerability, 
+                               bool permanentInvulnerability, 
+                               KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent, 
+                               int termOfProtection)
         {
             this.temporaryInvulnerability = temporaryInvulnerability;
             this.permanentInvulnerability = permanentInvulnerability;
@@ -37,9 +42,9 @@ namespace Narrative_Generator
 
         public override bool IsSatisfied(WorldBeliefs state)
         {
-            if (temporaryInvulnerability && targetAgent != null && termOfProtection != 0)
+            if (temporaryInvulnerability && targetAgent.Key != null && targetAgent.Value != null && termOfProtection != 0)
             {
-                return ((targetAgent.GetStatus() && state.GetStaticWorldPart().GetTurnNumber() <= termOfProtection) || state.GetStaticWorldPart().GetTurnNumber() > termOfProtection);
+                return ((targetAgent.Value.GetStatus() && state.GetStaticWorldPart().GetTurnNumber() <= termOfProtection) || state.GetStaticWorldPart().GetTurnNumber() > termOfProtection);
             }
 
             return false;

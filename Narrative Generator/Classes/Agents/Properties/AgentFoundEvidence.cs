@@ -6,15 +6,27 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class AgentFoundEvidence : AgentProperty
+    public class AgentFoundEvidence : AgentProperty, ICloneable
     {
         private bool foundEvidence;
-        private Agent evidenceAgainst;
+        private AgentStateStatic evidenceAgainst;
 
-        public AgentFoundEvidence(bool foundEvidence, Agent evidenceAgainst)
+        public AgentFoundEvidence() {}
+
+        public AgentFoundEvidence(bool foundEvidence, AgentStateStatic evidenceAgainst)
         {
             this.foundEvidence = foundEvidence;
             this.evidenceAgainst = evidenceAgainst;
+        }
+
+        public object Clone()
+        {
+            var clone = new AgentFoundEvidence();
+
+            clone.foundEvidence = foundEvidence;
+            clone.evidenceAgainst = (AgentStateStatic)evidenceAgainst.Clone();
+
+            return clone;
         }
 
         public void IsEvidence()
@@ -32,12 +44,12 @@ namespace Narrative_Generator
             return foundEvidence;
         }
 
-        public void SetCriminal(Agent criminal)
+        public void SetCriminal(AgentStateStatic criminal)
         {
             evidenceAgainst = criminal;
         }
 
-        public Agent GetCriminal()
+        public AgentStateStatic GetCriminal()
         {
             return evidenceAgainst;
         }

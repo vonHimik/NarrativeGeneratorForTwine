@@ -8,49 +8,53 @@ namespace Narrative_Generator
 {
     class Reassure : PlanAction
     {
-        public Agent Agent1
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent1
         {
             get
             {
-                return (Agent)Arguments[0];
+                return (KeyValuePair<AgentStateStatic, AgentStateDynamic>)Arguments[0];
             }
         }
 
-        public Agent Agent2
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent2
         {
             get
             {
-                return (Agent)Arguments[1];
+                return (KeyValuePair<AgentStateStatic, AgentStateDynamic>)Arguments[1];
             }
         }
 
-        public Agent Agent3
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent3
         {
             get
             {
-                return (Agent)Arguments[2];
+                return (KeyValuePair<AgentStateStatic, AgentStateDynamic>)Arguments[2];
             }
         }
 
-        public Agent Killer
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Killer
         {
             get
             {
-                return (Agent)Arguments[3];
+                return (KeyValuePair<AgentStateStatic, AgentStateDynamic>)Arguments[3];
             }
         }
 
-        public Location Location
+        public KeyValuePair<LocationStatic, LocationDynamic> Location
         {
             get
             {
-                return (Location)Arguments[4];
+                return (KeyValuePair<LocationStatic, LocationDynamic>)Arguments[4];
             }
         }
 
         public Reassure(params Object[] args) : base(args) { }
 
-        public Reassure(ref Agent agent1, ref Agent agent2, ref Agent agent3, ref Agent killer, ref Location location)
+        public Reassure(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
+                        ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2, 
+                        ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent3, 
+                        ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
+                        ref KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
@@ -61,74 +65,18 @@ namespace Narrative_Generator
 
         public override bool CheckPreconditions(WorldBeliefs state)
         {
-            return Agent1.GetRole() == "usual" && Agent1.GetStatus() && Agent2.GetRole() == "usual" && Agent2.GetStatus()
-                      && Agent3.GetRole() == "usual" && Killer.GetRole() == "killer" && Location.SearchAgent(Agent1) && Location.SearchAgent(Agent2)
-                      && (Agent1.GetObjectOfAngry().AngryCheckAtAgent(Agent3) || Agent1.GetObjectOfAngry().AngryCheckAtAgent(Killer))
-                      && Agent1.GetBeliefs().GetAgentByRole("killer") != Killer;
+            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
+                      && Agent2.Key.GetRole() == AgentRole.USUAL && Agent2.Value.GetStatus()
+                      && Agent3.Key.GetRole() == AgentRole.USUAL 
+                      && Killer.Key.GetRole() == AgentRole.KILLER 
+                      && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
+                      && (Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Killer.Key))
+                      && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.KILLER).Equals(Killer);
         }
 
         public override void ApplyEffects(WorldBeliefs state)
         {
-            Agent1.CalmDown();
-        }
-
-        public static void GetPossibleActions(Agent agent, List<PlanAction> result)
-        {
-            // Based on agent beliefs, generate possible actions that are valid in its world and output to result
-
-            if (agent.GetStatus())
-            {
-                Move move = new Move();
-                result.Add(move);
-
-                NothingToDo nothingToDo = new NothingToDo();
-                result.Add(nothingToDo);
-
-                if (agent.ThinksThatSomeoneIsAngry())
-                {
-                    Reassure reassure = new Reassure();
-                    result.Add(reassure);
-                }
-
-                if (agent.CheckScared())
-                {
-                    Run run = new Run();
-                    result.Add(run);
-                }
-
-                if (agent.GetRole() == "killer")
-                {
-                    Kill kill = new Kill();
-                    result.Add(kill);
-
-                    Entrap entrap = new Entrap();
-                    result.Add(entrap);
-
-                    TellAboutASuspicious tellAboutASuspicious = new TellAboutASuspicious();
-                    result.Add(tellAboutASuspicious);
-                }
-
-                if (agent.GetRole() == "usual")
-                {
-                    if (agent.GetObjectOfAngry().AngryCheck())
-                    {
-                        Fight fight = new Fight();
-                        result.Add(fight);
-
-                        if (agent.GetEvidenceStatus().CheckEvidence())
-                        {
-                            NeutralizeKiller neutralizeKiller = new NeutralizeKiller();
-                            result.Add(neutralizeKiller);
-                        }
-                    }
-
-                    if (!agent.SearchAmongExploredLocations(agent.GetBeliefs().GetStaticWorldPart().SearchAgentAmongLocations(agent)))
-                    {
-                        InvestigateRoom investigateRoom = new InvestigateRoom();
-                        result.Add(investigateRoom);
-                    }
-                }
-            }
+            Agent1.Value.CalmDown();
         }
     }
 }

@@ -8,33 +8,35 @@ namespace Narrative_Generator
 {
     class Move : PlanAction
     {
-        public Agent Agent
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
         {
             get
             {
-                return (Agent)Arguments[0];
+                return (KeyValuePair<AgentStateStatic, AgentStateDynamic>)Arguments[0];
             }
         }
 
-        public Location From
+        public KeyValuePair<LocationStatic, LocationDynamic> From
         {
             get
             {
-                return (Location)Arguments[1];
+                return (KeyValuePair<LocationStatic, LocationDynamic>)Arguments[1];
             }
         }
 
-        public Location To
+        public KeyValuePair<LocationStatic, LocationDynamic> To
         {
             get
             {
-                return (Location)Arguments[2];
+                return (KeyValuePair<LocationStatic, LocationDynamic>)Arguments[2];
             }
         }
 
         public Move (params Object[] args) : base(args) { }
 
-        public Move (ref Agent agent, ref Location from, ref Location to)
+        public Move (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                     ref KeyValuePair<LocationStatic, LocationDynamic> from, 
+                     ref KeyValuePair<LocationStatic, LocationDynamic> to)
         {
             Arguments.Add(agent);
             Arguments.Add(from);
@@ -43,76 +45,17 @@ namespace Narrative_Generator
 
         public override bool CheckPreconditions (WorldBeliefs state)
         {
-            return Agent.GetStatus() && From.SearchAgent(Agent) && !To.SearchAgent(Agent);
+            return Agent.Value.GetStatus() && From.Value.SearchAgent(Agent.Key) && !To.Value.SearchAgent(Agent.Key);
         }
 
         public override void ApplyEffects (WorldBeliefs state)
         {
-            From.RemoveAgent(Agent);
-            To.AddAgent(Agent);
+            From.Value.RemoveAgent(Agent);
+            To.Value.AddAgent(To.Key, Agent);
 
-            if (To == Agent.GetTargetLocation())
+            if (To.Key == Agent.Value.GetTargetLocation())
             {
-                Agent.ClearTargetLocation();
-            }
-        }
-
-        public static void GetPossibleActions(Agent agent, List<PlanAction> result)
-        {
-            // Based on agent beliefs, generate possible actions that are valid in its world and output to result
-
-            if (agent.GetStatus())
-            {
-                Move move = new Move();
-                result.Add(move);
-
-                NothingToDo nothingToDo = new NothingToDo();
-                result.Add(nothingToDo);
-
-                if (agent.ThinksThatSomeoneIsAngry())
-                {
-                    Reassure reassure = new Reassure();
-                    result.Add(reassure);
-                }
-
-                if (agent.CheckScared())
-                {
-                    Run run = new Run();
-                    result.Add(run);
-                }
-
-                if (agent.GetRole() == "killer")
-                {
-                    Kill kill = new Kill();
-                    result.Add(kill);
-
-                    Entrap entrap = new Entrap();
-                    result.Add(entrap);
-
-                    TellAboutASuspicious tellAboutASuspicious = new TellAboutASuspicious();
-                    result.Add(tellAboutASuspicious);
-                }
-
-                if (agent.GetRole() == "usual")
-                {
-                    if (agent.GetObjectOfAngry().AngryCheck())
-                    {
-                        Fight fight = new Fight();
-                        result.Add(fight);
-
-                        if (agent.GetEvidenceStatus().CheckEvidence())
-                        {
-                            NeutralizeKiller neutralizeKiller = new NeutralizeKiller();
-                            result.Add(neutralizeKiller);
-                        }
-                    }
-
-                    if (!agent.SearchAmongExploredLocations(agent.GetBeliefs().GetStaticWorldPart().SearchAgentAmongLocations(agent)))
-                    {
-                        InvestigateRoom investigateRoom = new InvestigateRoom();
-                        result.Add(investigateRoom);
-                    }
-                }
+                Agent.Value.ClearTargetLocation();
             }
         }
     }

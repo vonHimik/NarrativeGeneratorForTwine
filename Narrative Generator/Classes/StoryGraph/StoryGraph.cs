@@ -31,5 +31,10 @@ namespace Narrative_Generator
         {
             return nodes;
         }
+
+        public StoryNode GetLastNode()
+        {
+            return nodes.Last();
+        }
     }
 }

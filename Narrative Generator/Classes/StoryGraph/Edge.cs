@@ -22,7 +22,7 @@ namespace Narrative_Generator
             return upperNode;
         }
 
-        public void SetLowerNode(StoryNode node)
+        public void SetLowerNode(ref StoryNode node)
         {
             lowerNode = node;
         }

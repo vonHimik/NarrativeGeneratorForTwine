@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class Plan
+    class Plan : ICloneable
     {
         private List<PlanAction> actions;
+
+        public object Clone()
+        {
+            var clone = new Plan();
+            clone.actions = actions;
+            return clone;
+        }
 
         public void AddAction(string actionName)
         {

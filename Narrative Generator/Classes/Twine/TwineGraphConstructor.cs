@@ -10,7 +10,7 @@ namespace Narrative_Generator
     {
         TwineGraph constructedGraph = new TwineGraph();
 
-        public void ConstructGraph() // Input - story graph
+        public void ConstructGraph(StoryGraph storyGraph)
         {
             throw new NotImplementedException();
         }

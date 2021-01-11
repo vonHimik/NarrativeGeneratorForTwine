@@ -11,10 +11,7 @@ namespace Narrative_Generator
         public List<Object> Arguments = new List<object>();
         public bool success;
 
-        public PlanAction()
-        {
-
-        }
+        public PlanAction() {}
 
         public PlanAction(params Object[] args)
         {

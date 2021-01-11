@@ -59,11 +59,15 @@
     <Compile Include="Classes\Actions\ActionTypes\Reassure.cs" />
     <Compile Include="Classes\Actions\ActionTypes\Run.cs" />
     <Compile Include="Classes\Actions\ActionTypes\TellAboutASuspicious.cs" />
+    <Compile Include="Classes\Actions\Counter-reactions\MiraculousSalvation.cs" />
     <Compile Include="Classes\Actions\PlanAction.cs" />
-    <Compile Include="Classes\Agents\Agent.cs" />
+    <Compile Include="Classes\Agents\AgentRole.cs" />
+    <Compile Include="Classes\Agents\AgentStateDynamic.cs" />
+    <Compile Include="Classes\Agents\AgentStateStatic.cs" />
     <Compile Include="Classes\Agents\Properties\AgentAngryAt.cs" />
     <Compile Include="Classes\Agents\Properties\AgentFoundEvidence.cs" />
     <Compile Include="Classes\Agents\Properties\AgentProperty.cs" />
+    <Compile Include="Classes\Common\CSP-Module.cs" />
     <Compile Include="Classes\Constraints\ConstraintAlive.cs" />
     <Compile Include="Classes\Constraints\WorldConstraint.cs" />
     <Compile Include="Classes\ForAPI\FastDownward.cs" />
@@ -71,6 +75,7 @@
     <Compile Include="Classes\StoryGraph\StoryNode.cs" />
     <Compile Include="Classes\Agents\StoryworldConvergence.cs" />
     <Compile Include="Classes\Twine\TwineGraphConstructor.cs" />
+    <Compile Include="Classes\World\LocationDynamic.cs" />
     <Compile Include="Classes\World\WorldBeliefs.cs" />
     <Compile Include="Classes\World\WorldStatic.cs" />
     <Compile Include="Classes\ForAPI\Wrapper.cs" />
@@ -84,7 +89,7 @@
     <Compile Include="Classes\Common\Program.cs" />
     <Compile Include="Classes\Actions\Plan.cs" />
     <Compile Include="Classes\Agents\Goal.cs" />
-    <Compile Include="Classes\World\Location.cs" />
+    <Compile Include="Classes\World\LocationStatic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Common\StoryAlgorithm.cs" />
     <Compile Include="Classes\Twine\TwineGraph.cs" />

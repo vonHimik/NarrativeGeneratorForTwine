@@ -18,9 +18,9 @@ namespace Narrative_Generator
             isSuccess = false;
         }
 
-        public void Run()
+        public void Run(string domainFileName, string problemFileName)
         {
-            wrapper.RunFastDownward("KillerDomain.pddl", "KillerProblem.pddl");
+            wrapper.RunFastDownward(domainFileName + ".pddl", problemFileName + ".pddl");
             isSuccess = true;
         }
 

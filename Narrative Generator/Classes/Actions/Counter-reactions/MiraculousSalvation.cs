@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class NothingToDo : PlanAction
+    class MiraculousSalvation : PlanAction
     {
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Victim
         {
             get
             {
@@ -16,18 +16,21 @@ namespace Narrative_Generator
             }
         }
 
-        public NothingToDo(params Object[] args) : base(args) { }
+        public MiraculousSalvation(params Object[] args) : base(args) { }
 
-        public NothingToDo(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public MiraculousSalvation(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             Arguments.Add(agent);
         }
 
         public override bool CheckPreconditions(WorldBeliefs state)
         {
-            return Agent.Value.GetStatus();
+            return true;
         }
 
-        public override void ApplyEffects(WorldBeliefs state) {}
+        public override void ApplyEffects(WorldBeliefs state)
+        {
+            Victim.Value.SetStatus(true);
+        }
     }
 }

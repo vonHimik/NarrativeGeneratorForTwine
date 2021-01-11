@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class Goal
+    public class Goal : ICloneable
     {
         // Boolean variables define the type of target(s) of the agent. 
         // While checking whether the target state has been reached, 
@@ -16,7 +16,9 @@ namespace Narrative_Generator
         public bool goalTypeLocation;
         public bool goalTypeStatus;
         public bool goalTypePossession;
-        public WorldBeliefs goalState;
+        private WorldBeliefs goalState;
+
+        public Goal() {}
 
         public Goal (bool goalTypeLocation, bool goalTypeStatus, bool goalTypePossession, WorldBeliefs goalState)
         {
@@ -24,6 +26,23 @@ namespace Narrative_Generator
             this.goalTypeStatus = goalTypeStatus;
             this.goalTypePossession = goalTypePossession;
             this.goalState = goalState;
+        }
+
+        public object Clone()
+        {
+            var clone = new Goal();
+
+            clone.goalTypeLocation = goalTypeLocation;
+            clone.goalTypeStatus = goalTypeStatus;
+            clone.goalTypePossession = goalTypePossession;
+            clone.goalState = (WorldBeliefs)goalState.Clone();
+
+            return clone;
+        }
+
+        public WorldBeliefs GetGoalState()
+        {
+            return goalState;
         }
     }
 }

@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class WorldStatic
+    public class WorldStatic : ICloneable
     {
-        private List<Location> locations;                     // List of locations.
+        private List<LocationStatic> locations; // List of locations.
         private int turn = 0;
 
-        public void AddLocations(List<Location> locations)
+        public object Clone()
+        {
+            var clone = new WorldStatic();
+
+            clone.locations = locations;
+            clone.turn = turn;
+
+            return clone;
+        }
+
+        public void AddLocations(List<LocationStatic> locations)
         {
             for (int i = 0; i < locations.Count; i++)
             {
@@ -19,14 +29,27 @@ namespace Narrative_Generator
             }
         }
 
-        public void AddLocation(Location newLocation)
+        public void AddLocation(LocationStatic newLocation)
         {
             locations.Add(newLocation);
         }
 
-        public List<Location> GetLocations()
+        public List<LocationStatic> GetLocations()
         {
             return locations;
+        }
+
+        public LocationStatic GetLocation(string name)
+        {
+            foreach (var location in locations)
+            {
+                if (location.GetName() == name)
+                {
+                    return location;
+                }
+            }
+
+            throw new MissingMemberException();
         }
 
         public int GetTurnNumber()
@@ -37,19 +60,6 @@ namespace Narrative_Generator
         public void IncreaseTurnNumber()
         {
             turn++;
-        }
-
-        public Location SearchAgentAmongLocations(Agent agent)
-        {
-            for (int i = 0; i < locations.Count(); i++)
-            {
-                if (locations[i].SearchAgent(agent))
-                {
-                    return locations[i];
-                }
-            }
-
-            return null;
         }
     }
 }

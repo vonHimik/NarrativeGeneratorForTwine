@@ -33,19 +33,40 @@ namespace Narrative_Generator
         {
             if (manualInput) // Demo story
             {
-                Location kitchen = new Location("Kitchen");
-                Location diningRoom = new Location("Dining room");
-                Location hall = new Location("Hall");
-                Location garden = new Location("Garden");
-                Location bedroom = new Location("Bedroom");
-                Location guestBedroom = new Location("Guest bedroom");
-                Location bathroom = new Location("Bathroom");
-                Location attic = new Location("Attic");
+                // We create locations, determine their names and the presence of evidence in them.
+                LocationStatic kitchenS = new LocationStatic("Kitchen");
+                LocationDynamic kitchenD = new LocationDynamic(false);
 
-                List<Location> locations = new List<Location>
-                {
-                    kitchen, diningRoom, hall, garden, bedroom, guestBedroom, bathroom, attic
-                };
+                LocationStatic diningRoomS = new LocationStatic("Dining room");
+                LocationDynamic diningRoomD = new LocationDynamic(false);
+
+                LocationStatic hallS = new LocationStatic("Hall");
+                LocationDynamic hallD = new LocationDynamic(false);
+
+                LocationStatic gardenS = new LocationStatic("Garden");
+                LocationDynamic gardenD = new LocationDynamic(true);
+
+                LocationStatic bedroomS = new LocationStatic("Bedroom");
+                LocationDynamic bedroomD = new LocationDynamic(false);
+
+                LocationStatic guestBedroomS = new LocationStatic("Guest bedroom");
+                LocationDynamic guestBedroomD = new LocationDynamic(false);
+
+                LocationStatic bathroomS = new LocationStatic("Bathroom");
+                LocationDynamic bathroomD = new LocationDynamic(false);
+
+                LocationStatic atticS = new LocationStatic("Attic");
+                LocationDynamic atticD = new LocationDynamic(false);
+
+                Dictionary<LocationStatic, LocationDynamic> locations = new Dictionary<LocationStatic, LocationDynamic>();
+                locations.Add(kitchenS, kitchenD);
+                locations.Add(diningRoomS, diningRoomD);
+                locations.Add(hallS, hallD);
+                locations.Add(gardenS, gardenD);
+                locations.Add(bedroomS, bedroomD);
+                locations.Add(guestBedroomS, guestBedroomD);
+                locations.Add(bathroomS, bathroomD);
+                locations.Add(atticS, atticD);
 
                 // The first step in creating the initial state is setting up the environment, that is - locations.
                 CreateEnviroment(locations);
@@ -65,9 +86,9 @@ namespace Narrative_Generator
                     true, true, true, true, true, true
                 };
 
-                List<string> roles = new List<string>()
+                List<AgentRole> roles = new List<AgentRole>()
                 {
-                    "usual", "usual", "usual", "usual", "usual", "killer"
+                    AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.KILLER
                 };
 
                 WorldBeliefs standardAgentsGoalState = new WorldBeliefs();
@@ -90,81 +111,63 @@ namespace Narrative_Generator
 
                 // The second step in creating the initial state is the creation of agents, initially with empty goals and beliefs, 
                 // since they are highly dependent on the agents themselves existing in the "world". We'll finish setting this up in the next step.
-                CreateAgents(names, statuses, roles, goals, beliefs, 6);
+                CreateAgents(names, statuses, roles, goals, beliefs, "Hall", 6);
 
                 DistributionOfInitiative();
                 currentStoryState.OrderByInitiative();
 
                 // The third step in creating an initial state is assigning to agents their goals and beliefs.
                 // Goals
-                for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
+                foreach (var agent in currentStoryState.GetAgents()) // Go through all the agents in the world.
                 {
-                    if (currentStoryState.GetAgent(i).GetGoal().goalTypeStatus == true)
+                    if (agent.Value.GetGoal().goalTypeStatus == true) // If the agent's goal is to save/kill someone.
                     {
-                        if (currentStoryState.GetAgent(i).GetRole() != "killer")
+                        if (agent.Key.GetRole() != AgentRole.KILLER) // Unless the agent has the role of the killer.
                         {
-                            for (int j = 0; j < currentStoryState.GetAgents().Count(); j++)
-                            {
-                                if ((j + 1) != (currentStoryState.GetAgents().Count()))
-                                {
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("usual");
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(true);
-                                }
-                                else 
-                                {
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("killer");
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(false);
-                                }
-                            }
+                            agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false); // Then his goal is that 
+                                                                                                    //    the killer must be neutralized.
                         }
-                        else if (currentStoryState.GetAgent(i).GetRole() == "killer")
+                        else if (agent.Key.GetRole() == AgentRole.KILLER) // If the agent is the killer.
                         {
-                            for (int j = 0; j < currentStoryState.GetAgents().Count(); j++)
+                            foreach (var anotherAgent in currentStoryState.GetAgents()) // Then we go through all the agents.
                             {
-                                if ((j + 1) != (currentStoryState.GetAgents().Count()))
+                                if (anotherAgent.Key.GetRole() != AgentRole.KILLER) // And for everyone who is not a killer...
                                 {
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("usual");
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(false);
-                                }
-                                else
-                                {
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.AddEmptyAgent();
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).AssignRole("killer");
-                                    currentStoryState.GetAgent(i).GetGoal().goalState.GetAgent(j).SetStatus(true);
+                                    agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false); // ...add a new "victim" to the goals.
                                 }
                             }
                         }
                     }
                 }
                 // Beliefs
-                for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
+                foreach (var agent in currentStoryState.GetAgents()) // We go through all the agents in the world.
                 {
-                    for (int j = 0; j < currentStoryState.GetAgents().Count(); j++)
+                    foreach (var anotherAgent in currentStoryState.GetAgents()) // For each separately.
                     {
-                        if (i == j)
+                        if (agent.Equals(anotherAgent)) // If the agent meets himself.
                         {
-                            currentStoryState.GetAgent(i).GetBeliefs().AddAgent(currentStoryState.GetAgent(i));
+                            agent.Value.GetBeliefs().AddAgent(agent.Key, agent.Value); // It simply copies itself into its beliefs.
                         }
                         else
                         {
-                            currentStoryState.GetAgent(i).GetBeliefs().AddEmptyAgent();
-                            currentStoryState.GetAgent(i).GetBeliefs().GetAgent(j).AssignRole("usual");
-                            currentStoryState.GetAgent(i).GetBeliefs().GetAgent(j).SetName(currentStoryState.GetAgent(j).GetName());
+                            agent.Value.GetBeliefs().AddAgent(AgentRole.USUAL, anotherAgent.Key.GetName()); // Otherwise, copies the name 
+                                                                                                            //    of the selected agent and by default 
+                                                                                                            //       does not consider him a killer.
                         }
                     }
                 }
                 // Locations
-                for (int i = 0; i < currentStoryState.GetAgents().Count(); i++)
+                foreach (var agent in currentStoryState.GetAgents())
                 {
-                    currentStoryState.GetAgent(i).GetBeliefs().GetStaticWorldPart().AddLocations(currentStoryState.GetStaticWorldPart().GetLocations());
+                    agent.Value.GetBeliefs().GetStaticWorldPart().AddLocations(currentStoryState.GetStaticWorldPart().GetLocations());
+                    // The dynamic part of the location does not need to be added initially; agents will get an idea of it 
+                    //    in the course of direct observation (research).
                 }
             }
         }
 
-        public void CreateAgents (List<string> names, List<bool> statuses, List<string> roles, List<Goal> goals, List<WorldBeliefs> beliefs, int numbers)
+        public void CreateAgents(List<string> names, List<bool> statuses, List<AgentRole> roles, List<Goal> goals, 
+                                 List<WorldBeliefs> beliefs, string spawnLocationName, int numbers)
         {
             // We get info about agents from user input.
             // From it we find out how many agents there are, what roles they have, their beliefs, 
@@ -172,32 +175,52 @@ namespace Narrative_Generator
 
             for (int i = 0; i < numbers; i++)
             {
-                CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i]);
+                CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], spawnLocationName);
             }
         }
 
-        public void CreateAgent(string name, bool status, string role, Goal goals, WorldBeliefs beliefs)
+        public void CreateAgent(string name, bool status, AgentRole role, Goal goals, WorldBeliefs beliefs, string spawnLocationName)
         {
-            Agent newAgent = new Agent(name, status, role, goals, beliefs);
-            currentStoryState.AddAgent(newAgent);
+            AgentStateStatic newAgentStateStatic = new AgentStateStatic(name, role);
+            AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic(status, goals, beliefs);
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent = 
+                                                 new KeyValuePair<AgentStateStatic, AgentStateDynamic>(newAgentStateStatic, newAgentStateDynamic);
+
+            // Add the agent to the list of agents.
+            currentStoryState.AddAgent(newAgentStateStatic, newAgentStateDynamic);
+
+            // We inform the location that an agent has been added to it.
+            currentStoryState.AddAgentIntoLocation(currentStoryState.GetLocationByName(spawnLocationName), newAgent);
+
+            // We inform the agent in which location it was created.
+            newAgent.Value.GetBeliefs().GetLocationByName(spawnLocationName).Value.AddAgent
+                (newAgent.Value.GetBeliefs().GetLocationByName(spawnLocationName).Key, newAgent);
         }
 
-        public void CreateEnviroment(List<Location> locations)
+        public void CreateEnviroment(Dictionary<LocationStatic, LocationDynamic> locations)
         {
-            currentStoryState.GetStaticWorldPart().AddLocations(locations);
+            currentStoryState.AddLocations(locations);
+
+            List<LocationStatic> locationsList = new List<LocationStatic>();
+            foreach (var location in locations)
+            {
+                locationsList.Add(location.Key);
+            }
+
+            currentStoryState.GetStaticWorldPart().AddLocations(locationsList);
         }
 
         public void DistributionOfInitiative()
         {
             List<int> valuesOfInitiative = NumberGenerator(currentStoryState.GetNumberOfAgents());
 
-            for (int i = 0; i < currentStoryState.GetNumberOfAgents(); i++)
+            foreach(var agent in currentStoryState.GetAgents())
             {
-                currentStoryState.GetAgent(i).SetInitiative(valuesOfInitiative[i]);
+                agent.Value.SetInitiative(RandomSelectionFromTheList(ref valuesOfInitiative));
             }
         }
 
-        public List<int> NumberGenerator (int maximum)
+        public List<int> NumberGenerator(int maximum)
         {
             Random random = new Random();
             List<int> result = new List<int>();
@@ -219,11 +242,20 @@ namespace Narrative_Generator
             return result;
         }
 
+        public int RandomSelectionFromTheList(ref List<int> list)
+        {
+            Random random = new Random();
+            int index = random.Next(0, list.Count());
+            int result = list[index];
+            list.RemoveAt(index);
+            return result;
+        }
+
         public void CreateConstraints()
         {
             if (manualInput) // Constraints for demo-story
             {
-                ConstraintAlive killerMustBeAliveFiveTurns = new ConstraintAlive(true, false, currentStoryState.GetAgentByRole("killer"), 5);
+                ConstraintAlive killerMustBeAliveFiveTurns = new ConstraintAlive(true, false, currentStoryState.GetAgentByRole(AgentRole.KILLER), 5);
                 storyworldConvergence.AddConstraint(killerMustBeAliveFiveTurns);
             }
         }
@@ -237,16 +269,19 @@ namespace Narrative_Generator
             // We create a start node (root) based on the start state of the world.
             newStoryGraph.startNode.SetWorldState(currentStoryState);
             newStoryGraph.startNode.SetActivePlayer(false);
-            newStoryGraph.startNode.SetActiveAgent(currentStoryState.GetAgent(0));
+            newStoryGraph.startNode.SetActiveAgent(currentStoryState.GetFirstAgent());
+
+            storyworldConvergence.ExtractGoals(currentStoryState);
 
             // Convergence will calculate FOR ITSELF the entire space of stories, all possible options.
-            storyworldConvergence.CreateGlobalGraph(newStoryGraph.startNode);
+            // !!! This is probably too costly and unnecessary !!!
+            //storyworldConvergence.CreateGlobalGraph(newStoryGraph.startNode);
 
             // The algorithm calculates a SPECIFIC story.
             newStoryGraph = CreateStoryGraph(newStoryGraph.startNode);
 
             // Create an HTML file including Twine engine and generated history.
-            twineGraphConstructor.ConstructGraph();
+            twineGraphConstructor.ConstructGraph(newStoryGraph);
             twineGraphConstructor.CreateHTMLFileWithGame();
 
             // SaveFile();
@@ -259,21 +294,28 @@ namespace Narrative_Generator
             // We continue to take steps until we reach some goal state.
             while (!reachedGoalState)
             {
-                Step(newStoryGraph.GetNodes().Last());
+                Step(newStoryGraph.GetLastNode());
             }
 
             return newStoryGraph;
         }
 
-        // One step - Convergence in turn asks agents for actions, checks them, applies them, counteracts them, or does not.
-        public void Step (StoryNode currentNode)
+        /// <summary>
+        /// Convergence in turn asks agents for actions, checks them, applies them, counteracts them, or does not.
+        /// </summary>
+        /// <param name="currentNode"></param>
+        public void Step(StoryNode currentNode)
         {
-            newStoryGraph.GetNodes().Last().GetWorldState().GetStaticWorldPart().IncreaseTurnNumber();
+            newStoryGraph.GetLastNode().GetWorldState().GetStaticWorldPart().IncreaseTurnNumber();
 
-            for (int i = 0; i < currentStoryState.GetNumberOfAgents(); i++)
+            foreach (var agent in currentStoryState.GetAgents())
             {
-                // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
-                storyworldConvergence.ActionRequest(currentStoryState.GetAgent(i), ref newStoryGraph, ref currentStoryState);
+                if (agent.Value.GetStatus())
+                {
+                    // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
+                    storyworldConvergence.ActionRequest(agent, ref newStoryGraph, ref currentStoryState);
+                    reachedGoalState = storyworldConvergence.ControlToAchieveGoalState(currentStoryState);
+                }
             }
         }
     }

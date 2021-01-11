@@ -6,15 +6,27 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class AgentAngryAt : AgentProperty
+    public class AgentAngryAt : AgentProperty, ICloneable
     {
         private bool angry;
-        private Agent objectOfAngry;
+        private AgentStateStatic objectOfAngry;
 
-        public AgentAngryAt(bool angry, Agent objectOfAngry)
+        public AgentAngryAt() {}
+
+        public AgentAngryAt(bool angry, AgentStateStatic objectOfAngry)
         {
             this.angry = angry;
             this.objectOfAngry = objectOfAngry;
+        }
+
+        public object Clone()
+        {
+            var clone = new AgentAngryAt();
+
+            clone.angry = angry;
+            clone.objectOfAngry = (AgentStateStatic)objectOfAngry.Clone();
+
+            return clone;
         }
 
         public void AngryOn()
@@ -27,17 +39,17 @@ namespace Narrative_Generator
             angry = false;
         }
 
-        public void SetObjectOfAngry(Agent target)
+        public void SetObjectOfAngry(AgentStateStatic target)
         {
             objectOfAngry = target;
         }
 
-        public Agent GetObjectOfAngry()
+        public AgentStateStatic GetObjectOfAngry()
         {
             return objectOfAngry;
         }
 
-        public bool AngryCheckAtAgent(Agent agent)
+        public bool AngryCheckAtAgent(AgentStateStatic agent)
         {
             if (angry && agent == objectOfAngry)
             {

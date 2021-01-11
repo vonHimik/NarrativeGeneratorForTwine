@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public abstract class AgentProperty
-    {
-        
-    }
+    public abstract class AgentProperty {}
 }

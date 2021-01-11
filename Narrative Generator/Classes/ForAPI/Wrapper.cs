@@ -19,7 +19,15 @@ namespace Narrative_Generator
 
         public void RunFastDownward(string domainPDDLFileName, string problemPDDLFileName)
         {
-            Run("cmd", "python downward\\fast-downward.py --alias seq-opt-bjolp" + " " + domainPDDLFileName + " " + problemPDDLFileName);
+            // Options:
+            // --alias lama
+            // --alias lama-first !!!work!!!
+            // --alias seq-opt-bjopl
+            // --alias seq-opt-lmcut !!!work!!!
+            // --alias seq-sat-fd-autotune-1
+            // --alias seq-sat-fd-autotune-2
+            // --alias seq-sat-lama-2011
+            Run("cmd", "python downward\\fast-downward.py --alias lama-first" + " " + domainPDDLFileName + " " + problemPDDLFileName);
         }
     }
 }
