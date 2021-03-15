@@ -13,18 +13,24 @@ namespace Narrative_Generator
         // only those sections will be compared between the current world state and the target world state 
         // that correspond to the Boolean variables set to True.
 
-        public bool goalTypeLocation;
-        public bool goalTypeStatus;
-        public bool goalTypePossession;
-        private WorldBeliefs goalState;
+        public bool goalTypeIsLocation;
+        public bool goalTypeIsStatus;
+        public bool goalTypeIsPossession;
+        private WorldDynamic goalState;
 
-        public Goal() {}
-
-        public Goal (bool goalTypeLocation, bool goalTypeStatus, bool goalTypePossession, WorldBeliefs goalState)
+        public Goal()
         {
-            this.goalTypeLocation = goalTypeLocation;
-            this.goalTypeStatus = goalTypeStatus;
-            this.goalTypePossession = goalTypePossession;
+            goalTypeIsLocation = false;
+            goalTypeIsStatus = false;
+            goalTypeIsPossession = false;
+            goalState = new WorldDynamic();
+        }
+
+        public Goal (bool goalTypeLocation, bool goalTypeStatus, bool goalTypePossession, WorldDynamic goalState)
+        {
+            this.goalTypeIsLocation = goalTypeLocation;
+            this.goalTypeIsStatus = goalTypeStatus;
+            this.goalTypeIsPossession = goalTypePossession;
             this.goalState = goalState;
         }
 
@@ -32,15 +38,15 @@ namespace Narrative_Generator
         {
             var clone = new Goal();
 
-            clone.goalTypeLocation = goalTypeLocation;
-            clone.goalTypeStatus = goalTypeStatus;
-            clone.goalTypePossession = goalTypePossession;
-            clone.goalState = (WorldBeliefs)goalState.Clone();
+            clone.goalTypeIsLocation = goalTypeIsLocation;
+            clone.goalTypeIsStatus = goalTypeIsStatus;
+            clone.goalTypeIsPossession = goalTypeIsPossession;
+            clone.goalState = (WorldDynamic)goalState.Clone();
 
             return clone;
         }
 
-        public WorldBeliefs GetGoalState()
+        public WorldDynamic GetGoalState()
         {
             return goalState;
         }

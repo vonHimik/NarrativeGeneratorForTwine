@@ -1,0 +1,6 @@
+(define (problem detective-problem)
+(:domain detective-domain)
+(:objects kitchen dining-room hall garden bedroom guest-bedroom bathroom attic Mafia-boss Journalist Judge Politician Rich Clerk )
+(:init (ROOM kitchen) (ROOM dining-room) (ROOM hall) (ROOM garden) (ROOM bedroom) (ROOM guest-bedroom) (ROOM bathroom) (ROOM attic) (AGENT Mafia-boss) (died Mafia-boss) (in-room Mafia-boss dining-room) (AGENT Journalist) (died Journalist) (in-room Journalist bathroom) (KILLER Judge) (alive Judge) (in-room Judge garden) (AGENT Politician) (alive Politician) (in-room Politician garden) (AGENT Rich) (died Rich) (in-room Rich attic) (AGENT Clerk) (died Clerk) (in-room Clerk bedroom) )
+(:goal (and (died Mafia-boss) (died Journalist) (died Politician) (died Rich) (died Clerk) ))
+)

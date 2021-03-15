@@ -43,16 +43,19 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
-        public override bool CheckPreconditions(WorldBeliefs state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
                    && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
                    && !Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 1;
         }
 
-        public override void ApplyEffects(WorldBeliefs state)
+        public override void ApplyEffects(ref WorldDynamic state)
         {
-            Agent.Value.SetTargetLocation(Location.Key);
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+            KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
+
+            stateAgent.Value.SetTargetLocation(stateLocation.Key);
         }
     }
 }

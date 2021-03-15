@@ -8,7 +8,7 @@ namespace Narrative_Generator
 {
     class CSP_Module
     {
-        public void AssignVariables(ref PlanAction action, WorldBeliefs currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        public void AssignVariables(ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             if (action is Entrap)
             {
@@ -19,7 +19,7 @@ namespace Narrative_Generator
                     {
                         action.Arguments.Add(agent);
                         action.Arguments.Add(initiator); 
-                        action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+                        action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
                         break;
                     }
                 }
@@ -46,7 +46,7 @@ namespace Narrative_Generator
                     {
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(killer);
-                        action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+                        action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
                         break;
                     }
                 }
@@ -67,17 +67,35 @@ namespace Narrative_Generator
             }
             else if (action is Move)
             {
-                action.Arguments.Add(initiator);
-                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
-
-                if (initiator.Value.GetTargetLocation() != null)
+                if (action.Arguments.Count() != 0)
                 {
-                    action.Arguments.Add(currentState.GetLocationByName(initiator.Value.GetTargetLocation().GetName()));
+                    List<string> arguments = new List<string>();
+
+                    foreach (var argument in action.Arguments)
+                    {
+                        arguments.Add((string)argument);
+                    }
+
+                    action.Arguments.Clear();
+
+                    action.Arguments.Add(initiator);
+                    action.Arguments.Add(currentState.GetLocationByName(arguments[1]));
+                    action.Arguments.Add(currentState.GetLocationByName(arguments[2]));
                 }
                 else
                 {
-                    action.Arguments.Add(currentState.
-                        GetRandomLocation(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
+                    action.Arguments.Add(initiator);
+                    action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
+
+                    if (initiator.Value.GetTargetLocation() != null)
+                    {
+                        action.Arguments.Add(currentState.GetLocationByName(initiator.Value.GetTargetLocation().GetName()));
+                    }
+                    else
+                    {
+                        action.Arguments.Add(currentState.
+                            GetRandomLocationWithout(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
+                    }
                 }
             }
             else if (action is NeutralizeKiller)
@@ -134,7 +152,7 @@ namespace Narrative_Generator
                 action.Arguments.Add(initiator);
                 action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
                 action.Arguments.Add(currentState.
-                        GetRandomLocation(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
+                        GetRandomLocationWithout(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
             }
             else if (action is TellAboutASuspicious)
             {
@@ -150,7 +168,7 @@ namespace Narrative_Generator
 
                 action.Arguments.Add(initiator);
                 action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
-                action.Arguments.Add(currentState.GetRandomLocation
+                action.Arguments.Add(currentState.GetRandomLocationWithout
                     (currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
             }
         }

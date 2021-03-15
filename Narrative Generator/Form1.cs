@@ -21,10 +21,10 @@ namespace Narrative_Generator
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            // system.Start();
+             system.Start();
 
-            FastDownward fastDownward = new FastDownward();
-            fastDownward.Run();
+            //FastDownward fastDownward = new FastDownward();
+            //fastDownward.Run();
         }
     }
 }

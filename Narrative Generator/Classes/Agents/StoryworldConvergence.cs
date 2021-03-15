@@ -12,11 +12,17 @@ namespace Narrative_Generator
         //private StoryGraph globalGraph;
         private List<Goal> allGoalStates;
 
+        public StoryworldConvergence()
+        {
+            constraints = new List<WorldConstraint>();
+            allGoalStates = new List<Goal>();
+        }
+
         /// <summary>
         /// Collects goals from all agents and adds them to the goal list.
         /// </summary>
         /// <param name="currentState"></param>
-        public void ExtractGoals(WorldBeliefs currentState)
+        public void ExtractGoals(WorldDynamic currentState)
         {
             foreach (var agent in currentState.GetAgents())
             {
@@ -28,19 +34,29 @@ namespace Narrative_Generator
         /// Checks the achievement of any of the goal conditions (in state).
         /// </summary>
         /// <param name="currentWorldState"></param>
-        public bool ControlToAchieveGoalState(WorldBeliefs currentWorldState)
+        public bool ControlToAchieveGoalState(WorldDynamic currentWorldState)
         {
             foreach (var goal in allGoalStates)
             {
-                if (goal.goalTypeStatus)
+                if (goal.goalTypeIsStatus)
                 {
+                    int counter = 0;
+
                     foreach (var agent1 in currentWorldState.GetAgents())
                     {
                         foreach (var agent2 in goal.GetGoalState().GetAgents())
                         {
-                            if (agent1.Key.GetName() == agent2.Key.GetName() && agent1.Value.GetStatus() == agent2.Value.GetStatus())
+
+                            if (agent1.Key.GetRole() == agent2.Key.GetRole() && agent1.Value.GetStatus() == agent2.Value.GetStatus())
                             {
-                                return true;
+                                counter++;
+
+                                if (counter >= goal.GetGoalState().GetAgents().Count())
+                                {
+                                    return true;
+                                }
+
+                                break;
                             }
                         }
                     }
@@ -64,17 +80,14 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="currentState"></param>
         /// <param name="action"></param>
-        public bool ConstraintsControl(WorldBeliefs currentState, PlanAction action)
+        public bool ConstraintsControl(WorldDynamic currentState, PlanAction action)
         {
-            WorldBeliefs worldForTest = currentState;
-            action.ApplyEffects(worldForTest);
+            WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
+            action.ApplyEffects(ref worldForTest);
 
             foreach (var constraint in constraints)
             {
-                if (!constraint.IsSatisfied(worldForTest))
-                {
-                    return false;
-                }
+                if (!constraint.IsSatisfied(worldForTest)) { return false; }
             }
 
             return true;
@@ -88,13 +101,13 @@ namespace Narrative_Generator
         /// <param name="currentState"></param>
         public void ActionRequest(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                   ref StoryGraph currentGraph, 
-                                  ref WorldBeliefs currentState)
+                                  ref WorldDynamic currentState)
         {
             CSP_Module cspModule = new CSP_Module();
 
             agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent);
-            agent.Value.GenerateNewPDDLProblem(agent);
-            agent.Value.CalculatePlan(agent);
+            agent.Value.GenerateNewPDDLProblem(agent, currentState);
+            agent.Value.CalculatePlan(agent, currentState);
             agent.Value.GetAvailableActions(agent);
             PlanAction receivedAction = agent.Value.ChooseAction();
 
@@ -119,10 +132,10 @@ namespace Narrative_Generator
         public void ActionControl(PlanAction action, 
                                   StoryGraph currentGraph, 
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                  WorldBeliefs currentState)
+                                  WorldDynamic currentState)
         {
             bool constraintsControl = ConstraintsControl(currentState, action);
-            bool deadEndsControl = DeadEndsControl(action);
+            bool deadEndsControl = DeadEndsControl(action, currentState, agent);
             bool cyclesControl = CyclesControl(currentState, action, currentGraph);
 
             if (constraintsControl && deadEndsControl && cyclesControl)
@@ -152,41 +165,44 @@ namespace Narrative_Generator
         public void ApplyAction(PlanAction action, 
                                 StoryGraph currentGraph, 
                                 KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                WorldBeliefs currentState)
+                                WorldDynamic currentState)
         {
             if (ProbabilityCalculating(action)) // We apply a successful option to perform an action
             {
-                action.ApplyEffects(currentState);
+                action.ApplyEffects(ref currentState);
                 CreateNewNode(action, currentGraph, agent, currentState);
             }
             else // We apply an unsuccessful option to perform an action
             {
-                //action.Fail(); // TODO: Write this method.
+                action.Fail();
+                // TO DO - Should I create a node for failed actions?
             }
         }
 
-        public bool DeadEndsControl(PlanAction action)
+        public bool DeadEndsControl(PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> player)
         {
-            // TODO: It is not clear how to check this without a pre-generated graph.
-            return true;
+            if (player.Key.GetRole() == AgentRole.PLAYER)
+            {
+                WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
+                action.ApplyEffects(ref worldForTest);
+                worldForTest.GetAgentByRole(AgentRole.PLAYER).Value.CalculatePlan(worldForTest.GetAgentByRole(AgentRole.PLAYER), worldForTest);
+
+                if (worldForTest.GetAgentByRole(AgentRole.PLAYER).Value.GetPlanStatus()) { return true; }
+                else { return false; }
+            }
+            else { return true; }
         }
 
-        public bool CyclesControl(WorldBeliefs currentState, PlanAction action, StoryGraph currentGraph)
+        public bool CyclesControl(WorldDynamic currentState, PlanAction action, StoryGraph currentGraph)
         {
             StoryNode testNode = CreateTestNode(currentState, action, currentGraph);
             
-            if (NodeExistenceControl(testNode, currentGraph))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            if (NodeExistenceControl(testNode, currentGraph)) { return false; }
+            else { return true; }
         }
 
         public void ActionCounteract(PlanAction action, StoryGraph currentGraph, KeyValuePair<AgentStateStatic,AgentStateDynamic> agent, 
-                                     WorldBeliefs currentState)
+                                     WorldDynamic currentState)
         {
             // TODO: Depending on the action, convergence has at least one way to counter it.
             //       To do this, counter-actions must also be formalized as subclasses of the "PlanAction" class.
@@ -234,8 +250,6 @@ namespace Narrative_Generator
             {
 
             }
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -245,7 +259,7 @@ namespace Narrative_Generator
         public bool ProbabilityCalculating(PlanAction action)
         {
             Random random = new Random();
-            int probability = random.Next(1, 100);
+            int probability = random.Next(0, 100);
             int threshold = 0;
 
             if (action is Entrap)
@@ -258,7 +272,7 @@ namespace Narrative_Generator
             }
             else if (action is InvestigateRoom)
             {
-                threshold = 30;
+                threshold = 20;
             }
             else if (action is Kill)
             {
@@ -303,10 +317,10 @@ namespace Narrative_Generator
         /// To skip a turn (action), an action "NothingToDo" is created and applied.
         /// </summary>
         /// <param name="currentState"></param>
-        public void SkipTurn(WorldBeliefs currentState)
+        public void SkipTurn(WorldDynamic currentState)
         {
             NothingToDo skipAction = new NothingToDo();
-            skipAction.ApplyEffects(currentState);
+            skipAction.ApplyEffects(ref currentState);
         }
 
         /// <summary>
@@ -319,17 +333,17 @@ namespace Narrative_Generator
         public void CreateNewNode(PlanAction action, 
                                   StoryGraph currentGraph, 
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                  WorldBeliefs newState)
+                                  WorldDynamic newState)
         {
             StoryNode newNode = new StoryNode();
             Edge newEdge = new Edge();
             KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent = 
                 new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
 
-            newNode.SetActivePlayer(false);
-            newNode.SetActiveAgent(newAgent);
-            newNode.SetWorldState((WorldBeliefs)newState.Clone());
+            currentGraph.GetLastNode().SetActivePlayer(false);
+            currentGraph.GetLastNode().SetActiveAgent(newAgent);
 
+            newNode.SetWorldState((WorldDynamic)newState.Clone());
             newNode.SetParentNode(currentGraph.GetLastNode());
             currentGraph.GetLastNode().AddChildrenNode(ref newNode);
 
@@ -337,15 +351,15 @@ namespace Narrative_Generator
             newEdge.SetUpperNode(currentGraph.GetLastNode());
             newEdge.SetLowerNode(ref newNode);
 
+            currentGraph.GetLastNode().AddEdge(newEdge);
             currentGraph.AddNode(newNode);
             currentGraph.AddEdge(newEdge);
-            currentGraph.GetLastNode().AddEdge(newEdge);
         }
 
-        public StoryNode CreateTestNode(WorldBeliefs currentState, PlanAction action, StoryGraph currentGraph)
+        public StoryNode CreateTestNode(WorldDynamic currentState, PlanAction action, StoryGraph currentGraph)
         {
-            WorldBeliefs worldForTest = currentState;
-            action.ApplyEffects(worldForTest);
+            WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
+            action.ApplyEffects(ref worldForTest);
 
             StoryNode testNode = new StoryNode();
             testNode.SetWorldState(worldForTest);
@@ -358,10 +372,23 @@ namespace Narrative_Generator
         {
             foreach (var node in currentGraph.GetNodes())
             {
-                if (node.GetWorldState().Equals(checkedNode.GetWorldState()) && node.GetParentNode().Equals(checkedNode.GetParentNode()))
+                if (TwoNodesComparison(node, checkedNode))
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        public bool TwoNodesComparison(StoryNode nodeOne, StoryNode nodeTwo)
+        {
+            if (nodeOne.GetWorldState().Equals(nodeTwo.GetWorldState()) && 
+                nodeOne.GetActiveAgent().Equals(nodeTwo.GetActiveAgent()) &&
+                nodeOne.GetActivePlayer() == nodeTwo.GetActivePlayer() &&
+                nodeOne.GetParentNode().Equals(nodeTwo.GetParentNode()))
+            {
+                return true;
             }
 
             return false;

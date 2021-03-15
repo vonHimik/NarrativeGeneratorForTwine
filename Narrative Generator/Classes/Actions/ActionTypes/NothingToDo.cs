@@ -23,11 +23,11 @@ namespace Narrative_Generator
             Arguments.Add(agent);
         }
 
-        public override bool CheckPreconditions(WorldBeliefs state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent.Value.GetStatus();
         }
 
-        public override void ApplyEffects(WorldBeliefs state) {}
+        public override void ApplyEffects(ref WorldDynamic state) {}
     }
 }

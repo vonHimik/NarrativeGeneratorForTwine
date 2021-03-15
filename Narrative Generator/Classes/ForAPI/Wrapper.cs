@@ -9,15 +9,23 @@ namespace Narrative_Generator
 {
     class Wrapper
     {
-        public void Run(string path, string commands)
+        public bool Run(string path, string commands)
         {
             Process process = new Process();
             process.StartInfo.FileName = path;
             process.StartInfo.Arguments = "/k " + commands;
-            process.Start();
+
+            if (process.Start())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void RunFastDownward(string domainPDDLFileName, string problemPDDLFileName)
+        public bool RunFastDownward(string domainPDDLFileName, string problemPDDLFileName)
         {
             // Options:
             // --alias lama
@@ -27,7 +35,15 @@ namespace Narrative_Generator
             // --alias seq-sat-fd-autotune-1
             // --alias seq-sat-fd-autotune-2
             // --alias seq-sat-lama-2011
-            Run("cmd", "python downward\\fast-downward.py --alias lama-first" + " " + domainPDDLFileName + " " + problemPDDLFileName);
+
+            if (Run("cmd", "python downward\\fast-downward.py --alias lama-first" + " " + domainPDDLFileName + " " + problemPDDLFileName))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

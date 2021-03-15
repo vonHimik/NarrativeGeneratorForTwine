@@ -8,6 +8,6 @@ namespace Narrative_Generator
 {
     public abstract class WorldConstraint
     {
-        public abstract bool IsSatisfied (WorldBeliefs state);
+        public abstract bool IsSatisfied (WorldDynamic state);
     }
 }

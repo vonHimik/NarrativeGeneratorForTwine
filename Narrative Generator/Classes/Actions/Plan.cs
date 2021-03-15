@@ -9,22 +9,47 @@ namespace Narrative_Generator
     class Plan : ICloneable
     {
         private List<PlanAction> actions;
+        public bool planReceived;
+
+        public Plan()
+        {
+            actions = new List<PlanAction>();
+            planReceived = false;
+        }
 
         public object Clone()
         {
             var clone = new Plan();
             clone.actions = actions;
+            clone.planReceived = planReceived;
             return clone;
         }
 
-        public void AddAction(string actionName)
+        public void Clear()
         {
-            if (actionName.Contains("move"))
+            actions.Clear();
+            planReceived = false;
+        }
+
+        public void AddAction(string actionName, List<string> parameters)
+        {
+            if (actionName.Contains("killer_move"))
+            {
+                Move move = new Move();
+                
+                foreach (var parameter in parameters)
+                {
+                    move.Arguments.Add(parameter);
+                }
+
+                actions.Add(move);
+            }
+            if (actionName.Contains("move") && !actionName.Contains("killer"))
             {
                 Move move = new Move();
                 actions.Add(move);
             }
-            if (actionName.Contains("kill"))
+            if (actionName.Contains("kill") && !actionName.Contains("move"))
             {
                 Kill kill = new Kill();
                 actions.Add(kill);
@@ -39,17 +64,17 @@ namespace Narrative_Generator
                 Fight fight = new Fight();
                 actions.Add(fight);
             }
-            if (actionName == "investigateroom")
+            if (actionName == "investigate-room")
             {
                 InvestigateRoom investigateRoom = new InvestigateRoom();
                 actions.Add(investigateRoom);
             }
-            if (actionName == "neutralizekiller")
+            if (actionName == "neutralize-killer")
             {
                 NeutralizeKiller neutralizeKiller = new NeutralizeKiller();
                 actions.Add(neutralizeKiller);
             }
-            if (actionName == "nothingtodo")
+            if (actionName == "nothing-to-do")
             {
                 NothingToDo nothingToDo = new NothingToDo();
                 actions.Add(nothingToDo);
@@ -64,7 +89,7 @@ namespace Narrative_Generator
                 Run run = new Run();
                 actions.Add(run);
             }
-            if (actionName == "tellaboutasuspicious")
+            if (actionName == "tell-about-killer")
             {
                 TellAboutASuspicious tellAboutASuspicious = new TellAboutASuspicious();
                 actions.Add(tellAboutASuspicious);

@@ -43,19 +43,26 @@ namespace Narrative_Generator
             Arguments.Add(to);
         }
 
-        public override bool CheckPreconditions(WorldBeliefs state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent.Value.GetStatus() && Agent.Value.CheckScared() && From.Value.SearchAgent(Agent.Key) && !To.Value.SearchAgent(Agent.Key);
         }
 
-        public override void ApplyEffects(WorldBeliefs state)
+        public override void ApplyEffects(ref WorldDynamic state)
         {
-            From.Value.RemoveAgent(Agent);
-            To.Value.AddAgent(To.Key, Agent);
+            KeyValuePair<LocationStatic, LocationDynamic> stateFrom = state.GetLocationByName(From.Key.GetName());
+            KeyValuePair<LocationStatic, LocationDynamic> stateTo = state.GetLocationByName(To.Key.GetName());
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
-            if (To.Key == Agent.Value.GetTargetLocation())
+            stateFrom.Value.RemoveAgent(Agent);
+            stateAgent.Value.GetBeliefs().GetLocationByName(stateFrom.Key.GetName()).Value.RemoveAgent(stateAgent);
+
+            stateTo.Value.AddAgent(Agent);
+            stateAgent.Value.GetBeliefs().GetLocationByName(stateTo.Key.GetName()).Value.AddAgent(stateAgent);
+
+            if (stateTo.Key == stateAgent.Value.GetTargetLocation())
             {
-                Agent.Value.ClearTargetLocation();
+                stateAgent.Value.ClearTargetLocation();
             }
         }
     }

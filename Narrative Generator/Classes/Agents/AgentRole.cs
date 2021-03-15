@@ -9,7 +9,8 @@ namespace Narrative_Generator
     public enum AgentRole
     {
         USUAL,
-        KILLER
+        KILLER,
+        PLAYER
     }
 
     public static class AgentRoleUtils
@@ -23,6 +24,7 @@ namespace Narrative_Generator
         {
             if (name == "usual") return AgentRole.USUAL;
             if (name == "killer") return AgentRole.KILLER;
+            if (name == "player") return AgentRole.PLAYER;
             throw new Exception("UNRECOGNIZED AGENT ROLE: " + name);
         }
     }

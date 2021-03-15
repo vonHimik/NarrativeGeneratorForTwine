@@ -43,7 +43,7 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
-        public override bool CheckPreconditions(WorldBeliefs state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
                       && Agent2.Key.GetRole() == AgentRole.KILLER && Agent2.Value.GetStatus()
@@ -51,9 +51,11 @@ namespace Narrative_Generator
                       && Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent2.Key);
         }
 
-        public override void ApplyEffects(WorldBeliefs state)
+        public override void ApplyEffects(ref WorldDynamic state)
         {
-            Agent2.Value.SetStatus(false);
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent2 = state.GetAgentByName(Agent2.Key.GetName());
+
+            stateAgent2.Value.SetStatus(false);
         }
     }
 }

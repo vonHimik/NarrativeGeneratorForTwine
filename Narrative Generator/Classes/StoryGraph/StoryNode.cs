@@ -8,23 +8,31 @@ namespace Narrative_Generator
 {
     class StoryNode
     {
-        private WorldBeliefs worldState;  // Story state.
-        private bool activePlayer;        // Active player = true, active agent = false.
-        private KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent; // If the player does not move, then one of the agents move - which?
+        // Story state.
+        private WorldDynamic worldState;
+        
+        // Active player = true, active agent = false.
+        private bool activePlayer;
+
+        // If the player does not move, then one of the agents move - which?
+        private KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent;
 
         private StoryNode parent;
         private List<StoryNode> childrens;
         private List<Edge> edgesToChildrens;
 
-        //private bool deadend;
-        //private bool passed;
+        public StoryNode()
+        {
+            childrens = new List<StoryNode>();
+            edgesToChildrens = new List<Edge>();
+        }
 
-        public void SetWorldState(WorldBeliefs worldState)
+        public void SetWorldState(WorldDynamic worldState)
         {
             this.worldState = worldState;
         }
 
-        public WorldBeliefs GetWorldState()
+        public WorldDynamic GetWorldState()
         {
             return worldState;
         }
@@ -77,6 +85,11 @@ namespace Narrative_Generator
         public Edge GetEdge(int index)
         {
             return edgesToChildrens[index];
+        }
+
+        public List<Edge> GetEdges()
+        {
+            return edgesToChildrens;
         }
     }
 }

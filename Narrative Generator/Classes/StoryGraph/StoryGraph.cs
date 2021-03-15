@@ -8,9 +8,16 @@ namespace Narrative_Generator
 {
     class StoryGraph
     {
-        public StoryNode startNode; // Root
-        List<StoryNode> nodes;      // Last in this list = current.
-        List<Edge> edges;
+        private StoryNode startNode; // Root
+        private List<StoryNode> nodes;      // Last in this list = current.
+        private List<Edge> edges;
+
+        public StoryGraph()
+        {
+            startNode = new StoryNode();
+            nodes = new List<StoryNode>();
+            edges = new List<Edge>();
+        }
 
         public void AddNode(StoryNode newNode) // State
         {
@@ -22,6 +29,7 @@ namespace Narrative_Generator
             edges.Add(newEdge);
         }
 
+        // TODO
         public void ExpandNode(StoryworldConvergence storyworldConvergence)
         {
             throw new NotImplementedException();
@@ -30,6 +38,11 @@ namespace Narrative_Generator
         public List<StoryNode> GetNodes()
         {
             return nodes;
+        }
+
+        public StoryNode GetRoot()
+        {
+            return startNode;
         }
 
         public StoryNode GetLastNode()

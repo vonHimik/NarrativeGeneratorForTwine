@@ -40,7 +40,7 @@ namespace Narrative_Generator
             this.termOfProtection = termOfProtection;
         }
 
-        public override bool IsSatisfied(WorldBeliefs state)
+        public override bool IsSatisfied(WorldDynamic state)
         {
             if (temporaryInvulnerability && targetAgent.Key != null && targetAgent.Value != null && termOfProtection != 0)
             {

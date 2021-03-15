@@ -76,7 +76,7 @@
     <Compile Include="Classes\Agents\StoryworldConvergence.cs" />
     <Compile Include="Classes\Twine\TwineGraphConstructor.cs" />
     <Compile Include="Classes\World\LocationDynamic.cs" />
-    <Compile Include="Classes\World\WorldBeliefs.cs" />
+    <Compile Include="Classes\World\WorldDynamic.cs" />
     <Compile Include="Classes\World\WorldStatic.cs" />
     <Compile Include="Classes\ForAPI\Wrapper.cs" />
     <Compile Include="Classes\StoryGraph\Edge.cs" />

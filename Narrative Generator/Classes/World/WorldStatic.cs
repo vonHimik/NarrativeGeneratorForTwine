@@ -9,7 +9,13 @@ namespace Narrative_Generator
     public class WorldStatic : ICloneable
     {
         private List<LocationStatic> locations; // List of locations.
-        private int turn = 0;
+        private int turn;
+
+        public WorldStatic()
+        {
+            locations = new List<LocationStatic>();
+            turn = 0;
+        }
 
         public object Clone()
         {
@@ -23,9 +29,9 @@ namespace Narrative_Generator
 
         public void AddLocations(List<LocationStatic> locations)
         {
-            for (int i = 0; i < locations.Count; i++)
+            foreach (var location in locations)
             {
-                AddLocation(locations[i]);
+                AddLocation(location);
             }
         }
 
