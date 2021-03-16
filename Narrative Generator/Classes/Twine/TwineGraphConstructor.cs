@@ -55,20 +55,33 @@ namespace Narrative_Generator
 
             foreach (var node in storyGraph.GetNodes())
             {
-                if (!node.GetActivePlayer())
+                if (!node.GetActivePlayer() && !(node.Equals(storyGraph.GetNodes().Last())))
                 {
                     inActionName = node.GetActiveAgent().Key.GetName();
                     inActionRole = node.GetActiveAgent().Key.GetRole().ToString();
-                    action = node.GetEdges().First().GetAction().GetType().ToString();
+                    action = node.GetEdges().First().GetAction().GetType().ToString().Remove(0, 20);
 
                     foreach (var parameter in node.GetEdges().First().GetAction().Arguments)
                     {
-                        actionParameters.Add(parameter.ToString());
+                        if (parameter.GetType() == node.GetActiveAgent().GetType())
+                        {
+                            KeyValuePair<AgentStateStatic, AgentStateDynamic> agentTypeParameter =
+                                (KeyValuePair<AgentStateStatic, AgentStateDynamic>)parameter;
+
+                            actionParameters.Add(agentTypeParameter.Key.GetName());
+                        }
+                        else if (parameter.GetType() == node.GetWorldState().GetRandomLocation().GetType())
+                        {
+                            KeyValuePair<LocationStatic, LocationDynamic> locationTypeParameter =
+                                (KeyValuePair<LocationStatic, LocationDynamic>)parameter;
+
+                            actionParameters.Add(locationTypeParameter.Key.GetName());
+                        }
                     }
 
                     resultString = CreateText(inActionName, inActionRole, action, actionParameters);
-
                     streamWriter.WriteLine(resultString);
+                    actionParameters.Clear();
                 }
                 else
                 {

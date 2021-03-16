@@ -1,0 +1,104 @@
+[Politician]:  carelessly exits from hall and goes to dining-room
+[Judge]:  leaves hall and enters in guest-bedroom
+[Clerk]:  carelessly exits from hall and goes to bedroom
+[Rich]:  looking around carefully, exits from hall and enters in attic
+[Politician]:  looking around carefully, exits from dining-room and enters in hall
+[Judge]:  leaves guest-bedroom and enters in attic
+[Journalist]:  carelessly exits from hall and goes to bathroom
+[Rich]:  leaves attic and enters in kitchen
+[Politician]:  leaves hall and enters in bedroom
+[Judge]:  leaves attic and enters in bathroom
+[Clerk]:  looking around carefully, exits from bedroom and enters in bathroom
+[Rich]:  looking around carefully, exits from kitchen and enters in guest-bedroom
+[Mafia-boss]:  looking around carefully, exits from hall and enters in garden
+[Politician]:  carelessly exits from bedroom and goes to garden
+[Judge]:  carelessly exits from bathroom and goes to attic
+[Journalist]:  looking around carefully, exits from bathroom and enters in bedroom
+[Clerk]:  leaves bathroom and enters in guest-bedroom
+[Rich]:  carelessly exits from guest-bedroom and goes to bedroom
+[Mafia-boss]:  looking around carefully, exits from garden and enters in hall
+[Politician]:  looking around carefully, exits from garden and enters in dining-room
+[Judge]:  looking around carefully, exits from attic and enters in dining-room
+[Journalist]:  looking around carefully, exits from bedroom and enters in kitchen
+[Clerk]:  leaves guest-bedroom and enters in hall
+[Rich]:  leaves bedroom and enters in garden
+[Mafia-boss]:  leaves hall and enters in guest-bedroom
+[Politician]:  leaves dining-room and enters in attic
+[Judge]:  carelessly exits from dining-room and goes to attic
+[Journalist]:  leaves kitchen and enters in guest-bedroom
+[Clerk]:  looking around carefully, exits from hall and enters in guest-bedroom
+[Rich]:  carelessly exits from garden and goes to hall
+[Politician]:  carelessly exits from attic and goes to bathroom
+[Judge]:  carelessly exits from attic and goes to bathroom
+[Journalist]:  leaves guest-bedroom and enters in dining-room
+[Clerk]:  carelessly exits from guest-bedroom and goes to bathroom
+[Judge]:  looking around carefully, exits from bathroom and enters in attic
+[Clerk]:  leaves bathroom and enters in dining-room
+[Rich]:  leaves hall and enters in garden
+[Mafia-boss]:  leaves guest-bedroom and enters in bathroom
+[Judge]:  carelessly exits from attic and goes to garden
+[Clerk]:  carelessly exits from dining-room and goes to guest-bedroom
+[Rich]:  looking around carefully, exits from garden and enters in bathroom
+[Mafia-boss]:  carelessly exits from bathroom and goes to kitchen
+[Politician]:  looking around carefully, exits from bathroom and enters in guest-bedroom
+[Judge]:  carelessly exits from garden and goes to bathroom
+[Journalist]:  carelessly exits from dining-room and goes to kitchen
+[Clerk]:  carelessly exits from guest-bedroom and goes to garden
+[Mafia-boss]:  scrutinizes kitchen, hoping to find some evidence against the killer
+[Politician]:  leaves guest-bedroom and enters in bedroom
+[Judge]:  making sure that no one is around, he pulls out a pistol with a silencer and, taking aim, shoots at Rich
+[Journalist]:  looking around carefully, exits from kitchen and enters in attic
+[Clerk]:  scrutinizes garden, hoping to find some evidence against the killer
+[Mafia-boss]:  leaves kitchen and enters in bedroom
+[Politician]:  carelessly exits from bedroom and goes to guest-bedroom
+[Judge]:  looking around carefully, exits from bathroom and enters in attic
+[Journalist]:  carelessly exits from attic and goes to hall
+[Clerk]:  carelessly exits from garden and goes to bathroom
+[Politician]:  looking around carefully, exits from guest-bedroom and enters in dining-room
+[Judge]:  makes strange sounds in attic, hoping to lure Politician here
+[Journalist]:  carelessly exits from hall and goes to bedroom
+[Politician]:  looking around carefully, exits from dining-room and enters in attic
+[Judge]:  quietly creeps up from behind to Politician and covering the victim's mouth with his hands, strangles his
+[Journalist]:  looking around carefully, exits from bedroom and enters in guest-bedroom
+[Clerk]:  looking around carefully, exits from bathroom and enters in attic
+[Judge]:  leaves attic and enters in dining-room
+[Journalist]:  carelessly exits from guest-bedroom and goes to dining-room
+[Clerk]:  looking around carefully, exits from attic and enters in dining-room
+[Mafia-boss]:  leaves bedroom and enters in bathroom
+[Judge]:  carelessly exits from dining-room and goes to attic
+[Journalist]:  looking around carefully, exits from dining-room and enters in guest-bedroom
+[Clerk]:  looking around carefully, exits from dining-room and enters in bathroom
+[Mafia-boss]:  looking around carefully, exits from bathroom and enters in guest-bedroom
+[Judge]:  looking around carefully, exits from attic and enters in garden
+[Journalist]:  carelessly exits from guest-bedroom and goes to kitchen
+[Clerk]:  scrutinizes bathroom, hoping to find some evidence against the killer
+[Mafia-boss]:  leaves guest-bedroom and enters in bathroom
+[Judge]:  carelessly exits from garden and goes to kitchen
+[Journalist]:  carelessly exits from kitchen and goes to bedroom
+[Judge]:  looking around carefully, exits from kitchen and enters in bedroom
+[Clerk]:  looking around carefully, exits from bathroom and enters in bedroom
+[Mafia-boss]:  looking around carefully, exits from bathroom and enters in attic
+[Judge]:  carelessly exits from bedroom and goes to kitchen
+[Journalist]:  carelessly exits from bedroom and goes to bathroom
+[Clerk]:  leaves bedroom and enters in garden
+[Judge]:  carelessly exits from kitchen and goes to garden
+[Journalist]:  leaves bathroom and enters in hall
+[Clerk]:  carelessly exits from garden and goes to hall
+[Judge]:  is constantly shown to the eyes Journalist and immediately disappears around the corner, luring Journalist in garden
+[Journalist]:  looking around carefully, exits from hall and enters in garden
+[Clerk]:  carelessly exits from hall and goes to bedroom
+[Judge]:  looking around to make sure that no one is around, pulls out a knife and, sneaking up to Journalist, slits his throat.
+[Clerk]:  carelessly exits from bedroom and goes to garden
+[Mafia-boss]:  carelessly exits from attic and goes to bathroom
+[Judge]:  carelessly exits from garden and goes to dining-room
+[Clerk]:  leaves garden and enters in attic
+[Mafia-boss]:  carelessly exits from bathroom and goes to garden
+[Judge]: 
+[Clerk]:  carelessly exits from attic and goes to dining-room
+[Mafia-boss]:  carelessly exits from garden and goes to bedroom
+[Judge]:  quietly creeps up from behind to Clerk and covering the victim's mouth with his hands, strangles his
+[Judge]:  leaves dining-room and enters in bedroom
+[Mafia-boss]:  carelessly exits from bedroom and goes to attic
+[Judge]:  makes strange sounds in bedroom, hoping to lure Mafia-boss here
+[Mafia-boss]:  leaves attic and enters in bedroom
+[Judge]:  quietly creeps up from behind to Mafia-boss and covering the victim's mouth with his hands, strangles his
