@@ -3,6 +3,7 @@
    (:predicates (ROOM ?x) (AGENT ?x) (KILLER ?x)
                 (alive ?x) (died ?x)
                 (in-room ?x ?y)
+                (connected ?x ?y)
    )
    
              
@@ -10,7 +11,9 @@
 :precondition (and (ROOM ?room-from) (ROOM ?room-to) (KILLER ?k)
                    (alive ?k)
                    (in-room ?k ?room-from)
-                   (not (died ?k)) (not (in-room ?k ?room-to)))
+                   (not (died ?k)) (not (in-room ?k ?room-to))
+                   (connected ?room-from ?room-to)
+               )
 :effect (and (in-room ?k ?room-to)
              (not (in-room ?k ?room-from))))
              

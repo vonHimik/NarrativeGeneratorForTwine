@@ -9,13 +9,16 @@
                 (scared ?x) (angry-at ?x ?y)
                 (explored-room ?x ?y)
                 (contains-evidence ?x)
+                (connected ?x ?y)
    )
 
 (:action agent_move :parameters (?a ?room-from ?room-to)
 :precondition (and (ROOM ?room-from) (ROOM ?room-to) (AGENT ?a)
                    (alive ?a) (not (scared ?a))
                    (in-room ?a ?room-from)
-                   (not (died ?a)) (not (in-room ?a ?room-to)))
+                   (not (died ?a)) (not (in-room ?a ?room-to))
+                   (connected ?room-from ?room-to)
+              )
 :effect (and (in-room ?a ?room-to)
              (not (in-room ?a ?room-from))))
              
@@ -24,7 +27,9 @@
                    (alive ?a) (not (scared ?a))
                    (in-room ?a ?room-from)
                    (want-go-to ?a ?room-to)
-                   (not (died ?a)) (not (in-room ?a ?room-to)))
+                   (not (died ?a)) (not (in-room ?a ?room-to))
+                   (connected ?room-from ?room-to)
+               )
 :effect (and (in-room ?a ?room-to)
              (not (in-room ?a ?room-from))))
              
