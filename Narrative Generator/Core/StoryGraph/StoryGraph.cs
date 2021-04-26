@@ -15,10 +15,10 @@ namespace Narrative_Generator
         private StoryNode startNode;
 
         // Список узлов.
-        private List<StoryNode> nodes;
+        private HashSet<StoryNode> nodes;
 
         // Список граней.
-        private List<Edge> edges;
+        private HashSet<Edge> edges;
 
         /// <summary>
         /// Метод-конструктор для графа истории, без параметров.
@@ -26,8 +26,8 @@ namespace Narrative_Generator
         public StoryGraph()
         {
             startNode = new StoryNode();
-            nodes = new List<StoryNode>();
-            edges = new List<Edge>();
+            nodes = new HashSet<StoryNode>();
+            edges = new HashSet<Edge>();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Возвращает список узлов графа истории.
         /// </summary>
-        public List<StoryNode> GetNodes()
+        public HashSet<StoryNode> GetNodes()
         {
             return nodes;
         }
@@ -76,6 +76,11 @@ namespace Narrative_Generator
         public StoryNode GetLastNode()
         {
             return nodes.Last();
+        }
+
+        public StoryNode GetNode(int index)
+        {
+            return nodes.ElementAt(index);
         }
     }
 }

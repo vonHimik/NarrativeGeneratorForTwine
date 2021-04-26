@@ -18,13 +18,13 @@ namespace Narrative_Generator
         private KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent;
 
         private StoryNode parent;
-        private List<StoryNode> childrens;
-        private List<Edge> edgesToChildrens;
+        private HashSet<StoryNode> childrens;
+        private HashSet<Edge> edgesToChildrens;
 
         public StoryNode()
         {
-            childrens = new List<StoryNode>();
-            edgesToChildrens = new List<Edge>();
+            childrens = new HashSet<StoryNode>();
+            edgesToChildrens = new HashSet<Edge>();
         }
 
         public void SetWorldState(WorldDynamic worldState)
@@ -74,7 +74,7 @@ namespace Narrative_Generator
 
         public StoryNode GetChildrenNode(int index)
         {
-            return childrens[index];
+            return childrens.ElementAt(index);
         }
 
         public void AddEdge(Edge edge)
@@ -84,12 +84,18 @@ namespace Narrative_Generator
 
         public Edge GetEdge(int index)
         {
-            return edgesToChildrens[index];
+            return edgesToChildrens.ElementAt(index);
         }
 
-        public List<Edge> GetEdges()
+        public HashSet<Edge> GetEdges()
         {
             return edgesToChildrens;
+        }
+
+        public bool Equals(StoryNode anotherNode)
+        {
+            if (this == anotherNode) { return true; }
+            else { return false; }
         }
     }
 }

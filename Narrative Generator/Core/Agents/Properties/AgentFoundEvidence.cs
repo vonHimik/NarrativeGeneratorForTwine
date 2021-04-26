@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     public class AgentFoundEvidence : AgentProperty, ICloneable
     {
         private bool foundEvidence;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     class Fight : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent1

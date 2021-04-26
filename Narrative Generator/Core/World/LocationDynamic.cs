@@ -9,6 +9,7 @@ namespace Narrative_Generator
     /// <summary>
     /// Класс, реализующий динамическую (часто изменяюмую) часть локации.
     /// </summary>
+    [Serializable]
     public class LocationDynamic : ICloneable
     {
         // Ссылка на статическую часть локации.
@@ -71,11 +72,16 @@ namespace Narrative_Generator
 
             // Проходимся по каждому агенту из списка находящихся в локации, отдельно клонируем их статическую и динамическую части, 
             //   а затем передаём их клону (собрав в одно целое).
-            foreach (var agent in agentsAtLocations)
+            foreach (var agent in this.agentsAtLocations)
             {
                 AgentStateStatic sTemp = (AgentStateStatic)agent.Key.Clone();
                 AgentStateDynamic dTemp = (AgentStateDynamic)agent.Value.Clone();
                 clone.agentsAtLocations.Add(sTemp, dTemp);
+
+                // Очистка
+                sTemp = null;
+                dTemp = null;
+                GC.Collect();
             }
 
             // Копируем значение флага.
@@ -91,9 +97,22 @@ namespace Narrative_Generator
         /// <param name="agent"></param>
         public void AddAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
+            foreach (var a in agentsAtLocations)
+            {
+                if (a.Key.GetName().Equals(agent.Key.GetName()))
+                {
+                    return;
+                }
+            }
+
             AgentStateStatic sPrefab = (AgentStateStatic)agent.Key.Clone();
             AgentStateDynamic dPrefab = (AgentStateDynamic)agent.Value.Clone();
             agentsAtLocations.Add(sPrefab, dPrefab);
+
+            // Очистка
+            sPrefab = null;
+            dPrefab = null;
+            GC.Collect();
         }
 
         /// <summary>
@@ -168,8 +187,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Очищает список агентов находящихся в локации.
         /// </summary>
-        /// <param name="currentWorldState"></param>
-        public void ClearLocation(WorldDynamic currentWorldState)
+        public void ClearLocation()
         {
             foreach (var agent in agentsAtLocations.ToArray())
             {

@@ -61,6 +61,7 @@
     <Compile Include="Core\Actions\ActionTypes\NothingToDo.cs" />
     <Compile Include="Core\Actions\ActionTypes\Reassure.cs" />
     <Compile Include="Core\Actions\ActionTypes\Run.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Talk.cs" />
     <Compile Include="Core\Actions\ActionTypes\TellAboutASuspicious.cs" />
     <Compile Include="Core\Actions\Counter-reactions\MiraculousSalvation.cs" />
     <Compile Include="Core\Actions\PlanAction.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Core\Agents\Properties\AgentAngryAt.cs" />
     <Compile Include="Core\Agents\Properties\AgentFoundEvidence.cs" />
     <Compile Include="Core\Agents\Properties\AgentProperty.cs" />
+    <Compile Include="Core\Agents\WorldContext.cs" />
     <Compile Include="Core\Common\CSP-Module.cs" />
     <Compile Include="Core\ForAPI\Graphviz.cs" />
     <Compile Include="Core\ForAPI\GraphvizWrapper.cs" />

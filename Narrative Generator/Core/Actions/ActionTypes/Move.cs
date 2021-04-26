@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     class Move : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
@@ -55,10 +56,13 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
             stateFrom.Value.RemoveAgent(stateAgent);
-            stateAgent.Value.GetBeliefs().GetLocationByName(stateFrom.Key.GetName()).Value.RemoveAgent(stateAgent);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).ClearLocation();
+            stateAgent.Value.GetBeliefs().ClearMyLocation();
 
             stateTo.Value.AddAgent(stateAgent);
-            stateAgent.Value.GetBeliefs().GetLocationByName(stateTo.Key.GetName()).Value.AddAgent(stateAgent);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).
+                SetLocation(stateAgent.Value.GetBeliefs().GetLocationByName(To.Key.GetName()));
+            stateAgent.Value.GetBeliefs().SetMyLocation(stateAgent.Value.GetBeliefs().GetLocationByName(To.Key.GetName()));
 
             if (stateTo.Key == stateAgent.Value.GetTargetLocation())
             {

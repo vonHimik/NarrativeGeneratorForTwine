@@ -10,7 +10,6 @@ namespace Narrative_Generator
     class StoryworldConvergence
     {
         private List<WorldConstraint> constraints;
-        //private StoryGraph globalGraph;
         private List<Goal> allGoalStates;
 
         public StoryworldConvergence()
@@ -88,9 +87,22 @@ namespace Narrative_Generator
 
             foreach (var constraint in constraints)
             {
-                if (!constraint.IsSatisfied(worldForTest)) { return false; }
+                if (!constraint.IsSatisfied(worldForTest))
+                {
+                    // Очистка
+                    worldForTest = null;
+                    GC.Collect();
+
+                    // Возвращение результата
+                    return false;
+                }
             }
 
+            // Очистка
+            worldForTest = null;
+            GC.Collect();
+
+            // Возвращение результата
             return true;
         }
 
@@ -102,34 +114,138 @@ namespace Narrative_Generator
         /// <param name="currentState"></param>
         public void ActionRequest(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                   ref StoryGraph currentGraph, 
-                                  ref WorldDynamic currentState)
+                                  ref WorldDynamic currentState,
+                                  ref int currentNodeNumber,
+                                  ref int goalsCounter)
         {
             CSP_Module cspModule = new CSP_Module();
 
-            agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent); // Для ИГРОКА проводится
-            agent.Value.GenerateNewPDDLProblem(agent, currentState);      // Для ИГРОКА не проводится
-            //Thread.Sleep(5000);
-            agent.Value.CalculatePlan(agent, currentState);               // Для ИГРОКА не проводится
-            agent.Value.GetAvailableActions(agent);                       // Для ИГРОКА провдится.
-
-            if (agent.Key.GetRole() != AgentRole.PLAYER)
+            if (agent.Key.GetRole().Equals(AgentRole.PLAYER))
             {
+                agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent);
+                agent.Value.GenerateNewPDDLProblem(agent, currentState);
+                agent.Value.ReceiveAvailableActions(agent);
+
+                List<PlanAction> receivedActions = agent.Value.GetAvailableActions();
+
+                for (int i = 0; i < receivedActions.Count; i++)
+                {
+                    PlanAction receivedAction = receivedActions[i];
+
+                    if (receivedAction != null)
+                    {
+                        switch (receivedAction.GetType().ToString().Remove(0, 20))
+                        {
+                            case "Move":
+                                MultiAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, ref currentNodeNumber, ref goalsCounter);
+                                break;
+                            case "Fight": // Пока неактуально.
+                                break;
+                            case "InvestigateRoom":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, ref currentNodeNumber);
+                                break;
+                            case "NeutralizeKiller": // Пока неактуально.
+                                break;
+                            case "NothingToDo": SkipTurn(currentState);
+                                break;
+                            case "Reassure": // Пока неактуально.
+                                break;
+                            case "Run": // Пока неактуально.
+                                break;
+                        }
+
+                        // Очистка
+                        receivedAction = null;
+                        GC.Collect();
+                    }
+                    else
+                    {
+                        SkipTurn(currentState);
+                    }
+                }
+
+                // Очистка
+                receivedActions = null;
+                GC.Collect();
+            }
+            else
+            {
+                agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent); // Для ИГРОКА проводится
+                agent.Value.GenerateNewPDDLProblem(agent, currentState);      // Для ИГРОКА не проводится
+                //Thread.Sleep(5000);
+                agent.Value.CalculatePlan(agent, currentState);               // Для ИГРОКА не проводится
+                agent.Value.ReceiveAvailableActions(agent);                   // Для ИГРОКА провoдится.
+
                 PlanAction receivedAction = agent.Value.ChooseAction();
 
                 if (receivedAction != null)
                 {
                     cspModule.AssignVariables(ref receivedAction, currentState, agent);
-                    ActionControl(receivedAction, currentGraph, agent, currentState);
+
+                    StoryNode currentNode = currentGraph.GetNode(currentNodeNumber);
+
+                    ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, false);
+
+                    // Очистка
+                    receivedAction = null;
+                    currentNode = null;
+                    GC.Collect();
                 }
                 else
                 {
                     SkipTurn(currentState);
                 }
             }
-            else
+        }
+
+        public void SingleAVandAC(ref PlanAction receivedAction, 
+                                  WorldDynamic currentState, 
+                                  KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                  CSP_Module cspModule, 
+                                  StoryGraph currentGraph,
+                                  ref int currentNodeNumber)
+        {
+            cspModule.AssignVariables(ref receivedAction, currentState, agent);
+
+            StoryNode currentNode = currentGraph.GetNode(currentNodeNumber);
+
+            ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, false);
+
+            // Очистка
+            currentNode = null;
+            GC.Collect();
+        }
+
+        public void MultiAVandAC(ref PlanAction receivedAction, 
+                                 WorldDynamic currentState, 
+                                 KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                                 CSP_Module cspModule, 
+                                 StoryGraph currentGraph, 
+                                 ref int currentNodeNumber,
+                                 ref int goalsCounter)
+        {
+            List<PlanAction> actionsList = cspModule.MassiveAssignVariables(ref receivedAction, currentState, agent);
+            goalsCounter += actionsList.Count() - 1;
+
+            StoryNode currentNode = currentGraph.GetNode(currentNodeNumber);
+
+            AgentStateStatic sCurrentAgent = (AgentStateStatic)agent.Key.Clone();
+            AgentStateDynamic dCurrentAgent = (AgentStateDynamic)agent.Value.Clone();
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> currentAgent = 
+                                                                  new KeyValuePair<AgentStateStatic, AgentStateDynamic>(sCurrentAgent, dCurrentAgent);
+
+            WorldDynamic statePrefab = (WorldDynamic)currentState.Clone();
+
+            foreach (var a in actionsList)
             {
-                // Получаем список действий и проходимся по нему в цикле.
+                ActionControl(a, currentGraph, currentAgent, statePrefab, currentNode, true);
             }
+
+            // Очистка
+            actionsList = null;
+            currentNode = null;
+            statePrefab = null;
+            GC.Collect();
         }
 
         /// <summary>
@@ -142,7 +258,9 @@ namespace Narrative_Generator
         public void ActionControl(PlanAction action, 
                                   StoryGraph currentGraph, 
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                  WorldDynamic currentState)
+                                  WorldDynamic currentState,
+                                  StoryNode currentNode,
+                                  bool duplication)
         {
             bool constraintsControl = ConstraintsControl(currentState, action);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent);
@@ -151,12 +269,12 @@ namespace Narrative_Generator
             if (constraintsControl && deadEndsControl && cyclesControl)
             {
                 // If all checks are passed, then we apply the action.
-                ApplyAction(action, currentGraph, agent, currentState);
+                ApplyAction(action, currentGraph, agent, currentState, currentNode, duplication);
             }
             else if (!constraintsControl && deadEndsControl && cyclesControl)
             {
                 // If the action violates the constraints, then convergence will not apply it, but will apply its counter-reaction.
-                ActionCounteract(action, currentGraph, agent, currentState);
+                ActionCounteract(action, currentGraph, agent, currentState, currentNode);
             }
             else
             {
@@ -175,17 +293,30 @@ namespace Narrative_Generator
         public void ApplyAction(PlanAction action, 
                                 StoryGraph currentGraph, 
                                 KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                WorldDynamic currentState)
+                                WorldDynamic currentState,
+                                StoryNode currentNode,
+                                bool duplication)
         {
-            if (ProbabilityCalculating(action)) // We apply a successful option to perform an action
+            // We apply a successful option to perform an action.
+            if (ProbabilityCalculating(action))
             {
-                action.ApplyEffects(ref currentState);
-                CreateNewNode(action, currentGraph, agent, currentState);
+                if (duplication)
+                {
+                    WorldDynamic duplicatedState = (WorldDynamic)currentState.Clone();
+                    action.ApplyEffects(ref duplicatedState);
+                    CreateNewNode(action, currentGraph, agent, duplicatedState, currentNode);
+                }
+                else
+                {
+                    action.ApplyEffects(ref currentState);
+                    CreateNewNode(action, currentGraph, agent, currentState, currentNode);
+                }
             }
-            else // We apply an unsuccessful option to perform an action
+            // We apply an unsuccessful option to perform an action.
+            else
             {
                 action.Fail();
-                // TO DO - Should I create a node for failed actions?
+                CreateNewNode(action, currentGraph, agent, currentState, currentNode);
             }
         }
 
@@ -197,8 +328,24 @@ namespace Narrative_Generator
                 action.ApplyEffects(ref worldForTest);
                 worldForTest.GetAgentByRole(AgentRole.PLAYER).Value.CalculatePlan(worldForTest.GetAgentByRole(AgentRole.PLAYER), worldForTest);
 
-                if (worldForTest.GetAgentByRole(AgentRole.PLAYER).Value.GetPlanStatus()) { return true; }
-                else { return false; }
+                if (worldForTest.GetAgentByRole(AgentRole.PLAYER).Value.GetPlanStatus())
+                {
+                    // Очистка
+                    worldForTest = null;
+                    GC.Collect();
+
+                    // Возвращение результата
+                    return true;
+                }
+                else
+                {
+                    // Очистка
+                    worldForTest = null;
+                    GC.Collect();
+
+                    // Возвращение результата
+                    return false;
+                }
             }
             else { return true; }
         }
@@ -207,12 +354,28 @@ namespace Narrative_Generator
         {
             StoryNode testNode = CreateTestNode(currentState, action, currentGraph);
             
-            if (NodeExistenceControl(testNode, currentGraph)) { return false; }
-            else { return true; }
+            if (NodeExistenceControl(testNode, currentGraph))
+            {
+                // Очистка
+                testNode = null;
+                GC.Collect();
+
+                // Возвращение результата
+                return false;
+            }
+            else
+            {
+                // Очистка
+                testNode = null;
+                GC.Collect();
+
+                // Возвращение результата
+                return true;
+            }
         }
 
         public void ActionCounteract(PlanAction action, StoryGraph currentGraph, KeyValuePair<AgentStateStatic,AgentStateDynamic> agent, 
-                                     WorldDynamic currentState)
+                                     WorldDynamic currentState, StoryNode currentNode)
         {
             // TODO: Depending on the action, convergence has at least one way to counter it.
             //       To do this, counter-actions must also be formalized as subclasses of the "PlanAction" class.
@@ -242,7 +405,7 @@ namespace Narrative_Generator
             {
                 MiraculousSalvation counterreaction = new MiraculousSalvation();
                 counterreaction.Arguments.Add(action.Arguments[1]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState);
+                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, false);
             }
             else if (action is NothingToDo)
             {
@@ -343,25 +506,40 @@ namespace Narrative_Generator
         public void CreateNewNode(PlanAction action, 
                                   StoryGraph currentGraph, 
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                  WorldDynamic newState)
+                                  WorldDynamic newState,
+                                  StoryNode currentNode)
         {
+            // Создаём пустой новый узел.
             StoryNode newNode = new StoryNode();
+
+            // Создаём пустую новую грань.
             Edge newEdge = new Edge();
+
+            // Создаём клон агента.
             KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent = 
                 new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
 
-            currentGraph.GetLastNode().SetActivePlayer(false);
-            currentGraph.GetLastNode().SetActiveAgent(newAgent);
+            // Берём последний узел из списка всех узлов и назначаем активен ли игрок и кто из агентев был активен на этом ходу.
+            if (newAgent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
+            else { newNode.SetActivePlayer(false); }
+            newNode.SetActiveAgent(newAgent);
 
+            // Назначаем новому узлу состояние мира (переданное).
             newNode.SetWorldState((WorldDynamic)newState.Clone());
-            newNode.SetParentNode(currentGraph.GetLastNode());
-            currentGraph.GetLastNode().AddChildrenNode(ref newNode);
 
+            // Назначаем новому узлу последний узел из списка как родительский, а тому назначаем новый узел в качестве дочерниго.
+            newNode.SetParentNode(currentNode);
+            currentNode.AddChildrenNode(ref newNode);
+
+            // Настраиваем грань - назначаем её действие и указываем те узлы, которые она соединяет.
             newEdge.SetAction(action);
-            newEdge.SetUpperNode(currentGraph.GetLastNode());
+            newEdge.SetUpperNode(currentNode);
             newEdge.SetLowerNode(ref newNode);
 
-            currentGraph.GetLastNode().AddEdge(newEdge);
+            // Добавляем грань последнему узлу из списка.
+            currentNode.AddEdge(newEdge);
+
+            // Добавляем в граф новый узел и новую грань.
             currentGraph.AddNode(newNode);
             currentGraph.AddEdge(newEdge);
         }
@@ -374,6 +552,10 @@ namespace Narrative_Generator
             StoryNode testNode = new StoryNode();
             testNode.SetWorldState(worldForTest);
             testNode.SetParentNode(currentGraph.GetLastNode());
+
+            // Очистка
+            worldForTest = null;
+            GC.Collect();
 
             return testNode;
         }

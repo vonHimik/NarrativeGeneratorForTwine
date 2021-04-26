@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     public class WorldStatic : ICloneable
     {
-        private List<LocationStatic> locations; // List of locations.
+        private HashSet<LocationStatic> locations; // List of locations.
         private int turn;
 
         public WorldStatic()
         {
-            locations = new List<LocationStatic>();
+            locations = new HashSet<LocationStatic>();
             turn = 0;
         }
 
@@ -40,7 +41,7 @@ namespace Narrative_Generator
             locations.Add(newLocation);
         }
 
-        public List<LocationStatic> GetLocations()
+        public HashSet<LocationStatic> GetLocations()
         {
             return locations;
         }

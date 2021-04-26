@@ -10,6 +10,7 @@
                 (explored-room ?x ?y)
                 (contains-evidence ?x)
                 (connected ?x ?y)
+                (talking ?x ?y)
    )
 
 (:action agent_move :parameters (?a ?room-from ?room-to)
@@ -101,6 +102,16 @@
                )
 :effect (alive ?a1)
 )
+
+(:action talk :parameters (?a1 ?a2 ?place)
+:precondition (and (AGENT ?a1) (AGENT ?a2) (ROOM ?place)
+                   (alive ?a1) (alive ?a2)
+                   (in-room ?a1 ?place) (in-room ?a2 ?place)
+                   (not (angry-at ?a1 ?a2))
+               )
+:effect (and (talking ?a1 ?a2) )
+)
+
 
 (:action Run :parameters (?a ?room-from ?room-to)
 :precondition (and (ROOM ?room-from) (ROOM ?room-to) (AGENT ?a)

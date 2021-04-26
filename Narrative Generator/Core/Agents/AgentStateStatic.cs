@@ -9,6 +9,7 @@ namespace Narrative_Generator
     /// <summary>
     /// A class that stores static (rarely changed) agent properties and methods for interacting with them.
     /// </summary>
+    [Serializable]
     public class AgentStateStatic : ICloneable
     {
         // Agent properties.

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     public abstract class PlanAction
     {
         public List<Object> Arguments = new List<object>();

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     class Plan : ICloneable
     {
         private List<PlanAction> actions;
@@ -93,6 +94,11 @@ namespace Narrative_Generator
             {
                 TellAboutASuspicious tellAboutASuspicious = new TellAboutASuspicious();
                 actions.Add(tellAboutASuspicious);
+            }
+            if (actionName == "talk")
+            {
+                Talk talk = new Talk();
+                actions.Add(talk);
             }
         }
 

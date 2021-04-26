@@ -28,7 +28,7 @@ namespace Narrative_Generator
             {
                 foreach (var agent in currentState.GetAgents())
                 {
-                    if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus() 
+                    if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
                         && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
                     {
                         action.Arguments.Add(initiator);
@@ -55,7 +55,7 @@ namespace Narrative_Generator
             {
                 foreach (var agent in currentState.GetAgents())
                 {
-                    if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus() 
+                    if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
                         && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
                     {
                         action.Arguments.Add(agent);
@@ -178,6 +178,60 @@ namespace Narrative_Generator
                 action.Arguments.Add(currentState.GetRandomLocationWithout
                     (currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
             }
+            else if (action is Talk)
+            {
+                action.Arguments.Add(initiator);
+
+                foreach (var agent in currentState.GetAgents())
+                {
+                    if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus()
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
+                    {
+                        action.Arguments.Add(agent);
+                        break;
+                    }
+                }
+
+                // TO DO: Need to expand !!!
+                action.Arguments.Add("topic");
+            }
+        }
+
+        public List<PlanAction> MassiveAssignVariables(ref PlanAction action, 
+                                           WorldDynamic currentState, 
+                                           KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        {
+            List<PlanAction> actions = new List<PlanAction>();
+
+            if (action is Move)
+            {
+                int locationsCount = 
+                    currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocations().Count;
+
+                List<Move> moveArr = new List<Move>();
+
+                for (int i = 0; i < locationsCount; i++)
+                {
+                    Move move = new Move();
+                    moveArr.Add(move);
+                }
+
+                for (int i = 0; i < locationsCount; i++)
+                {
+                    moveArr[i].Arguments.Add(initiator);
+                    moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
+                    moveArr[i].Arguments.Add(currentState.GetLocationByName
+                        (currentState.GetLocationByName(
+                            currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationsFromIndex(i).GetName()));
+                }
+
+                foreach (var a in moveArr)
+                {
+                    actions.Add(a);
+                }
+            }
+
+            return actions;
         }
     }
 }

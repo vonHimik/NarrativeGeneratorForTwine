@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     public class Goal : ICloneable
     {
         // Boolean variables define the type of target(s) of the agent. 
@@ -42,6 +43,7 @@ namespace Narrative_Generator
             clone.goalTypeIsStatus = goalTypeIsStatus;
             clone.goalTypeIsPossession = goalTypeIsPossession;
             clone.goalState = (WorldDynamic)goalState.Clone();
+            //goalState.CloneAgents(clone.goalState.GetAgents());
 
             return clone;
         }

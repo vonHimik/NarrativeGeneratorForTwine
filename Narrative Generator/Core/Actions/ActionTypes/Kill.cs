@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     class Kill : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
@@ -56,8 +57,8 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
 
             stateAgent.Value.SetStatus(false);
-            stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Value.SetStatus(false);
-            stateKiller.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Value.SetStatus(false);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Dead();
+            stateKiller.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Dead();
 
             state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.GetAgent(stateAgent).Value.Die();
         }

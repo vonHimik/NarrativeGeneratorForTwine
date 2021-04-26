@@ -17,7 +17,7 @@ namespace Narrative_Generator
         /// A method that returns all valid NOW actions for the agent, given the context.
         /// </summary>
         /// <param name="agent"></param>
-        public List<PlanAction> GetPossibleActions(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public List<PlanAction> GetAvailableActions(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             // We initialize a variable that stores a list of valid actions. We will add actions that meet the conditions to it.
             List<PlanAction> result = new List<PlanAction>();
@@ -32,6 +32,9 @@ namespace Narrative_Generator
                 // And he can do nothing.
                 NothingToDo nothingToDo = new NothingToDo();
                 result.Add(nothingToDo);
+
+                Talk talk = new Talk();
+                result.Add(talk);
 
                 // If the agent thinks that one of the other agents is angry, then he can try to calm him down.
                 if (agent.Value.ThinksThatSomeoneIsAngry())
@@ -63,7 +66,6 @@ namespace Narrative_Generator
                     result.Add(tellAboutASuspicious);
                 }
 
-                // If the agent role is usual.
                 if (agent.Key.GetRole() == AgentRole.USUAL)
                 {
                     // If he is angry, then he can start fighting.
@@ -71,7 +73,15 @@ namespace Narrative_Generator
                     {
                         Fight fight = new Fight();
                         result.Add(fight);
+                    }
+                }
 
+                // If the agent role is usual or player.
+                if (agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER)
+                {
+                    // If he is angry, then he can start fighting.
+                    if (agent.Value.GetObjectOfAngry().AngryCheck())
+                    {
                         // And if he has evidence against the killer, he can try to neutralize him.
                         if (agent.Value.GetEvidenceStatus().CheckEvidence())
                         {

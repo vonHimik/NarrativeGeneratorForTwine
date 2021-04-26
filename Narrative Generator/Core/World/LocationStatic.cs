@@ -9,11 +9,12 @@ namespace Narrative_Generator
     /// <summary>
     /// This class stores static (rarely changed) properties of a location and describes methods for interacting with them.
     /// </summary>
+    [Serializable]
     public class LocationStatic: ICloneable
     {
         // Static properties of the location.
         private string name;
-        private List<LocationStatic> connectedLocations;
+        private HashSet<LocationStatic> connectedLocations;
         public int id;
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace Narrative_Generator
             name = "";
 
             // We initialize the list of pointers to locations associated with this location.
-            connectedLocations = new List<LocationStatic>();
+            connectedLocations = new HashSet<LocationStatic>();
 
             // We generate a random identification number for the location.
             Random rand = new Random();
@@ -42,7 +43,7 @@ namespace Narrative_Generator
             this.name = name;
 
             // We initialize the list of pointers to locations associated with this location.
-            connectedLocations = new List<LocationStatic>();
+            connectedLocations = new HashSet<LocationStatic>();
 
             // We generate a random identification number for the location.
             Random rand = new Random();
@@ -95,9 +96,14 @@ namespace Narrative_Generator
             return false;
         }
 
-        public List<LocationStatic> GetConnectedLocations()
+        public HashSet<LocationStatic> GetConnectedLocations()
         {
             return connectedLocations;
+        }
+
+        public LocationStatic GetConnectedLocationsFromIndex(int index)
+        {
+            return connectedLocations.ElementAt(index);
         }
 
         public void AddConnection(LocationStatic location)

@@ -2,25 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     public class WorldDynamic : ICloneable
     {
         private WorldStatic world;
         private Dictionary<LocationStatic, LocationDynamic> currentStateOfLocations;
-        private Dictionary<AgentStateStatic, AgentStateDynamic> agents;               // Agents (include agents states).
-        private List<Goal> goalStates;                                                // List of goal state(s).
+        private Dictionary<AgentStateStatic, AgentStateDynamic> agents;  // Agents (include agents states).
+        private HashSet<Goal> goalStates;                                // List of goal state(s).
 
         public WorldDynamic()
         {
             world = new WorldStatic();
             currentStateOfLocations = new Dictionary<LocationStatic, LocationDynamic>();
             agents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
-            goalStates = new List<Goal>();
+            goalStates = new HashSet<Goal>();
             
         }
 
@@ -36,19 +40,70 @@ namespace Narrative_Generator
             /*clone.agents = agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
                                                entry => (AgentStateDynamic)entry.Value.Clone());*/
 
-            clone.agents = agents;
+            /*object agentsCopy = FromBinary(ToBinary(agents));
+            clone.agents = (Dictionary<AgentStateStatic, AgentStateDynamic>)agentsCopy;
+            agentsCopy = null;*/
 
+            clone.agents = agents;
 
             clone.goalStates = goalStates;
 
             return clone;
         }
 
+        public Byte[] ToBinary(Dictionary<AgentStateStatic, AgentStateDynamic> cloneDictionary)
+        {
+            MemoryStream memoryStream = null;
+            Byte[] byteArray = null;
+
+            try
+            {
+                BinaryFormatter serializer = new BinaryFormatter();
+                memoryStream = new MemoryStream();
+                serializer.Serialize(memoryStream, cloneDictionary);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                byteArray = memoryStream.ToArray();
+            }
+            catch (Exception unexpected)
+            {
+                Trace.Fail(unexpected.Message);
+                throw;
+            }
+            finally
+            {
+                if (memoryStream != null) { memoryStream.Close(); }
+            }
+
+            return byteArray;
+        }
+
+        public object FromBinary(Byte[] buffer)
+        {
+            MemoryStream memoryStream = null;
+            object deserializedObject = null;
+
+            try
+            {
+                BinaryFormatter serializer = new BinaryFormatter();
+                memoryStream = new MemoryStream();
+                memoryStream.Write(buffer, 0, buffer.Length);
+                memoryStream.Position = 0;
+                deserializedObject = serializer.Deserialize(memoryStream);
+            }
+            finally
+            {
+                buffer = null;
+                if (memoryStream != null) { memoryStream.Close(); }
+            }
+
+            return deserializedObject;
+        }
+
         public void ClearLocations()
         {
             foreach (var location in currentStateOfLocations)
             {
-                location.Value.ClearLocation(this);
+                location.Value.ClearLocation();
             }
         }
 
@@ -71,6 +126,11 @@ namespace Narrative_Generator
             newAgentStateDynamic.SetStatus(status);
 
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
+
+            // Очистка
+            newAgentStateStatic = null;
+            newAgentStateDynamic = null;
+            GC.Collect();
         }
 
         /// <summary>
@@ -93,6 +153,11 @@ namespace Narrative_Generator
 
             // We combine both parts into one and add to the collection.
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
+
+            // Очистка
+            newAgentStateStatic = null;
+            newAgentStateDynamic = null;
+            GC.Collect();
         }
 
         public void AddEmptyAgent()
@@ -100,6 +165,11 @@ namespace Narrative_Generator
             AgentStateStatic newAgentStateStatic = new AgentStateStatic();
             AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
+
+            // Очистка
+            newAgentStateStatic = null;
+            newAgentStateDynamic = null;
+            GC.Collect();
         }
 
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetFirstAgent()
@@ -244,6 +314,11 @@ namespace Narrative_Generator
                 LocationStatic sPrefab = (LocationStatic)location.Key.Clone();
                 LocationDynamic dPrefab = (LocationDynamic)location.Value.Clone();
                 currentStateOfLocations.Add(sPrefab, dPrefab);
+
+                // Очистка
+                sPrefab = null;
+                dPrefab = null;
+                GC.Collect();
             }
         }
 
@@ -279,6 +354,11 @@ namespace Narrative_Generator
                 var newStatic = x.Key.Clone();
                 var newDynamic = x.Value.Clone();
                 newLocations.Add((LocationStatic)newStatic, (LocationDynamic)newDynamic);
+
+                // Очистка
+                newStatic = null;
+                newDynamic = null;
+                GC.Collect();
             }
 
             return newLocations;
@@ -363,9 +443,9 @@ namespace Narrative_Generator
 
             if (checkedLocation.Key.GetConnectedLocations() != null)
             {
-                List<LocationStatic> connectedLocationList = checkedLocation.Key.GetConnectedLocations();
+                HashSet<LocationStatic> connectedLocationList = checkedLocation.Key.GetConnectedLocations();
 
-                return GetLocationByName(connectedLocationList[randomIndex].GetName());
+                return GetLocationByName(connectedLocationList.ElementAt(randomIndex).GetName());
             }
 
             throw new KeyNotFoundException();
@@ -390,6 +470,11 @@ namespace Narrative_Generator
             AgentStateDynamic dNewAgent = (AgentStateDynamic)agent.Value.Clone();
             KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent = new KeyValuePair<AgentStateStatic, AgentStateDynamic> (sNewAgent, dNewAgent);
             location.Value.AddAgent(newAgent);
+
+            // Очистка
+            sNewAgent = null;
+            dNewAgent = null;
+            GC.Collect();
         }
 
         /// <summary>

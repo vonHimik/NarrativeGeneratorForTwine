@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    [Serializable]
     class InvestigateRoom : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
@@ -58,7 +59,7 @@ namespace Narrative_Generator
             KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
 
             stateAgent.Value.AddEvidence(stateKiller.Key);
-            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).Key.AssignRole(AgentRole.KILLER);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.KILLER);
             stateAgent.Value.SetObjectOfAngry(stateKiller.Key);
             stateAgent.Value.AddExploredLocation(stateLocation.Key);
         }
