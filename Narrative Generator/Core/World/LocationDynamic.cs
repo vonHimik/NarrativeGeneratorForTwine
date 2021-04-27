@@ -7,25 +7,25 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     /// <summary>
-    /// Класс, реализующий динамическую (часто изменяюмую) часть локации.
+    /// A class that implements a dynamic (often changeable) part of a location.
     /// </summary>
     [Serializable]
     public class LocationDynamic : ICloneable
     {
-        // Ссылка на статическую часть локации.
+        // Link to the static part of the location.
         private LocationStatic locationInfo;
 
-        // Список агентов в локации.
+        // List of agents in the location.
         private Dictionary<AgentStateStatic, AgentStateDynamic> agentsAtLocations;
 
-        // Флаг обозначающий, содержит локация улику или же нет.
+        // A flag indicating whether the location contains evidence or not.
         private bool containEvidence;
 
-        // Числовой идентефикатор локации.
+        // Numeric identifier for the location.
         int id;
 
         /// <summary>
-        /// Метод-конструктор для динамической части локации, без параметров.
+        /// Constructor method for the dynamic part of the location, without parameters.
         /// </summary>
         public LocationDynamic()
         {
@@ -33,13 +33,13 @@ namespace Narrative_Generator
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             containEvidence = false;
 
-            // Присваиваем случайное целочисленное ID.
+            // We assign a random integer ID.
             Random rand = new Random();
             id = rand.Next(1000);
         }
 
         /// <summary>
-        /// Метод-конструктор для динамической части локации, в качестве параметра используется значение флага о наличии улики.
+        /// Constructor method for the dynamic part of the location, the value of the flag about the presence of evidence is used as a parameter.
         /// </summary>
         /// <param name="containEvidence"></param>
         public LocationDynamic(bool containEvidence)
@@ -50,8 +50,8 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Метод-конструктор для динамической части локации, 
-        /// в качестве параметра использующий значения для флага о наличии улики и ссылку на статическую часть локации.
+        /// Constructor method for the dynamic part of the location,
+        /// as a parameter using the values for the flag about the presence of evidence and a link to the static part of the location.
         /// </summary>
         /// <param name="containEvidence"></param>
         /// <param name="locationInfo"></param>
@@ -63,15 +63,15 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает клон вызвавшей данный метод динамической части локации.
+        /// Returns a clone of the dynamic part of the location that called this method.
         /// </summary>
         public object Clone()
         {
-            // Создаём пустую инстанцию динамической части локации.
+            // We create an empty instance of the dynamic part of the location.
             var clone = new LocationDynamic();
 
-            // Проходимся по каждому агенту из списка находящихся в локации, отдельно клонируем их статическую и динамическую части, 
-            //   а затем передаём их клону (собрав в одно целое).
+            // We go through each agent from the list of those in the location, separately clone their static and dynamic parts,
+            // and then we pass them to the clone (collecting them into one whole).
             foreach (var agent in this.agentsAtLocations)
             {
                 AgentStateStatic sTemp = (AgentStateStatic)agent.Key.Clone();
@@ -84,15 +84,15 @@ namespace Narrative_Generator
                 GC.Collect();
             }
 
-            // Копируем значение флага.
+            // Copy the flag value.
             clone.containEvidence = containEvidence;
 
-            // Возвращаем клона.
+            // We return the clone.
             return clone;
-        } 
+        }
 
         /// <summary>
-        /// Добавляет агента в список агентов находящихся в данной локации.
+        /// Adds an agent to the list of agents located in this location.
         /// </summary>
         /// <param name="agent"></param>
         public void AddAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
@@ -116,7 +116,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Добавляет набор агентов к списку агентов находящихся в данной локации.
+        /// Adds a set of agents to the list of agents located in this location.
         /// </summary>
         /// <param name="agents"></param>
         public void AddAgents(Dictionary<AgentStateStatic, AgentStateDynamic> agents)
@@ -125,18 +125,18 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает указанного агента из списка агентов находящихся в локации.
+        /// Returns the specified agent from the list of agents in the location.
         /// </summary>
         /// <param name="agent"></param>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            // Проходимся по всем агентам в локации.
+            // We go through all the agents in the location.
             foreach (var a in agentsAtLocations)
             {
-                // Сравниваем имя проверяемого агента с именем искомого агента.
+                // Compare the name of the agent being checked with the name of the agent being searched for.
                 if (a.Key.GetName() == agent.Key.GetName())
                 {
-                    // Возвращаем агента при совпадении.
+                    // Return the agent on match.
                     return a;
                 }
             }
@@ -145,38 +145,38 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает список агентов находящихся в данной локации.
+        /// Returns a list of agents located in the given location.
         /// </summary>
         public Dictionary<AgentStateStatic, AgentStateDynamic> GetAgents()
         {
-            // Создаём новый пустой словарь.
+            // Create a new empty dictionary.
             Dictionary<AgentStateStatic, AgentStateDynamic> agents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
 
-            // Проходимся по списку агентов находящихся в данной локации и добавляем их в свежесозданный словарь.
+            // We go through the list of agents located in this location and add them to the newly created dictionary.
             foreach (var agent in agentsAtLocations)
             {
                 agents.Add(agent.Key, agent.Value);
             }
 
-            // Возвращаем этот словарь.
+            // We return this dictionary.
             return agents;
         }
 
         /// <summary>
-        /// Удаляет указанного агента из списка агентов в данной локации, возвращая true при успехе, и false при неудаче.
+        /// Removes the specified agent from the list of agents in the given location, returning true on success and false on failure.
         /// </summary>
         /// <param name="agent"></param>
         public bool RemoveAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            // Проходимся по всем агентам из списка агентов находящихся в данной локации.
+            // We go through all the agents from the list of agents located in this location.
             foreach (var a in agentsAtLocations)
             {
-                // Сравниваем имя агента с именем искомого агента.
+                // We compare the name of the agent with the name of the desired agent.
                 if (a.Key.GetName() == agent.Key.GetName())
                 {
-                    // При совпадении удаляем данного агента и возвращаем true.
+                    // If there is a match, remove the given agent and return true.
                     if (agentsAtLocations.Remove(a.Key)) { return true; }
-                    // Если не можем найти такого агента в списке, то возвращаем false.
+                    // If we cannot find such an agent in the list, then we return false.
                     else { return false; }
                 }
             }
@@ -185,7 +185,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Очищает список агентов находящихся в локации.
+        /// Clears the list of agents in the location.
         /// </summary>
         public void ClearLocation()
         {
@@ -196,28 +196,29 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Ищет указанного агента в списке агентов находящихся в данной локации, при успехе возвращает true, при неудаче возвращает false.
+        /// Searches for the specified agent in the list of agents located in the given location, 
+        ///    returns true on success, and returns false on failure.
         /// </summary>
         /// <param name="agent"></param>
         public bool SearchAgent(AgentStateStatic agent)
         {
-            // Проходимся по всем агентам в списке агентов находящихся в данной локации.
+            // We go through all the agents in the list of agents located in this location.
             foreach (var a in agentsAtLocations)
             {
-                // Сравниваем имя агента с именем искомого агента.
+                // We compare the name of the agent with the name of the desired agent.
                 if (a.Key.GetName().Equals(agent.GetName()))
                 {
-                    // При успехе поиска возвращаем true.
+                    // Return true if the search is successful.
                     return true;
                 }
             }
 
-            // Иначе возвращаем false.
+            // Otherwise, we return false.
             return false;
         }
 
         /// <summary>
-        /// Возвращает количество агентов, находящихся в данной локации.
+        /// Returns the number of agents located in this location.
         /// </summary>
         public int CountAgents()
         {
@@ -225,7 +226,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает значение того, есть ли в данной локации улика или нет.
+        /// Returns whether there is evidence in the given location or not.
         /// </summary>
         public bool CheckEvidence()
         {
@@ -233,7 +234,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Устанавливает ссылку на указанную статическую часть локации.
+        /// Sets a link to the specified static part of the location.
         /// </summary>
         /// <param name="locationInfo"></param>
         public void SetLocationInfo(LocationStatic locationInfo)
@@ -242,7 +243,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает статическую часть данной локации.
+        /// Returns the static part of the given location.
         /// </summary>
         public LocationStatic GetLocationInfo()
         {

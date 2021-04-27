@@ -89,20 +89,20 @@ namespace Narrative_Generator
             {
                 if (!constraint.IsSatisfied(worldForTest))
                 {
-                    // Очистка
+                    // Cleaning
                     worldForTest = null;
                     GC.Collect();
 
-                    // Возвращение результата
+                    // Return result
                     return false;
                 }
             }
 
-            // Очистка
+            // Cleaning
             worldForTest = null;
             GC.Collect();
 
-            // Возвращение результата
+            // Return result
             return true;
         }
 
@@ -139,22 +139,22 @@ namespace Narrative_Generator
                             case "Move":
                                 MultiAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, ref currentNodeNumber, ref goalsCounter);
                                 break;
-                            case "Fight": // Пока неактуально.
+                            case "Fight": // Not relevant yet
                                 break;
                             case "InvestigateRoom":
                                 SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, ref currentNodeNumber);
                                 break;
-                            case "NeutralizeKiller": // Пока неактуально.
+                            case "NeutralizeKiller": // Not relevant yet
                                 break;
                             case "NothingToDo": SkipTurn(currentState);
                                 break;
-                            case "Reassure": // Пока неактуально.
+                            case "Reassure": // Not relevant yet
                                 break;
-                            case "Run": // Пока неактуально.
+                            case "Run": // Not relevant yet
                                 break;
                         }
 
-                        // Очистка
+                        // Cleaning
                         receivedAction = null;
                         GC.Collect();
                     }
@@ -164,17 +164,17 @@ namespace Narrative_Generator
                     }
                 }
 
-                // Очистка
+                // Cleaning
                 receivedActions = null;
                 GC.Collect();
             }
             else
             {
-                agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent); // Для ИГРОКА проводится
-                agent.Value.GenerateNewPDDLProblem(agent, currentState);      // Для ИГРОКА не проводится
+                agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent);
+                agent.Value.GenerateNewPDDLProblem(agent, currentState);
                 //Thread.Sleep(5000);
-                agent.Value.CalculatePlan(agent, currentState);               // Для ИГРОКА не проводится
-                agent.Value.ReceiveAvailableActions(agent);                   // Для ИГРОКА провoдится.
+                agent.Value.CalculatePlan(agent, currentState);
+                agent.Value.ReceiveAvailableActions(agent);
 
                 PlanAction receivedAction = agent.Value.ChooseAction();
 
@@ -186,7 +186,7 @@ namespace Narrative_Generator
 
                     ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, false);
 
-                    // Очистка
+                    // Cleaning
                     receivedAction = null;
                     currentNode = null;
                     GC.Collect();
@@ -211,7 +211,7 @@ namespace Narrative_Generator
 
             ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, false);
 
-            // Очистка
+            // Cleaning
             currentNode = null;
             GC.Collect();
         }
@@ -241,7 +241,7 @@ namespace Narrative_Generator
                 ActionControl(a, currentGraph, currentAgent, statePrefab, currentNode, true);
             }
 
-            // Очистка
+            // Cleaning
             actionsList = null;
             currentNode = null;
             statePrefab = null;
@@ -330,20 +330,20 @@ namespace Narrative_Generator
 
                 if (worldForTest.GetAgentByRole(AgentRole.PLAYER).Value.GetPlanStatus())
                 {
-                    // Очистка
+                    // Cleaning
                     worldForTest = null;
                     GC.Collect();
 
-                    // Возвращение результата
+                    // Return result
                     return true;
                 }
                 else
                 {
-                    // Очистка
+                    // Cleaning
                     worldForTest = null;
                     GC.Collect();
 
-                    // Возвращение результата
+                    // Return result
                     return false;
                 }
             }
@@ -356,20 +356,20 @@ namespace Narrative_Generator
             
             if (NodeExistenceControl(testNode, currentGraph))
             {
-                // Очистка
+                // Cleaning
                 testNode = null;
                 GC.Collect();
 
-                // Возвращение результата
+                // Return result
                 return false;
             }
             else
             {
-                // Очистка
+                // Cleaning
                 testNode = null;
                 GC.Collect();
 
-                // Возвращение результата
+                // Return result
                 return true;
             }
         }
@@ -509,37 +509,37 @@ namespace Narrative_Generator
                                   WorldDynamic newState,
                                   StoryNode currentNode)
         {
-            // Создаём пустой новый узел.
+            // Create an empty new node.
             StoryNode newNode = new StoryNode();
 
-            // Создаём пустую новую грань.
+            // Create an empty new edge.
             Edge newEdge = new Edge();
 
-            // Создаём клон агента.
+            // Create a clone of the agent.
             KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent = 
                 new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
 
-            // Берём последний узел из списка всех узлов и назначаем активен ли игрок и кто из агентев был активен на этом ходу.
+            // We take the last node from the list of all nodes and assign whether the player is active and which of the agents was active on this turn.
             if (newAgent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
             else { newNode.SetActivePlayer(false); }
             newNode.SetActiveAgent(newAgent);
 
-            // Назначаем новому узлу состояние мира (переданное).
+            // We assign the state of the world (transferred) to the new node.
             newNode.SetWorldState((WorldDynamic)newState.Clone());
 
-            // Назначаем новому узлу последний узел из списка как родительский, а тому назначаем новый узел в качестве дочерниго.
+            // We assign the new node the last node from the list as the parent, and assign the new node as the child to that node.
             newNode.SetParentNode(currentNode);
             currentNode.AddChildrenNode(ref newNode);
 
-            // Настраиваем грань - назначаем её действие и указываем те узлы, которые она соединяет.
+            // We adjust the edge - assign its action and indicate the nodes that it connects.
             newEdge.SetAction(action);
             newEdge.SetUpperNode(currentNode);
             newEdge.SetLowerNode(ref newNode);
 
-            // Добавляем грань последнему узлу из списка.
+            // Add a edge to the last node from the list.
             currentNode.AddEdge(newEdge);
 
-            // Добавляем в граф новый узел и новую грань.
+            // Add a new node and a new edge to the graph.
             currentGraph.AddNode(newNode);
             currentGraph.AddEdge(newEdge);
         }

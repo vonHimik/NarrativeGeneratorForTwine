@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     /// <summary>
-    /// Класс являющийся представлением графа истории, где узлы являются состояниями мира, а грани - действиями.
+    /// A class that is a representation of a history graph, where nodes are states of the world and edges are actions.
     /// </summary>
     class StoryGraph
     {
-        // Ссылка на корневой узел.
+        // Link to the root node.
         private StoryNode startNode;
 
-        // Список узлов.
+        // List of nodes.
         private HashSet<StoryNode> nodes;
 
-        // Список граней.
+        // List of edges.
         private HashSet<Edge> edges;
 
         /// <summary>
-        /// Метод-конструктор для графа истории, без параметров.
+        /// Constructor method for story graph, no parameters.
         /// </summary>
         public StoryGraph()
         {
@@ -31,7 +31,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Добавляет узел в список узлов графа истории.
+        /// Adds a node to the list of nodes in the story graph.
         /// </summary>
         /// <param name="newNode"></param>
         public void AddNode(StoryNode newNode)
@@ -40,7 +40,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Добавляет грань в список граней графа истории.
+        /// Adds a edge to the story graph edges list.
         /// </summary>
         /// <param name="newEdge"></param>
         public void AddEdge(Edge newEdge)
@@ -55,7 +55,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает список узлов графа истории.
+        /// Returns a list of nodes in the story graph.
         /// </summary>
         public HashSet<StoryNode> GetNodes()
         {
@@ -63,7 +63,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает корневой узел графа истории.
+        /// Returns the root node of the story graph.
         /// </summary>
         public StoryNode GetRoot()
         {
@@ -71,7 +71,7 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Возвращает последний узел из списка узлов графа истории.
+        /// Returns the last node from the list of nodes in the story graph.
         /// </summary>
         public StoryNode GetLastNode()
         {

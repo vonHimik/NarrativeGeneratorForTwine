@@ -16,7 +16,7 @@ namespace Narrative_Generator
             int offset = 0;
             string graphSTR = "digraph G { \r\n";
 
-            // Генерируем список узлов
+            // Generating a list of nodes
             foreach (var node in storyGraph.GetNodes())
             {
                 if (counterNodes == 0)
@@ -33,7 +33,7 @@ namespace Narrative_Generator
                 counterNodes++;
             }
 
-            // Генерируем грани
+            // Generating graph edges
             foreach (var node in storyGraph.GetNodes())
             {
                 if (node != storyGraph.GetLastNode())
@@ -61,7 +61,7 @@ namespace Narrative_Generator
         {
             FileStream file = new FileStream(fileName + ".dot", FileMode.Create, FileAccess.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(file, Encoding.GetEncoding(1251));
-            streamWriter.WriteLine(graph);
+            streamWriter.Write(graph);
             streamWriter.Close();
         }
     }
