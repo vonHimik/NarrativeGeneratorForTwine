@@ -73,6 +73,7 @@
     <Compile Include="Core\Agents\Properties\AgentProperty.cs" />
     <Compile Include="Core\Agents\WorldContext.cs" />
     <Compile Include="Core\Common\CSP-Module.cs" />
+    <Compile Include="Core\Common\GraphСonstructor.cs" />
     <Compile Include="Core\ForAPI\Graphviz.cs" />
     <Compile Include="Core\ForAPI\GraphvizWrapper.cs" />
     <Compile Include="Core\ForAPI\RiversWrapper.cs" />
