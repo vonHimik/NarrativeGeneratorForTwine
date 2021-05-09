@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class StoryNode
+    class StoryNode : IEquatable<StoryNode>
     {
         // Story state.
         private WorldDynamic worldState;
         
         // Active player = true, active agent = false.
-        private bool activePlayer;
+        private bool playerIsActive;
 
         // If the player does not move, then one of the agents move - which?
         private KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent;
 
-        private StoryNode parent;
-        private HashSet<StoryNode> childrens;
-        private HashSet<Edge> edgesToChildrens;
+        //private StoryNode parent;
+        private HashSet<StoryNode> links;
+        private HashSet<Edge> edges;
 
         public StoryNode()
         {
-            childrens = new HashSet<StoryNode>();
-            edgesToChildrens = new HashSet<Edge>();
+            links = new HashSet<StoryNode>();
+            edges = new HashSet<Edge>();
         }
 
         public void SetWorldState(WorldDynamic worldState)
@@ -37,14 +37,14 @@ namespace Narrative_Generator
             return worldState;
         }
 
-        public void SetActivePlayer (bool activePlayer)
+        public void SetActivePlayer (bool playerIsActive)
         {
-            this.activePlayer = activePlayer;
+            this.playerIsActive = playerIsActive;
         }
 
         public bool GetActivePlayer()
         {
-            return activePlayer;
+            return playerIsActive;
         }
 
         public void SetActiveAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent)
@@ -57,45 +57,69 @@ namespace Narrative_Generator
             return activeAgent;
         }
 
-        public void SetParentNode(StoryNode parent)
+        public void AddLinkToNode(ref StoryNode node)
         {
-            this.parent = parent;
+            links.Add(node);
         }
 
-        public StoryNode GetParentNode()
+        public StoryNode GetLinkToNode(int index)
         {
-            return parent;
+            return links.ElementAt(index);
         }
 
-        public void AddChildrenNode(ref StoryNode node)
+        public HashSet<StoryNode> GetLinks()
         {
-            childrens.Add(node);
-        }
-
-        public StoryNode GetChildrenNode(int index)
-        {
-            return childrens.ElementAt(index);
+            return links;
         }
 
         public void AddEdge(Edge edge)
         {
-            edgesToChildrens.Add(edge);
+            edges.Add(edge);
         }
 
         public Edge GetEdge(int index)
         {
-            return edgesToChildrens.ElementAt(index);
+            return edges.ElementAt(index);
         }
 
         public HashSet<Edge> GetEdges()
         {
-            return edgesToChildrens;
+            return edges;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as StoryNode);
         }
 
         public bool Equals(StoryNode anotherNode)
         {
-            if (this == anotherNode) { return true; }
-            else { return false; }
+            if (anotherNode == null) { return false; }
+
+            return this.GetActivePlayer().Equals(anotherNode.GetActivePlayer()) &&
+            (
+                object.ReferenceEquals(this.GetWorldState(), anotherNode.GetWorldState()) ||
+                (this.GetWorldState() != null &&
+                worldState.Equals(anotherNode.GetWorldState()))
+            ) 
+            &&
+            (
+                object.ReferenceEquals(this.GetActiveAgent(), anotherNode.GetActiveAgent()) ||
+                (this.GetActiveAgent().Key != null && this.GetActiveAgent().Value != null &&
+                this.GetActiveAgent().Equals(anotherNode.GetActiveAgent()))
+            ) 
+            &&
+            (
+                object.ReferenceEquals(this.GetLinks(), anotherNode.GetLinks()) ||
+                (this.GetLinks() != null &&
+                this.GetLinks().Equals(anotherNode.GetLinks()))
+            )
+            &&
+            (
+                object.ReferenceEquals(this.GetEdges(), anotherNode.GetEdges()) ||
+                (this.GetEdges() != null &&
+                this.GetEdges().Equals(anotherNode.GetEdges()))
+            );
         }
     }
 }

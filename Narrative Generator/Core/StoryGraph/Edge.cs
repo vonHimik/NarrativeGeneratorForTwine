@@ -12,7 +12,7 @@ namespace Narrative_Generator
         private StoryNode lowerNode;
         private PlanAction action;
 
-        public void SetUpperNode(StoryNode node)
+        public void SetUpperNode(ref StoryNode node)
         {
             upperNode = node;
         }

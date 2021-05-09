@@ -12,22 +12,39 @@ namespace Narrative_Generator
     class StoryGraph
     {
         // Link to the root node.
-        private StoryNode startNode;
+        private StoryNode root;
 
         // List of nodes.
         private HashSet<StoryNode> nodes;
-
-        // List of edges.
-        private HashSet<Edge> edges;
 
         /// <summary>
         /// Constructor method for story graph, no parameters.
         /// </summary>
         public StoryGraph()
         {
-            startNode = new StoryNode();
+            root = new StoryNode();
             nodes = new HashSet<StoryNode>();
-            edges = new HashSet<Edge>();
+        }
+
+        public void DFS(StoryNode root)
+        {
+            Stack<StoryNode> q = new Stack<StoryNode>();
+            HashSet<StoryNode> vis = new HashSet<StoryNode>();
+            q.Push(root);
+            vis.Add(root);
+            // DoSomething(null, root); STEP
+            while (q.Count > 0)
+            {
+                StoryNode current = q.Pop();
+
+                foreach (StoryNode next in current.GetLinks())
+                {
+                    if (vis.Contains(next)) continue; // Контроль циклов
+                    q.Push(next);
+                    vis.Add(next);
+                    // DoSomething(current, next); STEP
+                }
+            }
         }
 
         /// <summary>
@@ -37,15 +54,6 @@ namespace Narrative_Generator
         public void AddNode(StoryNode newNode)
         {
             nodes.Add(newNode);
-        }
-
-        /// <summary>
-        /// Adds a edge to the story graph edges list.
-        /// </summary>
-        /// <param name="newEdge"></param>
-        public void AddEdge(Edge newEdge)
-        {
-            edges.Add(newEdge);
         }
 
         // TODO
@@ -67,7 +75,7 @@ namespace Narrative_Generator
         /// </summary>
         public StoryNode GetRoot()
         {
-            return startNode;
+            return root;
         }
 
         /// <summary>
@@ -81,6 +89,16 @@ namespace Narrative_Generator
         public StoryNode GetNode(int index)
         {
             return nodes.ElementAt(index);
+        }
+
+        public StoryNode GetNode(StoryNode node)
+        {
+            foreach (var n in nodes)
+            {
+                if (node.Equals(n)) { return n; }
+            }
+
+            throw new KeyNotFoundException();
         }
     }
 }

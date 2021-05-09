@@ -115,8 +115,7 @@ namespace Narrative_Generator
         public void ActionRequest(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                   ref StoryGraph currentGraph, 
                                   ref WorldDynamic currentState,
-                                  ref int currentNodeNumber,
-                                  ref int goalsCounter)
+                                  StoryNode currentNode)
         {
             CSP_Module cspModule = new CSP_Module();
 
@@ -137,12 +136,12 @@ namespace Narrative_Generator
                         switch (receivedAction.GetType().ToString().Remove(0, 20))
                         {
                             case "Move":
-                                MultiAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, ref currentNodeNumber, ref goalsCounter);
+                                MultiAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode);
                                 break;
                             case "Fight": // Not relevant yet
                                 break;
                             case "InvestigateRoom":
-                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, ref currentNodeNumber);
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode);
                                 break;
                             case "NeutralizeKiller": // Not relevant yet
                                 break;
@@ -182,8 +181,6 @@ namespace Narrative_Generator
                 {
                     cspModule.AssignVariables(ref receivedAction, currentState, agent);
 
-                    StoryNode currentNode = currentGraph.GetNode(currentNodeNumber);
-
                     ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, false);
 
                     // Cleaning
@@ -203,11 +200,9 @@ namespace Narrative_Generator
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                   CSP_Module cspModule, 
                                   StoryGraph currentGraph,
-                                  ref int currentNodeNumber)
+                                  StoryNode currentNode)
         {
             cspModule.AssignVariables(ref receivedAction, currentState, agent);
-
-            StoryNode currentNode = currentGraph.GetNode(currentNodeNumber);
 
             ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, false);
 
@@ -220,14 +215,10 @@ namespace Narrative_Generator
                                  WorldDynamic currentState, 
                                  KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                  CSP_Module cspModule, 
-                                 StoryGraph currentGraph, 
-                                 ref int currentNodeNumber,
-                                 ref int goalsCounter)
+                                 StoryGraph currentGraph,
+                                 StoryNode currentNode)
         {
             List<PlanAction> actionsList = cspModule.MassiveAssignVariables(ref receivedAction, currentState, agent);
-            goalsCounter += actionsList.Count() - 1;
-
-            StoryNode currentNode = currentGraph.GetNode(currentNodeNumber);
 
             AgentStateStatic sCurrentAgent = (AgentStateStatic)agent.Key.Clone();
             AgentStateDynamic dCurrentAgent = (AgentStateDynamic)agent.Value.Clone();
@@ -264,7 +255,7 @@ namespace Narrative_Generator
         {
             bool constraintsControl = ConstraintsControl(currentState, action);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent);
-            bool cyclesControl = CyclesControl(currentState, action, currentGraph);
+            bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode);
 
             if (constraintsControl && deadEndsControl && cyclesControl)
             {
@@ -350,9 +341,13 @@ namespace Narrative_Generator
             else { return true; }
         }
 
-        public bool CyclesControl(WorldDynamic currentState, PlanAction action, StoryGraph currentGraph)
+        public bool CyclesControl(WorldDynamic currentState, 
+                                  PlanAction action, 
+                                  StoryGraph currentGraph, 
+                                  KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                  StoryNode currentNode)
         {
-            StoryNode testNode = CreateTestNode(currentState, action, currentGraph);
+            StoryNode testNode = CreateTestNode(currentState, action, currentGraph, agent, currentNode);
             
             if (NodeExistenceControl(testNode, currentGraph))
             {
@@ -528,34 +523,53 @@ namespace Narrative_Generator
             newNode.SetWorldState((WorldDynamic)newState.Clone());
 
             // We assign the new node the last node from the list as the parent, and assign the new node as the child to that node.
-            newNode.SetParentNode(currentNode);
-            currentNode.AddChildrenNode(ref newNode);
+            newNode.AddLinkToNode(ref currentNode);
+            currentNode.AddLinkToNode(ref newNode);
 
             // We adjust the edge - assign its action and indicate the nodes that it connects.
             newEdge.SetAction(action);
-            newEdge.SetUpperNode(currentNode);
+            newEdge.SetUpperNode(ref currentNode);
             newEdge.SetLowerNode(ref newNode);
 
-            // Add a edge to the last node from the list.
+            newNode.AddEdge(newEdge);
             currentNode.AddEdge(newEdge);
 
-            // Add a new node and a new edge to the graph.
+            // Add a new node to the graph.
             currentGraph.AddNode(newNode);
-            currentGraph.AddEdge(newEdge);
         }
 
-        public StoryNode CreateTestNode(WorldDynamic currentState, PlanAction action, StoryGraph currentGraph)
+        public StoryNode CreateTestNode(WorldDynamic currentState, 
+                                        PlanAction action, 
+                                        StoryGraph currentGraph,
+                                        KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                                        StoryNode currentNode)
         {
             WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
             action.ApplyEffects(ref worldForTest);
 
             StoryNode testNode = new StoryNode();
             testNode.SetWorldState(worldForTest);
-            testNode.SetParentNode(currentGraph.GetLastNode());
 
-            // Очистка
-            worldForTest = null;
-            GC.Collect();
+            // Create an empty new edge.
+            Edge newEdge = new Edge();
+
+            // Create a clone of the agent.
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent =
+                new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
+
+            // We take the last node from the list of all nodes and assign whether the player is active and which of the agents was active on this turn.
+            if (newAgent.Key.GetRole() == AgentRole.PLAYER) { testNode.SetActivePlayer(true); }
+            else { testNode.SetActivePlayer(false); }
+            testNode.SetActiveAgent(newAgent);
+
+            testNode.AddLinkToNode(ref currentNode);
+
+            // We adjust the edge - assign its action and indicate the nodes that it connects.
+            newEdge.SetAction(action);
+            newEdge.SetUpperNode(ref currentNode);
+            newEdge.SetLowerNode(ref testNode);
+
+            testNode.AddEdge(newEdge);
 
             return testNode;
         }
@@ -575,10 +589,7 @@ namespace Narrative_Generator
 
         public bool TwoNodesComparison(StoryNode nodeOne, StoryNode nodeTwo)
         {
-            if (nodeOne.GetWorldState().Equals(nodeTwo.GetWorldState()) && 
-                nodeOne.GetActiveAgent().Equals(nodeTwo.GetActiveAgent()) &&
-                nodeOne.GetActivePlayer() == nodeTwo.GetActivePlayer() &&
-                nodeOne.GetParentNode().Equals(nodeTwo.GetParentNode()))
+            if (nodeOne.Equals(nodeTwo))
             {
                 return true;
             }

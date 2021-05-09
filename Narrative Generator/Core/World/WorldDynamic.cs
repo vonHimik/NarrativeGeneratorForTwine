@@ -37,14 +37,14 @@ namespace Narrative_Generator
             clone.currentStateOfLocations = currentStateOfLocations.ToDictionary(entry => (LocationStatic)entry.Key.Clone(), 
                                                                                  entry => (LocationDynamic)entry.Value.Clone());
 
-            /*clone.agents = agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
-                                               entry => (AgentStateDynamic)entry.Value.Clone());*/
+            clone.agents = agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
+                                               entry => (AgentStateDynamic)entry.Value.Clone());
 
             /*object agentsCopy = FromBinary(ToBinary(agents));
             clone.agents = (Dictionary<AgentStateStatic, AgentStateDynamic>)agentsCopy;
             agentsCopy = null;*/
 
-            clone.agents = agents;
+            //clone.agents = agents;
 
             clone.goalStates = goalStates;
 

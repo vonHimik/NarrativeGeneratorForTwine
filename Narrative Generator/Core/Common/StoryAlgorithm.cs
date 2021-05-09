@@ -419,16 +419,72 @@ namespace Narrative_Generator
             // SaveFile();
         }
 
+        public void DFSTraversing(StoryNode rootNode)
+        {
+            Stack<StoryNode> stack = new Stack<StoryNode>();
+            HashSet<StoryNode> visitedNodes = new HashSet<StoryNode>();
+
+            stack.Push(rootNode);
+            visitedNodes.Add(rootNode);
+
+            while (stack.Count > 0)
+            {
+                StoryNode currentNode = stack.Pop();
+
+                if (storyworldConvergence.ControlToAchieveGoalState(currentNode.GetWorldState()))
+                {
+                    continue;
+                }
+                else
+                {
+                    Step(newStoryGraph.GetNode(currentNode));
+                }
+
+                foreach (StoryNode nextNode in currentNode.GetLinks())
+                {
+                    if (visitedNodes.Contains(nextNode)) continue;
+
+                    stack.Push(nextNode);
+                    visitedNodes.Add(nextNode);
+                }
+            }
+        }
+
+        public bool DFSGoalAchieveControl(StoryNode rootNode)
+        {
+            Stack<StoryNode> stack = new Stack<StoryNode>();
+            HashSet<StoryNode> visitedNodes = new HashSet<StoryNode>();
+
+            stack.Push(rootNode);
+            visitedNodes.Add(rootNode);
+
+            while (stack.Count > 0)
+            {
+                StoryNode currentNode = stack.Pop();
+
+                reachedGoalState = storyworldConvergence.ControlToAchieveGoalState(currentNode.GetWorldState());
+                if (reachedGoalState) { return true; }
+
+                foreach (StoryNode nextNode in currentNode.GetLinks())
+                {
+                    if (visitedNodes.Contains(nextNode)) continue;
+
+                    stack.Push(nextNode);
+                    visitedNodes.Add(nextNode);
+                }
+            }
+
+            return false;
+        }
+
         public StoryGraph CreateStoryGraph(StoryNode rootNode)
         {
             newStoryGraph.AddNode(rootNode);
 
-            int nodesCounter = 0;
-
-            // We continue to take steps until we reach some goal state.
-            while (/*!reachedGoalState*/ goalsCounter > 0)
+            while (!reachedGoalState)
             {
-                Step(newStoryGraph.GetNode(nodesCounter), ref nodesCounter);
+                DFSTraversing(newStoryGraph.GetRoot());
+                DFSGoalAchieveControl(newStoryGraph.GetRoot());
             }
 
             return newStoryGraph;
@@ -438,10 +494,11 @@ namespace Narrative_Generator
         /// Convergence in turn asks agents for actions, checks them, applies them, counteracts them, or does not.
         /// </summary>
         /// <param name="currentNode"></param>
-        public void Step(StoryNode currentNode, ref int currentNodeNumber)
+        public void Step (StoryNode currentNode)
         {
             currentNode.GetWorldState().GetStaticWorldPart().IncreaseTurnNumber();
 
+            // Правильно ли это работает? It's work correct?
             currentStoryState = currentNode.GetWorldState();
 
             foreach (var agent in currentStoryState.GetAgents())
@@ -449,11 +506,7 @@ namespace Narrative_Generator
                 if (agent.Value.GetStatus())
                 {
                     // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
-                    storyworldConvergence.ActionRequest(agent, ref newStoryGraph, ref currentStoryState, ref currentNodeNumber, ref goalsCounter);
-                    reachedGoalState = storyworldConvergence.ControlToAchieveGoalState(currentStoryState);
-
-                    if (!reachedGoalState) { currentNodeNumber++; }
-                    if (reachedGoalState) { goalsCounter--; }
+                    storyworldConvergence.ActionRequest(agent, ref newStoryGraph, ref currentStoryState, currentNode);
                 }
             }
         }

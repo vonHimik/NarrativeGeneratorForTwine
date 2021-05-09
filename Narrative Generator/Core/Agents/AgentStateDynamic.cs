@@ -229,7 +229,7 @@ namespace Narrative_Generator
                                     else if (randomValue > 20)
                                     {
                                         goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " " 
-                                                   + currentWorldState.GetRandomAgent(agent) + ") ");
+                                                   + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
                                     }
                                 }
                             }
@@ -632,7 +632,7 @@ namespace Narrative_Generator
         {
             foreach (var location in GetBeliefs().GetLocationsInWorld())
             {
-                if (location == beliefs.GetMyLocation())
+                if (location.GetName() == beliefs.GetMyLocation().GetName())
                 {
                     return location;
                 }
