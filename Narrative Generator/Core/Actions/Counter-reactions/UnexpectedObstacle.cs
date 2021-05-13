@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class MiraculousSalvation : PlanAction
+    class UnexpectedObstacle : PlanAction
     {
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Victim
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Intruder
         {
             get
             {
@@ -17,15 +17,15 @@ namespace Narrative_Generator
             }
         }
 
-        public MiraculousSalvation(params Object[] args) : base(args) { }
+        public UnexpectedObstacle(params Object[] args) : base(args) { }
 
-        public MiraculousSalvation(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public UnexpectedObstacle(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             Arguments.Add(agent);
         }
 
         public override bool CheckPreconditions(WorldDynamic state) { return true; }
 
-        public override void ApplyEffects(ref WorldDynamic state) {}
+        public override void ApplyEffects(ref WorldDynamic state) { }
     }
 }

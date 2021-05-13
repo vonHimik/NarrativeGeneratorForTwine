@@ -171,7 +171,6 @@ namespace Narrative_Generator
             {
                 agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent);
                 agent.Value.GenerateNewPDDLProblem(agent, currentState);
-                //Thread.Sleep(5000);
                 agent.Value.CalculatePlan(agent, currentState);
                 agent.Value.ReceiveAvailableActions(agent);
 
@@ -383,17 +382,19 @@ namespace Narrative_Generator
             {
 
             }
-            else if (action is InvestigateRoom)
-            {
-
-            }
+            // There is no restriction on this action.
+            else if (action is InvestigateRoom) {}
             else if (action is Kill)
             {
-
+                MiraculousSalvation counterreaction = new MiraculousSalvation();
+                counterreaction.Arguments.Add(action.Arguments[0]);
+                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, false);
             }
             else if (action is Move)
             {
-
+                UnexpectedObstacle counterreaction = new UnexpectedObstacle();
+                counterreaction.Arguments.Add(action.Arguments[0]);
+                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, false);
             }
             // At the moment, this is the only action that can violate the constraints.
             else if (action is NeutralizeKiller)
@@ -402,22 +403,20 @@ namespace Narrative_Generator
                 counterreaction.Arguments.Add(action.Arguments[1]);
                 ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, false);
             }
-            else if (action is NothingToDo)
-            {
-
-            }
-            else if (action is Reassure)
-            {
-
-            }
+            // There is no restriction on this action.
+            else if (action is NothingToDo) {}
+            // There is no restriction on this action.
+            else if (action is Reassure) {}
             else if (action is Run)
             {
-
+                UnexpectedObstacle counterreaction = new UnexpectedObstacle();
+                counterreaction.Arguments.Add(action.Arguments[0]);
+                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, false);
             }
-            else if (action is TellAboutASuspicious)
-            {
-
-            }
+            // There is no restriction on this action.
+            else if (action is TellAboutASuspicious) {}
+            // There is no restriction on this action.
+            else if (action is Talk) {}
         }
 
         /// <summary>
@@ -430,55 +429,19 @@ namespace Narrative_Generator
             int probability = random.Next(0, 100);
             int threshold = 0;
 
-            if (action is Entrap)
-            {
-                threshold = 80;
-            }
-            else if (action is Fight)
-            {
-                threshold = 75;
-            }
-            else if (action is InvestigateRoom)
-            {
-                threshold = 20;
-            }
-            else if (action is Kill)
-            {
-                threshold = 100;
-            }
-            else if (action is Move)
-            {
-                threshold = 100;
-            }
-            else if (action is NeutralizeKiller)
-            {
-                threshold = 100;
-            }
-            else if (action is NothingToDo)
-            {
-                threshold = 100;
-            }
-            else if (action is Reassure)
-            {
-                threshold = 80;
-            }
-            else if (action is Run)
-            {
-                threshold = 100;
-            }
-            else if (action is TellAboutASuspicious)
-            {
-                threshold = 80;
-            }
+            if (action is Entrap) { threshold = 80; }
+            else if (action is Fight) { threshold = 75; }
+            else if (action is InvestigateRoom) { threshold = 20; }
+            else if (action is Kill) { threshold = 100; }
+            else if (action is Move) { threshold = 100; }
+            else if (action is NeutralizeKiller) { threshold = 100; }
+            else if (action is NothingToDo) { threshold = 100; }
+            else if (action is Reassure) { threshold = 80; }
+            else if (action is Run) { threshold = 100; }
+            else if (action is TellAboutASuspicious) { threshold = 80; }
 
-            if (probability <= threshold)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (probability <= threshold) { return true; }
+            else { return false; }
         }
 
         /// <summary>
@@ -560,6 +523,7 @@ namespace Narrative_Generator
             // We take the last node from the list of all nodes and assign whether the player is active and which of the agents was active on this turn.
             if (newAgent.Key.GetRole() == AgentRole.PLAYER) { testNode.SetActivePlayer(true); }
             else { testNode.SetActivePlayer(false); }
+
             testNode.SetActiveAgent(newAgent);
 
             testNode.AddLinkToNode(ref currentNode);
@@ -578,10 +542,7 @@ namespace Narrative_Generator
         {
             foreach (var node in currentGraph.GetNodes())
             {
-                if (TwoNodesComparison(node, checkedNode))
-                {
-                    return true;
-                }
+                if (TwoNodesComparison(node, checkedNode)) { return true; }
             }
 
             return false;
@@ -589,10 +550,7 @@ namespace Narrative_Generator
 
         public bool TwoNodesComparison(StoryNode nodeOne, StoryNode nodeTwo)
         {
-            if (nodeOne.Equals(nodeTwo))
-            {
-                return true;
-            }
+            if (nodeOne.Equals(nodeTwo)) { return true; }
 
             return false;
         }

@@ -26,27 +26,6 @@ namespace Narrative_Generator
             nodes = new HashSet<StoryNode>();
         }
 
-        public void DFS(StoryNode root)
-        {
-            Stack<StoryNode> q = new Stack<StoryNode>();
-            HashSet<StoryNode> vis = new HashSet<StoryNode>();
-            q.Push(root);
-            vis.Add(root);
-            // DoSomething(null, root); STEP
-            while (q.Count > 0)
-            {
-                StoryNode current = q.Pop();
-
-                foreach (StoryNode next in current.GetLinks())
-                {
-                    if (vis.Contains(next)) continue; // Контроль циклов
-                    q.Push(next);
-                    vis.Add(next);
-                    // DoSomething(current, next); STEP
-                }
-            }
-        }
-
         /// <summary>
         /// Adds a node to the list of nodes in the story graph.
         /// </summary>

@@ -10,24 +10,8 @@ namespace Narrative_Generator
     {
         public bool temporaryInvulnerability;
         public bool permanentInvulnerability;
-
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent;
-        public int termOfProtection = 0;
-
-        public ConstraintAlive(bool temporaryInvulnerability, bool permanentInvulnerability)
-        {
-            this.temporaryInvulnerability = temporaryInvulnerability;
-            this.permanentInvulnerability = permanentInvulnerability;
-        }
-
-        public ConstraintAlive(bool temporaryInvulnerability, 
-                               bool permanentInvulnerability, 
-                               KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent)
-        {
-            this.temporaryInvulnerability = temporaryInvulnerability;
-            this.permanentInvulnerability = permanentInvulnerability;
-            this.targetAgent = targetAgent;
-        }
+        public int termOfProtection;
 
         public ConstraintAlive(bool temporaryInvulnerability, 
                                bool permanentInvulnerability, 
@@ -40,11 +24,20 @@ namespace Narrative_Generator
             this.termOfProtection = termOfProtection;
         }
 
+        public void ChangeTermOfProtection(int newTerm)
+        {
+            this.termOfProtection = newTerm;
+        }
+
         public override bool IsSatisfied(WorldDynamic state)
         {
-            if (temporaryInvulnerability && targetAgent.Key != null && targetAgent.Value != null && termOfProtection != 0)
+            if (temporaryInvulnerability && !permanentInvulnerability && targetAgent.Key != null && targetAgent.Value != null && termOfProtection != 0)
             {
                 return ((targetAgent.Value.GetStatus() && state.GetStaticWorldPart().GetTurnNumber() <= termOfProtection) || state.GetStaticWorldPart().GetTurnNumber() > termOfProtection);
+            }
+            else if (permanentInvulnerability && !temporaryInvulnerability && targetAgent.Key != null && targetAgent.Value != null)
+            {
+                return (targetAgent.Value.GetStatus());
             }
 
             return false;

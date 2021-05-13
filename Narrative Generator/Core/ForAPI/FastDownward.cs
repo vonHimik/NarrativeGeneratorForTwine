@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 
 namespace Narrative_Generator
 {
@@ -20,6 +21,8 @@ namespace Narrative_Generator
 
         public void Run(string domainFileName, string problemFileName)
         {
+            Thread.Sleep(5000);
+
             if (wrapper.RunFastDownward(domainFileName + ".pddl", problemFileName + ".pddl"))
             {
                 isSuccess = true;

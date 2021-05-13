@@ -17,7 +17,6 @@ namespace Narrative_Generator
         // If the player does not move, then one of the agents move - which?
         private KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent;
 
-        //private StoryNode parent;
         private HashSet<StoryNode> links;
         private HashSet<Edge> edges;
 

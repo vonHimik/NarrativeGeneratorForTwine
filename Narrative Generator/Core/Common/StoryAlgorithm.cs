@@ -498,7 +498,7 @@ namespace Narrative_Generator
         {
             currentNode.GetWorldState().GetStaticWorldPart().IncreaseTurnNumber();
 
-            // Правильно ли это работает? It's work correct?
+            // It's work correct?
             currentStoryState = currentNode.GetWorldState();
 
             foreach (var agent in currentStoryState.GetAgents())

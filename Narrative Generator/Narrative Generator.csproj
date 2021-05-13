@@ -64,6 +64,7 @@
     <Compile Include="Core\Actions\ActionTypes\Talk.cs" />
     <Compile Include="Core\Actions\ActionTypes\TellAboutASuspicious.cs" />
     <Compile Include="Core\Actions\Counter-reactions\MiraculousSalvation.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\UnexpectedObstacle.cs" />
     <Compile Include="Core\Actions\PlanAction.cs" />
     <Compile Include="Core\Agents\AgentRole.cs" />
     <Compile Include="Core\Agents\AgentStateDynamic.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Core\Agents\WorldContext.cs" />
     <Compile Include="Core\Common\CSP-Module.cs" />
     <Compile Include="Core\Common\GraphСonstructor.cs" />
+    <Compile Include="Core\Constraints\RestrictingLocationAvailability.cs" />
     <Compile Include="Core\ForAPI\Graphviz.cs" />
     <Compile Include="Core\ForAPI\GraphvizWrapper.cs" />
     <Compile Include="Core\ForAPI\RiversWrapper.cs" />
