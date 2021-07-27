@@ -13,9 +13,13 @@ namespace Narrative_Generator
         {
             Process process = new Process();
             process.StartInfo.FileName = path;
-            process.StartInfo.Arguments = "/k " + commands;
+            process.StartInfo.Arguments = "/c " + commands; // с - close, k - not close
 
-            if (process.Start()) { return true; }
+            if (process.Start())
+            {
+                process.WaitForExit();
+                return true;
+            }
             else { return false; }
         }
 

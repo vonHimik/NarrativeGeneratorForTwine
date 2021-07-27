@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    public class WorldStatic : ICloneable
+    public class WorldStatic : ICloneable, IEquatable<WorldStatic>
     {
         private HashSet<LocationStatic> locations; // List of locations.
         private int turn;
+
+        private bool hasHashCode;
+        private int hashCode;
 
         public WorldStatic()
         {
@@ -67,6 +70,35 @@ namespace Narrative_Generator
         public void IncreaseTurnNumber()
         {
             turn++;
+        }
+
+        public bool Equals(WorldStatic anotherWorld)
+        {
+            bool locationsReferenceEquals = object.ReferenceEquals(GetLocations(), anotherWorld.GetLocations());
+            bool locationsEquals = GetLocations().Equals(anotherWorld.GetLocations());
+
+            bool turnEquals = turn.Equals(anotherWorld.GetTurnNumber());
+
+            bool locationsGlobal = locationsReferenceEquals || locationsEquals;
+
+            bool equals = locationsGlobal && turnEquals;
+
+            return equals;
+        }
+
+        public override int GetHashCode()
+        {
+            if (hasHashCode && hashCode != 0) { return hashCode; }
+
+            int hashcode = 18;
+
+            hashcode = hashcode * 42 + locations.GetHashCode();
+            hashcode = hashcode * 42 + turn.GetHashCode();
+
+            hashCode = hashcode;
+            hasHashCode = true;
+
+            return hashcode;
         }
     }
 }

@@ -17,6 +17,12 @@ namespace Narrative_Generator
             upperNode = node;
         }
 
+        public void ClearUpperNode()
+        {
+            upperNode.GetEdges().Remove(this);
+            upperNode = null;
+        }
+
         public StoryNode GetUpperNode()
         {
             return upperNode;
@@ -25,6 +31,15 @@ namespace Narrative_Generator
         public void SetLowerNode(ref StoryNode node)
         {
             lowerNode = node;
+        }
+
+        public void ClearLowerNode()
+        {
+            if (lowerNode != null)
+            {
+                lowerNode.GetEdges().Remove(this);
+                lowerNode = null;
+            }
         }
 
         public StoryNode GetLowerNode()
@@ -37,9 +52,21 @@ namespace Narrative_Generator
             this.action = action;
         }
 
+        public void ClearAction()
+        {
+            action = null;
+        }
+
         public PlanAction GetAction()
         {
             return action;
+        }
+
+        public void ClearEdge()
+        {
+            //ClearAction();
+            //ClearUpperNode();
+            ClearLowerNode();
         }
     }
 }

@@ -12,12 +12,15 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    public class WorldDynamic : ICloneable
+    public class WorldDynamic : ICloneable, IEquatable<WorldDynamic>
     {
         private WorldStatic world;
         private Dictionary<LocationStatic, LocationDynamic> currentStateOfLocations;
-        private Dictionary<AgentStateStatic, AgentStateDynamic> agents;  // Agents (include agents states).
-        private HashSet<Goal> goalStates;                                // List of goal state(s).
+        private Dictionary<AgentStateStatic, AgentStateDynamic> agents;                 // Agents (include agents states).
+        private HashSet<Goal> goalStates;                                               // List of goal state(s).
+
+        private bool hasHashCode;
+        private int hashCode;
 
         public WorldDynamic()
         {
@@ -292,6 +295,11 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByIndex (int index)
+        {
+            return agents.ElementAt(index);
+        }
+
         public int GetNumberOfAgents()
         {
             return agents.Count();
@@ -502,6 +510,49 @@ namespace Narrative_Generator
         public void SetStaticWorldPart(WorldStatic world)
         {
             this.world = (WorldStatic)world.Clone();
+        }
+
+        public bool Equals(WorldDynamic anotherWorld)
+        {
+            if (anotherWorld == null) { return false; }
+
+            if (GetHashCode() == anotherWorld.GetHashCode()) { return true; }
+
+            bool worldStateReferenceEquals = object.ReferenceEquals(GetStaticWorldPart(), anotherWorld.GetStaticWorldPart());
+            bool worldStateEquals = world.Equals(anotherWorld.GetStaticWorldPart());
+
+            bool locationsReferenceEquals = object.ReferenceEquals(GetLocations(), anotherWorld.GetLocations());
+            bool locationsEquals = GetLocations().Equals(anotherWorld.GetLocations());
+
+            bool agentsReferenceEquals = object.ReferenceEquals(GetAgents(), anotherWorld.GetAgents());
+            bool agentsEquals = GetAgents().Equals(anotherWorld.GetAgents());
+
+            // Наверное, мало смысла сравнивать также и цели. К тому же, подозреваю, что это снова может привести к рекурсии.
+
+            bool worldStateGlobal = worldStateReferenceEquals || worldStateEquals;
+            bool locationsGlobal = locationsReferenceEquals || locationsEquals;
+            bool agentsGlobal = agentsReferenceEquals || agentsEquals;
+
+            bool equals = worldStateGlobal && locationsGlobal && agentsGlobal;
+
+            return equals;
+        }
+
+        public override int GetHashCode()
+        {
+            if (hasHashCode && hashCode != 0) { return hashCode; }
+
+            int hashcode = 18;
+
+            hashcode = hashcode * 42 + world.GetHashCode();
+            hashcode = hashcode * 42 + currentStateOfLocations.GetHashCode();
+            hashcode = hashcode * 42 + agents.GetHashCode();
+            hashcode = hashcode * 42 + goalStates.GetHashCode();
+
+            hashCode = hashcode;
+            hasHashCode = true;
+
+            return hashcode;
         }
     }
 }

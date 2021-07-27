@@ -21,7 +21,7 @@ namespace Narrative_Generator
 
         public void Run(string domainFileName, string problemFileName)
         {
-            Thread.Sleep(5000);
+            //Thread.Sleep(8000);
 
             if (wrapper.RunFastDownward(domainFileName + ".pddl", problemFileName + ".pddl"))
             {

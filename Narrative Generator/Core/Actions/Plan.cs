@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class Plan : ICloneable
+    public class Plan : ICloneable
     {
         private List<PlanAction> actions;
         public bool planReceived;

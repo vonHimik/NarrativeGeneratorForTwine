@@ -9,11 +9,10 @@ namespace Narrative_Generator
 {
     class GraphСonstructor
     {
-        public string CreateGraph(StoryGraph storyGraph, string graphName)
+        public void CreateGraph(StoryGraph storyGraph, string graphName)
         {
             int counterNodes = 0;
-            int counterEdges = 0;
-            int offset = 0;
+            HashSet<Edge> edges = new HashSet<Edge>();
             string graphSTR = "digraph G { \r\n";
 
             // Generating a list of nodes
@@ -38,23 +37,55 @@ namespace Narrative_Generator
             {
                 if (node != storyGraph.GetLastNode())
                 {
-                    int tempCounter = 1;
-                    offset--;
-
                     foreach (var edge in node.GetEdges())
                     {
-                        graphSTR = graphSTR.Insert(graphSTR.Length, counterEdges + "->" + (counterEdges + tempCounter + offset) 
-                            + "[label = " + '"' + edge.GetAction().ToString() + '"' + "] \r\n");
-                        tempCounter++;
-                    }
+                        bool skip = false;
 
-                    counterEdges++;
-                    offset += node.GetEdges().Count;
+                        foreach(var e in edges)
+                        {
+                            if (e.Equals(edge))
+                            {
+                                skip = true;
+                                break;
+                            }
+                        }
+
+                        if (skip) { continue; }
+
+                        graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().numberInSequence + "->" + edge.GetLowerNode().numberInSequence 
+                            + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+
+                        edges.Add(edge);
+                    }
+                }
+                else
+                {
+                    foreach (var edge in node.GetEdges())
+                    {
+                        bool skip = false;
+
+                        foreach (var e in edges)
+                        {
+                            if (e.Equals(edge))
+                            {
+                                skip = true;
+                                break;
+                            }
+                        }
+
+                        if (skip) { continue; }
+
+                        graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().numberInSequence + "->" + "End"
+                            + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+
+                        edges.Add(edge);
+                    }
                 }
             }
 
             graphSTR = graphSTR.Insert(graphSTR.Length, "}");
-            return graphSTR;
+
+            SaveGraph(graphName, graphSTR);
         }
 
         public void SaveGraph(string fileName, string graph)

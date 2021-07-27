@@ -619,6 +619,11 @@ namespace Narrative_Generator
             return myCurrentPlan.planReceived;
         }
 
+        public Plan GetPlan()
+        {
+            return myCurrentPlan;
+        }
+
         public void SetAgentInfo(AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;

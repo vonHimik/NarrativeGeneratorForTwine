@@ -21,6 +21,7 @@ namespace Narrative_Generator
         // Internal components
         public StoryworldConvergence storyworldConvergence = new StoryworldConvergence();
         public TwineGraphConstructor twineGraphConstructor = new TwineGraphConstructor();
+        public GraphСonstructor graphСonstructor = new GraphСonstructor();
 
         // State
         public WorldDynamic currentStoryState = new WorldDynamic();
@@ -359,26 +360,39 @@ namespace Narrative_Generator
             return newWorldBeliefsList;
         }
 
+        /// <summary>
+        /// Метод случайным образом назначающий связи между локациями.
+        /// </summary>
+        /// <param name="locations"></param>
         public Dictionary<LocationStatic, LocationDynamic> LocationsConnection(Dictionary<LocationStatic, LocationDynamic> locations)
         {
+            // Получаем случайное целочисленное число.
             Random rand = new Random();
 
+            // Проходимся по каждой локации в списке локаций - выбираем первую.
             foreach (var location in locations)
             {
-                int locCounter = rand.Next(1, 3);
+                // Случайное число связей, которые можно будет добавить для данной локации (в целом), от 1 до 1.
+                int locCounter = rand.Next(1, 2);
 
+                // Дополнительно проходимся по списку локаций, чтобы установить с ними соединение.
                 foreach (var additionalLoc in locations)
                 {
-                    int add = rand.Next(0, 2);
+                    // Случайная вероятность того, что связь будет добавлена именно между этими локациями.
+                    int add = rand.Next(0, 5);
 
+                    // Если не исчерпан лимит добавления связей и сработала вероятность и локации не совпадают.
                     if (locCounter > 0 && add == 0 && !location.Key.GetName().Equals(additionalLoc.Key.GetName()))
                     {
+                        // Если локации уже связанны...
                         if (location.Key.ConnectionChecking(additionalLoc.Key))
                         {
+                            // ... то уменьшаем счётчик допуступных связей.
                             locCounter--;
                         }
                         else
                         {
+                            // Иначе добавляем взаимную связь между локациями и уменьшаем счётчик.
                             location.Key.AddConnection(additionalLoc.Key);
                             additionalLoc.Key.AddConnection(location.Key);
                             locCounter--;
@@ -387,6 +401,7 @@ namespace Narrative_Generator
                 }
             }
 
+            // Возвращает локации с установленными связями между ними.
             return locations;
         }
 
@@ -408,24 +423,25 @@ namespace Narrative_Generator
             newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot());
 
             // Create a visual graph.
-            graph = rivers.CreateRiversGraph(newStoryGraph, "testgraph");
-            rivers.CreateDotFile(graph);
-            graphviz.Run("testgraphimage", "testgraph");
+            graphСonstructor.CreateGraph(newStoryGraph, "newStoryGraph");
 
             // Create an HTML file including Twine engine and generated history.
-            twineGraphConstructor.ConstructGraph(newStoryGraph);
-            twineGraphConstructor.CreateHTMLFileWithGame();
+            //twineGraphConstructor.ConstructGraph(newStoryGraph);
+            //twineGraphConstructor.CreateHTMLFileWithGame();
 
             // SaveFile();
         }
 
-        public void DFSTraversing(StoryNode rootNode)
+        public void DFSTraversing(StoryNode rootNode) // Переделать в BFS - очередь а не стек
         {
             Stack<StoryNode> stack = new Stack<StoryNode>();
             HashSet<StoryNode> visitedNodes = new HashSet<StoryNode>();
 
             stack.Push(rootNode);
             visitedNodes.Add(rootNode);
+            int actualAgentNumber = 0;
+            int globalNodeNumber = -1;
+            bool root = true;
 
             while (stack.Count > 0)
             {
@@ -437,8 +453,21 @@ namespace Narrative_Generator
                 }
                 else
                 {
-                    Step(newStoryGraph.GetNode(currentNode));
+                    if (currentNode.Equals(rootNode) && root)
+                    {
+                        Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber);
+                        stack.Push(currentNode);
+                        visitedNodes.Add(currentNode);
+                        root = false;
+                    }
+                    else
+                    {
+                        Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber);
+                        actualAgentNumber = GetActualAgentNumber(actualAgentNumber);
+                    }
                 }
+
+                //actualAgentNumber = GetActualAgentNumber(actualAgentNumber);
 
                 foreach (StoryNode nextNode in currentNode.GetLinks())
                 {
@@ -494,21 +523,39 @@ namespace Narrative_Generator
         /// Convergence in turn asks agents for actions, checks them, applies them, counteracts them, or does not.
         /// </summary>
         /// <param name="currentNode"></param>
-        public void Step (StoryNode currentNode)
+        public void Step (StoryNode currentNode, int agentIndex, bool root, ref int globalNodeNumber)
         {
-            currentNode.GetWorldState().GetStaticWorldPart().IncreaseTurnNumber();
-
-            // It's work correct?
+            // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
             currentStoryState = currentNode.GetWorldState();
+            currentStoryState.GetStaticWorldPart().IncreaseTurnNumber();
+            storyworldConvergence.ActionRequest(currentStoryState.GetAgentByIndex(agentIndex), ref newStoryGraph, ref currentStoryState, currentNode, root, ref globalNodeNumber);
+        }
 
-            foreach (var agent in currentStoryState.GetAgents())
+        public int GetActualAgentNumber(int prevNumber)
+        {
+            bool aliveControl = false;
+            int maxNumber = currentStoryState.GetNumberOfAgents();
+            int result = 0;
+
+            while (!aliveControl)
             {
-                if (agent.Value.GetStatus())
+                if (prevNumber == maxNumber - 1)
                 {
-                    // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
-                    storyworldConvergence.ActionRequest(agent, ref newStoryGraph, ref currentStoryState, currentNode);
+                    result = 0;
+                    prevNumber = 0;
                 }
+                else
+                {
+                    prevNumber++;
+                    result = prevNumber;
+                }
+
+                if (!currentStoryState.GetAgentByIndex(result).Value.GetStatus()) { continue; }
+
+                aliveControl = true;
             }
+
+            return result;
         }
     }
 }
