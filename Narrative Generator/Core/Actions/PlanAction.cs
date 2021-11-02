@@ -38,9 +38,6 @@ namespace Narrative_Generator
             return false;
         }
 
-        public void Fail()
-        {
-            fail = true;
-        }
+        public abstract void Fail(ref WorldDynamic state);
     }
 }

@@ -19,13 +19,23 @@ namespace Narrative_Generator
         {
             locations = new HashSet<LocationStatic>();
             turn = 0;
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public WorldStatic(WorldStatic clone)
+        {
+            locations = new HashSet<LocationStatic>(clone.locations);
+            turn = clone.turn;
+            hasHashCode = clone.hasHashCode;
+            hashCode = clone.hashCode;
         }
 
         public object Clone()
         {
             var clone = new WorldStatic();
 
-            clone.locations = locations;
+            clone.locations = new HashSet<LocationStatic>(locations);
             clone.turn = turn;
 
             return clone;
@@ -37,11 +47,14 @@ namespace Narrative_Generator
             {
                 AddLocation(location);
             }
+
+            UpdateHashCode();
         }
 
         public void AddLocation(LocationStatic newLocation)
         {
             locations.Add(newLocation);
+            UpdateHashCode();
         }
 
         public HashSet<LocationStatic> GetLocations()
@@ -86,19 +99,36 @@ namespace Narrative_Generator
             return equals;
         }
 
+        /* HASHCODE SECTION */
+
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
 
             int hashcode = 18;
 
-            hashcode = hashcode * 42 + locations.GetHashCode();
-            hashcode = hashcode * 42 + turn.GetHashCode();
+            foreach (var location in locations)
+            {
+                //location.ClearHashCode();
+                hashcode = hashcode * 42 + location.GetHashCode();
+            }
 
             hashCode = hashcode;
             hasHashCode = true;
 
             return hashcode;
+        }
+
+        public void ClearHashCode()
+        {
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public void UpdateHashCode()
+        {
+            ClearHashCode();
+            GetHashCode();
         }
     }
 }

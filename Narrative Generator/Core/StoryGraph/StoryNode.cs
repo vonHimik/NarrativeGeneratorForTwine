@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class StoryNode : IEquatable<StoryNode>
+    class StoryNode : IEquatable<StoryNode>, ICloneable
     {
         // Story state.
         private WorldDynamic worldState;
@@ -23,7 +23,7 @@ namespace Narrative_Generator
         private bool hasHashCode;
         private int hashCode;
 
-        public int numberInSequence;
+        private int numberInSequence;
 
         public StoryNode()
         {
@@ -34,9 +34,29 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        public object Clone()
+        {
+            var clone = new StoryNode();
+
+            clone.worldState = new WorldDynamic(worldState);
+            clone.playerIsActive = playerIsActive;
+
+            clone.activeAgent = 
+                new KeyValuePair<AgentStateStatic, AgentStateDynamic>
+                (new AgentStateStatic(activeAgent.Key), new AgentStateDynamic(activeAgent.Value));
+
+            clone.links = new HashSet<StoryNode>(links);
+            clone.edges = new HashSet<Edge>(edges);
+            clone.hasHashCode = true;
+            clone.GetHashCode();
+
+            return clone;
+        }
+
         public void SetWorldState(WorldDynamic worldState)
         {
             this.worldState = worldState;
+            UpdateHashCode();
         }
 
         public WorldDynamic GetWorldState()
@@ -127,50 +147,30 @@ namespace Narrative_Generator
 
         public bool Equals(StoryNode anotherNode)
         {
-            if (anotherNode == null) { return false; }
+            bool equal = false;
 
-            if (GetHashCode() == anotherNode.GetHashCode()) { return true; }
+            this.UpdateHashCode();
+            anotherNode.UpdateHashCode();
 
-            //bool equals = 
+            if (anotherNode == null) { equal = false; }
+            if (GetHashCode() == anotherNode.GetHashCode()) { equal = true; }
 
-            bool activePlayerCheckEquals = this.GetActivePlayer().Equals(anotherNode.GetActivePlayer());
-
-            bool worldStateReferenceEquals = object.ReferenceEquals(GetWorldState(), anotherNode.GetWorldState());
-            bool worldStateEquals = worldState.Equals(anotherNode.GetWorldState());
-
-            bool activeAgentReferenceEquals = object.ReferenceEquals(GetActiveAgent(), anotherNode.GetActiveAgent());
-            bool activeAgentEquals = GetActiveAgent().Equals(anotherNode.GetActiveAgent());
-
-
-            bool stateEquals = activePlayerCheckEquals && (worldStateReferenceEquals || worldStateEquals);
-            /*this.GetActivePlayer().Equals(anotherNode.GetActivePlayer()) &&
-        (
-            object.ReferenceEquals(GetWorldState(), anotherNode.GetWorldState()) ||
-            worldState.Equals(anotherNode.GetWorldState())
-        );*/
-            /*&&*/
-            bool activeAgentEqualsGlobal = activeAgentReferenceEquals || activeAgentEquals;
-            /*(
-                object.ReferenceEquals(GetActiveAgent(), anotherNode.GetActiveAgent()) ||
-                GetActiveAgent().Equals(anotherNode.GetActiveAgent())
-            ) */
-            /*&&
-            (
-                object.ReferenceEquals(this.GetLinks(), anotherNode.GetLinks()) ||
-                (this.GetLinks() != null &&
-                this.GetLinks().Equals(anotherNode.GetLinks()))
-            )*/
-            /*&&
-            (
-                object.ReferenceEquals(this.GetEdges(), anotherNode.GetEdges()) ||
-                (this.GetEdges() != null &&
-                this.GetEdges().Equals(anotherNode.GetEdges()))
-            )*/;
-
-            bool equals = stateEquals && activeAgentEqualsGlobal;
-
-            return equals;
+            return equal;
         }
+
+        public int GetNumberInSequence()
+        {
+            return numberInSequence;
+        }
+
+        public void SetNumberInSequence(int newNumber)
+        {
+            numberInSequence = newNumber;
+        }
+
+        //////////////////////
+        /* HASHCODE SECTION */
+        //////////////////////
 
         public override int GetHashCode()
         {
@@ -178,16 +178,25 @@ namespace Narrative_Generator
 
             int hashcode = 18;
 
+            worldState.ClearHashCode();
             hashcode = hashcode * 42 + worldState.GetHashCode();
-            hashcode = hashcode * 42 + playerIsActive.GetHashCode();
-            hashcode = hashcode * 42 + activeAgent.GetHashCode();
-            //hashcode = hashcode * 42 + links.GetHashCode();
-            //hashcode = hashcode * 42 + edges.GetHashCode();
 
             hashCode = hashcode;
             hasHashCode = true;
 
             return hashcode;
+        }
+
+        public void ClearHashCode()
+        {
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public void UpdateHashCode()
+        {
+            ClearHashCode();
+            GetHashCode();
         }
     }
 }

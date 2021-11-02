@@ -23,6 +23,15 @@ namespace Narrative_Generator
             angryAt = new AgentAngryAt();
         }
 
+        public BeliefsAboutAgent (BeliefsAboutAgent clone)
+        {
+            info = (AgentStateStatic)clone.info.Clone();
+            role = clone.role;
+            isAlive = clone.isAlive;
+            inLocation = (LocationStatic)clone.inLocation.Clone();
+            angryAt = (AgentAngryAt)clone.angryAt.Clone();
+        }
+
         public BeliefsAboutAgent(AgentStateStatic info, AgentRole role, bool isAlive, LocationStatic inLocation, AgentAngryAt angryAt)
         {
             this.info = info;
@@ -36,11 +45,11 @@ namespace Narrative_Generator
         {
             var clone = new BeliefsAboutAgent();
 
-            clone.info = (AgentStateStatic)info.Clone();
+            clone.info = new AgentStateStatic(info);
             clone.role = role;
             clone.isAlive = isAlive;
-            if (inLocation != null) { clone.inLocation = (LocationStatic)inLocation.Clone(); }
-            clone.angryAt = (AgentAngryAt)angryAt.Clone();
+            if (inLocation != null) { clone.inLocation = new LocationStatic(inLocation); }
+            clone.angryAt = new AgentAngryAt(angryAt);
 
             return clone;
         }
@@ -116,14 +125,24 @@ namespace Narrative_Generator
             locationsInWorld = new HashSet<LocationStatic>();
         }
 
+        public WorldContext (WorldContext clone)
+        {
+            if (clone.myLocation != null) { myLocation = (LocationStatic)clone.myLocation.Clone(); }
+            else { myLocation = new LocationStatic(); }
+            anotherAgentsInMyLocation = new HashSet<AgentStateStatic>(clone.anotherAgentsInMyLocation);
+            agentsInWorld = new HashSet<BeliefsAboutAgent>(clone.agentsInWorld);
+            locationsInWorld = new HashSet<LocationStatic>(clone.locationsInWorld);
+        }
+
         public object Clone()
         {
             var clone = new WorldContext();
 
-            if (myLocation != null) { clone.myLocation = (LocationStatic)myLocation.Clone(); }
-            clone.anotherAgentsInMyLocation = anotherAgentsInMyLocation.Select(entry => (AgentStateStatic)entry.Clone()).ToHashSet();
-            clone.agentsInWorld = agentsInWorld.Select(entry => (BeliefsAboutAgent)entry.Clone()).ToHashSet();
-            clone.locationsInWorld = locationsInWorld.Select(entry => (LocationStatic)entry.Clone()).ToHashSet();
+            if (myLocation != null) { clone.myLocation = new LocationStatic(myLocation); }
+            clone.anotherAgentsInMyLocation = new HashSet<AgentStateStatic>(
+                anotherAgentsInMyLocation.Select(entry => new AgentStateStatic(entry)).ToHashSet());
+            clone.agentsInWorld = new HashSet<BeliefsAboutAgent>(agentsInWorld.Select(entry => new BeliefsAboutAgent(entry)).ToHashSet());
+            clone.locationsInWorld = new HashSet<LocationStatic>(locationsInWorld.Select(entry => new LocationStatic(entry)).ToHashSet());
 
             return clone;
         }
@@ -171,12 +190,12 @@ namespace Narrative_Generator
             return anotherAgentsInMyLocation;
         }
 
-        public void AddAgentInWorld(BeliefsAboutAgent agent)
+        public void AddAgentInBeliefs(BeliefsAboutAgent agent)
         {
             agentsInWorld.Add(agent);
         }
 
-        public void AddAgentInWorld(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, AgentRole role)
+        public void AddAgentInBeliefs(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, AgentRole role)
         {
             BeliefsAboutAgent newAgent = new BeliefsAboutAgent(agent.Key, role, agent.Value.GetStatus(), agent.Value.GetMyLocation(), 
                                                                   agent.Value.GetObjectOfAngry());
@@ -187,7 +206,7 @@ namespace Narrative_Generator
         {
             foreach (var agent in agents)
             {
-                AddAgentInWorld(agent);
+                AddAgentInBeliefs(agent);
             }
         }
 
@@ -225,6 +244,15 @@ namespace Narrative_Generator
         public HashSet<BeliefsAboutAgent> GetAgentsInWorld()
         {
             return agentsInWorld;
+        }
+
+        public BeliefsAboutAgent GetRandomAgent()
+        {
+            Random random = new Random();
+
+            int randomIndex = random.Next(agentsInWorld.Count);
+
+            return agentsInWorld.ElementAt(randomIndex);
         }
 
         public void AddLocationInWorld(LocationStatic location)

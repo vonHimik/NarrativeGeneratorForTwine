@@ -17,7 +17,7 @@ namespace Narrative_Generator
 
             if (process.Start())
             {
-                process.WaitForExit();
+                process.WaitForExit(/*30000*/);
                 return true;
             }
             else { return false; }
@@ -34,7 +34,7 @@ namespace Narrative_Generator
             // --alias seq-sat-fd-autotune-2
             // --alias seq-sat-lama-2011
 
-            if (Run("cmd", "python downward\\fast-downward.py --alias lama-first" + " " + domainPDDLFileName + " " + problemPDDLFileName))
+            if (Run("cmd", "python downward\\fast-downward.py --alias seq-opt-lmcut" + " " + domainPDDLFileName + " " + problemPDDLFileName))
             {
                 return true;
             }

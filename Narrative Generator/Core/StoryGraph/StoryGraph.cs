@@ -56,6 +56,12 @@ namespace Narrative_Generator
             return root;
         }
 
+        public void SetRoot(StoryNode newRoot)
+        {
+            root = newRoot;
+            AddNode(newRoot);
+        }
+
         /// <summary>
         /// Returns the last node from the list of nodes in the story graph.
         /// </summary>
@@ -85,10 +91,34 @@ namespace Narrative_Generator
         /// <param name="action"></param>
         /// <param name="firstNode">Current node</param>
         /// <param name="secondNode">New node</param>
-        public void ConnectionTwoNodes(PlanAction action, StoryNode firstNode, StoryNode secondNode)
+        public void ConnectionTwoNodes(PlanAction action, StoryNode firstNode, StoryNode secondNode, bool duplicate)
         {
+            bool full = false;
+
+            if (duplicate)
+            {
+                if (firstNode.Equals(secondNode))
+                {
+                    foreach (var edge in firstNode.GetEdges())
+                    {
+                        foreach (var edge2 in secondNode.GetEdges())
+                        {
+                            if (edge.GetLowerNode() == null && edge2.GetLowerNode() == null)
+                            {
+                                edge.SetLowerNode(ref secondNode);
+                                edge2.SetLowerNode(ref firstNode);
+
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
             if (firstNode.GetEdges().Count != 0)
             {
+                full = true;
+
                 foreach (var edge in firstNode.GetEdges())
                 {
                     if (edge.GetLowerNode() == null)
@@ -97,9 +127,30 @@ namespace Narrative_Generator
 
                         secondNode.AddEdge(edge);
 
+                        full = false;
+
                         break;
                     }
                 }
+            }
+
+            if (full)
+            {
+                Edge oldEdge = new Edge();
+
+                //oldEdge.SetAction(firstNode.GetEdges().Last().GetAction());
+                oldEdge.SetAction(action);
+
+                oldEdge.SetUpperNode(ref firstNode);
+                oldEdge.SetLowerNode(ref secondNode);
+
+                firstNode.AddEdge(oldEdge);
+                secondNode.AddEdge(oldEdge);
+
+                firstNode.AddLinkToNode(ref secondNode);
+                secondNode.AddLinkToNode(ref firstNode);
+
+                return;
             }
 
             // Create an empty new edge.
@@ -108,25 +159,26 @@ namespace Narrative_Generator
             // We adjust the edge - assign its action and indicate the nodes that it connects.
             newEdge.SetAction(action);
             newEdge.SetUpperNode(ref secondNode);
-
-            /*newEdge.SetUpperNode(ref firstNode);
-            newEdge.SetLowerNode(ref secondNode);*/
+            if (duplicate) { newEdge.SetLowerNode(ref firstNode); }
 
             firstNode.AddLinkToNode(ref secondNode);
             secondNode.AddLinkToNode(ref firstNode);
 
-            //firstNode.AddEdge(newEdge);
             secondNode.AddEdge(newEdge);
+            if (duplicate) firstNode.AddEdge(newEdge);
         }
 
         public StoryNode CreateTestNode(WorldDynamic currentState,
                                         PlanAction action,
                                         KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                         StoryNode currentNode,
-                                        bool connection)
+                                        bool connection,
+                                        int globalNodeNumber,
+                                        bool fail)
         {
             WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
-            action.ApplyEffects(ref worldForTest);
+            if (fail) { action.Fail(ref worldForTest); }
+            else { action.ApplyEffects(ref worldForTest); }
 
             StoryNode testNode = new StoryNode();
             testNode.SetWorldState(worldForTest);
@@ -141,7 +193,9 @@ namespace Narrative_Generator
 
             testNode.SetActiveAgent(newAgent);
 
-            if (connection) { ConnectionTwoNodes(action, currentNode, testNode); }
+            if (connection) { ConnectionTwoNodes(action, currentNode, testNode, false); }
+
+            testNode.SetNumberInSequence(globalNodeNumber + 1);
 
             return testNode;
         }
@@ -155,29 +209,30 @@ namespace Narrative_Generator
         /// <param name="newState"></param>
         public void CreateNewNode(PlanAction action,
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
-                                  WorldDynamic newState,
+                                  WorldDynamic currentState,
                                   StoryNode currentNode,
-                                  ref int globalNodeNumber)
+                                  ref int globalNodeNumber,
+                                  bool fail)
         {
+            WorldDynamic newState = (WorldDynamic)currentState.Clone();
+            if (fail) { action.Fail(ref newState); }
+            else { action.ApplyEffects(ref newState); }
+
             // Create an empty new node.
             StoryNode newNode = new StoryNode();
 
-            // Create a clone of the agent.
-            KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent =
-                new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
-
-            if (newAgent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
+            if (agent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
             else { newNode.SetActivePlayer(false); }
 
-            newNode.SetActiveAgent(newAgent);
+            newNode.SetActiveAgent(agent);
 
             // We assign the state of the world (transferred) to the new node.
             newNode.SetWorldState((WorldDynamic)newState.Clone());
 
-            ConnectionTwoNodes(action, currentNode, newNode);
+            ConnectionTwoNodes(action, currentNode, newNode, false);
 
             globalNodeNumber++;
-            newNode.numberInSequence = globalNodeNumber;
+            newNode.SetNumberInSequence(globalNodeNumber);
 
             // Add a new node to the graph.
             AddNode(newNode);
@@ -185,10 +240,15 @@ namespace Narrative_Generator
 
         public void CreateRootNode(PlanAction action,
                                    KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
-                                   WorldDynamic newState,
+                                   WorldDynamic currentState,
                                    StoryNode currentNode,
-                                   ref int globalNodeNumber)
+                                   ref int globalNodeNumber, 
+                                   bool fail)
         {
+            WorldDynamic newState = (WorldDynamic)currentState.Clone();
+            if (fail) { action.Fail(ref newState); }
+            else { action.ApplyEffects(ref newState); }
+
             if (agent.Key.GetRole() == AgentRole.PLAYER) { currentNode.SetActivePlayer(true); }
             else { currentNode.SetActivePlayer(false); }
 
@@ -204,10 +264,10 @@ namespace Narrative_Generator
             currentNode.AddEdge(newEdge);
 
             globalNodeNumber++;
-            currentNode.numberInSequence = globalNodeNumber;
+            currentNode.SetNumberInSequence(globalNodeNumber);
         }
 
-        public void DeleteTestNode(StoryNode testNode)
+        public void DeleteTestNode(ref StoryNode testNode)
         {
             foreach (var edge in testNode.GetEdges().ToList())
             {
@@ -234,6 +294,35 @@ namespace Narrative_Generator
         {
             if (nodeOne.Equals(nodeTwo)) { return true; }
             return false;
+        }
+
+        public void DuplicateNodeConnecting(WorldDynamic currentState, 
+                                            PlanAction action, 
+                                            KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                            StoryNode currentNode,
+                                            ref bool skip,
+                                            int globalNodeNumber,
+                                            ref Queue<StoryNode> queue)
+        {
+            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, false, globalNodeNumber, false);
+
+            if (!testNode.Equals(currentNode))
+            {
+                foreach (var checkedNode in nodes)
+                {
+                    if (TwoNodesComparison(testNode, checkedNode))
+                    {
+                        DeleteTestNode(ref testNode);
+                        ConnectionTwoNodes(action, currentNode, checkedNode, true);
+                        queue.Enqueue(checkedNode);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                skip = true;
+            }
         }
     }
 }

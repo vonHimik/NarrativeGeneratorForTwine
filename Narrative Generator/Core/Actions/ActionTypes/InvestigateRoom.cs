@@ -55,12 +55,23 @@ namespace Narrative_Generator
         public override void ApplyEffects(ref WorldDynamic state)
         {
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgentClone = state.GetLocationByName(Location.Key.GetName()).Value.GetAgent(Agent);
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
             KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
 
             stateAgent.Value.AddEvidence(stateKiller.Key);
             stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.KILLER);
             stateAgent.Value.SetObjectOfAngry(stateKiller.Key);
+            stateAgent.Value.AddExploredLocation(stateLocation.Key);
+        }
+
+        public override void Fail(ref WorldDynamic state)
+        {
+            fail = true;
+
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+            KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
+
             stateAgent.Value.AddExploredLocation(stateLocation.Key);
         }
     }

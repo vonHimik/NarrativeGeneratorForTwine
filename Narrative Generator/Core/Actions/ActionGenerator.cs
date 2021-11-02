@@ -29,10 +29,6 @@ namespace Narrative_Generator
                 Move move = new Move();
                 result.Add(move);
 
-                // And he can do nothing.
-                NothingToDo nothingToDo = new NothingToDo();
-                result.Add(nothingToDo);
-
                 Talk talk = new Talk();
                 result.Add(talk);
 
@@ -74,6 +70,10 @@ namespace Narrative_Generator
                         Fight fight = new Fight();
                         result.Add(fight);
                     }
+
+                    // And he can do nothing.
+                    NothingToDo nothingToDo = new NothingToDo();
+                    result.Add(nothingToDo);
                 }
 
                 // If the agent role is usual or player.

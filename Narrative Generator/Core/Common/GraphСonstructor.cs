@@ -11,25 +11,14 @@ namespace Narrative_Generator
     {
         public void CreateGraph(StoryGraph storyGraph, string graphName)
         {
-            int counterNodes = 0;
             HashSet<Edge> edges = new HashSet<Edge>();
             string graphSTR = "digraph G { \r\n";
 
             // Generating a list of nodes
             foreach (var node in storyGraph.GetNodes())
             {
-                if (counterNodes == 0)
-                {
-                    graphSTR = graphSTR.Insert(graphSTR.Length, counterNodes + 
-                        " [shape =" + '"' + "doublecircle" + '"' + "label =" + '"' + "S" + counterNodes + '"' + "] \r\n");
-                }
-                else if (counterNodes > 0)
-                {
-                    graphSTR = graphSTR.Insert(graphSTR.Length, counterNodes +
-                        " [shape =" + '"' + "circle" + '"' + "label =" + '"' + "S" + counterNodes + '"' + "] \r\n");
-                }
-
-                counterNodes++;
+                graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
+                        " [shape =" + '"' + "circle" + '"' + "label =" + '"' + " " + node.GetActiveAgent().Key.GetName().ToString() + '"' + "] \r\n");
             }
 
             // Generating graph edges
@@ -52,8 +41,25 @@ namespace Narrative_Generator
 
                         if (skip) { continue; }
 
-                        graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().numberInSequence + "->" + edge.GetLowerNode().numberInSequence 
-                            + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+                        if (edge.GetAction() != null && edge.GetLowerNode() != null)
+                        {
+                            graphSTR = graphSTR.Insert(graphSTR.Length,
+                                edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+                        }
+                        else if (edge.GetAction() != null && edge.GetLowerNode() == null)
+                        {
+                            graphSTR = graphSTR.Insert(graphSTR.Length,
+                                edge.GetUpperNode().GetNumberInSequence() + "->" + "null"
+                                + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+                        }
+                        else if (edge.GetAction() == null && edge.GetUpperNode() != null && edge.GetLowerNode() != null)
+                        {
+                            graphSTR = graphSTR.Insert(graphSTR.Length,
+                                edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                + "[label = " + '"' + "not action" + '"' + "] \r\n");
+                        }
+                        
 
                         edges.Add(edge);
                     }
@@ -75,7 +81,7 @@ namespace Narrative_Generator
 
                         if (skip) { continue; }
 
-                        graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().numberInSequence + "->" + "End"
+                        graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().GetNumberInSequence() + "->" + "End"
                             + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
 
                         edges.Add(edge);

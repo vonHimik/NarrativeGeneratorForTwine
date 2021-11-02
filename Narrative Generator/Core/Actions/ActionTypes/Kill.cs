@@ -62,5 +62,7 @@ namespace Narrative_Generator
 
             state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.GetAgent(stateAgent).Value.Die();
         }
+
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

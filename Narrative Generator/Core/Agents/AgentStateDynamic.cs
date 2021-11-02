@@ -9,27 +9,30 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    public class AgentStateDynamic : ICloneable
+    public class AgentStateDynamic : IEquatable<AgentStateDynamic>, ICloneable
     {
-        private AgentStateStatic agentInfo;
-
         // Action components
         private Plan myCurrentPlan;
         private List<PlanAction> myAvailableActions;
 
         // Properties
+        private AgentStateStatic agentInfo;
         private bool alive;
         private Goal myGoals;
         private int initiative;
         private bool scared;
-        public int id;
+        public int id; // Just for test
         private AgentAngryAt angryAt;
         private LocationStatic wantsToGo;
 
         // Beliefs
         private WorldContext beliefs;
         private AgentFoundEvidence foundEvidence;
-        private List<LocationStatic> exploredRooms;
+        private HashSet<LocationStatic> exploredRooms;
+
+        // Hashcode
+        private bool hasHashCode;
+        private int hashCode;
 
         /// <summary>
         /// Parameterless constructor.
@@ -47,16 +50,33 @@ namespace Narrative_Generator
             scared = false;
             foundEvidence = new AgentFoundEvidence();
             wantsToGo = new LocationStatic();
-            exploredRooms = new List<LocationStatic>();
-            id = -1;
+            exploredRooms = new HashSet<LocationStatic>();
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public AgentStateDynamic (AgentStateDynamic clone)
+        {
+            agentInfo = (AgentStateStatic)clone.agentInfo.Clone();
+            myCurrentPlan = (Plan)clone.myCurrentPlan.Clone();
+            myAvailableActions = new List<PlanAction>(clone.myAvailableActions);
+            alive = clone.alive;
+            myGoals = (Goal)clone.myGoals.Clone();
+            beliefs = (WorldContext)clone.beliefs.Clone();
+            initiative = clone.initiative;
+            angryAt = (AgentAngryAt)clone.angryAt.Clone();
+            scared = clone.scared;
+            foundEvidence = (AgentFoundEvidence)clone.foundEvidence.Clone();
+            if (clone.wantsToGo != null) { wantsToGo = (LocationStatic)clone.wantsToGo.Clone(); ; }
+            else { wantsToGo = new LocationStatic(); }
+            exploredRooms = new HashSet<LocationStatic>(clone.exploredRooms);
+            hasHashCode = clone.hasHashCode;
+            hashCode = clone.hashCode;
         }
 
         /// <summary>
         /// Constructor with parameters.
         /// </summary>
-        /// <param name="alive"></param>
-        /// <param name="goals"></param>
-        /// <param name="beliefs"></param>
         public AgentStateDynamic(bool alive, Goal goals, WorldContext beliefs, AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;
@@ -79,10 +99,10 @@ namespace Narrative_Generator
 
             SetTargetLocation(null);
 
-            exploredRooms = new List<LocationStatic>();
+            exploredRooms = new HashSet<LocationStatic>();
 
-            Random rand = new Random();
-            id = rand.Next(100);
+            hasHashCode = false;
+            hashCode = 0;
         }
 
         /// <summary>
@@ -92,17 +112,17 @@ namespace Narrative_Generator
         {
             var clone = new AgentStateDynamic();
 
-            clone.myCurrentPlan = (Plan)myCurrentPlan.Clone();
-            clone.myAvailableActions = myAvailableActions;
+            clone.myCurrentPlan = new Plan(myCurrentPlan);
+            clone.myAvailableActions = new List<PlanAction>(myAvailableActions);
             clone.alive = alive;
-            clone.myGoals = (Goal)myGoals.Clone();
-            clone.beliefs = (WorldContext)beliefs.Clone();
+            clone.myGoals = new Goal(myGoals);
+            clone.beliefs = new WorldContext(beliefs);
             clone.initiative = initiative;
-            if (angryAt != null && angryAt.GetObjectOfAngry() != null) { clone.angryAt = (AgentAngryAt)angryAt.Clone(); }
+            if (angryAt != null && angryAt.GetObjectOfAngry() != null) { clone.angryAt = new AgentAngryAt(angryAt); }
             clone.scared = scared;
-            if (foundEvidence != null && foundEvidence.GetCriminal() != null) { clone.foundEvidence = (AgentFoundEvidence)foundEvidence.Clone(); }
-            if (wantsToGo != null) { clone.wantsToGo = (LocationStatic)wantsToGo.Clone(); }
-            clone.exploredRooms = exploredRooms;
+            if (foundEvidence != null && foundEvidence.GetCriminal() != null) { clone.foundEvidence = new AgentFoundEvidence(foundEvidence); }
+            if (wantsToGo != null) { clone.wantsToGo = new LocationStatic(wantsToGo); }
+            clone.exploredRooms = new HashSet<LocationStatic>(exploredRooms);
 
             return clone;
         }
@@ -110,8 +130,9 @@ namespace Narrative_Generator
         /// <summary>
         /// Generate a new PDDL file with a problem for the specified agent, based on his beliefs.
         /// </summary>
-        /// <param name="agent"></param>
-        public void GenerateNewPDDLProblem(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
+        public void GenerateNewPDDLProblem(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                           WorldDynamic currentWorldState, 
+                                           bool killerCantCreatePlan = false)
         {
             string fileName = "";
             string problemName = "";
@@ -139,7 +160,7 @@ namespace Narrative_Generator
             foreach (var location in agent.Value.GetBeliefs().GetLocationsInWorld())
             {
                 objects = objects.Insert(objects.Length, location.GetName() + " ");
-                init = init.Insert(init.Length, "(ROOM " + location.GetName() + ") ");
+                init = init.Insert(init.Length, Environment.NewLine + "(ROOM " + location.GetName() + ") ");
 
                 foreach (var connectedLocation in location.GetConnectedLocations())
                 {
@@ -154,13 +175,20 @@ namespace Narrative_Generator
                 switch (a.GetRole())
                 {
                     case AgentRole.USUAL:
-                        init = init.Insert(init.Length, "(AGENT " + a.GetInfo().GetName() + ") ");
+                        init = init.Insert(init.Length, Environment.NewLine + "(AGENT " + a.GetInfo().GetName() + ") ");
                         break;
                     case AgentRole.KILLER:
-                        init = init.Insert(init.Length, "(KILLER " + a.GetInfo().GetName() + ") ");
+                        init = init.Insert(init.Length, Environment.NewLine + "(KILLER " + a.GetInfo().GetName() + ") ");
                         break;
                     case AgentRole.PLAYER:
-                        init = init.Insert(init.Length, "(PLAYER " + a.GetInfo().GetName() + ") ");
+                        if (agent.Key.GetRole() == AgentRole.PLAYER)
+                        {
+                            init = init.Insert(init.Length, Environment.NewLine + "(PLAYER " + a.GetInfo().GetName() + ") ");
+                        }
+                        else
+                        {
+                            init = init.Insert(init.Length, Environment.NewLine + "(AGENT " + a.GetInfo().GetName() + ") ");
+                        }
                         break;
                 }
 
@@ -183,6 +211,14 @@ namespace Narrative_Generator
                             init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName() + " " + 
                                 agent.Value.GetBeliefs().GetLocationByName(agent.Value.GetBeliefs().SearchAgentAmongLocations(a.GetInfo()).GetName())
                                 .GetName() + ") ");
+
+                            if (agent.Equals(a))
+                            {
+                                foreach (var loc in agent.Value.GetExploredLocations())
+                                {
+                                    init = init.Insert(init.Length, "(explored-room " + a.GetInfo().GetName() + " " + loc.GetName() + ")");
+                                }
+                            }
                         }
                         break;
                     case AgentRole.KILLER:
@@ -222,12 +258,12 @@ namespace Narrative_Generator
                                                    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName()
                                                    + ") ");
                                     }
-                                    else if (randomValue > 15 && randomValue <= 20)
+                                    else if (randomValue > 15 && randomValue <= 20 && !CheckIfLocationIsExplored(agent.Value.GetMyLocation()))
                                     {
                                         goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " "
                                                    + agent.Value.GetMyLocation().GetName() + ") ");
                                     }
-                                    else if (randomValue > 20)
+                                    else if (randomValue > 20 || (randomValue > 15 && CheckIfLocationIsExplored(agent.Value.GetMyLocation())))
                                     {
                                         goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " " 
                                                    + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
@@ -266,11 +302,31 @@ namespace Narrative_Generator
                         }
                         break;
                     case AgentRole.KILLER:
-                        foreach (var a in agent.Value.GetBeliefs().GetAgentsInWorld())
+                        killerCantCreatePlan = true;
+                        if (killerCantCreatePlan)
                         {
-                            if (a.GetRole() == AgentRole.USUAL)
+                            bool hasTarget = false;
+
+                            while (!hasTarget)
                             {
-                                goal = goal.Insert(goal.Length, "(died " + a.GetInfo().GetName() + ") ");
+                                //BeliefsAboutAgent a = agent.Value.GetBeliefs().GetRandomAgent();
+                                //  !!! If all ordinary agents are killed, but the killer continues his move, we will get an error. !!!
+                                BeliefsAboutAgent a = null;
+
+                                foreach (var agnt in agent.Value.GetBeliefs().GetAgentsInWorld())
+                                {
+                                    if (agnt.CheckStatus() && (agnt.GetRole() == AgentRole.USUAL || agnt.GetRole() == AgentRole.PLAYER))
+                                    {
+                                        a = agnt;
+                                        break;
+                                    }
+                                }
+
+                                if (a.GetInfo().GetRole() == AgentRole.USUAL || a.GetInfo().GetRole() == AgentRole.PLAYER)
+                                {
+                                    goal = goal.Insert(goal.Length, "(died " + a.GetInfo().GetName() + ") ");
+                                    hasTarget = true;
+                                }
                             }
                         }
                         break;
@@ -338,7 +394,7 @@ namespace Narrative_Generator
                 //    and fetch the plan again.
                 if (!myCurrentPlan.planReceived)
                 {
-                    GenerateNewPDDLProblem(agent, currentWorldState);
+                    GenerateNewPDDLProblem(agent, currentWorldState, true);
                     CalculatePlan(agent, currentWorldState);
                 }
             }
@@ -354,7 +410,6 @@ namespace Narrative_Generator
         /// <summary>
         /// Populates the list of actions available to the agent.
         /// </summary>
-        /// <param name="agent"></param>
         public void ReceiveAvailableActions(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             ActionGenerator actionGenerator = new ActionGenerator();
@@ -401,6 +456,7 @@ namespace Narrative_Generator
         public void SetStatus(bool status)
         {
             alive = status;
+            UpdateHashCode();
         }
 
         public bool GetStatus()
@@ -411,6 +467,7 @@ namespace Narrative_Generator
         public void Die()
         {
             alive = false;
+            UpdateHashCode();
         }
 
         public void SetGoal(Goal goal)
@@ -446,8 +503,6 @@ namespace Narrative_Generator
         /// <summary>
         /// Updates the agent's beliefs about the location where he is.
         /// </summary>
-        /// <param name="currentWorldState"></param>
-        /// <param name="agent"></param>
         public void RefreshBeliefsAboutTheWorld(WorldDynamic currentWorldState, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             // Before clearing the information, remember the location in which the agent is located.
@@ -484,6 +539,7 @@ namespace Narrative_Generator
         public void SetTargetLocation(LocationStatic location)
         {
             wantsToGo = location;
+            UpdateHashCode();
         }
 
         public LocationStatic GetTargetLocation()
@@ -494,17 +550,20 @@ namespace Narrative_Generator
         public void ClearTargetLocation()
         {
             wantsToGo = null;
+            UpdateHashCode();
         }
 
         public void SetObjectOfAngry(AgentStateStatic target)
         {
             angryAt.AngryOn();
             angryAt.SetObjectOfAngry(target);
+            UpdateHashCode();
         }
 
         public void SetObjectOfAngry(AgentAngryAt angryAt)
         {
             this.angryAt = angryAt;
+            UpdateHashCode();
         }
 
         public AgentAngryAt GetObjectOfAngry()
@@ -516,6 +575,7 @@ namespace Narrative_Generator
         {
             angryAt.AngryOff();
             angryAt.SetObjectOfAngry(null);
+            UpdateHashCode();
         }
 
         public void AddExploredLocation(LocationStatic location)
@@ -529,28 +589,39 @@ namespace Narrative_Generator
             }
 
             exploredRooms.Add(location);
+            UpdateHashCode();
         }
 
-        public void AddExploredLocations(List<LocationStatic> locations)
+        public void AddExploredLocations(HashSet<LocationStatic> locations)
         {
             exploredRooms = locations;
         }
 
-        public List<LocationStatic> GetExploredLocations()
+        public HashSet<LocationStatic> GetExploredLocations()
         {
             return exploredRooms;
         }
 
         public LocationStatic GetExploredLocation(int index)
         {
-            return exploredRooms[index];
+            return exploredRooms.ElementAt(index);
+        }
+
+        public bool CheckIfLocationIsExplored(LocationStatic location)
+        {
+            foreach(var loc in exploredRooms)
+            {
+                if (loc.Equals(location)) { return true; }
+            }
+
+            return false;
         }
 
         public bool SearchAmongExploredLocations(LocationStatic location)
         {
             for (int i = 0; i < exploredRooms.Count(); i++)
             {
-                if (exploredRooms[i] == location)
+                if (exploredRooms.ElementAt(i) == location)
                 {
                     return true;
                 }
@@ -563,11 +634,13 @@ namespace Narrative_Generator
         {
             foundEvidence.IsEvidence();
             foundEvidence.SetCriminal(criminal);
+            UpdateHashCode();
         }
 
         public void AddEvidence(AgentFoundEvidence foundEvidence)
         {
             this.foundEvidence = foundEvidence;
+            UpdateHashCode();
         }
 
         public AgentFoundEvidence GetEvidenceStatus()
@@ -578,6 +651,7 @@ namespace Narrative_Generator
         public void ClearEvidence()
         {
             foundEvidence.Clear();
+            UpdateHashCode();
         }
 
         /// <summary>
@@ -599,11 +673,13 @@ namespace Narrative_Generator
         public void ScaredOn()
         {
             scared = true;
+            UpdateHashCode();
         }
 
         public void ScaredOff()
         {
             scared = false;
+            UpdateHashCode();
         }
 
         /// <summary>
@@ -627,6 +703,7 @@ namespace Narrative_Generator
         public void SetAgentInfo(AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;
+            UpdateHashCode();
         }
 
         public AgentStateStatic GetAgentInfo()
@@ -645,6 +722,68 @@ namespace Narrative_Generator
             }
 
             throw new KeyNotFoundException();
+        }
+
+        public bool Equals (AgentStateDynamic other)
+        {
+            if (this.GetHashCode() == other.GetHashCode()) { return true; }
+            else { return false; }
+        }
+
+        //////////////////////
+        /* HASHCODE SECTION */
+        //////////////////////
+
+        public override int GetHashCode()
+        {
+            if (hasHashCode && hashCode != 0) { return hashCode; }
+
+            int hashcode = 18;
+
+            agentInfo.ClearHashCode();
+            hashcode = hashcode * 42 + agentInfo.GetHashCode();
+            hashcode = hashcode * 42 + alive.GetHashCode();
+            hashCode = hashcode * 42 + scared.GetHashCode();
+            if (angryAt != null)
+            {
+                angryAt.ClearHashCode();
+                hashcode = hashcode * 42 + angryAt.GetHashCode();
+            }
+            if (wantsToGo != null)
+            {
+                wantsToGo.ClearHashCode();
+                hashcode = hashcode * 42 + wantsToGo.GetHashCode();
+            }
+            if (foundEvidence != null)
+            {
+                foundEvidence.ClearHashCode();
+                hashcode = hashcode * 42 + foundEvidence.GetHashCode();
+            }
+            if (exploredRooms != null)
+            {
+                foreach (var explRoom in exploredRooms)
+                {
+                    explRoom.ClearHashCode();
+                    hashcode = hashcode * 42 + explRoom.GetHashCode();
+                }
+            }
+
+            hashCode = hashcode;
+            hasHashCode = true;
+
+            return hashcode;
+        }
+
+        public void ClearHashCode()
+        {
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public void UpdateHashCode()
+        {
+            ClearHashCode();
+            GetHashCode();
         }
     }
 }

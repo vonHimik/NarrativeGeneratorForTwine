@@ -68,5 +68,7 @@ namespace Narrative_Generator
 
             stateAgent.Value.SetTargetLocation(stateLocation2.Key);
         }
+
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

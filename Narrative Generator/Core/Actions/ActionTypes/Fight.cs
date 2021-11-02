@@ -58,5 +58,7 @@ namespace Narrative_Generator
 
             stateAgent2.Value.SetStatus(false);
         }
+
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

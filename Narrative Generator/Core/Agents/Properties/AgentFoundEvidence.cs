@@ -7,17 +7,37 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    public class AgentFoundEvidence : AgentProperty, ICloneable
+    public class AgentFoundEvidence : AgentProperty, ICloneable, IEquatable<AgentFoundEvidence>
     {
         private bool foundEvidence;
         private AgentStateStatic evidenceAgainst;
 
-        public AgentFoundEvidence() {}
+        private bool hasHashCode;
+        private int hashCode;
+
+        public AgentFoundEvidence()
+        {
+            foundEvidence = false;
+            evidenceAgainst = null;
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public AgentFoundEvidence (AgentFoundEvidence clone)
+        {
+            foundEvidence = clone.foundEvidence;
+            if (clone.evidenceAgainst != null) { evidenceAgainst = (AgentStateStatic)clone.evidenceAgainst.Clone(); }
+            else { evidenceAgainst = new AgentStateStatic(); }
+            hasHashCode = clone.hasHashCode;
+            hashCode = clone.hashCode;
+        }
 
         public AgentFoundEvidence(bool foundEvidence, AgentStateStatic evidenceAgainst)
         {
             this.foundEvidence = foundEvidence;
             this.evidenceAgainst = evidenceAgainst;
+            hasHashCode = false;
+            hashCode = 0;
         }
 
         public object Clone()
@@ -25,7 +45,7 @@ namespace Narrative_Generator
             var clone = new AgentFoundEvidence();
 
             clone.foundEvidence = foundEvidence;
-            clone.evidenceAgainst = (AgentStateStatic)evidenceAgainst.Clone();
+            if (evidenceAgainst != null) { clone.evidenceAgainst = new AgentStateStatic(evidenceAgainst); }
 
             return clone;
         }
@@ -33,11 +53,13 @@ namespace Narrative_Generator
         public void IsEvidence()
         {
             foundEvidence = true;
+            UpdateHashCode();
         }
 
         public void NoEvidence()
         {
             foundEvidence = false;
+            UpdateHashCode();
         }
 
         public bool CheckEvidence()
@@ -48,6 +70,7 @@ namespace Narrative_Generator
         public void SetCriminal(AgentStateStatic criminal)
         {
             evidenceAgainst = criminal;
+            UpdateHashCode();
         }
 
         public AgentStateStatic GetCriminal()
@@ -59,6 +82,47 @@ namespace Narrative_Generator
         {
             foundEvidence = false;
             evidenceAgainst = null;
+            UpdateHashCode();
+        }
+
+        public bool Equals(AgentFoundEvidence other)
+        {
+            throw new NotImplementedException();
+        }
+
+        //////////////////////
+        /* HASHCODE SECTION */
+        //////////////////////
+
+        public override int GetHashCode()
+        {
+            if (hasHashCode && hashCode != 0) { return hashCode; }
+
+            int hashcode = 18;
+
+            hashcode = hashcode * 42 + foundEvidence.GetHashCode();
+            if (evidenceAgainst != null)
+            {
+                evidenceAgainst.ClearHashCode();
+                hashcode = hashcode * 42 + evidenceAgainst.GetHashCode();
+            }
+
+            hashCode = hashcode;
+            hasHashCode = true;
+
+            return hashcode;
+        }
+
+        public void ClearHashCode()
+        {
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public void UpdateHashCode()
+        {
+            ClearHashCode();
+            GetHashCode();
         }
     }
 }

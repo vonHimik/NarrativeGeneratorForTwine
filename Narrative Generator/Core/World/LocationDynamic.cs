@@ -10,7 +10,7 @@ namespace Narrative_Generator
     /// A class that implements a dynamic (often changeable) part of a location.
     /// </summary>
     [Serializable]
-    public class LocationDynamic : ICloneable
+    public class LocationDynamic : ICloneable, IEquatable<LocationDynamic>
     {
         // Link to the static part of the location.
         private LocationStatic locationInfo;
@@ -21,8 +21,8 @@ namespace Narrative_Generator
         // A flag indicating whether the location contains evidence or not.
         private bool containEvidence;
 
-        // Numeric identifier for the location.
-        int id;
+        private bool hasHashCode;
+        private int hashCode;
 
         /// <summary>
         /// Constructor method for the dynamic part of the location, without parameters.
@@ -32,10 +32,17 @@ namespace Narrative_Generator
             locationInfo = new LocationStatic();
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             containEvidence = false;
+            hasHashCode = false;
+            hashCode = 0;
+        }
 
-            // We assign a random integer ID.
-            Random rand = new Random();
-            id = rand.Next(1000);
+        public LocationDynamic (LocationDynamic clone)
+        {
+            locationInfo = (LocationStatic)clone.locationInfo.Clone();
+            agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>(clone.agentsAtLocations);
+            containEvidence = clone.containEvidence;
+            hasHashCode = clone.hasHashCode;
+            hashCode = clone.hashCode;
         }
 
         /// <summary>
@@ -47,6 +54,8 @@ namespace Narrative_Generator
             locationInfo = new LocationStatic();
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             this.containEvidence = containEvidence;
+            hasHashCode = false;
+            hashCode = 0;
         }
 
         /// <summary>
@@ -60,6 +69,8 @@ namespace Narrative_Generator
             this.locationInfo = locationInfo;
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             this.containEvidence = containEvidence;
+            hasHashCode = false;
+            hashCode = 0;
         }
 
         /// <summary>
@@ -70,19 +81,7 @@ namespace Narrative_Generator
             // We create an empty instance of the dynamic part of the location.
             var clone = new LocationDynamic();
 
-            // We go through each agent from the list of those in the location, separately clone their static and dynamic parts,
-            // and then we pass them to the clone (collecting them into one whole).
-            foreach (var agent in this.agentsAtLocations)
-            {
-                AgentStateStatic sTemp = (AgentStateStatic)agent.Key.Clone();
-                AgentStateDynamic dTemp = (AgentStateDynamic)agent.Value.Clone();
-                clone.agentsAtLocations.Add(sTemp, dTemp);
-
-                // Очистка
-                sTemp = null;
-                dTemp = null;
-                GC.Collect();
-            }
+            clone.agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>(agentsAtLocations);
 
             // Copy the flag value.
             clone.containEvidence = containEvidence;
@@ -105,14 +104,16 @@ namespace Narrative_Generator
                 }
             }
 
-            AgentStateStatic sPrefab = (AgentStateStatic)agent.Key.Clone();
-            AgentStateDynamic dPrefab = (AgentStateDynamic)agent.Value.Clone();
-            agentsAtLocations.Add(sPrefab, dPrefab);
+            //AgentStateStatic sPrefab = (AgentStateStatic)agent.Key.Clone();
+            //AgentStateDynamic dPrefab = (AgentStateDynamic)agent.Value.Clone();
+            agentsAtLocations.Add(agent.Key, agent.Value);
+
+            UpdateHashCode();
 
             // Очистка
-            sPrefab = null;
-            dPrefab = null;
-            GC.Collect();
+            //sPrefab = null;
+            //dPrefab = null;
+            //GC.Collect();
         }
 
         /// <summary>
@@ -122,6 +123,7 @@ namespace Narrative_Generator
         public void AddAgents(Dictionary<AgentStateStatic, AgentStateDynamic> agents)
         {
             agentsAtLocations = agentsAtLocations.Concat(agents).ToDictionary(x => x.Key, x => x.Value);
+            UpdateHashCode();
         }
 
         /// <summary>
@@ -181,6 +183,8 @@ namespace Narrative_Generator
                 }
             }
 
+            UpdateHashCode();
+
             return false;
         }
 
@@ -193,6 +197,8 @@ namespace Narrative_Generator
             {
                 agentsAtLocations.Remove(agent.Key);
             }
+
+            UpdateHashCode();
         }
 
         /// <summary>
@@ -240,6 +246,7 @@ namespace Narrative_Generator
         public void SetLocationInfo(LocationStatic locationInfo)
         {
             this.locationInfo = locationInfo;
+            UpdateHashCode();
         }
 
         /// <summary>
@@ -248,6 +255,44 @@ namespace Narrative_Generator
         public LocationStatic GetLocationInfo()
         {
             return locationInfo;
+        }
+
+        public bool Equals(LocationDynamic other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /* HASHCODE SECTION */
+
+        public override int GetHashCode()
+        {
+            if (hasHashCode && hashCode != 0) { return hashCode; }
+
+            int hashcode = 18;
+
+            //locationInfo.ClearHashCode();
+            //hashcode = hashcode * 42 + locationInfo.GetHashCode();
+            foreach (var agent in agentsAtLocations)
+            {
+                agent.Key.ClearHashCode();
+                agent.Value.ClearHashCode();
+                hashcode = hashcode * 42 + (agent.Key.GetHashCode() + agent.Value.GetHashCode());
+            }
+            hashcode = hashcode * 42 + containEvidence.GetHashCode();
+
+            return hashcode;
+        }
+
+        public void ClearHashCode()
+        {
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public void UpdateHashCode()
+        {
+            ClearHashCode();
+            GetHashCode();
         }
     }
 }

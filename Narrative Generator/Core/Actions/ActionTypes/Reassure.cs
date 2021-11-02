@@ -81,5 +81,7 @@ namespace Narrative_Generator
 
             stateAgent1.Value.CalmDown();
         }
+
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

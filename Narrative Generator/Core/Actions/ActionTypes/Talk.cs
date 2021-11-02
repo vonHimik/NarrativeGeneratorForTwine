@@ -52,5 +52,7 @@ namespace Narrative_Generator
         }
 
         public override void ApplyEffects(ref WorldDynamic state) { }
+
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

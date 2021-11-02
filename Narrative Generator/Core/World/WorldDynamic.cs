@@ -17,7 +17,7 @@ namespace Narrative_Generator
         private WorldStatic world;
         private Dictionary<LocationStatic, LocationDynamic> currentStateOfLocations;
         private Dictionary<AgentStateStatic, AgentStateDynamic> agents;                 // Agents (include agents states).
-        private HashSet<Goal> goalStates;                                               // List of goal state(s).
+        //private HashSet<Goal> goalStates;                                             // List of goal state(s).
 
         private bool hasHashCode;
         private int hashCode;
@@ -27,29 +27,56 @@ namespace Narrative_Generator
             world = new WorldStatic();
             currentStateOfLocations = new Dictionary<LocationStatic, LocationDynamic>();
             agents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
-            goalStates = new HashSet<Goal>();
+            //goalStates = new HashSet<Goal>();
+            hasHashCode = false;
+            hashCode = 0;
             
+        }
+
+        public WorldDynamic(WorldDynamic clone)
+        {
+            world = (WorldStatic)clone.world.Clone();
+
+            currentStateOfLocations = new Dictionary<LocationStatic, LocationDynamic>(
+                                               clone.currentStateOfLocations.ToDictionary(entry => (LocationStatic)entry.Key.Clone(),
+                                                                                          entry => (LocationDynamic)entry.Value.Clone()));
+
+            agents = new Dictionary<AgentStateStatic, AgentStateDynamic>(clone.agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
+                                                                                                   entry => (AgentStateDynamic)entry.Value.Clone()));
+
+            hasHashCode = clone.hasHashCode;
+            hashCode = clone.hashCode;
         }
 
         public object Clone()
         {
             var clone = new WorldDynamic();
+            clone.world = new WorldStatic(world);
 
-            clone.world = (WorldStatic)world.Clone();
+            clone.agents = new Dictionary<AgentStateStatic, AgentStateDynamic>(agents.ToDictionary(entry => new AgentStateStatic(entry.Key),
+                                                                                                   entry => new AgentStateDynamic(entry.Value)));
 
-            clone.currentStateOfLocations = currentStateOfLocations.ToDictionary(entry => (LocationStatic)entry.Key.Clone(), 
-                                                                                 entry => (LocationDynamic)entry.Value.Clone());
+            clone.currentStateOfLocations = new Dictionary<LocationStatic, LocationDynamic>(
+                                               currentStateOfLocations.ToDictionary(entry => new LocationStatic(entry.Key),
+                                                                                    entry => new LocationDynamic(entry.Value)));
 
-            clone.agents = agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
-                                               entry => (AgentStateDynamic)entry.Value.Clone());
+            foreach (var agent in clone.agents)
+            {
+                foreach (var location in clone.currentStateOfLocations)
+                {
+                    foreach (var anotherAgent in location.Value.GetAgents())
+                    {
+                        if (agent.Key.GetName() == anotherAgent.Key.GetName() && agent.Key.GetRole() == anotherAgent.Key.GetRole())
+                        {
+                            location.Value.RemoveAgent(anotherAgent);
+                            location.Value.AddAgent(agent);
+                        }
+                    }
+                }
+            }
 
-            /*object agentsCopy = FromBinary(ToBinary(agents));
-            clone.agents = (Dictionary<AgentStateStatic, AgentStateDynamic>)agentsCopy;
-            agentsCopy = null;*/
 
-            //clone.agents = agents;
-
-            clone.goalStates = goalStates;
+            //clone.goalStates = goalStates;
 
             return clone;
         }
@@ -108,16 +135,26 @@ namespace Narrative_Generator
             {
                 location.Value.ClearLocation();
             }
+
+            UpdateHashCode();
         }
 
-        public void AddAgents(Dictionary<AgentStateStatic, AgentStateDynamic> agents)
+        public void AddAgents (Dictionary<AgentStateStatic, AgentStateDynamic> agents)
         {
             agents.ToList().ForEach(x => this.agents.Add(x.Key, x.Value));
         }
 
-        public void AddAgent(AgentStateStatic newAgentStatic, AgentStateDynamic newAgentStateDynamic)
+        public void AddAgent (AgentStateStatic newAgentStatic, AgentStateDynamic newAgentStateDynamic)
         {
             agents.Add(newAgentStatic, newAgentStateDynamic);
+            UpdateHashCode();
+        }
+
+        public void AddAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, KeyValuePair<LocationStatic, LocationDynamic> location)
+        {
+            agents.Add(agent.Key, agent.Value);
+            location.Value.AddAgent(agent);
+            UpdateHashCode();
         }
 
         public void AddAgent(AgentRole role, bool status)
@@ -134,6 +171,8 @@ namespace Narrative_Generator
             newAgentStateStatic = null;
             newAgentStateDynamic = null;
             GC.Collect();
+
+            UpdateHashCode();
         }
 
         /// <summary>
@@ -161,6 +200,8 @@ namespace Narrative_Generator
             newAgentStateStatic = null;
             newAgentStateDynamic = null;
             GC.Collect();
+
+            UpdateHashCode();
         }
 
         public void AddEmptyAgent()
@@ -173,6 +214,8 @@ namespace Narrative_Generator
             newAgentStateStatic = null;
             newAgentStateDynamic = null;
             GC.Collect();
+
+            UpdateHashCode();
         }
 
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetFirstAgent()
@@ -300,6 +343,20 @@ namespace Narrative_Generator
             return agents.ElementAt(index);
         }
 
+        public int GetIndexOfAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            int index = -1;
+
+            foreach (var a in agents)
+            {
+                index++;
+                if (a.GetHashCode() == agent.GetHashCode()) { return index; }
+            }
+
+            index = -1;
+            return index;
+        }
+
         public int GetNumberOfAgents()
         {
             return agents.Count();
@@ -328,6 +385,8 @@ namespace Narrative_Generator
                 dPrefab = null;
                 GC.Collect();
             }
+
+            UpdateHashCode();
         }
 
         public LocationDynamic GetLocation(LocationStatic locationKey)
@@ -479,6 +538,8 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent = new KeyValuePair<AgentStateStatic, AgentStateDynamic> (sNewAgent, dNewAgent);
             location.Value.AddAgent(newAgent);
 
+            UpdateHashCode();
+
             // Очистка
             sNewAgent = null;
             dNewAgent = null;
@@ -510,6 +571,7 @@ namespace Narrative_Generator
         public void SetStaticWorldPart(WorldStatic world)
         {
             this.world = (WorldStatic)world.Clone();
+            UpdateHashCode();
         }
 
         public bool Equals(WorldDynamic anotherWorld)
@@ -538,21 +600,38 @@ namespace Narrative_Generator
             return equals;
         }
 
+        /* HASHCODE SECTION */
+
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
 
             int hashcode = 18;
 
-            hashcode = hashcode * 42 + world.GetHashCode();
-            hashcode = hashcode * 42 + currentStateOfLocations.GetHashCode();
-            hashcode = hashcode * 42 + agents.GetHashCode();
-            hashcode = hashcode * 42 + goalStates.GetHashCode();
+            //world.ClearHashCode();
+            //hashcode = hashcode * 42 + world.GetHashCode();
+            foreach (var csol in currentStateOfLocations)
+            {
+                csol.Value.ClearHashCode();
+                hashcode = hashcode * 42 + csol.Value.GetHashCode();
+            }
 
             hashCode = hashcode;
             hasHashCode = true;
 
             return hashcode;
+        }
+
+        public void ClearHashCode()
+        {
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        public void UpdateHashCode()
+        {
+            ClearHashCode();
+            GetHashCode();
         }
     }
 }

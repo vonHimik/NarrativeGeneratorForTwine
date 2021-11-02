@@ -18,10 +18,16 @@ namespace Narrative_Generator
             planReceived = false;
         }
 
+        public Plan (Plan clone)
+        {
+            actions = new List<PlanAction>(clone.actions);
+            planReceived = clone.planReceived;
+        }
+
         public object Clone()
         {
             var clone = new Plan();
-            clone.actions = actions;
+            clone.actions = new List<PlanAction>(actions);
             clone.planReceived = planReceived;
             return clone;
         }
