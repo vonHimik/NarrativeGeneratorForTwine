@@ -90,9 +90,16 @@ namespace Narrative_Generator
                         }
                     }
 
+                    if (!agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation()))
+                    {
+                        // Can look for evidence against the killer in the room where he is.
+                        InvestigateRoom investigateRoom = new InvestigateRoom();
+                        result.Add(investigateRoom);
+                    }
+
                     // Can look for evidence against the killer in the room where he is.
-                    InvestigateRoom investigateRoom = new InvestigateRoom();
-                    result.Add(investigateRoom);
+                    //InvestigateRoom investigateRoom = new InvestigateRoom();
+                    //result.Add(investigateRoom);
                 }
             }
 

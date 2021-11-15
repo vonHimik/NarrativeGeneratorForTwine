@@ -12,20 +12,22 @@ namespace Narrative_Generator
         public bool Run(string path, string commands)
         {
             // @"D:\Graphviz\bin\dot.exe"
-            // /C
 
             Process process = new Process();
             process.StartInfo.FileName = path;
-            //process.StartInfo.WorkingDirectory = @"C:\Users\User Asus\source\repos\Narrative Generator\Narrative Generator\bin\Debug";
             process.StartInfo.Arguments = "/k " + commands;
 
-            if (process.Start()) { return true; }
+            if (process.Start())
+            {
+                process.WaitForExit();
+                return true;
+            }
             else { return false; }
         }
 
-        public bool RunGraphviz(string outputPngFileName, string inputDotFileName)
+        public bool RunGraphviz(string fileName)
         {
-            if (Run("cmd", "dot -Tpng –o" + outputPngFileName + " –" + inputDotFileName))
+            if (Run("cmd", "dot.exe -Tpng –O " + fileName))
             {
                 return true;
             }

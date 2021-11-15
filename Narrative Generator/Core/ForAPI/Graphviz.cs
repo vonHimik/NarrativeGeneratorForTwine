@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Threading;
 
 namespace Narrative_Generator
 {
@@ -17,16 +19,10 @@ namespace Narrative_Generator
             isSuccess = false;
         }
 
-        public void Run(string outputPngFileName, string inputDotFileName)
+        public void Run(string fileName)
         {
-            if (wrapper.RunGraphviz(outputPngFileName + ".png", inputDotFileName + ".dot"))
-            {
-                isSuccess = true;
-            }
-            else
-            {
-                isSuccess = false;
-            }
+            if (wrapper.RunGraphviz(fileName)) { isSuccess = true; }
+            else { isSuccess = false; }
         }
     }
 }

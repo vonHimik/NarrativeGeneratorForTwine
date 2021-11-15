@@ -25,6 +25,8 @@ namespace Narrative_Generator
 
         private int numberInSequence;
 
+        public bool goalState = false;
+
         public StoryNode()
         {
             links = new HashSet<StoryNode>();

@@ -264,6 +264,9 @@ namespace Narrative_Generator
         {
             bool fail = !ProbabilityCalculating(action);
 
+            action.success = ProbabilityCalculating(action);
+            action.fail = fail;
+
             bool constraintsControl = ConstraintsControl(currentState, action, fail);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, fail);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, fail);

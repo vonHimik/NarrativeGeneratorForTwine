@@ -88,7 +88,6 @@ namespace Narrative_Generator
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="action"></param>
         /// <param name="firstNode">Current node</param>
         /// <param name="secondNode">New node</param>
         public void ConnectionTwoNodes(PlanAction action, StoryNode firstNode, StoryNode secondNode, bool duplicate)
@@ -128,6 +127,13 @@ namespace Narrative_Generator
                         secondNode.AddEdge(edge);
 
                         full = false;
+
+                        if (duplicate)
+                        {
+                            firstNode.AddLinkToNode(ref secondNode);
+                            secondNode.AddLinkToNode(ref firstNode);
+                            return;
+                        }
 
                         break;
                     }
@@ -203,10 +209,6 @@ namespace Narrative_Generator
         /// <summary>
         /// Create a new node for the story graph and inserts it.
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="currentGraph"></param>
-        /// <param name="agent"></param>
-        /// <param name="newState"></param>
         public void CreateNewNode(PlanAction action,
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                   WorldDynamic currentState,
@@ -314,7 +316,7 @@ namespace Narrative_Generator
                     {
                         DeleteTestNode(ref testNode);
                         ConnectionTwoNodes(action, currentNode, checkedNode, true);
-                        queue.Enqueue(checkedNode);
+                        //queue.Enqueue(checkedNode);
                         break;
                     }
                 }

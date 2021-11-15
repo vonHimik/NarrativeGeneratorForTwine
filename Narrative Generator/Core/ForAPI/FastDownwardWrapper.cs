@@ -13,7 +13,9 @@ namespace Narrative_Generator
         {
             Process process = new Process();
             process.StartInfo.FileName = path;
-            process.StartInfo.Arguments = "/c " + commands; // с - close, k - not close
+            process.StartInfo.Arguments = "/c " + commands;            // с - close, k - not close
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // Hides GUI
+            process.StartInfo.CreateNoWindow = true;                   // Hides console
 
             if (process.Start())
             {

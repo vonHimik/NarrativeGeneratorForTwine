@@ -372,8 +372,6 @@ namespace Narrative_Generator
 
         public void AddLocations(Dictionary<LocationStatic, LocationDynamic> locations)
         {
-            //locations.ToList().ForEach(x => currentStateOfLocations.Add(x.Key, x.Value));
-
             foreach (var location in locations)
             {
                 LocationStatic sPrefab = (LocationStatic)location.Key.Clone();

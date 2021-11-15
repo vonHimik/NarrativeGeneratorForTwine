@@ -9,28 +9,49 @@ namespace Narrative_Generator
 {
     class GraphСonstructor
     {
+        /// <summary>
+        /// A method that describes the transmitted story graph in text format and creates a visualization based on it.
+        /// </summary>
         public void CreateGraph(StoryGraph storyGraph, string graphName)
         {
             HashSet<Edge> edges = new HashSet<Edge>();
             string graphSTR = "digraph G { \r\n";
 
-            // Generating a list of nodes
+            // Generating a list of nodes.
             foreach (var node in storyGraph.GetNodes())
             {
-                graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
-                        " [shape =" + '"' + "circle" + '"' + "label =" + '"' + " " + node.GetActiveAgent().Key.GetName().ToString() + '"' + "] \r\n");
+                // We compose a line with information about the node under consideration.
+                if (node.goalState)
+                {
+                    graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
+                    " [shape =" + '"' + "circle" + '"' + " label =" + '"' + " "
+                      + node.GetNumberInSequence() + '"'
+                      + " " + "style = " + '"' + "filled" + '"' + " fillcolor = "  + '"' + "yellow" + '"'
+                      + "] \r\n");
+                }
+                else
+                {
+                    graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
+                    " [shape =" + '"' + "circle" + '"' + " label =" + '"' + " "
+                      + node.GetNumberInSequence()
+                      + '"' + "] \r\n");
+                }
             }
 
-            // Generating graph edges
+            // Generating graph edges.
             foreach (var node in storyGraph.GetNodes())
             {
+                // If the node under consideration is not the last.
                 if (node != storyGraph.GetLastNode())
                 {
+                    // Then we go along the edges attached to this node.
                     foreach (var edge in node.GetEdges())
                     {
                         bool skip = false;
 
-                        foreach(var e in edges)
+                        // We go through the list of already traversed edges and compare 
+                        //   if we have previously met the edge that we are considering now.
+                        foreach (var e in edges)
                         {
                             if (e.Equals(edge))
                             {
@@ -39,31 +60,138 @@ namespace Narrative_Generator
                             }
                         }
 
+                        // If already met, then move on to the next one.
                         if (skip) { continue; }
 
+                        // If the edge has an attached action and the bottom end is connected to some node.
                         if (edge.GetAction() != null && edge.GetLowerNode() != null)
                         {
-                            graphSTR = graphSTR.Insert(graphSTR.Length,
-                                edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
-                                + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+                            // Create a line with information about the edge.
+                            if (edge.GetAction() is Kill)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"' 
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + "where: " + ((LocationDynamic)edge.GetAction().Arguments[2]).GetLocationInfo().GetName()
+                                    + " " + edge.GetAction().success.ToString() 
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Entrap)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"' 
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + edge.GetAction().success.ToString() 
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Move)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"' 
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20) 
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + edge.GetAction().success.ToString() 
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is InvestigateRoom)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"' 
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20) 
+                                    + " " + edge.GetAction().success.ToString() 
+                                    + '"' + "] \r\n");
+                            }
                         }
+                        // If the edge has an attached action, but the bottom end is not attached to a node.
                         else if (edge.GetAction() != null && edge.GetLowerNode() == null)
                         {
-                            graphSTR = graphSTR.Insert(graphSTR.Length,
-                                edge.GetUpperNode().GetNumberInSequence() + "->" + "null"
-                                + "[label = " + '"' + edge.GetAction().ToString().Remove(0, 20) + '"' + "] \r\n");
+                            if (edge.GetAction() is Kill)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length, 
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + "where: " + ((LocationDynamic)edge.GetAction().Arguments[2]).GetLocationInfo().GetName()
+                                    + " " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Entrap)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Move)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is InvestigateRoom)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,  
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
+                                   + "[label = " + " " + '"' 
+                                   + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                   + " " + edge.GetAction().ToString().Remove(0, 20) 
+                                   + " " + edge.GetAction().success.ToString() 
+                                   + '"' + "] \r\n");
+                            }
                         }
-                        else if (edge.GetAction() == null && edge.GetUpperNode() != null && edge.GetLowerNode() != null)
-                        {
-                            graphSTR = graphSTR.Insert(graphSTR.Length,
-                                edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
-                                + "[label = " + '"' + "not action" + '"' + "] \r\n");
-                        }
-                        
 
+                        // Add the considered edge to the list.
                         edges.Add(edge);
                     }
                 }
+                // We separately process the case when the considered node is the last one.
                 else
                 {
                     foreach (var edge in node.GetEdges())
@@ -91,15 +219,28 @@ namespace Narrative_Generator
 
             graphSTR = graphSTR.Insert(graphSTR.Length, "}");
 
+            // Save the resulting graph to a text file.
             SaveGraph(graphName, graphSTR);
+
+            // Then we render the resulting graph.
+            PrintGraph(graphName);
         }
 
+        /// <summary>
+        /// A method that saves the textual description of the graph to a file with the specified name.
+        /// </summary>
         public void SaveGraph(string fileName, string graph)
         {
-            FileStream file = new FileStream(fileName + ".dot", FileMode.Create, FileAccess.ReadWrite);
+            FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(file, Encoding.GetEncoding(1251));
             streamWriter.Write(graph);
             streamWriter.Close();
+        }
+
+        public void PrintGraph(string fileName)
+        {
+            Graphviz graphviz = new Graphviz();
+            graphviz.Run(fileName);
         }
     }
 }
