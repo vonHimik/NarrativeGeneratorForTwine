@@ -46,7 +46,7 @@ namespace Narrative_Generator
 
         public override bool CheckPreconditions(WorldDynamic state)
         {
-            return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
+            return (Agent.Key.GetRole() == AgentRole.USUAL || Agent.Key.GetRole() == AgentRole.PLAYER) && Agent.Value.GetStatus() 
                    && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
                    && !Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 1;
         }
@@ -59,6 +59,9 @@ namespace Narrative_Generator
             stateAgent.Value.SetTargetLocation(stateLocation.Key);
         }
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+        public override void Fail(ref WorldDynamic state)
+        {
+            fail = true;
+        }
     }
 }

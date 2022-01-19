@@ -271,14 +271,20 @@ namespace Narrative_Generator
             int hashcode = 18;
 
             //locationInfo.ClearHashCode();
+
             //hashcode = hashcode * 42 + locationInfo.GetHashCode();
+
             foreach (var agent in agentsAtLocations)
             {
                 agent.Key.ClearHashCode();
                 agent.Value.ClearHashCode();
                 hashcode = hashcode * 42 + (agent.Key.GetHashCode() + agent.Value.GetHashCode());
             }
+
             hashcode = hashcode * 42 + containEvidence.GetHashCode();
+
+            hashCode = hashcode;
+            hasHashCode = true;
 
             return hashcode;
         }

@@ -64,8 +64,8 @@ namespace Narrative_Generator
 
         public void ClearEdge()
         {
-            //ClearAction();
-            //ClearUpperNode();
+            ClearAction();
+            ClearUpperNode();
             ClearLowerNode();
         }
     }

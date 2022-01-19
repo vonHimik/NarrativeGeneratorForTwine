@@ -9,7 +9,7 @@ namespace Narrative_Generator
     [Serializable]
     class UnexpectedObstacle : PlanAction
     {
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Intruder
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
         {
             get
             {
@@ -17,17 +17,59 @@ namespace Narrative_Generator
             }
         }
 
-        public UnexpectedObstacle(params Object[] args) : base(args) { }
+        public KeyValuePair<LocationStatic, LocationDynamic> From
+        {
+            get
+            {
+                return (KeyValuePair<LocationStatic, LocationDynamic>)Arguments[1];
+            }
+        }
 
-        public UnexpectedObstacle(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public KeyValuePair<LocationStatic, LocationDynamic> To
+        {
+            get
+            {
+                return (KeyValuePair<LocationStatic, LocationDynamic>)Arguments[2];
+            }
+        }
+
+        public UnexpectedObstacle (params Object[] args) : base(args) { }
+
+        public UnexpectedObstacle (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                                   ref KeyValuePair<LocationStatic, LocationDynamic> from,
+                                   ref KeyValuePair<LocationStatic, LocationDynamic> to)
         {
             Arguments.Add(agent);
+            Arguments.Add(from);
+            Arguments.Add(to);
         }
 
         public override bool CheckPreconditions(WorldDynamic state) { return true; }
 
-        public override void ApplyEffects(ref WorldDynamic state) { }
+        public override void ApplyEffects(ref WorldDynamic state)
+        {
+            KeyValuePair<LocationStatic, LocationDynamic> stateFrom = state.GetLocationByName(From.Key.GetName());
+            KeyValuePair<LocationStatic, LocationDynamic> stateTo = state.GetLocationByName(To.Key.GetName());
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+            stateFrom.Value.RemoveAgent(stateAgent);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).ClearLocation();
+            stateAgent.Value.GetBeliefs().ClearMyLocation();
+
+            stateTo.Value.AddAgent(stateAgent);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).
+                SetLocation(stateAgent.Value.GetBeliefs().GetLocationByName(To.Key.GetName()));
+            stateAgent.Value.GetBeliefs().SetMyLocation(stateAgent.Value.GetBeliefs().GetLocationByName(To.Key.GetName()));
+
+            if (stateTo.Key == stateAgent.Value.GetTargetLocation())
+            {
+                stateAgent.Value.ClearTargetLocation();
+            }
+        }
+
+        public override void Fail(ref WorldDynamic state)
+        {
+            fail = true;
+        }
     }
 }

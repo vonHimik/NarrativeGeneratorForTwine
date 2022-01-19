@@ -64,6 +64,7 @@
     <Compile Include="Core\Actions\ActionTypes\Talk.cs" />
     <Compile Include="Core\Actions\ActionTypes\TellAboutASuspicious.cs" />
     <Compile Include="Core\Actions\Counter-reactions\AngerIsInTheAir.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\ChangeOfMood.cs" />
     <Compile Include="Core\Actions\Counter-reactions\EnvironmentIsNotConduciveToTalk.cs" />
     <Compile Include="Core\Actions\Counter-reactions\MiraculousSalvation.cs" />
     <Compile Include="Core\Actions\Counter-reactions\UnexpectedObstacle.cs" />

@@ -92,7 +92,26 @@ namespace Narrative_Generator
         /// <param name="secondNode">New node</param>
         public void ConnectionTwoNodes(PlanAction action, StoryNode firstNode, StoryNode secondNode, bool duplicate)
         {
-            bool full = false;
+
+            Edge newEdge = new Edge();
+
+            newEdge.SetAction(action);
+
+            newEdge.SetUpperNode(ref firstNode);
+            newEdge.SetLowerNode(ref secondNode);
+
+            firstNode.AddEdge(newEdge);
+            secondNode.AddEdge(newEdge);
+
+            firstNode.AddLinkToNode(ref secondNode);
+            secondNode.AddLinkToNode(ref firstNode);
+
+            if (firstNode.GetEdges().Count != firstNode.GetLinks().Count)
+            {
+                bool test = true;
+            }
+
+            /*bool full = false;
 
             if (duplicate)
             {
@@ -171,7 +190,7 @@ namespace Narrative_Generator
             secondNode.AddLinkToNode(ref firstNode);
 
             secondNode.AddEdge(newEdge);
-            if (duplicate) firstNode.AddEdge(newEdge);
+            if (duplicate) firstNode.AddEdge(newEdge);*/
         }
 
         public StoryNode CreateTestNode(WorldDynamic currentState,
@@ -180,11 +199,12 @@ namespace Narrative_Generator
                                         StoryNode currentNode,
                                         bool connection,
                                         int globalNodeNumber,
-                                        bool fail)
+                                        bool succsessControl)
         {
             WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
-            if (fail) { action.Fail(ref worldForTest); }
+            if (!succsessControl) { action.Fail(ref worldForTest); }
             else { action.ApplyEffects(ref worldForTest); }
+            worldForTest.UpdateHashCode();
 
             StoryNode testNode = new StoryNode();
             testNode.SetWorldState(worldForTest);
@@ -199,7 +219,10 @@ namespace Narrative_Generator
 
             testNode.SetActiveAgent(newAgent);
 
-            if (connection) { ConnectionTwoNodes(action, currentNode, testNode, false); }
+            /*if (connection)
+            {
+                ConnectionTwoNodes(action, currentNode, testNode, false);
+            }*/
 
             testNode.SetNumberInSequence(globalNodeNumber + 1);
 
@@ -214,22 +237,23 @@ namespace Narrative_Generator
                                   WorldDynamic currentState,
                                   StoryNode currentNode,
                                   ref int globalNodeNumber,
-                                  bool fail)
+                                  bool succsessControl,
+                                  bool counteract)
         {
             WorldDynamic newState = (WorldDynamic)currentState.Clone();
-            if (fail) { action.Fail(ref newState); }
+            if (!succsessControl) { action.Fail(ref newState); }
             else { action.ApplyEffects(ref newState); }
 
             // Create an empty new node.
             StoryNode newNode = new StoryNode();
-
-            if (agent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
-            else { newNode.SetActivePlayer(false); }
-
-            newNode.SetActiveAgent(agent);
+            if (counteract) { newNode.counteract = true; }
 
             // We assign the state of the world (transferred) to the new node.
             newNode.SetWorldState((WorldDynamic)newState.Clone());
+
+            newNode.SetActiveAgent(newNode.GetWorldState().GetAgentByName(agent.Key.GetName()));
+            if (agent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
+            else { newNode.SetActivePlayer(false); }
 
             ConnectionTwoNodes(action, currentNode, newNode, false);
 
@@ -245,10 +269,10 @@ namespace Narrative_Generator
                                    WorldDynamic currentState,
                                    StoryNode currentNode,
                                    ref int globalNodeNumber, 
-                                   bool fail)
+                                   bool succsessControl)
         {
             WorldDynamic newState = (WorldDynamic)currentState.Clone();
-            if (fail) { action.Fail(ref newState); }
+            if (!succsessControl) { action.Fail(ref newState); }
             else { action.ApplyEffects(ref newState); }
 
             if (agent.Key.GetRole() == AgentRole.PLAYER) { currentNode.SetActivePlayer(true); }
@@ -257,13 +281,13 @@ namespace Narrative_Generator
             // We assign the state of the world (transferred) to the new node.
             currentNode.SetWorldState((WorldDynamic)newState.Clone());
 
-            Edge newEdge = new Edge();
+            //Edge newEdge = new Edge();
 
             // We adjust the edge - assign its action and indicate the nodes that it connects.
-            newEdge.SetAction(action);
-            newEdge.SetUpperNode(ref currentNode);
+            //newEdge.SetAction(action);
+            //newEdge.SetUpperNode(ref currentNode);
 
-            currentNode.AddEdge(newEdge);
+            //currentNode.AddEdge(newEdge);
 
             globalNodeNumber++;
             currentNode.SetNumberInSequence(globalNodeNumber);
@@ -273,6 +297,8 @@ namespace Narrative_Generator
         {
             foreach (var edge in testNode.GetEdges().ToList())
             {
+                edge.GetUpperNode().RemoveEdge(edge);
+                edge.GetLowerNode().RemoveEdge(edge);
                 edge.ClearEdge();
             }
 
@@ -306,23 +332,23 @@ namespace Narrative_Generator
                                             int globalNodeNumber,
                                             ref Queue<StoryNode> queue)
         {
-            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, false, globalNodeNumber, false);
+            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, false, globalNodeNumber, true);
 
             if (!testNode.Equals(currentNode))
             {
                 foreach (var checkedNode in nodes)
                 {
-                    if (TwoNodesComparison(testNode, checkedNode))
+                    if (TwoNodesComparison(testNode, checkedNode) && !currentNode.ConnectedWith(checkedNode))
                     {
                         DeleteTestNode(ref testNode);
                         ConnectionTwoNodes(action, currentNode, checkedNode, true);
-                        //queue.Enqueue(checkedNode);
                         break;
                     }
                 }
             }
             else
             {
+                DeleteTestNode(ref testNode);
                 skip = true;
             }
         }

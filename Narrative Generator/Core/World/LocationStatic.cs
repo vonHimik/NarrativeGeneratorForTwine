@@ -128,10 +128,11 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        /*public bool Equals(LocationStatic other)
+        public bool Equals(LocationStatic other)
         {
-            throw new NotImplementedException();
-        }*/
+            if (hashCode == other.hashCode) { return true; }
+            else { return false; }
+        }
 
 
         //////////////////////
@@ -147,6 +148,7 @@ namespace Narrative_Generator
             hashcode = hashcode * 42 + name.GetHashCode();
             foreach (var location in connectedLocations)
             {
+                //location.ClearHashCode();
                 hashcode = hashcode * 42 + location.GetHashCode();
             }
 

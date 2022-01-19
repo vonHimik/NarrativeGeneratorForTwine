@@ -15,7 +15,7 @@ namespace Narrative_Generator
                 foreach (var agent in currentState.GetAgents())
                 {
                     if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
-                        && !currentState.GetLocation(currentState.SearchAgentAmongLocations(agent.Key)).SearchAgent(initiator.Key))
+                        && !currentState.GetLocation(currentState.SearchAgentAmongLocations(agent.Key)).Value.SearchAgent(initiator.Key))
                     {
                         action.Arguments.Add(agent);
                         action.Arguments.Add(initiator); 
@@ -29,7 +29,7 @@ namespace Narrative_Generator
                 foreach (var agent in currentState.GetAgents())
                 {
                     if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
                     {
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(agent);
@@ -56,7 +56,7 @@ namespace Narrative_Generator
                 foreach (var agent in currentState.GetAgents())
                 {
                     if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
                     {
                         action.Arguments.Add(agent);
                         action.Arguments.Add(initiator);
@@ -132,7 +132,7 @@ namespace Narrative_Generator
                 foreach (var agent in currentState.GetAgents())
                 {
                     if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus()
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
                     {
                         excludedAgents.Add(agent.Key, agent.Value);
 
@@ -166,7 +166,7 @@ namespace Narrative_Generator
                 foreach (var agent in currentState.GetAgents())
                 {
                     if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus() 
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
                     {
                         action.Arguments.Add(agent);
                         break;
@@ -185,7 +185,7 @@ namespace Narrative_Generator
                 foreach (var agent in currentState.GetAgents())
                 {
                     if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus()
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).SearchAgent(agent.Key))
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
                     {
                         action.Arguments.Add(agent);
                         break;

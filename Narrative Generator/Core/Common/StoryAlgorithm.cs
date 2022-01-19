@@ -13,6 +13,7 @@ namespace Narrative_Generator
         // Settings
         public bool manualInput = true;
         public bool reachedGoalState = false;
+        public int maxNodes = 350; // 350
 
         // Internal components
         public StoryworldConvergence storyworldConvergence = new StoryworldConvergence();
@@ -21,9 +22,9 @@ namespace Narrative_Generator
 
         // Start --> current state
         public WorldDynamic currentStoryState = new WorldDynamic();
-        public int goalsCounter = 1;
-        public int agentsCounter = 3; // 7
-        public int locationsCounter = 8; // 8
+        public int goalsCounter = 2;
+        public int agentsCounter = 4; // 7
+        public int locationsCounter = 4; // 8
 
         // Output graphs
         public StoryGraph newStoryGraph = new StoryGraph();
@@ -749,7 +750,7 @@ namespace Narrative_Generator
             int globalNodeNumber = -1;
 
             // We will perform the action in a loop until the queue becomes empty or the number of consecutive errors reaches ten.
-            while (queue.Count > 0 /*&& newStoryGraph.GetNodes().Count < 500*/ && doomCounter < 10)
+            while (queue.Count > 0 && newStoryGraph.GetNodes().Count <= maxNodes && doomCounter < 10)
             {
                 skip = false;
 
@@ -757,9 +758,9 @@ namespace Narrative_Generator
                 StoryNode currentNode = queue.Dequeue();
 
                 // If we come across a node with a target state, then we do not expand it.
-                if (storyworldConvergence.ControlToAchieveGoalState(currentNode.GetWorldState()))
+                if (storyworldConvergence.ControlToAchieveGoalState(ref currentNode))
                 {
-                    currentNode.goalState = true;
+                    //currentNode.goalState = true;
                     continue;
                 }
                 else
@@ -790,6 +791,8 @@ namespace Narrative_Generator
                 // If an error occurs while creating a node and the agent is forced to skip a turn.
                 if (skip)
                 {
+                    /*currentNode.skiped = true;
+
                     // We get the index of the agent who was acting now.
                     actualAgentNumber = GetActualAgentNumber(currentNode.GetWorldState().GetIndexOfAgent(currentNode.GetActiveAgent()));
 
@@ -804,7 +807,7 @@ namespace Narrative_Generator
 
                     // We increase the counter of consecutive errors and move on to the next step.
                     doomCounter++;
-                    continue;
+                    continue;*/
                 }
 
                 // If no errors occurred at this step, reset their counter.
@@ -847,7 +850,7 @@ namespace Narrative_Generator
                 StoryNode currentNode = queue.Dequeue();
 
                 // We check if the target state has been reached in the node under consideration.
-                reachedGoalState = storyworldConvergence.ControlToAchieveGoalState(currentNode.GetWorldState());
+                reachedGoalState = storyworldConvergence.ControlToAchieveGoalState(ref currentNode);
 
                 // If so, terminate the method and return true.
                 if (reachedGoalState) { return true; }
@@ -877,7 +880,7 @@ namespace Narrative_Generator
             StoryNode originRoot = (StoryNode)rootNode.Clone();
 
             // We continue to work until at least one target state is reached.
-            while (!reachedGoalState /*&& newStoryGraph.GetNodes().Count < 500*/)
+            while (!reachedGoalState)
             {
                 // We create a new graph by starting to expand the root.
                 BFSTraversing(newStoryGraph.GetRoot());
@@ -886,8 +889,10 @@ namespace Narrative_Generator
                 BFSGoalAchieveControl(newStoryGraph.GetRoot());
 
                 // If it was not possible to find even one target state in the constructed graph.
-                if (!reachedGoalState)
+                if (!reachedGoalState || newStoryGraph.GetNodes().Count > maxNodes)
                 {
+                    graphСonstructor.CreateGraph(newStoryGraph, @"D:\Graphviz\bin\newStoryGraph.dt");
+
                     // Then we clear the graph, and all the links added to the root.
                     newStoryGraph = new StoryGraph();
                     originRoot.GetEdges().Clear();
@@ -895,6 +900,8 @@ namespace Narrative_Generator
 
                     // After that, we reassign to the previously cleared column an indication of the root.
                     newStoryGraph.SetRoot((StoryNode)originRoot.Clone());
+
+                    reachedGoalState = false;
                 }
             }
 
@@ -910,6 +917,11 @@ namespace Narrative_Generator
             // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
             currentStoryState = currentNode.GetWorldState();
             currentStoryState.GetStaticWorldPart().IncreaseTurnNumber();
+
+            while (!currentStoryState.GetAgentByIndex(agentIndex).Value.GetStatus())
+            {
+                agentIndex = GetActualAgentNumber(agentIndex);
+            }
 
             // We check if the agent from whom we are going to request an action is alive (i.e. capable of doing it).
             if (currentStoryState.GetAgentByIndex(agentIndex).Value.GetStatus())

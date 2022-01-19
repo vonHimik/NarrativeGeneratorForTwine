@@ -29,6 +29,22 @@ namespace Narrative_Generator
                       + " " + "style = " + '"' + "filled" + '"' + " fillcolor = "  + '"' + "yellow" + '"'
                       + "] \r\n");
                 }
+                else if (node.skiped)
+                {
+                    graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
+                        " [shape =" + '"' + "circle" + '"' + " label =" + '"' + " "
+                        + node.GetNumberInSequence() + '"'
+                        + " " + "style = " + '"' + "filled" + '"' + " fillcolor = " + '"' + "green" + '"'
+                        + "] \r\n");
+                }
+                else if (node.counteract)
+                {
+                    graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
+                        " [shape =" + '"' + "circle" + '"' + " label =" + '"' + " "
+                        + node.GetNumberInSequence() + '"'
+                        + " " + "style = " + '"' + "filled" + '"' + " fillcolor = " + '"' + "aquamarine" + '"'
+                        + "] \r\n");
+                }
                 else
                 {
                     graphSTR = graphSTR.Insert(graphSTR.Length, node.GetNumberInSequence() +
@@ -73,11 +89,15 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"' 
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine 
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
-                                    + " " + "where: " + ((LocationDynamic)edge.GetAction().Arguments[2]).GetLocationInfo().GetName()
+                                    + Environment.NewLine
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString() 
-                                    + '"' + "] \r\n");
+                                    + '"' + " color = " + '"' + " red" + '"' + "] \r\n");
                             }
                             else if (edge.GetAction() is Entrap)
                             {
@@ -85,9 +105,13 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"' 
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString() 
                                     + '"' + "] \r\n");
                             }
@@ -97,22 +121,45 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"' 
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
-                                    + " " + edge.GetAction().ToString().Remove(0, 20) 
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString() 
                                     + '"' + "] \r\n");
                             }
-                            else if (edge.GetAction() is InvestigateRoom)
+                            else if (edge.GetAction() is UnexpectedObstacle)
                             {
                                 graphSTR = graphSTR.Insert(graphSTR.Length,
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"'
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
-                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString()
-                                    + '"' + "] \r\n");
+                                    + '"' + " color = " + '"' + " green" + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is InvestigateRoom)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().GetNumberInSequence()
+                                    + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().success.ToString()
+                                    + '"' + " color = " + '"' + " blue" + '"' + "] \r\n");
                             }
                             else
                             {
@@ -120,7 +167,9 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"' 
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
-                                    + " " + edge.GetAction().ToString().Remove(0, 20) 
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString() 
                                     + '"' + "] \r\n");
                             }
@@ -134,9 +183,13 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
                                     + "[label = " + " " + '"'
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
-                                    + " " + "where: " + ((LocationDynamic)edge.GetAction().Arguments[2]).GetLocationInfo().GetName()
+                                    + Environment.NewLine
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString()
                                     + '"' + "] \r\n");
                             }
@@ -146,9 +199,13 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
                                     + "[label = " + " " + '"'
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString()
                                     + '"' + "] \r\n");
                             }
@@ -158,9 +215,13 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
                                     + "[label = " + " " + '"'
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString()
                                     + '"' + "] \r\n");
                             }
@@ -170,8 +231,11 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
                                     + "[label = " + " " + '"'
                                     + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
                                     + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
                                     + " " + edge.GetAction().success.ToString()
                                     + '"' + "] \r\n");
                             }
@@ -181,7 +245,9 @@ namespace Narrative_Generator
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + "END"
                                    + "[label = " + " " + '"' 
                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
-                                   + " " + edge.GetAction().ToString().Remove(0, 20) 
+                                   + Environment.NewLine
+                                   + " " + edge.GetAction().ToString().Remove(0, 20)
+                                   + Environment.NewLine
                                    + " " + edge.GetAction().success.ToString() 
                                    + '"' + "] \r\n");
                             }
@@ -222,8 +288,8 @@ namespace Narrative_Generator
             // Save the resulting graph to a text file.
             SaveGraph(graphName, graphSTR);
 
-            // Then we render the resulting graph.
-            PrintGraph(graphName);
+           // Then we render the resulting graph.
+           // PrintGraph(graphName);
         }
 
         /// <summary>

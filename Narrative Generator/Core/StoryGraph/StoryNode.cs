@@ -26,6 +26,8 @@ namespace Narrative_Generator
         private int numberInSequence;
 
         public bool goalState = false;
+        public bool skiped = false;
+        public bool counteract = false;
 
         public StoryNode()
         {
@@ -117,6 +119,21 @@ namespace Narrative_Generator
             links.Remove(linkedNode);
         }
 
+        public bool ConnectedWith(StoryNode anotherNode)
+        {
+            bool result = false;
+
+            foreach (var linkedNode in links)
+            {
+                if (linkedNode.Equals(anotherNode))
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
         public void AddEdge(Edge edge)
         {
             edges.Add(edge);
@@ -127,7 +144,7 @@ namespace Narrative_Generator
             return edges.ElementAt(index);
         }
 
-        public Edge GetEdge(Edge edge)
+        public Edge GetEdge (Edge edge)
         {
             foreach (var e in edges)
             {
@@ -142,7 +159,12 @@ namespace Narrative_Generator
             return edges;
         }
 
-        public override bool Equals(object obj)
+        public void RemoveEdge (Edge edge)
+        {
+            edges.Remove(edge);
+        }
+
+        public override bool Equals (object obj)
         {
             return Equals(obj as StoryNode);
         }
@@ -170,6 +192,22 @@ namespace Narrative_Generator
             numberInSequence = newNumber;
         }
 
+        public bool isChildren(StoryNode probablyParentNode)
+        {
+            bool result = false;
+
+            foreach (var edge in this.GetEdges())
+            {
+                if (edge.GetUpperNode() == probablyParentNode && edge.GetLowerNode() == this)
+                {
+                    result = true;
+                    return result;
+                }
+            }
+
+            return result;
+        }
+
         //////////////////////
         /* HASHCODE SECTION */
         //////////////////////
@@ -182,6 +220,7 @@ namespace Narrative_Generator
 
             worldState.ClearHashCode();
             hashcode = hashcode * 42 + worldState.GetHashCode();
+            hashcode = hashcode * 42 + counteract.GetHashCode();
 
             hashCode = hashcode;
             hasHashCode = true;

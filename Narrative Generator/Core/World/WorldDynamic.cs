@@ -387,9 +387,19 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public LocationDynamic GetLocation(LocationStatic locationKey)
+        public KeyValuePair<LocationStatic, LocationDynamic> GetLocation(LocationStatic locationKey)
         {
-            return currentStateOfLocations[locationKey];
+            foreach (var location in currentStateOfLocations)
+            {
+                if (location.Key.Equals(locationKey))
+                {
+                    return location;
+                }
+            }
+
+            throw new KeyNotFoundException();
+
+            //return currentStateOfLocations[locationKey];
         }
 
         public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByName(string name)
@@ -607,11 +617,13 @@ namespace Narrative_Generator
             int hashcode = 18;
 
             //world.ClearHashCode();
+
             //hashcode = hashcode * 42 + world.GetHashCode();
+
             foreach (var csol in currentStateOfLocations)
             {
                 csol.Value.ClearHashCode();
-                hashcode = hashcode * 42 + csol.Value.GetHashCode();
+                hashcode = hashcode * 42 + csol.Value.GetHashCode() + csol.Key.GetHashCode();
             }
 
             hashCode = hashcode;
