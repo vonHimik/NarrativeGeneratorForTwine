@@ -8,23 +8,25 @@ namespace Narrative_Generator
 {
     class CSP_Module
     {
-        public void AssignVariables(ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        public bool AssignVariables(ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
-            if (action is Entrap)
+            if (action is Entrap || action is CounterEntrap)
             {
                 foreach (var agent in currentState.GetAgents())
                 {
                     if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
-                        && !currentState.GetLocation(currentState.SearchAgentAmongLocations(agent.Key)).Value.SearchAgent(initiator.Key))
+                        && !currentState.GetLocation(currentState.SearchAgentAmongLocations(agent.Key)).Value.SearchAgent(initiator.Key) 
+                        && !agent.Equals(initiator))
                     {
                         action.Arguments.Add(agent);
                         action.Arguments.Add(initiator); 
                         action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
-                        break;
+                        return true;
                     }
                 }
+                return false;
             }
-            else if (action is Fight)
+            else if (action is Fight || action is CounterFight)
             {
                 foreach (var agent in currentState.GetAgents())
                 {
@@ -34,11 +36,12 @@ namespace Narrative_Generator
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(agent);
                         action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
-                        break;
+                        return true;
                     }
                 }
+                return false;
             }
-            else if (action is InvestigateRoom)
+            else if (action is InvestigateRoom || action is CounterInvestigateRoom)
             {
                 foreach (var killer in currentState.GetAgents())
                 {
@@ -47,11 +50,12 @@ namespace Narrative_Generator
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(killer);
                         action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
-                        break;
+                        return true;
                     }
                 }
+                return false;
             }
-            else if (action is Kill)
+            else if (action is Kill || action is CounterKill)
             {
                 foreach (var agent in currentState.GetAgents())
                 {
@@ -61,11 +65,12 @@ namespace Narrative_Generator
                         action.Arguments.Add(agent);
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
-                        break;
+                        return true;
                     }
                 }
+                return false;
             }
-            else if (action is Move)
+            else if (action is Move || action is CounterMove)
             {
                 if (action.Arguments.Count() != 0)
                 {
@@ -81,6 +86,7 @@ namespace Narrative_Generator
                     action.Arguments.Add(initiator);
                     action.Arguments.Add(currentState.GetLocationByName(arguments[1]));
                     action.Arguments.Add(currentState.GetLocationByName(arguments[2]));
+                    return true;
                 }
                 else
                 {
@@ -91,6 +97,7 @@ namespace Narrative_Generator
                         currentState.SearchAgentAmongLocations(initiator.Key).ConnectionChecking(initiator.Value.GetTargetLocation()))
                     {
                         action.Arguments.Add(currentState.GetLocationByName(initiator.Value.GetTargetLocation().GetName()));
+                        return true;
                     }
                     else
                     {
@@ -101,11 +108,13 @@ namespace Narrative_Generator
                             Key.ConnectionChecking(randLoc.Key))
                         {
                             action.Arguments.Add(randLoc);
+                            return true;
                         }
                     }
                 }
+                return false;
             }
-            else if (action is NeutralizeKiller)
+            else if (action is NeutralizeKiller || action is CounterNeutralizeKiller)
             {
                 foreach (var killer in currentState.GetAgents())
                 {
@@ -114,34 +123,25 @@ namespace Narrative_Generator
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(killer);
                         action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
-                        break;
+                        return true;
                     }
                 }
+                return false;
             }
-            else if (action is NothingToDo)
+            else if (action is Reassure || action is CounterReassure)
             {
-                action.Arguments.Add(initiator);
-            }
-            else if (action is Reassure)
-            {
-                Dictionary<AgentStateStatic, AgentStateDynamic> excludedAgents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
-                excludedAgents.Add(initiator.Key, initiator.Value);
-
-                action.Arguments.Add(initiator);
-
                 foreach (var agent in currentState.GetAgents())
                 {
                     if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus()
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key)
+                        && !agent.Key.Equals(initiator.Key) && agent.Value.AngryCheck())
                     {
-                        excludedAgents.Add(agent.Key, agent.Value);
-
                         action.Arguments.Add(agent);
+                        action.Arguments.Add(initiator);
+                        action.Arguments.Add(currentState.GetAgentByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()));
                         break;
                     }
                 }
-
-                action.Arguments.Add(currentState.GetRandomAgent(excludedAgents));
 
                 foreach (var killer in currentState.GetAgents())
                 {
@@ -153,15 +153,17 @@ namespace Narrative_Generator
                 }
 
                 action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+                return true;
             }
-            else if (action is Run)
+            else if (action is Run || action is CounterRun)
             {
                 action.Arguments.Add(initiator);
                 action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
                 action.Arguments.Add(currentState.
                         GetRandomLocationWithout(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
+                return true;
             }
-            else if (action is TellAboutASuspicious)
+            else if (action is TellAboutASuspicious || action is CounterTellAboutASuspicious)
             {
                 foreach (var agent in currentState.GetAgents())
                 {
@@ -177,24 +179,26 @@ namespace Narrative_Generator
                 action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
                 action.Arguments.Add(currentState.GetRandomLocationWithout
                     (currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
+                return true;
             }
-            else if (action is Talk)
+            else if (action is Talk || action is CounterTalk)
             {
                 action.Arguments.Add(initiator);
 
                 foreach (var agent in currentState.GetAgents())
                 {
-                    if (agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus()
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
+                    if (agent.Value.GetStatus()
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key)
+                        && agent.Key.GetName() != initiator.Key.GetName())
                     {
                         action.Arguments.Add(agent);
-                        break;
+                        return true;
                     }
                 }
 
-                // TO DO: Need to expand !!!
-                action.Arguments.Add("topic");
+                return false;
             }
+            return false;
         }
 
         public List<PlanAction> MassiveAssignVariables(ref PlanAction action, 

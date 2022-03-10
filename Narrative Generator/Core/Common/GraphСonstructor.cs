@@ -83,7 +83,7 @@ namespace Narrative_Generator
                         if (edge.GetAction() != null && edge.GetLowerNode() != null)
                         {
                             // Create a line with information about the edge.
-                            if (edge.GetAction() is Kill)
+                            if (edge.GetAction() is Kill || edge.GetAction() is CounterKill)
                             {
                                 graphSTR = graphSTR.Insert(graphSTR.Length,
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
@@ -96,10 +96,10 @@ namespace Narrative_Generator
                                     + Environment.NewLine
                                     + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + edge.GetAction().success.ToString() 
+                                    + " " + "Success: " + edge.GetAction().success.ToString() 
                                     + '"' + " color = " + '"' + " red" + '"' + "] \r\n");
                             }
-                            else if (edge.GetAction() is Entrap)
+                            else if (edge.GetAction() is Entrap || edge.GetAction() is CounterEntrap)
                             {
                                 graphSTR = graphSTR.Insert(graphSTR.Length,
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
@@ -112,10 +112,10 @@ namespace Narrative_Generator
                                     + Environment.NewLine
                                     + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + edge.GetAction().success.ToString() 
+                                    + " " + "Success: " + edge.GetAction().success.ToString() 
                                     + '"' + "] \r\n");
                             }
-                            else if (edge.GetAction() is Move)
+                            else if (edge.GetAction() is Move || edge.GetAction() is CounterMove)
                             {
                                 graphSTR = graphSTR.Insert(graphSTR.Length,
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
@@ -128,26 +128,10 @@ namespace Narrative_Generator
                                     + Environment.NewLine
                                     + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + edge.GetAction().success.ToString() 
+                                    + " " + "Success: " + edge.GetAction().success.ToString() 
                                     + '"' + "] \r\n");
                             }
-                            else if (edge.GetAction() is UnexpectedObstacle)
-                            {
-                                graphSTR = graphSTR.Insert(graphSTR.Length,
-                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
-                                    + "[label = " + " " + '"'
-                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
-                                    + Environment.NewLine
-                                    + " " + edge.GetAction().ToString().Remove(0, 20)
-                                    + Environment.NewLine
-                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
-                                    + Environment.NewLine
-                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
-                                    + Environment.NewLine
-                                    + " " + edge.GetAction().success.ToString()
-                                    + '"' + " color = " + '"' + " green" + '"' + "] \r\n");
-                            }
-                            else if (edge.GetAction() is InvestigateRoom)
+                            else if (edge.GetAction() is InvestigateRoom || edge.GetAction() is CounterInvestigateRoom)
                             {
                                 graphSTR = graphSTR.Insert(graphSTR.Length, edge.GetUpperNode().GetNumberInSequence()
                                     + "->" + edge.GetLowerNode().GetNumberInSequence()
@@ -158,8 +142,104 @@ namespace Narrative_Generator
                                     + Environment.NewLine
                                     + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + edge.GetAction().success.ToString()
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
                                     + '"' + " color = " + '"' + " blue" + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Fight || edge.GetAction() is CounterFight)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "with: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
+                                    + '"' + " color = " + '"' + " red" + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is NeutralizeKiller || edge.GetAction() is CounterNeutralizeKiller)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "where: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
+                                    + '"' + " color = " + '"' + " red" + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Reassure || edge.GetAction() is CounterReassure)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "who: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Run || edge.GetAction() is CounterRun)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is Talk || edge.GetAction() is CounterTalk)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "with: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "where: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Value.GetBeliefs().GetMyLocation().GetName()
+                                    + Environment.NewLine
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
+                            }
+                            else if (edge.GetAction() is TellAboutASuspicious || edge.GetAction() is CounterTellAboutASuspicious)
+                            {
+                                graphSTR = graphSTR.Insert(graphSTR.Length,
+                                    edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
+                                    + "[label = " + " " + '"'
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + edge.GetAction().ToString().Remove(0, 20)
+                                    + Environment.NewLine
+                                    + " " + "who: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "Success: " + edge.GetAction().success.ToString()
+                                    + '"' + "] \r\n");
                             }
                             else
                             {
@@ -170,7 +250,7 @@ namespace Narrative_Generator
                                     + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
                                     + Environment.NewLine
-                                    + " " + edge.GetAction().success.ToString() 
+                                    + " " + "Success: " + edge.GetAction().success.ToString() 
                                     + '"' + "] \r\n");
                             }
                         }

@@ -70,9 +70,30 @@ namespace Narrative_Generator
             return goalState;
         }
 
-        public bool Equals(Goal other)
+        public bool Equals(Goal anotherGoal)
         {
-            throw new NotImplementedException();
+            if (anotherGoal == null) { return false; }
+
+            bool goalTypeIsLocationEquals = (goalTypeIsLocation == anotherGoal.goalTypeIsLocation);
+            bool goalTypeIsLocationReferenceEquals = object.ReferenceEquals(goalTypeIsLocation, anotherGoal.goalTypeIsLocation);
+
+            bool goalTypeIsStatusEquals = (goalTypeIsStatus == anotherGoal.goalTypeIsStatus);
+            bool goalTypeIsStatusReferenceEquals = object.ReferenceEquals(goalTypeIsStatus, anotherGoal.goalTypeIsStatus);
+
+            bool goalTypeIsPossessionEquals = (goalTypeIsPossession == anotherGoal.goalTypeIsPossession);
+            bool goalTypeIsPossessionReferenceEquals = object.ReferenceEquals(goalTypeIsPossession, anotherGoal.goalTypeIsPossession);
+
+            bool goalStateEquals = goalState.Equals(anotherGoal.goalState);
+            bool goalStateReferenceEquals = object.ReferenceEquals(goalState, anotherGoal.goalState);
+
+            bool goalTypeIsLocationGlobal = goalTypeIsLocationEquals || goalTypeIsLocationReferenceEquals;
+            bool goalTypeIsStatusGlobal = goalTypeIsStatusEquals || goalTypeIsStatusReferenceEquals;
+            bool goalTypeIsPossessionGlobal = goalTypeIsPossessionEquals || goalTypeIsPossessionReferenceEquals;
+            bool goalStateGlobal = goalStateEquals || goalStateReferenceEquals;
+
+            bool equal = goalTypeIsLocationGlobal && goalTypeIsStatusGlobal && goalTypeIsPossessionGlobal && goalStateGlobal;
+
+            return equal;
         }
 
         public override int GetHashCode()

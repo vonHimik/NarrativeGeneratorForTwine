@@ -25,10 +25,6 @@ namespace Narrative_Generator
             // If the agent is alive.
             if (agent.Value.GetStatus())
             {
-                // Then he can move.
-                Move move = new Move();
-                result.Add(move);
-
                 Talk talk = new Talk();
                 result.Add(talk);
 
@@ -97,6 +93,10 @@ namespace Narrative_Generator
                         result.Add(investigateRoom);
                     }
                 }
+
+                // Then he can move.
+                Move move = new Move();
+                result.Add(move);
             }
 
             // Returning a list of valid actions.

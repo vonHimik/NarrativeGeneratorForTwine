@@ -110,87 +110,6 @@ namespace Narrative_Generator
             {
                 bool test = true;
             }
-
-            /*bool full = false;
-
-            if (duplicate)
-            {
-                if (firstNode.Equals(secondNode))
-                {
-                    foreach (var edge in firstNode.GetEdges())
-                    {
-                        foreach (var edge2 in secondNode.GetEdges())
-                        {
-                            if (edge.GetLowerNode() == null && edge2.GetLowerNode() == null)
-                            {
-                                edge.SetLowerNode(ref secondNode);
-                                edge2.SetLowerNode(ref firstNode);
-
-                                return;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (firstNode.GetEdges().Count != 0)
-            {
-                full = true;
-
-                foreach (var edge in firstNode.GetEdges())
-                {
-                    if (edge.GetLowerNode() == null)
-                    {
-                        edge.SetLowerNode(ref secondNode);
-
-                        secondNode.AddEdge(edge);
-
-                        full = false;
-
-                        if (duplicate)
-                        {
-                            firstNode.AddLinkToNode(ref secondNode);
-                            secondNode.AddLinkToNode(ref firstNode);
-                            return;
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            if (full)
-            {
-                Edge oldEdge = new Edge();
-
-                //oldEdge.SetAction(firstNode.GetEdges().Last().GetAction());
-                oldEdge.SetAction(action);
-
-                oldEdge.SetUpperNode(ref firstNode);
-                oldEdge.SetLowerNode(ref secondNode);
-
-                firstNode.AddEdge(oldEdge);
-                secondNode.AddEdge(oldEdge);
-
-                firstNode.AddLinkToNode(ref secondNode);
-                secondNode.AddLinkToNode(ref firstNode);
-
-                return;
-            }
-
-            // Create an empty new edge.
-            Edge newEdge = new Edge();
-
-            // We adjust the edge - assign its action and indicate the nodes that it connects.
-            newEdge.SetAction(action);
-            newEdge.SetUpperNode(ref secondNode);
-            if (duplicate) { newEdge.SetLowerNode(ref firstNode); }
-
-            firstNode.AddLinkToNode(ref secondNode);
-            secondNode.AddLinkToNode(ref firstNode);
-
-            secondNode.AddEdge(newEdge);
-            if (duplicate) firstNode.AddEdge(newEdge);*/
         }
 
         public StoryNode CreateTestNode(WorldDynamic currentState,
@@ -207,17 +126,20 @@ namespace Narrative_Generator
             worldForTest.UpdateHashCode();
 
             StoryNode testNode = new StoryNode();
-            testNode.SetWorldState(worldForTest);
+            //if (counteract) { testNode.counteract = true; }
+            //testNode.SetWorldState(worldForTest);
+            testNode.SetWorldState((WorldDynamic)worldForTest.Clone());
 
             // Create a clone of the agent.
-            KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent =
-                new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
+            //KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent =
+            //    new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
+            testNode.SetActiveAgent(testNode.GetWorldState().GetAgentByName(agent.Key.GetName()));
 
             // We take the last node from the list of all nodes and assign whether the player is active and which of the agents was active on this turn.
-            if (newAgent.Key.GetRole() == AgentRole.PLAYER) { testNode.SetActivePlayer(true); }
+            if (agent.Key.GetRole() == AgentRole.PLAYER) { testNode.SetActivePlayer(true); }
             else { testNode.SetActivePlayer(false); }
 
-            testNode.SetActiveAgent(newAgent);
+            //testNode.SetActiveAgent(newAgent);
 
             /*if (connection)
             {
@@ -243,6 +165,7 @@ namespace Narrative_Generator
             WorldDynamic newState = (WorldDynamic)currentState.Clone();
             if (!succsessControl) { action.Fail(ref newState); }
             else { action.ApplyEffects(ref newState); }
+            newState.UpdateHashCode();
 
             // Create an empty new node.
             StoryNode newNode = new StoryNode();
@@ -259,6 +182,11 @@ namespace Narrative_Generator
 
             globalNodeNumber++;
             newNode.SetNumberInSequence(globalNodeNumber);
+
+            if (nodes.Contains(newNode))
+            {
+                bool test = true;
+            }
 
             // Add a new node to the graph.
             AddNode(newNode);
@@ -328,7 +256,6 @@ namespace Narrative_Generator
                                             PlanAction action, 
                                             KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                             StoryNode currentNode,
-                                            ref bool skip,
                                             int globalNodeNumber,
                                             ref Queue<StoryNode> queue)
         {
@@ -349,7 +276,6 @@ namespace Narrative_Generator
             else
             {
                 DeleteTestNode(ref testNode);
-                skip = true;
             }
         }
     }

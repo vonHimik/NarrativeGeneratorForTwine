@@ -29,7 +29,12 @@ namespace Narrative_Generator
             return Agent.Value.GetStatus();
         }
 
-        public override void ApplyEffects(ref WorldDynamic state) {}
+        public override void ApplyEffects(ref WorldDynamic state)
+        {
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+
+            stateAgent.Value.IncreaseSkipedTurns();
+        }
 
         public override void Fail(ref WorldDynamic state) { fail = true; }
     }

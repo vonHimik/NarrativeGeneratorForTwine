@@ -87,16 +87,32 @@ namespace Narrative_Generator
 
         public bool Equals(WorldStatic anotherWorld)
         {
-            bool locationsReferenceEquals = object.ReferenceEquals(GetLocations(), anotherWorld.GetLocations());
-            bool locationsEquals = GetLocations().Equals(anotherWorld.GetLocations());
+            if (anotherWorld == null) { return false; }
+
+            bool locationsEquals = true;
+            bool locationsReferenceEquals = true;
+
+            for (int i = 0; i < locations.Count; i++)
+            {
+                if (!locations.ElementAt(i).Equals(anotherWorld.locations.ElementAt(i)))
+                {
+                    locationsEquals = false;
+                }
+                if (!object.ReferenceEquals(locations.ElementAt(i), anotherWorld.locations.ElementAt(i)))
+                {
+                    locationsReferenceEquals = false;
+                }
+            }
 
             bool turnEquals = turn.Equals(anotherWorld.GetTurnNumber());
+            bool turnReferenceEquals = object.ReferenceEquals(turn, anotherWorld.turn);
 
             bool locationsGlobal = locationsReferenceEquals || locationsEquals;
+            bool turnGlobal = turnEquals || turnReferenceEquals;
 
-            bool equals = locationsGlobal && turnEquals;
+            bool equal = locationsGlobal && turnGlobal;
 
-            return equals;
+            return equal;
         }
 
         /* HASHCODE SECTION */

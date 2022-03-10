@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class Reassure : PlanAction
+    class CounterReassure : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent1
         {
@@ -49,33 +49,43 @@ namespace Narrative_Generator
             }
         }
 
-        public Reassure(params Object[] args) : base(args) { }
+        public string OriginalAction
+        {
+            get
+            {
+                return (string)Arguments[5];
+            }
+        }
 
-        public Reassure(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
-                        ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2, 
-                        ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent3, 
-                        ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
-                        ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public CounterReassure(params Object[] args) : base(args) { }
+
+        public CounterReassure(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
+                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
+                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent3,
+                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
+                               ref KeyValuePair<LocationStatic, LocationDynamic> location,
+                               string originalAction)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
             Arguments.Add(agent3);
             Arguments.Add(killer);
             Arguments.Add(location);
+            Arguments.Add(originalAction);
         }
 
         public override bool CheckPreconditions(WorldDynamic state)
         {
-            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
+            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
                       && Agent2.Key.GetRole() == AgentRole.USUAL && Agent2.Value.GetStatus()
-                      && Agent3.Key.GetRole() == AgentRole.USUAL 
-                      && Killer.Key.GetRole() == AgentRole.KILLER 
+                      && Agent3.Key.GetRole() == AgentRole.USUAL
+                      && Killer.Key.GetRole() == AgentRole.KILLER
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
                       && (Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Killer.Key))
                       && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.KILLER).Equals(Killer);
         }
 
-        public override void ApplyEffects (ref WorldDynamic state)
+        public override void ApplyEffects(ref WorldDynamic state)
         {
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent1 = state.GetAgentByName(Agent1.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent2 = state.GetAgentByName(Agent2.Key.GetName());
@@ -90,6 +100,6 @@ namespace Narrative_Generator
             stateAgent1.Value.CalmDown();
         }
 
-        public override void Fail (ref WorldDynamic state) { fail = true; }
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

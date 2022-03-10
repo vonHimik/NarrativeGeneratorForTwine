@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class Entrap : PlanAction
+    class CounterEntrap : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
         {
@@ -33,20 +33,30 @@ namespace Narrative_Generator
             }
         }
 
-        public Entrap(params Object[] args) : base(args) { }
+        public string OriginalAction
+        {
+            get
+            {
+                return (string)Arguments[3];
+            }
+        }
 
-        public Entrap(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                      ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
-                      ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public CounterEntrap(params Object[] args) : base(args) { }
+
+        public CounterEntrap(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                             ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
+                             ref KeyValuePair<LocationStatic, LocationDynamic> location,
+                             string originalAction)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
             Arguments.Add(location);
+            Arguments.Add(originalAction);
         }
 
         public override bool CheckPreconditions(WorldDynamic state)
         {
-            return (Agent.Key.GetRole() == AgentRole.USUAL || Agent.Key.GetRole() == AgentRole.PLAYER) && Agent.Value.GetStatus() 
+            return (Agent.Key.GetRole() == AgentRole.USUAL || Agent.Key.GetRole() == AgentRole.PLAYER) && Agent.Value.GetStatus()
                    && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
                    && !Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 1;
         }
@@ -61,10 +71,10 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent.Value.SetTargetLocation(stateLocation.Key);
-            stateKiller.Value.SetEntrap(stateAgent.Key, stateLocation.Key);
+            stateAgent.Value.SetEntrap(stateAgent.Key, stateLocation.Key);
         }
 
-        public override void Fail (ref WorldDynamic state)
+        public override void Fail(ref WorldDynamic state)
         {
             fail = true;
         }

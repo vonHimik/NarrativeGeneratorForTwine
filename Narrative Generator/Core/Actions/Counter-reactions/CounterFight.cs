@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class Fight : PlanAction
+    class CounterFight : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent1
         {
@@ -33,26 +33,36 @@ namespace Narrative_Generator
             }
         }
 
-        public Fight(params Object[] args) : base(args) { }
+        public string OriginalAction
+        {
+            get
+            {
+                return (string)Arguments[3];
+            }
+        }
 
-        public Fight(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
-                     ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2, 
-                     ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public CounterFight(params Object[] args) : base(args) { }
+
+        public CounterFight(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
+                            ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
+                            ref KeyValuePair<LocationStatic, LocationDynamic> location,
+                            string originalAction)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
             Arguments.Add(location);
+            Arguments.Add(originalAction);
         }
 
-        public override bool CheckPreconditions (WorldDynamic state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
-            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
+            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
                       && Agent2.Key.GetRole() == AgentRole.KILLER && Agent2.Value.GetStatus()
-                      && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key) 
+                      && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
                       && Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent2.Key);
         }
 
-        public override void ApplyEffects (ref WorldDynamic state)
+        public override void ApplyEffects(ref WorldDynamic state)
         {
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent1.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent2 = state.GetAgentByName(Agent2.Key.GetName());
@@ -63,6 +73,6 @@ namespace Narrative_Generator
             stateAgent2.Value.SetStatus(false);
         }
 
-        public override void Fail (ref WorldDynamic state) { fail = true; }
+        public override void Fail(ref WorldDynamic state) { fail = true; }
     }
 }

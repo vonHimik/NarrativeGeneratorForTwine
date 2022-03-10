@@ -56,13 +56,17 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
 
+            stateAgent.Value.ClearTempStates();
+            stateKiller.Value.ClearTempStates();
+
             stateAgent.Value.SetStatus(false);
             stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Dead();
             stateKiller.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Dead();
 
             state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.GetAgent(stateAgent).Value.Die();
+            //state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.RemoveDiedAgents();
         }
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }

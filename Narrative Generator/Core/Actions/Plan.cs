@@ -56,7 +56,7 @@ namespace Narrative_Generator
                 Move move = new Move();
                 actions.Add(move);
             }
-            if (actionName.Contains("kill") && !actionName.Contains("move"))
+            if (actionName.Contains("kill") && !actionName.Contains("move") && !actionName.Contains("neutralize"))
             {
                 Kill kill = new Kill();
                 actions.Add(kill);

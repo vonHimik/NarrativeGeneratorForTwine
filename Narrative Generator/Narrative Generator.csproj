@@ -65,6 +65,16 @@
     <Compile Include="Core\Actions\ActionTypes\TellAboutASuspicious.cs" />
     <Compile Include="Core\Actions\Counter-reactions\AngerIsInTheAir.cs" />
     <Compile Include="Core\Actions\Counter-reactions\ChangeOfMood.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterEntrap.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterFight.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterInvestigateRoom.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterKill.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterMove.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterNeutralizeKiller.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterReassure.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterRun.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterTalk.cs" />
+    <Compile Include="Core\Actions\Counter-reactions\CounterTellAboutASusoicious.cs" />
     <Compile Include="Core\Actions\Counter-reactions\EnvironmentIsNotConduciveToTalk.cs" />
     <Compile Include="Core\Actions\Counter-reactions\MiraculousSalvation.cs" />
     <Compile Include="Core\Actions\Counter-reactions\UnexpectedObstacle.cs" />
@@ -75,6 +85,8 @@
     <Compile Include="Core\Agents\Properties\AgentAngryAt.cs" />
     <Compile Include="Core\Agents\Properties\AgentFoundEvidence.cs" />
     <Compile Include="Core\Agents\Properties\AgentProperty.cs" />
+    <Compile Include="Core\Agents\Properties\TalkingWith.cs" />
+    <Compile Include="Core\Agents\Properties\WantToEntrap.cs" />
     <Compile Include="Core\Agents\WorldContext.cs" />
     <Compile Include="Core\Common\CSP-Module.cs" />
     <Compile Include="Core\Common\GraphСonstructor.cs" />

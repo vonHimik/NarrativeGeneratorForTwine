@@ -23,7 +23,7 @@ namespace Narrative_Generator
         // Start --> current state
         public WorldDynamic currentStoryState = new WorldDynamic();
         public int goalsCounter = 2;
-        public int agentsCounter = 4; // 7
+        public int agentsCounter = 3; // 7
         public int locationsCounter = 4; // 8
 
         // Output graphs
@@ -75,6 +75,22 @@ namespace Narrative_Generator
             for (int i = 1; i <= agentsCounter - numberOfKillers - numberOfVictims; i++)
             {
                 actions = actions.Insert(actions.Length, "(AGENT ?a" + i + ") ");
+            }
+            actions = actions.Insert(actions.Length, Environment.NewLine);
+            for (int i = 1; i <= agentsCounter - numberOfKillers - numberOfVictims; i++)
+            {
+                actions = actions.Insert(actions.Length, "(not ( = ?victim ?a" + i + ")) ");
+            }
+            actions = actions.Insert(actions.Length, Environment.NewLine);
+            for (int i = 1; i <= agentsCounter - numberOfKillers - numberOfVictims; i++)
+            {
+                for (int j = i; j <= agentsCounter - numberOfKillers - numberOfVictims; j++)
+                {
+                    if (i != j)
+                    {
+                        actions = actions.Insert(actions.Length, "(not ( = ?a" + i + " ?a" + j + ")) ");
+                    }
+                }
             }
             actions = actions.Insert(actions.Length, Environment.NewLine);
             actions = actions.Insert(actions.Length, " (alive ?k) (alive ?victim) " + Environment.NewLine);
@@ -503,7 +519,7 @@ namespace Narrative_Generator
             if (manualInput) // Constraints for demo-story
             {
                 // The killer must be alive for the first 5 turns.
-                ConstraintAlive killerMustBeAliveFiveTurns = new ConstraintAlive(true, false, currentStoryState.GetAgentByRole(AgentRole.KILLER), 5);
+                ConstraintAlive killerMustBeAliveFiveTurns = new ConstraintAlive(true, false, currentStoryState.GetAgentByRole(AgentRole.KILLER), 1);
                 storyworldConvergence.AddConstraint(killerMustBeAliveFiveTurns);
             }
         }
@@ -735,12 +751,6 @@ namespace Narrative_Generator
             Queue<StoryNode> queue = new Queue<StoryNode>();
             HashSet<StoryNode> visitedNodes = new HashSet<StoryNode>();
 
-            // Flag for early completion of the verification stage and transition to the next.
-            bool skip = false;
-
-            // Counter of wrong states (dead ends, cycles, skips).
-            int doomCounter = 0;
-
             // Добавляем узел в очередь и список посещённых узлов.
             queue.Enqueue(rootNode);
             visitedNodes.Add(rootNode);
@@ -749,11 +759,9 @@ namespace Narrative_Generator
             int actualAgentNumber = 0;
             int globalNodeNumber = -1;
 
-            // We will perform the action in a loop until the queue becomes empty or the number of consecutive errors reaches ten.
-            while (queue.Count > 0 && newStoryGraph.GetNodes().Count <= maxNodes && doomCounter < 10)
+            // We will perform the action in a loop until the queue becomes empty.
+            while (queue.Count > 0 && newStoryGraph.GetNodes().Count <= maxNodes)
             {
-                skip = false;
-
                 // We take the node in question from the queue.
                 StoryNode currentNode = queue.Dequeue();
 
@@ -769,7 +777,7 @@ namespace Narrative_Generator
                     if (currentNode.Equals(rootNode) && root)
                     {
                         // We call the method for creating a new node.
-                        Step(newStoryGraph.GetRoot(), actualAgentNumber, root, ref globalNodeNumber, ref skip, ref queue);
+                        Step(newStoryGraph.GetRoot(), actualAgentNumber, root, ref globalNodeNumber, ref queue);
 
                         // Add the considered node back to the queue (in the case of the root, we only changed it and will consider it again),
                         //    and also to the list of visited nodes. We remove the flag indicating that we are considering the root node.
@@ -784,34 +792,9 @@ namespace Narrative_Generator
                         actualAgentNumber = GetActualAgentNumber(currentNode.GetWorldState().GetIndexOfAgent(currentNode.GetActiveAgent()));
 
                         // We call the method to create a new node.
-                        Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber, ref skip, ref queue);
+                        Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber, ref queue);
                     }
                 }
-
-                // If an error occurs while creating a node and the agent is forced to skip a turn.
-                if (skip)
-                {
-                    /*currentNode.skiped = true;
-
-                    // We get the index of the agent who was acting now.
-                    actualAgentNumber = GetActualAgentNumber(currentNode.GetWorldState().GetIndexOfAgent(currentNode.GetActiveAgent()));
-
-                    // We write it to the node in question, as if it performed an action in the previous step, overwriting information 
-                    //    about that agent, who actually did it. This is necessary so that when we try to expand this node next time,
-                    //    then the next agent in the queue was already acting, and not the one that just missed the move.
-                    currentNode.SetActiveAgent(currentNode.GetWorldState().GetAgentByIndex(actualAgentNumber));
-
-                    // Add the node in question back to the queue and to the list of visited nodes, if it is not already there.
-                    queue.Enqueue(currentNode);
-                    if (!visitedNodes.Contains(currentNode)) { visitedNodes.Add(currentNode); }
-
-                    // We increase the counter of consecutive errors and move on to the next step.
-                    doomCounter++;
-                    continue;*/
-                }
-
-                // If no errors occurred at this step, reset their counter.
-                doomCounter = 0;
 
                 // We go through the nodes associated with the considered one.
                 foreach (StoryNode nextNode in currentNode.GetLinks())
@@ -912,7 +895,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Convergence in turn asks agents for actions, checks them, applies them, counteracts them, or does not.
         /// </summary>
-        public void Step (StoryNode currentNode, int agentIndex, bool root, ref int globalNodeNumber, ref bool skip, ref Queue<StoryNode> queue)
+        public void Step (StoryNode currentNode, int agentIndex, bool root, ref int globalNodeNumber, ref Queue<StoryNode> queue)
         {
             // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
             currentStoryState = currentNode.GetWorldState();
@@ -928,7 +911,7 @@ namespace Narrative_Generator
             {
                 // We create a request for action of the specified agent from the specified state.
                 storyworldConvergence.ActionRequest(currentStoryState.GetAgentByIndex(agentIndex), ref newStoryGraph, ref currentStoryState, 
-                                                     currentNode, root, ref globalNodeNumber, ref skip, ref queue);
+                                                     currentNode, root, ref globalNodeNumber, ref queue);
             }
         }
 

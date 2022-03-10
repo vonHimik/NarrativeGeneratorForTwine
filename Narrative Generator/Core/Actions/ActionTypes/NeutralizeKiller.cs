@@ -44,7 +44,7 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
-        public override bool CheckPreconditions(WorldDynamic state)
+        public override bool CheckPreconditions (WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
                       && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
@@ -52,13 +52,17 @@ namespace Narrative_Generator
                       && Agent.Value.GetObjectOfAngry().AngryCheckAtAgent(Killer.Key);
         }
 
-        public override void ApplyEffects(ref WorldDynamic state)
+        public override void ApplyEffects (ref WorldDynamic state)
         {
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
+
+            stateAgent.Value.ClearTempStates();
+            stateKiller.Value.ClearTempStates();
 
             stateKiller.Value.SetStatus(false);
         }
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }

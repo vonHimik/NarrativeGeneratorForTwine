@@ -571,6 +571,19 @@ namespace Narrative_Generator
             return null;
         }
 
+        public LocationStatic SearchAgentAmongLocationsByName(string name)
+        {
+            foreach (var location in currentStateOfLocations)
+            {
+                if (location.Value.SearchAgentByName(name))
+                {
+                    return location.Key;
+                }
+            }
+
+            return null;
+        }
+
         public WorldStatic GetStaticWorldPart()
         {
             return world;
@@ -586,18 +599,49 @@ namespace Narrative_Generator
         {
             if (anotherWorld == null) { return false; }
 
-            if (GetHashCode() == anotherWorld.GetHashCode()) { return true; }
-
-            bool worldStateReferenceEquals = object.ReferenceEquals(GetStaticWorldPart(), anotherWorld.GetStaticWorldPart());
             bool worldStateEquals = world.Equals(anotherWorld.GetStaticWorldPart());
+            bool worldStateReferenceEquals = object.ReferenceEquals(GetStaticWorldPart(), anotherWorld.GetStaticWorldPart());
 
-            bool locationsReferenceEquals = object.ReferenceEquals(GetLocations(), anotherWorld.GetLocations());
-            bool locationsEquals = GetLocations().Equals(anotherWorld.GetLocations());
+            bool locationsEquals = true;
+            bool locationsReferenceEquals = true;
 
-            bool agentsReferenceEquals = object.ReferenceEquals(GetAgents(), anotherWorld.GetAgents());
-            bool agentsEquals = GetAgents().Equals(anotherWorld.GetAgents());
+            for (int i = 0; i < currentStateOfLocations.Count; i++)
+            {
+                if (!currentStateOfLocations.Keys.ElementAt(i).Equals(anotherWorld.currentStateOfLocations.Keys.ElementAt(i))
+                    || !currentStateOfLocations.Values.ElementAt(i).Equals(anotherWorld.currentStateOfLocations.Values.ElementAt(i)))
+                {
+                    locationsEquals = false;
+                }
+                if (!object.ReferenceEquals(currentStateOfLocations.Keys.ElementAt(i), anotherWorld.currentStateOfLocations.Keys.ElementAt(i))
+                    || !object.ReferenceEquals(currentStateOfLocations.Values.ElementAt(i), anotherWorld.currentStateOfLocations.Values.ElementAt(i)))
+                {
+                    locationsReferenceEquals = false;
+                }
+            }
 
-            // Наверное, мало смысла сравнивать также и цели. К тому же, подозреваю, что это снова может привести к рекурсии.
+            bool agentsReferenceEquals = true;
+            bool agentsEquals = true;
+            if (agents.Count == anotherWorld.agents.Count)
+            {
+                for (int i = 0; i < agents.Count; i++)
+                {
+                    if (!agents.Keys.ElementAt(i).Equals(anotherWorld.agents.Keys.ElementAt(i))
+                        || !agents.Values.ElementAt(i).Equals(anotherWorld.agents.Values.ElementAt(i)))
+                    {
+                        agentsEquals = false;
+                    }
+                    if (!object.ReferenceEquals(agents.Keys.ElementAt(i), anotherWorld.agents.Keys.ElementAt(i))
+                        || !object.ReferenceEquals(agents.Values.ElementAt(i), anotherWorld.agents.Values.ElementAt(i)))
+                    {
+                        agentsReferenceEquals = false;
+                    }
+                }
+            }
+            else
+            {
+                agentsEquals = false;
+                agentsReferenceEquals = false;
+            }
 
             bool worldStateGlobal = worldStateReferenceEquals || worldStateEquals;
             bool locationsGlobal = locationsReferenceEquals || locationsEquals;

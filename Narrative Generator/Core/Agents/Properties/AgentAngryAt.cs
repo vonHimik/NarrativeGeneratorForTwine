@@ -90,9 +90,32 @@ namespace Narrative_Generator
             return angry;
         }
 
-        public bool Equals(AgentAngryAt other)
+        public bool Equals(AgentAngryAt anotherAngryAt)
         {
-            throw new NotImplementedException();
+            if (anotherAngryAt == null) { return false; }
+
+            bool angryEquals = (angry == anotherAngryAt.angry);
+            bool angryReferenceEquals = object.ReferenceEquals(angry, anotherAngryAt.angry);
+
+            bool objectOfAngryEquals;
+            bool objectOfAngryReferenceEquals;
+            if (objectOfAngry == null && anotherAngryAt.objectOfAngry == null)
+            {
+                objectOfAngryEquals = true;
+                objectOfAngryReferenceEquals = true;
+            }
+            else
+            {
+                objectOfAngryEquals = objectOfAngry.Equals(anotherAngryAt.objectOfAngry);
+                objectOfAngryReferenceEquals = object.ReferenceEquals(objectOfAngry, anotherAngryAt.objectOfAngry);
+            }
+
+            bool angryGlobal = angryEquals || angryReferenceEquals;
+            bool objectOfAngryGlobal = objectOfAngryEquals || objectOfAngryReferenceEquals;
+
+            bool equal = angryGlobal && objectOfAngryGlobal;
+
+            return equal;
         }
 
         //////////////////////

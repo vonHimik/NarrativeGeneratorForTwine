@@ -223,6 +223,23 @@ namespace Narrative_Generator
             return false;
         }
 
+        public bool SearchAgentByName(string name)
+        {
+            // We go through all the agents in the list of agents located in this location.
+            foreach (var a in agentsAtLocations)
+            {
+                // We compare the name of the agent with the name of the desired agent.
+                if (a.Key.GetName() == name)
+                {
+                    // Return true if the search is successful.
+                    return true;
+                }
+            }
+
+            // Otherwise, we return false.
+            return false;
+        }
+
         /// <summary>
         /// Returns the number of agents located in this location.
         /// </summary>
@@ -257,9 +274,73 @@ namespace Narrative_Generator
             return locationInfo;
         }
 
-        public bool Equals(LocationDynamic other)
+        public bool Equals(LocationDynamic anotherLocation)
         {
-            throw new NotImplementedException();
+            if (anotherLocation == null) { return false; }
+
+            bool locationInfoEquals = locationInfo.Equals(anotherLocation.locationInfo);
+            bool locationInfoReferenceEquals = object.ReferenceEquals(locationInfo, anotherLocation.locationInfo);
+
+            bool agentsAtLocationEquals = true;
+            bool agentsAtLocationReferenceEquals = true;
+            if (agentsAtLocations.Count == anotherLocation.agentsAtLocations.Count)
+            {
+                for (int i = 0; i < agentsAtLocations.Count; i++)
+                {
+                    if (!agentsAtLocations.Keys.ElementAt(i).Equals(anotherLocation.agentsAtLocations.Keys.ElementAt(i)) ||
+                        !agentsAtLocations.Values.ElementAt(i).Equals(anotherLocation.agentsAtLocations.Values.ElementAt(i)))
+                    {
+                        agentsAtLocationEquals = false;
+                    }
+                    if (!object.ReferenceEquals(agentsAtLocations.Keys.ElementAt(i), anotherLocation.agentsAtLocations.Keys.ElementAt(i)) ||
+                        !object.ReferenceEquals(agentsAtLocations.Values.ElementAt(i), anotherLocation.agentsAtLocations.Values.ElementAt(i)))
+                    {
+                        agentsAtLocationReferenceEquals = false;
+                    }
+                }
+            }
+            else
+            {
+                agentsAtLocationEquals = false;
+                agentsAtLocationReferenceEquals = false;
+            }
+
+            bool containEvidenceEquals = (containEvidence == anotherLocation.containEvidence);
+            bool containEvidenceReferenceEquals = object.ReferenceEquals(containEvidence, anotherLocation.containEvidence);
+
+            bool locationInfoGlobal = locationInfoEquals || locationInfoReferenceEquals;
+            bool agentsAtLocationGlobal = agentsAtLocationEquals || agentsAtLocationReferenceEquals;
+            bool containEvidenceGlobal = containEvidenceEquals || containEvidenceReferenceEquals;
+
+            bool equal = locationInfoGlobal && agentsAtLocationGlobal && containEvidenceGlobal;
+
+            return equal;
+        }
+
+        public void RemoveDiedAgents()
+        {
+            for (int i = 0; i < agentsAtLocations.Count; i++)
+            {
+                var agent = agentsAtLocations.ElementAt(i);
+
+                if (!agent.Value.GetStatus())
+                {
+                    this.agentsAtLocations.Remove(agent.Key);
+                    i--;
+                }
+            }
+        }
+
+        public int CountAliveAgents()
+        {
+            int counter = 0;
+
+            foreach (var agent in agentsAtLocations)
+            {
+                if (agent.Value.GetStatus()) { counter++; }
+            }
+
+            return counter;
         }
 
         /* HASHCODE SECTION */

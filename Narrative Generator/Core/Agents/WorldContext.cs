@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class BeliefsAboutAgent : ICloneable
+    public class BeliefsAboutAgent : ICloneable, IEquatable<BeliefsAboutAgent>
     {
         private AgentStateStatic info;
         private AgentRole role;
@@ -108,9 +108,39 @@ namespace Narrative_Generator
         {
             angryAt = objectOfAngry;
         }
+
+        public bool Equals(BeliefsAboutAgent anotherBeliefsAboutAgent)
+        {
+            if (anotherBeliefsAboutAgent == null) { return false; }
+
+            bool infoEquals = info.Equals(anotherBeliefsAboutAgent.info);
+            bool infoReferenceEquals = object.ReferenceEquals(info, anotherBeliefsAboutAgent.info);
+
+            bool roleEquals = (role == anotherBeliefsAboutAgent.role);
+            bool roleReferenceEquals = object.ReferenceEquals(role, anotherBeliefsAboutAgent.role);
+
+            bool statusEquals = (isAlive == anotherBeliefsAboutAgent.isAlive);
+            bool statusReferenceEquals = object.ReferenceEquals(isAlive, anotherBeliefsAboutAgent.isAlive);
+
+            bool inLocationEquals = inLocation.Equals(anotherBeliefsAboutAgent.inLocation);
+            bool inLocationReferenceEquals = object.ReferenceEquals(inLocation, anotherBeliefsAboutAgent.inLocation);
+
+            bool angryAtEquals = angryAt.Equals(anotherBeliefsAboutAgent.angryAt);
+            bool angryAtReferenceEquals = object.ReferenceEquals(angryAt, anotherBeliefsAboutAgent.angryAt);
+
+            bool infoGlobal = infoEquals || infoReferenceEquals;
+            bool roleGlobal = roleEquals || roleReferenceEquals;
+            bool statusGlobal = statusEquals || statusReferenceEquals;
+            bool inLocationGlobal = inLocationEquals || inLocationReferenceEquals;
+            bool angryAtGlobal = angryAtEquals || angryAtReferenceEquals;
+
+            bool equal = infoGlobal && roleGlobal && statusGlobal && inLocationGlobal && angryAtGlobal;
+
+            return equal;
+        }
     }
 
-    public class WorldContext : ICloneable
+    public class WorldContext : ICloneable, IEquatable<WorldContext>
     {
         private LocationStatic myLocation;
         private HashSet<AgentStateStatic> anotherAgentsInMyLocation;
@@ -344,6 +374,68 @@ namespace Narrative_Generator
 
             // We get the name of a randomly selected location (by a randomly generated index), search for it by name and return it.
             return GetLocationByName(locationsNames[index]);
+        }
+
+        public bool Equals (WorldContext anotherWorldContext)
+        {
+            if (anotherWorldContext == null) { return false; }
+
+            bool myLocationEquals = myLocation.Equals(anotherWorldContext.myLocation);
+            bool myLocationReferenceEquals = object.ReferenceEquals(myLocation, anotherWorldContext.myLocation);
+
+            bool anotherAgentsInMyLocationEquals = true;
+            bool anotherAgentsInMyLocationReferenceEquals = true;
+
+            for (int i = 0; i <anotherAgentsInMyLocation.Count; i++)
+            {
+                if (!anotherAgentsInMyLocation.ElementAt(i).Equals(anotherWorldContext.anotherAgentsInMyLocation.ElementAt(i)))
+                {
+                    anotherAgentsInMyLocationEquals = false;
+                }
+                if (!object.ReferenceEquals(anotherAgentsInMyLocation.ElementAt(i), anotherWorldContext.anotherAgentsInMyLocation.ElementAt(i)))
+                {
+                    anotherAgentsInMyLocationReferenceEquals = false;
+                }
+            }
+
+            bool agentsInWorldEquals = true;
+            bool agentsInWorldReferenceEquals = true;
+
+            for (int i = 0; i < agentsInWorld.Count; i++)
+            {
+                if (!agentsInWorld.ElementAt(i).Equals(anotherWorldContext.agentsInWorld.ElementAt(i)))
+                {
+                    agentsInWorldEquals = false;
+                }
+                if (!object.ReferenceEquals(agentsInWorld.ElementAt(i), anotherWorldContext.agentsInWorld.ElementAt(i)))
+                {
+                    agentsInWorldReferenceEquals = false;
+                }
+            }
+
+            bool locationsInWorldEquals = true;
+            bool locationsInWorldReferenceEquals = true;
+
+            for (int i = 0; i < locationsInWorld.Count; i++)
+            {
+                if (!locationsInWorld.ElementAt(i).Equals(anotherWorldContext.locationsInWorld.ElementAt(i)))
+                {
+                    locationsInWorldEquals = false;
+                }
+                if (!object.ReferenceEquals(locationsInWorld.ElementAt(i), anotherWorldContext.locationsInWorld.ElementAt(i)))
+                {
+                    locationsInWorldReferenceEquals = false;
+                }
+            }
+
+            bool myLocationGlobal = myLocationEquals || myLocationReferenceEquals;
+            bool anotherAgentsInMyLocationGlobal = anotherAgentsInMyLocationEquals || anotherAgentsInMyLocationReferenceEquals;
+            bool agentsInWorldGlobal = agentsInWorldEquals || agentsInWorldReferenceEquals;
+            bool locationsInWorldGlobal = locationsInWorldEquals || locationsInWorldReferenceEquals;
+
+            bool equal = myLocationGlobal && anotherAgentsInMyLocationGlobal && agentsInWorldGlobal && locationsInWorldGlobal;
+
+            return equal;
         }
     }
 }

@@ -55,6 +55,8 @@ namespace Narrative_Generator
             KeyValuePair<LocationStatic, LocationDynamic> stateTo = state.GetLocationByName(To.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
+            stateAgent.Value.ClearTempStates();
+
             stateFrom.Value.RemoveAgent(stateAgent);
             stateAgent.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).ClearLocation();
             stateAgent.Value.GetBeliefs().ClearMyLocation();
@@ -70,7 +72,7 @@ namespace Narrative_Generator
             }
         }
 
-        public override void Fail(ref WorldDynamic state)
+        public override void Fail (ref WorldDynamic state)
         {
             fail = true;
         }

@@ -10,7 +10,7 @@ namespace Narrative_Generator
     /// A class that stores static (rarely changed) agent properties and methods for interacting with them.
     /// </summary>
     [Serializable]
-    public class AgentStateStatic : /*IEquatable<AgentStateStatic>,*/ ICloneable
+    public class AgentStateStatic : IEquatable<AgentStateStatic>, ICloneable
     {
         // Agent properties.
         private string name;
@@ -114,10 +114,23 @@ namespace Narrative_Generator
             return role;
         }
 
-        /*public bool Equals(AgentStateStatic other)
+        public bool Equals (AgentStateStatic anotherState)
         {
-            throw new NotImplementedException();
-        }*/
+            if (anotherState == null) { return false; }
+
+            bool nameEquals = (name == anotherState.name);
+            bool nameReferenceEquals = object.ReferenceEquals(name, anotherState.name);
+
+            bool roleEquals = (role == anotherState.role);
+            bool roleReferenceEquals = object.ReferenceEquals(role, anotherState.role);
+
+            bool nameGlobal = nameEquals || nameReferenceEquals;
+            bool roleGlobal = roleEquals || roleReferenceEquals;
+
+            bool equal = nameGlobal && roleGlobal;
+
+            return equal;
+        }
 
         //////////////////////
         /* HASHCODE SECTION */

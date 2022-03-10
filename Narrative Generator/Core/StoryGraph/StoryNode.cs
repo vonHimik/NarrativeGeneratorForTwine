@@ -164,20 +164,31 @@ namespace Narrative_Generator
             edges.Remove(edge);
         }
 
-        public override bool Equals (object obj)
+        /*public override bool Equals (object obj)
         {
             return Equals(obj as StoryNode);
-        }
+        }*/
 
-        public bool Equals(StoryNode anotherNode)
+        public bool Equals (StoryNode anotherNode)
         {
-            bool equal = false;
+            if (anotherNode == null) { return false; }
 
-            this.UpdateHashCode();
-            anotherNode.UpdateHashCode();
+            bool worldStateEquals = worldState.Equals(anotherNode.worldState);
+            bool worldStateReferenceEquals = object.ReferenceEquals(worldState, anotherNode.worldState);
 
-            if (anotherNode == null) { equal = false; }
-            if (GetHashCode() == anotherNode.GetHashCode()) { equal = true; }
+            bool playerIsActiveEquals = (playerIsActive == anotherNode.playerIsActive);
+
+            bool activeAgentStaticEquals = activeAgent.Key.Equals(anotherNode.activeAgent.Key);
+            bool activeAgentStaticReferenceEquals = object.ReferenceEquals(activeAgent.Key, anotherNode.activeAgent.Key);
+
+            bool activeAgentDynamicEquals = activeAgent.Value.Equals(anotherNode.activeAgent.Value);
+            bool activeAgentDynamicReferenceEquals = object.ReferenceEquals(activeAgent.Value, anotherNode.activeAgent.Value);
+
+            bool worldStateGlobal = worldStateEquals || worldStateReferenceEquals;
+            bool activeAgentStaticGlobal = activeAgentStaticEquals || activeAgentStaticReferenceEquals;
+            bool activeAgentDynamicGlobal = activeAgentDynamicEquals || activeAgentDynamicReferenceEquals;
+
+            bool equal = worldStateGlobal && playerIsActiveEquals && activeAgentStaticGlobal && activeAgentDynamicGlobal;
 
             return equal;
         }

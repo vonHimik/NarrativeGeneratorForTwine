@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class Talk : PlanAction
+    class CounterTalk : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent1
         {
@@ -25,18 +25,28 @@ namespace Narrative_Generator
             }
         }
 
-        public Talk(params Object[] args) : base(args) { }
+        public string OriginalAction
+        {
+            get
+            {
+                return (string)Arguments[2];
+            }
+        }
 
-        public Talk  (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
-                      ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2)
+        public CounterTalk(params Object[] args) : base(args) { }
+
+        public CounterTalk (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
+                           ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
+                           string originalAction)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
+            Arguments.Add(originalAction);
         }
 
-        public override bool CheckPreconditions (WorldDynamic state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
-            return Agent1.Value.GetStatus() && Agent2.Value.GetStatus() && !(Agent1.Key.GetName() == Agent2.Key.GetName())
+            return Agent1.Value.GetStatus() && Agent2.Value.GetStatus() /*&& !(Agent1.Key.GetName() == Agent2.Key.GetName())*/
                    && /*(Agent1.Value.GetMyLocation().Equals(Agent2.Value.GetMyLocation()))*/
                    Agent1.Value.GetMyLocation().GetName() == Agent2.Value.GetMyLocation().GetName();
         }

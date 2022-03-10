@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class InvestigateRoom : PlanAction
+    class CounterInvestigateRoom : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
         {
@@ -33,26 +33,36 @@ namespace Narrative_Generator
             }
         }
 
-        public InvestigateRoom(params Object[] args) : base(args) { }
+        public string OriginalAction
+        {
+            get
+            {
+                return (string)Arguments[3];
+            }
+        }
 
-        public InvestigateRoom(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
-                               ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public CounterInvestigateRoom(params Object[] args) : base(args) { }
+
+        public CounterInvestigateRoom(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                                      ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
+                                      ref KeyValuePair<LocationStatic, LocationDynamic> location,
+                                      string originalAction)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
             Arguments.Add(location);
+            Arguments.Add(originalAction);
         }
 
-        public override bool CheckPreconditions (WorldDynamic state)
+        public override bool CheckPreconditions(WorldDynamic state)
         {
-            return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
+            return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
                       && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
-                      && Location.Value.SearchAgent(Agent.Key) 
+                      && Location.Value.SearchAgent(Agent.Key)
                       && !Agent.Value.SearchAmongExploredLocations(Location.Key) && Location.Value.CheckEvidence();
         }
 
-        public override void ApplyEffects (ref WorldDynamic state)
+        public override void ApplyEffects(ref WorldDynamic state)
         {
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgentClone = state.GetLocationByName(Location.Key.GetName()).Value.GetAgent(Agent);
@@ -68,6 +78,14 @@ namespace Narrative_Generator
             stateAgent.Value.AddExploredLocation(stateLocation.Key);
         }
 
-        public override void Fail (ref WorldDynamic state) { fail = true; }
+        public override void Fail(ref WorldDynamic state)
+        {
+            fail = true;
+
+            //KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+            //KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
+            //stateAgent.Value.AddExploredLocation(stateLocation.Key);
+        }
     }
 }
+

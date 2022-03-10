@@ -85,9 +85,37 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public bool Equals(AgentFoundEvidence other)
+        public bool Equals(AgentFoundEvidence anotherAgentFoundEvidence)
         {
-            throw new NotImplementedException();
+            if (anotherAgentFoundEvidence == null) { return false; }
+
+            bool foundEvidenceEquals = foundEvidence.Equals(anotherAgentFoundEvidence.foundEvidence);
+            bool foundEvidenceReferenceEquals = object.ReferenceEquals(foundEvidence, anotherAgentFoundEvidence.foundEvidence);
+
+            bool evidenceAgainstEquals;
+            bool evidenceAgainstReferenceEquals;
+            if (evidenceAgainst == null && anotherAgentFoundEvidence.evidenceAgainst == null)
+            {
+                evidenceAgainstEquals = true;
+                evidenceAgainstReferenceEquals = true;
+            }
+            else if (evidenceAgainst == null && anotherAgentFoundEvidence.evidenceAgainst != null)
+            {
+                evidenceAgainstEquals = false;
+                evidenceAgainstReferenceEquals = false;
+            }
+            else
+            {
+                evidenceAgainstEquals = evidenceAgainst.Equals(anotherAgentFoundEvidence.evidenceAgainst);
+                evidenceAgainstReferenceEquals = object.ReferenceEquals(evidenceAgainst, anotherAgentFoundEvidence.evidenceAgainst);
+            }
+
+            bool foundEvidenceGlobal = foundEvidenceEquals || foundEvidenceReferenceEquals;
+            bool evidenceAgainstGlobal = evidenceAgainstEquals || evidenceAgainstReferenceEquals;
+
+            bool equal = foundEvidenceGlobal && evidenceAgainstGlobal;
+
+            return equal;
         }
 
         //////////////////////

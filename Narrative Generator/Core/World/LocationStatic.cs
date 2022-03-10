@@ -10,12 +10,11 @@ namespace Narrative_Generator
     /// This class stores static (rarely changed) properties of a location and describes methods for interacting with them.
     /// </summary>
     [Serializable]
-    public class LocationStatic: ICloneable/*, IEquatable<LocationStatic>*/
+    public class LocationStatic: ICloneable, IEquatable<LocationStatic>
     {
         // Static properties of the location.
         private string name;
         private HashSet<LocationStatic> connectedLocations;
-        public int id; // Just for test.
 
         private bool hasHashCode;
         private int hashCode;
@@ -116,6 +115,16 @@ namespace Narrative_Generator
             return connectedLocations.ElementAt(index);
         }
 
+        public LocationStatic GetRandomConnectedLocation()
+        {
+            // Create an instance of the Random Number Generator.
+            Random random = new Random();
+
+            int index = random.Next(connectedLocations.Count());
+
+            return connectedLocations.ElementAt(index);
+        }
+
         public void AddConnection(LocationStatic location)
         {
             connectedLocations.Add(location);
@@ -128,10 +137,41 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public bool Equals(LocationStatic other)
+        public bool Equals (LocationStatic anotherLocation)
         {
-            if (hashCode == other.hashCode) { return true; }
-            else { return false; }
+            if (anotherLocation == null) { return false; }
+
+            bool nameEquals = (name == anotherLocation.name);
+            bool nameReferenceEquals = object.ReferenceEquals(name, anotherLocation.name);
+
+            bool connectedLocationsEquals = true;
+            bool connectedLocationsReferenceEquals = true;
+            if (connectedLocations.Count == anotherLocation.connectedLocations.Count)
+            {
+                for (int i = 0; i < connectedLocations.Count; i++)
+                {
+                    if (connectedLocations.ElementAt(i).name != anotherLocation.connectedLocations.ElementAt(i).name)
+                    {
+                        connectedLocationsEquals = false;
+                    }
+                    if (!object.ReferenceEquals(connectedLocations.ElementAt(i), anotherLocation.connectedLocations.ElementAt(i)))
+                    {
+                        connectedLocationsReferenceEquals = false;
+                    }
+                }
+            }
+            else
+            {
+                connectedLocationsEquals = false;
+                connectedLocationsReferenceEquals = false;
+            }
+
+            bool nameGlobal = nameEquals || nameReferenceEquals;
+            bool connectedLocationsGlobal = connectedLocationsEquals || connectedLocationsReferenceEquals;
+
+            bool equal = nameGlobal && connectedLocationsGlobal;
+
+            return equal;
         }
 
 
@@ -146,11 +186,11 @@ namespace Narrative_Generator
             int hashcode = 18;
 
             hashcode = hashcode * 42 + name.GetHashCode();
-            foreach (var location in connectedLocations)
+            /*foreach (var location in connectedLocations)
             {
                 //location.ClearHashCode();
                 hashcode = hashcode * 42 + location.GetHashCode();
-            }
+            }*/
 
             hashCode = hashcode;
             hasHashCode = true;

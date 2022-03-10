@@ -121,7 +121,6 @@ namespace Narrative_Generator
                                   StoryNode currentNode,
                                   bool root,
                                   ref int globalNodeNumber,
-                                  ref bool skip,
                                   ref Queue<StoryNode> queue)
         {
             CSP_Module cspModule = new CSP_Module();
@@ -144,17 +143,17 @@ namespace Narrative_Generator
                         {
                             case "Move":
                                 MultiAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root, 
-                                                ref globalNodeNumber, ref skip, ref queue);
+                                                ref globalNodeNumber, ref queue);
                                 break;
                             case "Fight": // Not relevant yet
                                 break;
                             case "InvestigateRoom":
                                 SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root, 
-                                                 ref globalNodeNumber, ref skip, ref queue);
+                                                 ref globalNodeNumber, ref queue);
                                 break;
                             case "NeutralizeKiller": // Not relevant yet
                                 break;
-                            case "NothingToDo": SkipTurn(currentState, ref skip);
+                            case "NothingToDo": SkipTurn(currentState);
                                 break;
                             case "Reassure": // Not relevant yet
                                 break;
@@ -167,10 +166,6 @@ namespace Narrative_Generator
                         // Cleaning
                         receivedAction = null;
                         GC.Collect();
-                    }
-                    else
-                    {
-                        SkipTurn(currentState, ref skip);
                     }
                 }
 
@@ -191,7 +186,7 @@ namespace Narrative_Generator
                 {
                     cspModule.AssignVariables(ref receivedAction, currentState, agent);
 
-                    ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
+                    ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
 
                     // Cleaning
                     receivedAction = null;
@@ -200,7 +195,7 @@ namespace Narrative_Generator
                 }
                 else
                 {
-                    SkipTurn(currentState, ref skip);
+                    SkipTurn(currentState);
                 }
             }
         }
@@ -213,12 +208,11 @@ namespace Narrative_Generator
                                   StoryNode currentNode,
                                   bool root,
                                   ref int globalNodeNumber,
-                                  ref bool skip,
                                   ref Queue<StoryNode> queue)
         {
             cspModule.AssignVariables(ref receivedAction, currentState, agent);
 
-            ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
+            ActionControl(receivedAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
 
             // Cleaning
             currentNode = null;
@@ -233,7 +227,6 @@ namespace Narrative_Generator
                                  StoryNode currentNode,
                                  bool root,
                                  ref int globalNodeNumber,
-                                 ref bool skip,
                                  ref Queue<StoryNode> queue)
         {
             List<PlanAction> actionsList = cspModule.MassiveAssignVariables(ref receivedAction, currentState, agent);
@@ -247,7 +240,7 @@ namespace Narrative_Generator
 
             foreach (var a in actionsList)
             {
-                ActionControl(a, currentGraph, currentAgent, statePrefab, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
+                ActionControl(a, currentGraph, currentAgent, statePrefab, currentNode, root, ref globalNodeNumber, ref queue);
             }
 
             // Cleaning
@@ -267,7 +260,6 @@ namespace Narrative_Generator
                                   StoryNode currentNode,
                                   bool root,
                                   ref int globalNodeNumber,
-                                  ref bool skip,
                                   ref Queue<StoryNode> queue)
         {
             bool succsessControl = ProbabilityCalculating(action);
@@ -288,16 +280,16 @@ namespace Narrative_Generator
             else if (!constraintsControl && deadEndsControl && cyclesControl && duplicateControl)
             {
                 // If the action violates the constraints, then convergence will not apply it, but will apply its counter-reaction.
-                ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
+                ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
             }
             else if (!duplicateControl && cyclesControl)
             {
                 // connection current node --> finded node
-                currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, ref skip, globalNodeNumber, ref queue);
+                currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue);
             }
             else
             {
-                ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
+                ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
             }
         }
 
@@ -445,19 +437,6 @@ namespace Narrative_Generator
 
             foreach (StoryNode nextNode in checkedNode.GetLinks())
             {
-                foreach (var edge in checkedNode.GetEdges())
-                {
-                    if (duplicated)
-                    {
-                        // Игнорируем в том случае, если рассматриваемый узел является родительским для проверяемого и он не является дубликатом.
-                        //if (edge.GetUpperNode() == nextNode && edge.GetLowerNode() == checkedNode && !duplicatedNode.Equals(nextNode)) { continue; }
-                    }
-                    else
-                    {
-                        //if (edge.GetUpperNode() == nextNode && edge.GetLowerNode() == checkedNode) { continue; }
-                    }
-                }
-
                 if (!result)
                 {
                     return result;
@@ -508,237 +487,384 @@ namespace Narrative_Generator
                                      StoryNode currentNode,
                                      bool root,
                                      ref int globalNodeNumber,
-                                     ref bool skip,
                                      ref Queue<StoryNode> queue)
         {
-            // TODO: Depending on the action, convergence has at least one way to counter it.
-            //       To do this, counter-actions must also be formalized as subclasses of the "PlanAction" class.
+            CSP_Module cspModule = new CSP_Module();
 
-            if (action is Entrap)
-            {
-                // Если у убийцы уже есть целевая локацмя.
-                if (currentState.GetAgentByName(agent.Key.GetName()).Value.GetTargetLocation() != null)
-                {
-                    // Если целевая локация не равна той, в которой и так находится жертва.
-                    if (currentState.GetAgentByName(agent.Key.GetName()).Value.GetTargetLocation() != 
-                        currentState.GetAgentByName(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)action.Arguments[0]).
-                                                                                                         Key.GetName()).Value.GetMyLocation()
-                        )
-                    {
-                        // Поменять целевую локацию на новую.
-                        // И применить действие.
+             bool stageOne_NewNode = true;
+             bool stageTwo_ConnectedNode = false;
+             bool counterreactionFound = false;
 
-                        ChangeOfMood counterreaction = new ChangeOfMood();
-                        counterreaction.Arguments.Add(currentState.GetAgentByName(agent.Key.GetName()));
-                        counterreaction.Arguments.Add(currentState.GetLocationByName(currentState.GetAgentByName(((
-                            KeyValuePair<AgentStateStatic, AgentStateDynamic>)action.Arguments[0]).Key.GetName()).Value.GetMyLocation().GetName()));
+            string currentAction = action.GetType().ToString().Remove(0, 20);
 
-                        bool controlOne = false;
-                        bool controlTwo = false;
+             while (!counterreactionFound)
+             {
+                 PlanAction counterreactionTalk = new CounterTalk();
+                 bool assignVariables = cspModule.AssignVariables(ref counterreactionTalk, currentState, agent);
+                 counterreactionTalk.Arguments.Add(currentAction);
 
-                        CounterreactionControl
-                            (counterreaction, currentGraph, agent, currentState, currentNode, root,
-                            ref globalNodeNumber, ref skip, ref queue, ref controlOne, ref controlTwo);
+                 if (assignVariables && counterreactionTalk.CheckPreconditions(currentState))
+                 {
+                     bool constractionAndDeadEndAndCicle = false;
+                     bool duplicate = false;
 
-                        if (controlOne && controlTwo)
-                        {
-                            ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, false);
-                        }
-                        else if (controlOne && !controlTwo)
-                        {
-                            currentGraph.DuplicateNodeConnecting(currentState, counterreaction, agent, currentNode, ref skip, globalNodeNumber, ref queue);
-                        }
-                        else if (!controlOne)
-                        {
-                            Move newAction = new Move();
-                            newAction.Arguments.Add(action.Arguments[1]);
-                            newAction.Arguments.Add(action.Arguments[2]);
-                            newAction.Arguments.Add(currentState.GetLocationByName(currentState.GetLocationByName(agent.Value.GetMyLocation().GetName()).
-                                Key.GetConnectedLocations().ElementAt(0).GetName()));
+                     CounterreactionControl(counterreactionTalk, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                            ref constractionAndDeadEndAndCicle, ref duplicate);
 
-                            ActionControl(newAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
-                        }
-                    }
-                    // Если убийца уже направляется в ту локацию, где находится жертва.
-                    else
-                    {
-                        // Совершить действие Move.
-                        Move newAction = new Move();
-                        // Кто
-                        // Откуда
-                        // Куда
-                        newAction.Arguments.Add(action.Arguments[1]);
-                        newAction.Arguments.Add(action.Arguments[2]);
-                        newAction.Arguments.Add(currentState.GetAgentByName(agent.Key.GetName()).Value.GetTargetLocation());
+                     if (stageOne_NewNode)
+                     {
+                         if (constractionAndDeadEndAndCicle && duplicate)
+                         {
+                             ApplyAction(counterreactionTalk, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                             counterreactionFound = true;
+                         }
+                     }
+                     else if (stageTwo_ConnectedNode)
+                     {
+                         if (constractionAndDeadEndAndCicle && !duplicate)
+                         {
+                             currentGraph.DuplicateNodeConnecting(currentState, counterreactionTalk, agent, currentNode, globalNodeNumber, ref queue);
+                             counterreactionFound = true;
+                         }
+                     }
+                 }
 
-                        ActionControl(newAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
-                    }
-                }
-                else
-                {
-                    // Нужно назначить целевую локацию убийце.
-                    // И применить действие.
-                    ChangeOfMood counterreaction = new ChangeOfMood();
-                    counterreaction.Arguments.Add(currentState.GetAgentByName(agent.Key.GetName()));
-                    counterreaction.Arguments.Add(currentState.GetAgentByName(((
-                        KeyValuePair<AgentStateStatic, AgentStateDynamic>)action.Arguments[0]).Key.GetName()).Value.GetMyLocation());
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionEntrap = new CounterEntrap();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionEntrap, currentState, agent);
+                     counterreactionEntrap.Arguments.Add(currentAction);
 
-                    bool controlOne = false;
-                    bool controlTwo = false;
+                     if (assignVariables && counterreactionEntrap.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
 
-                    CounterreactionControl
-                        (counterreaction, currentGraph, agent, currentState, currentNode, root,
-                        ref globalNodeNumber, ref skip, ref queue, ref controlOne, ref controlTwo);
+                         CounterreactionControl(counterreactionEntrap, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
 
-                    if (controlOne && controlTwo)
-                    {
-                        ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, false);
-                    }
-                    else if (controlOne && !controlTwo)
-                    {
-                        currentGraph.DuplicateNodeConnecting(currentState, counterreaction, agent, currentNode, ref skip, globalNodeNumber, ref queue);
-                    }
-                    else if (!controlOne)
-                    {
-                        Move newAction = new Move();
-                        newAction.Arguments.Add(action.Arguments[1]);
-                        newAction.Arguments.Add(action.Arguments[2]);
-                        newAction.Arguments.Add(agent.Value.GetMyLocation().GetConnectedLocations().ElementAt(0));
-
-                        ActionControl(newAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref skip, ref queue);
-                    }
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionEntrap, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionEntrap, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
                 }
 
-            }
-            else if (action is Fight)
-            {
-                MiraculousSalvation counterreaction = new MiraculousSalvation();
-                counterreaction.Arguments.Add(action.Arguments[1]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
-            // There is no restriction on this action.
-            else if (action is InvestigateRoom)
-            {
-                bool test = true;
-            }
-            else if (action is Kill)
-            {
-                MiraculousSalvation counterreaction = new MiraculousSalvation();
-                counterreaction.Arguments.Add(action.Arguments[0]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
-            else if (action is Move)
-            {
-                UnexpectedObstacle counterreaction = new UnexpectedObstacle();
-                counterreaction.Arguments.Add(action.Arguments[0]);
-                counterreaction.Arguments.Add(action.Arguments[1]);
-
-                KeyValuePair<LocationStatic, LocationDynamic> targetLocation = (KeyValuePair<LocationStatic, LocationDynamic>)action.Arguments[2];
-
-                Dictionary<LocationStatic, LocationDynamic> locationAround = new Dictionary<LocationStatic, LocationDynamic>();
-                foreach (var location in agent.Value.GetMyLocation().GetConnectedLocations())
+                if (!counterreactionFound)
                 {
-                    locationAround.Add(location, currentNode.GetWorldState().GetLocationByName(location.GetName()).Value);
-                }
+                    PlanAction counterreactionKill = new CounterKill();
+                    assignVariables = cspModule.AssignVariables(ref counterreactionKill, currentState, agent);
+                    counterreactionKill.Arguments.Add(currentAction);
 
-                bool controlOne = false;
-                bool controlTwo = false;
-
-                if (locationAround.Count != 0)
-                {
-                    foreach (var location in locationAround)
+                    if (assignVariables && counterreactionKill.CheckPreconditions(currentState))
                     {
-                        controlOne = false;
-                        controlTwo = false;
-                        Move newAction = new Move();
-                        newAction.Arguments.Add(action.Arguments[0]);
-                        newAction.Arguments.Add(action.Arguments[1]);
-                        newAction.Arguments.Add(location);
-                        CounterreactionControl
-                            (newAction, currentGraph, agent, currentState, currentNode, root, 
-                            ref globalNodeNumber, ref skip, ref queue, ref controlOne, ref controlTwo);
+                        bool constractionAndDeadEndAndCicle = false;
+                        bool duplicate = false;
 
-                        if (controlOne)
+                        CounterreactionControl(counterreactionKill, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                               ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                        if (stageOne_NewNode)
                         {
-                            counterreaction.Arguments.Add(location);
-                            break;
+                            if (constractionAndDeadEndAndCicle && duplicate)
+                            {
+                                ApplyAction(counterreactionKill, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                counterreactionFound = true;
+                            }
+                        }
+                        else if (stageTwo_ConnectedNode)
+                        {
+                            if (constractionAndDeadEndAndCicle && !duplicate)
+                            {
+                                currentGraph.DuplicateNodeConnecting(currentState, counterreactionKill, agent, currentNode, globalNodeNumber, ref queue);
+                                counterreactionFound = true;
+                            }
                         }
                     }
                 }
 
-                if (controlOne && controlTwo)
+                if (!counterreactionFound)
                 {
-                    ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
-                }
-                else if (controlOne && !controlTwo)
+                     PlanAction counterreactionIR = new InvestigateRoom();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionIR, currentState, agent);
+                     counterreactionIR.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionIR.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionIR, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionIR, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionIR, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionNK = new CounterNeutralizeKiller();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionNK, currentState, agent);
+                     counterreactionNK.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionNK.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionNK, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionNK, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionNK, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionTalkAboutSuspicious = new CounterTellAboutASuspicious();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionTalkAboutSuspicious, currentState, agent);
+                     counterreactionTalkAboutSuspicious.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionTalkAboutSuspicious.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionTalkAboutSuspicious, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionTalkAboutSuspicious, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionTalkAboutSuspicious, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionFight = new CounterFight();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionFight, currentState, agent);
+                     counterreactionFight.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionFight.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionFight, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionFight, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionFight, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionReassure = new CounterReassure();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionReassure, currentState, agent);
+                     counterreactionReassure.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionReassure.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionReassure, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionReassure, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionReassure, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionRun = new CounterRun();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionRun, currentState, agent);
+                     counterreactionRun.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionRun.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionRun, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionRun, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionRun, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (!counterreactionFound)
+                 {
+                     PlanAction counterreactionMove = new CounterMove();
+                     assignVariables = cspModule.AssignVariables(ref counterreactionMove, currentState, agent);
+                     counterreactionMove.Arguments.Add(currentAction);
+
+                     if (assignVariables && counterreactionMove.CheckPreconditions(currentState))
+                     {
+                         bool constractionAndDeadEndAndCicle = false;
+                         bool duplicate = false;
+
+                         CounterreactionControl(counterreactionMove, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                                ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                         if (stageOne_NewNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && duplicate)
+                             {
+                                 ApplyAction(counterreactionMove, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                                 counterreactionFound = true;
+                             }
+                         }
+                         else if (stageTwo_ConnectedNode)
+                         {
+                             if (constractionAndDeadEndAndCicle && !duplicate)
+                             {
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionMove, agent, currentNode, globalNodeNumber, ref queue);
+                                 counterreactionFound = true;
+                             }
+                         }
+                     }
+                 }
+
+                 if (stageTwo_ConnectedNode)
                 {
-                    currentGraph.DuplicateNodeConnecting(currentState, counterreaction, agent, currentNode, ref skip, globalNodeNumber, ref queue);
-                }
-                else if (locationAround.Count == 0 || !controlOne)
-                {
-                    if (controlTwo)
+                    PlanAction counterreactionSkip = new NothingToDo();
+                    counterreactionSkip.Arguments.Add(agent);
+
+                    bool constractionAndDeadEndAndCicle = false;
+                    bool duplicate = false;
+
+                    CounterreactionControl(counterreactionSkip, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue,
+                                           ref constractionAndDeadEndAndCicle, ref duplicate);
+
+                    if (constractionAndDeadEndAndCicle && duplicate)
                     {
-                        counterreaction.Arguments.Add(action.Arguments[2]);
-                        ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                        ApplyAction(counterreactionSkip, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
+                        counterreactionFound = true;
                     }
-                    else
+                    else if (constractionAndDeadEndAndCicle && !duplicate)
                     {
-                        KeyValuePair<LocationStatic, LocationDynamic>  randomLocation = 
-                            currentNode.GetWorldState().GetRandomLocationWithout((KeyValuePair<LocationStatic, LocationDynamic>)action.Arguments[1]);
-
-                        Move newAction = new Move();
-                        newAction.Arguments.Add(action.Arguments[0]);
-                        newAction.Arguments.Add(action.Arguments[1]);
-                        newAction.Arguments.Add(randomLocation);
-
-                        bool duplicateTest = DuplicateControl(currentState, newAction, currentGraph, agent, currentNode, globalNodeNumber, true);
-
-                        if (duplicateTest)
-                        {
-                            counterreaction.Arguments.Add(randomLocation);
-                            ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, true, true);
-                        }
-                        else
-                        {
-                            counterreaction.Arguments.Add(randomLocation);
-                            currentGraph.DuplicateNodeConnecting(currentState, counterreaction, agent, currentNode, ref skip, globalNodeNumber, ref queue);
-                        }
+                        currentGraph.DuplicateNodeConnecting(currentState, counterreactionSkip, agent, currentNode, globalNodeNumber, ref queue);
+                        counterreactionFound = true;
                     }
                 }
+
+                stageOne_NewNode = false;
+                stageTwo_ConnectedNode = true;
+
+
+                /*if (stageOne_NewNode)
+                {
+                    stageOne_NewNode = false;
+                    stageTwo_ConnectedNode = true;
+                }
+                else if (stageTwo_ConnectedNode)
+                {
+                    stageOne_NewNode = true;
+                    stageTwo_ConnectedNode = false;
+                }*/
             }
-            // At the moment, this is the only action that can violate the constraints.
-            else if (action is NeutralizeKiller)
-            {
-                MiraculousSalvation counterreaction = new MiraculousSalvation();
-                counterreaction.Arguments.Add(action.Arguments[1]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
-            // There is no restriction on this action.
-            else if (action is NothingToDo) {}
-            else if (action is Reassure)
-            {
-                AngerIsInTheAir counterreaction = new AngerIsInTheAir();
-                counterreaction.Arguments.Add(action.Arguments[0]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
-            else if (action is Run)
-            {
-                UnexpectedObstacle counterreaction = new UnexpectedObstacle();
-                counterreaction.Arguments.Add(action.Arguments[0]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
-            else if (action is TellAboutASuspicious)
-            {
-                EnvironmentIsNotConduciveToTalk counterreaction = new EnvironmentIsNotConduciveToTalk();
-                counterreaction.Arguments.Add(action.Arguments[1]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
-            else if (action is Talk)
-            {
-                EnvironmentIsNotConduciveToTalk counterreaction = new EnvironmentIsNotConduciveToTalk();
-                counterreaction.Arguments.Add(action.Arguments[0]);
-                ApplyAction(counterreaction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, false, true);
-            }
+            
         }
 
         /// <summary>
@@ -751,15 +877,20 @@ namespace Narrative_Generator
             int threshold = 0;
 
             if (action is Entrap) { threshold = 80; }
+            else if (action is CounterEntrap) { threshold = 100; }
             else if (action is Fight) { threshold = 75; }
-            else if (action is InvestigateRoom) { threshold = 100; }
-            else if (action is Kill) { threshold = 100; }
-            else if (action is Move) { threshold = 100; }
-            else if (action is NeutralizeKiller) { threshold = 100; }
+            else if (action is CounterFight) { threshold = 100; }
+            else if (action is InvestigateRoom || action is CounterInvestigateRoom) { threshold = 60; }
+            else if (action is Kill || action is CounterKill) { threshold = 100; }
+            else if (action is Move || action is CounterMove) { threshold = 100; }
+            else if (action is NeutralizeKiller || action is CounterNeutralizeKiller) { threshold = 100; }
             else if (action is NothingToDo) { threshold = 100; }
             else if (action is Reassure) { threshold = 80; }
-            else if (action is Run) { threshold = 100; }
+            else if (action is CounterReassure) { threshold = 100; }
+            else if (action is Run || action is CounterRun) { threshold = 100; }
             else if (action is TellAboutASuspicious) { threshold = 80; }
+            else if (action is CounterTellAboutASuspicious) { threshold = 100; }
+            else if (action is Talk || action is CounterTalk) { threshold = 100; }
 
             if (probability <= threshold) { return true; }
             else { return false; }
@@ -768,11 +899,10 @@ namespace Narrative_Generator
         /// <summary>
         /// To skip a turn (action), an action "NothingToDo" is created and applied.
         /// </summary>
-        public void SkipTurn(WorldDynamic currentState, ref bool skip)
+        public void SkipTurn(WorldDynamic currentState)
         {
             NothingToDo skipAction = new NothingToDo();
             skipAction.ApplyEffects(ref currentState);
-            skip = true;
         }
 
         public void CounterreactionControl (PlanAction action,
@@ -782,7 +912,6 @@ namespace Narrative_Generator
                                             StoryNode currentNode,
                                             bool root,
                                             ref int globalNodeNumber,
-                                            ref bool skip,
                                             ref Queue<StoryNode> queue,
                                             ref bool controlOne,
                                             ref bool controlTwo)
