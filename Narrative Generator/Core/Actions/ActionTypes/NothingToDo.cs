@@ -34,6 +34,8 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
             stateAgent.Value.IncreaseSkipedTurns();
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail(ref WorldDynamic state) { fail = true; }

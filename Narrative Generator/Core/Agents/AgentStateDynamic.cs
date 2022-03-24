@@ -26,6 +26,7 @@ namespace Narrative_Generator
         private WantToEntrap wantToEntrap;
         private TalkingWith talkingWith;
         private int skipedTurns;
+        private int timeToMove;
 
         // Beliefs
         private WorldContext beliefs;
@@ -58,6 +59,7 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
+            timeToMove = 2;
         }
 
         public AgentStateDynamic (AgentStateDynamic clone)
@@ -80,6 +82,7 @@ namespace Narrative_Generator
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
             skipedTurns = clone.skipedTurns;
+            timeToMove = clone.timeToMove;
         }
 
         /// <summary>
@@ -118,6 +121,7 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
+            timeToMove = 2;
         }
 
         /// <summary>
@@ -144,6 +148,7 @@ namespace Narrative_Generator
             }
             if (talkingWith != null && talkingWith.GetInterlocutor() != null) { clone.talkingWith = new TalkingWith(talkingWith); }
             clone.skipedTurns = skipedTurns;
+            clone.timeToMove = timeToMove;
 
             return clone;
         }
@@ -269,7 +274,7 @@ namespace Narrative_Generator
                         {
                             if (a.Key.GetRole() == AgentRole.KILLER)
                             {
-                                if (a.Key.GetName() != null && a.Key.GetName() != "")
+                                if (a.Key.GetName() != null && a.Key.GetName() != "" && a.Key.GetName() != "???")
                                 {
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
@@ -279,10 +284,11 @@ namespace Narrative_Generator
                                 }
                                 else
                                 {
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents().Count >= 2)
+                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
+                                        Value.CountAliveAgents() >= 2)
                                     {
                                         goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
-                                            + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
+                                            + currentWorldState.GetRandomAgentInMyLocation(agent).Key.GetName() + ") ");
                                     }
                                     else if (!CheckIfLocationIsExplored(agent.Value.GetMyLocation()))
                                     {
@@ -291,24 +297,28 @@ namespace Narrative_Generator
                                     }
                                     else
                                     {
-                                        if (agent.Value.GetTargetLocation() != null)
+                                        if (timeToMove == 0)
                                         {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
+                                            if (agent.Value.GetTargetLocation() != null)
+                                            {
+                                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                    + agent.Value.GetTargetLocation().GetName() + ") ");
+                                            }
+                                            else
+                                            {
+                                                agent.Value.SetTargetLocation(
+                                                    currentWorldState.GetRandomLocationWithout(
+                                                        currentWorldState.GetLocationByName(
+                                                            agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
+
+                                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                    + agent.Value.GetTargetLocation().GetName() + ") ");
+                                            }
                                         }
                                         else
                                         {
-                                            agent.Value.SetTargetLocation(
-                                                currentWorldState.GetRandomLocationWithout(
-                                                    currentWorldState.GetLocationByName(
-                                                        agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
-
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
+                                            goal = goal.Insert(goal.Length, "(wait" + agent.Key.GetName() + " " + ") ");
                                         }
-
-                                        //goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                        //    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName() + ") ");
                                     }
                                 }
                             }
@@ -319,7 +329,7 @@ namespace Narrative_Generator
                         {
                             if (a.Key.GetRole() == AgentRole.KILLER)
                             {
-                                if (a.Key.GetName() != null && a.Key.GetName() != "" &&
+                                if (a.Key.GetName() != null && a.Key.GetName() != "???" && a.Key.GetName() != "" &&
                                     agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()).GetName())
                                 {
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
@@ -358,19 +368,32 @@ namespace Narrative_Generator
                                             goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
                                                 + agent.Value.GetTargetLocation().GetName() + ") ");
                                         }
-
-                                        //goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                        //    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName() + ") ");
                                     }
                                 }
                             }
                         }
                         break;
                     case AgentRole.KILLER:
-                        killerCantCreatePlan = true;
-                        if (killerCantCreatePlan)
+
+                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2)
                         {
-                            if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() > 2)
+                            foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
+                            {
+                                if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
+                                {
+                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                }
+                            }
+                        }
+                        else if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 1)
+                        {
+                            goal = goal.Insert(goal.Length, "(in-room " + currentWorldState.GetRandomAgent(agent).Key.GetName() + " "
+                                                  + currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName()).Key.GetName()
+                                                  + ") ");
+                        }
+                        else
+                        {
+                            if (timeToMove == 0)
                             {
                                 goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
                                                    + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
@@ -378,12 +401,30 @@ namespace Narrative_Generator
                             }
                             else
                             {
+                                goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
+                            }
+                        }
+
+                        /*killerCantCreatePlan = true;
+                        if (killerCantCreatePlan)
+                        {
+                            if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() > 2 
+                                && timeToMove == 0)
+                            {
+                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                   + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
+                                                   + ") ");
+                            }
+                            else if (timeToMove > 0)
+                            {
+
+                            }
+                            else
+                            {
                                 bool hasTarget = false;
 
                                 while (!hasTarget)
                                 {
-                                    //BeliefsAboutAgent a = agent.Value.GetBeliefs().GetRandomAgent();
-                                    //  !!! If all ordinary agents are killed, but the killer continues his move, we will get an error. !!!
                                     BeliefsAboutAgent a = null;
 
                                     foreach (var agnt in agent.Value.GetBeliefs().GetAgentsInWorld())
@@ -402,7 +443,7 @@ namespace Narrative_Generator
                                     }
                                 }
                             }
-                        }
+                        }*/
                         break;
                 }
             }
@@ -902,6 +943,21 @@ namespace Narrative_Generator
             skipedTurns++;
         }
 
+        public void SetTimeToMove (int value)
+        {
+            timeToMove = value;
+        }
+
+        public int GetTimeToMove()
+        {
+            return timeToMove;
+        }
+
+        public void DecreaseTimeToMove()
+        {
+            if (timeToMove > 0) { timeToMove--; }
+        }
+
         public bool Equals (AgentStateDynamic anotherState)
         {
             if (anotherState == null) { return false; }
@@ -962,7 +1018,7 @@ namespace Narrative_Generator
                     {
                         exploredRoomsEquals = false;
                     }
-                    if (object.ReferenceEquals(exploredRooms.ElementAt(i), anotherState.exploredRooms.ElementAt(i)))
+                    if (!object.ReferenceEquals(exploredRooms.ElementAt(i), anotherState.exploredRooms.ElementAt(i)))
                     {
                         exploredRoomsReferenceEquals = false;
                     }
@@ -989,7 +1045,7 @@ namespace Narrative_Generator
             bool exploredRoomsGlobal = exploredRoomsEquals || exploredRoomsReferenceEquals;
 
             bool equal = agentInfoGlobal && statusGlobal && goalsGlobal && initiativeGlobal && scaredGlobal && angryAtGlobal && wantToGoGlobal
-                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal /*&& beliefsGlobal*/ && foundEvidenceGlobal && exploredRoomsGlobal;
+                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal && beliefsGlobal && foundEvidenceGlobal && exploredRoomsGlobal;
 
             return equal;
         }

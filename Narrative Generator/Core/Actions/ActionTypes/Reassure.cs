@@ -88,6 +88,8 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent1.Value.CalmDown();
+
+            stateAgent2.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

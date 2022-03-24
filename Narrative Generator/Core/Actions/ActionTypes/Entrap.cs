@@ -62,6 +62,8 @@ namespace Narrative_Generator
 
             stateAgent.Value.SetTargetLocation(stateLocation.Key);
             stateKiller.Value.SetEntrap(stateAgent.Key, stateLocation.Key);
+
+            stateKiller.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state)

@@ -163,6 +163,10 @@ namespace Narrative_Generator
                         GetRandomLocationWithout(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
                 return true;
             }
+            else if (action is NothingToDo)
+            {
+                action.Arguments.Add(initiator);
+            }
             else if (action is TellAboutASuspicious || action is CounterTellAboutASuspicious)
             {
                 foreach (var agent in currentState.GetAgents())

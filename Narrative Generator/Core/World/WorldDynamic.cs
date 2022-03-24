@@ -157,12 +157,13 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public void AddAgent(AgentRole role, bool status)
+        public void AddAgent(AgentRole role, bool status, string name)
         {
             AgentStateStatic newAgentStateStatic = new AgentStateStatic();
             AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
 
             newAgentStateStatic.AssignRole(role);
+            newAgentStateStatic.SetName(name);
             newAgentStateDynamic.SetStatus(status);
 
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
@@ -307,6 +308,23 @@ namespace Narrative_Generator
             List<string> agentsNames = new List<string>();
 
             foreach (var agent in agents)
+            {
+                if (agent.Value.GetStatus() && agent.Key.GetName() != initiator.Key.GetName())
+                {
+                    agentsNames.Add(agent.Key.GetName());
+                }
+            }
+
+            int index = random.Next(agentsNames.Count() - 1);
+            return GetAgentByName(agentsNames[index]);
+        }
+
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgentInMyLocation (KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        {
+            Random random = new Random();
+            List<string> agentsNames = new List<string>();
+
+            foreach (var agent in GetLocationByName(initiator.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
             {
                 if (agent.Value.GetStatus() && agent.Key.GetName() != initiator.Key.GetName())
                 {

@@ -51,6 +51,17 @@ namespace Narrative_Generator
 
             stateAgent1.Value.SetInterlocutor(stateAgent2);
             stateAgent2.Value.SetInterlocutor(stateAgent1);
+
+            if (stateAgent1.Value.GetObjectOfAngry().AngryCheck() && stateAgent1.Value.GetEvidenceStatus().CheckEvidence())
+            {
+                stateAgent2.Value.SetObjectOfAngry(stateAgent1.Value.GetObjectOfAngry());
+            }
+            else if (stateAgent2.Value.GetObjectOfAngry().AngryCheck() && stateAgent2.Value.GetEvidenceStatus().CheckEvidence())
+            {
+                stateAgent1.Value.SetObjectOfAngry(stateAgent2.Value.GetObjectOfAngry());
+            }
+
+            stateAgent1.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

@@ -228,15 +228,17 @@ namespace Narrative_Generator
                                 graphSTR = graphSTR.Insert(graphSTR.Length,
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"'
-                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
                                     + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
                                     + Environment.NewLine
                                     + " " + "who: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[3]).Key.GetName()
                                     + Environment.NewLine
                                     + " " + "Success: " + edge.GetAction().success.ToString()
                                     + '"' + "] \r\n");

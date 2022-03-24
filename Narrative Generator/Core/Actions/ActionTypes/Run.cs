@@ -67,6 +67,8 @@ namespace Narrative_Generator
             {
                 stateAgent.Value.ClearTargetLocation();
             }
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

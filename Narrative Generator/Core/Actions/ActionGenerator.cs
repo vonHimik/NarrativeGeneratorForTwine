@@ -66,7 +66,10 @@ namespace Narrative_Generator
                         Fight fight = new Fight();
                         result.Add(fight);
                     }
+                }
 
+                if (agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.KILLER)
+                {
                     // And he can do nothing.
                     NothingToDo nothingToDo = new NothingToDo();
                     result.Add(nothingToDo);

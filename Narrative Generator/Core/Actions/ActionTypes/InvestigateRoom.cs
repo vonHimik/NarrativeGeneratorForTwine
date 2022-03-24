@@ -66,6 +66,8 @@ namespace Narrative_Generator
             stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.KILLER);
             stateAgent.Value.SetObjectOfAngry(stateKiller.Key);
             stateAgent.Value.AddExploredLocation(stateLocation.Key);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }
