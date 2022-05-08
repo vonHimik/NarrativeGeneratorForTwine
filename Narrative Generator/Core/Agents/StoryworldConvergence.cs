@@ -322,16 +322,18 @@ namespace Narrative_Generator
             else if (!duplicateControl && cyclesControl)
             {
                 // connection current node --> finded node
-<<<<<<< Updated upstream
+
                 currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue, succsessControl, ref skip);
 
                 if (skip)
                 {
                     ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
                 }
-=======
+
                 currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue);
->>>>>>> Stashed changes
+
+                currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue);
+
             }
             else
             {
@@ -895,15 +897,15 @@ namespace Narrative_Generator
                     }
                 }
 
-<<<<<<< Updated upstream
+
                 if (stageOne_NewNode)
-=======
+
                 stageOne_NewNode = false;
                 stageTwo_ConnectedNode = true;
 
 
                 /*if (stageOne_NewNode)
->>>>>>> Stashed changes
+
                 {
                     stageOne_NewNode = false;
                     stageTwo_ConnectedNode = true;

@@ -23,13 +23,16 @@ namespace Narrative_Generator
         // Start --> current state
         public WorldDynamic currentStoryState = new WorldDynamic();
         public int goalsCounter = 2;
-<<<<<<< Updated upstream
+
         public int agentsCounter = 2; // 7
         public int locationsCounter = 6; // 8
-=======
+
         public int agentsCounter = 3; // 7
         public int locationsCounter = 4; // 8
->>>>>>> Stashed changes
+
+        public int agentsCounter = 3; // 7
+        public int locationsCounter = 4; // 8
+
 
         // Output graphs
         public StoryGraph newStoryGraph = new StoryGraph();
@@ -183,35 +186,35 @@ namespace Narrative_Generator
                 {
                     switch (setting)
                     {
-<<<<<<< Updated upstream
                         case Setting.Fantasy:
-                            if (agent.Key.GetRole() == AgentRole.PLAYER)
-=======
-                        // Unless the agent has the role of the killer.
-                        if (agent.Key.GetRole() != AgentRole.KILLER)
-                        {
-                            // Then his goal is that the killer must be neutralized.
-                            agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false);
-                        }
-                        // If the agent is the killer.
-                        else if (agent.Key.GetRole() == AgentRole.KILLER)
-                        {
-                            int agentCounter = 0;
-                            int playerCounter = 1;
-                            int killerCounter = NumberOfKillers();
 
-                            // Then we go through all the agents.
-                            foreach (var anotherAgent in currentStoryState.GetAgents())
->>>>>>> Stashed changes
+                            // Unless the agent has the role of the killer.
+                            if (agent.Key.GetRole() != AgentRole.KILLER)
                             {
-                                agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.BOSS, false, "Archdemon");
-                                agent.Value.SetObjectOfAngry(currentStoryState.GetAgentByRole(AgentRole.BOSS).Key);
+                                // Then his goal is that the killer must be neutralized.
+                                agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false);
+                            }
+                            // If the agent is the killer.
+                            else if (agent.Key.GetRole() == AgentRole.KILLER)
+                            {
+                                int agentCounter = 0;
+                                int playerCounter = 1;
+                                int killerCounter = NumberOfKillers();
+
+                                // Then we go through all the agents.
+                                foreach (var anotherAgent in currentStoryState.GetAgents())
+
+                                {
+                                    agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.BOSS, false, "Archdemon");
+                                    agent.Value.SetObjectOfAngry(currentStoryState.GetAgentByRole(AgentRole.BOSS).Key);
+                                }
                             }
                             else if (agent.Key.GetRole() == AgentRole.BOSS)
                             {
                                 agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false, "Grey Warden");
                             }
-                            break;
+                    }
+                    break; 
                         case Setting.Detective:
                             if (agent.Key.GetRole() != AgentRole.KILLER)
                             {
@@ -238,6 +241,9 @@ namespace Narrative_Generator
                                         }
                                         else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false, anotherAgent.Key.GetName()); }
                                     }
+                                        agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false);
+                                    }
+                                    else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false); }
                                 }
                             }
                             break;
@@ -261,7 +267,6 @@ namespace Narrative_Generator
                                     // And for everyone who is not a killer...
                                     if (anotherAgent.Key.GetRole() != AgentRole.KILLER)
                                     {
-<<<<<<< Updated upstream
                                         agentCounter++;
 
                                         // ...add a new "victim" to the goals.
@@ -271,11 +276,9 @@ namespace Narrative_Generator
                                         }
                                         else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false, anotherAgent.Key.GetName()); }
                                     }
-=======
                                         agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false);
                                     }
                                     else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false); }
->>>>>>> Stashed changes
                                 }
                             }
                             break;

@@ -294,7 +294,6 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
-<<<<<<< Updated upstream
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgentInMyLocation (KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             Random random = new Random();
@@ -312,10 +311,7 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent (Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
-=======
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent(Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
->>>>>>> Stashed changes
         {
             Random random = new Random();
             List<string> agentsNames = new List<string>();

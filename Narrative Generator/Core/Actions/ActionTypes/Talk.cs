@@ -70,7 +70,6 @@ namespace Narrative_Generator
 
             stateAgent1.Value.SetInterlocutor(stateAgent2);
             stateAgent2.Value.SetInterlocutor(stateAgent1);
-<<<<<<< Updated upstream
 
             if (stateAgent1.Value.GetObjectOfAngryComponent().AngryCheck() && stateAgent1.Value.GetEvidenceStatus().CheckEvidence() &&
                 stateAgent2.Key.GetRole() != AgentRole.KILLER)
@@ -90,8 +89,6 @@ namespace Narrative_Generator
             }
 
             stateAgent1.Value.DecreaseTimeToMove();
-=======
->>>>>>> Stashed changes
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }
