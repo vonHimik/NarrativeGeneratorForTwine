@@ -107,7 +107,7 @@ namespace Narrative_Generator
             bool turnGlobal = turnEquals || turnReferenceEquals;
             bool settingGlobal = settingEquals || settingReferenceEquals;
 
-            bool equal = locationsGlobal && turnGlobal && settingGlobal;
+            bool equal = locationsGlobal /*&& turnGlobal*/ && settingGlobal;
 
             return equal;
         }

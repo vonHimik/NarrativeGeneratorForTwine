@@ -70,6 +70,8 @@ namespace Narrative_Generator
             stateAgent2.Value.ClearTempStates();
 
             stateAgent2.Value.SetStatus(false);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

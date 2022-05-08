@@ -17,7 +17,16 @@ namespace Narrative_Generator
         private WorldStatic world;
         private Dictionary<LocationStatic, LocationDynamic> currentStateOfLocations;
         private Dictionary<AgentStateStatic, AgentStateDynamic> agents;                 // Agents (include agents states).
-        //private HashSet<Goal> goalStates;                                             // List of goal state(s).
+                                                                                        //private HashSet<Goal> goalStates;                                             // List of goal state(s).
+
+        // Plot variables - need to put it in a separate file and make a mechanism for reading from there
+        // Dragon Age
+        public bool helpMages;
+        public bool helpTemplars;
+        public bool helpElfs;
+        public bool helpWerewolves;
+        public bool helpPrineBelen;
+        public bool helpLordHarrowmont;
 
         private bool hasHashCode;
         private int hashCode;
@@ -28,9 +37,16 @@ namespace Narrative_Generator
             currentStateOfLocations = new Dictionary<LocationStatic, LocationDynamic>();
             agents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             //goalStates = new HashSet<Goal>();
+
+            helpMages = false;
+            helpTemplars = false;
+            helpElfs = false;
+            helpWerewolves = false;
+            helpPrineBelen = false;
+            helpLordHarrowmont = false;
+
             hasHashCode = false;
-            hashCode = 0;
-            
+            hashCode = 0;           
         }
 
         public WorldDynamic(WorldDynamic clone)
@@ -43,6 +59,13 @@ namespace Narrative_Generator
 
             agents = new Dictionary<AgentStateStatic, AgentStateDynamic>(clone.agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
                                                                                                    entry => (AgentStateDynamic)entry.Value.Clone()));
+
+            helpMages = clone.helpMages;
+            helpTemplars = clone.helpTemplars;
+            helpElfs = clone.helpElfs;
+            helpWerewolves = clone.helpWerewolves;
+            helpPrineBelen = clone.helpPrineBelen;
+            helpLordHarrowmont = clone.helpLordHarrowmont;
 
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
@@ -75,8 +98,14 @@ namespace Narrative_Generator
                 }
             }
 
-
             //clone.goalStates = goalStates;
+
+            clone.helpMages = helpMages;
+            clone.helpTemplars = helpTemplars;
+            clone.helpElfs = helpElfs;
+            clone.helpWerewolves = helpWerewolves;
+            clone.helpPrineBelen = helpPrineBelen;
+            clone.helpLordHarrowmont = helpLordHarrowmont;
 
             return clone;
         }
@@ -157,12 +186,13 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public void AddAgent(AgentRole role, bool status)
+        public void AddAgent(AgentRole role, bool status, string name)
         {
             AgentStateStatic newAgentStateStatic = new AgentStateStatic();
             AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
 
             newAgentStateStatic.AssignRole(role);
+            newAgentStateStatic.SetName(name);
             newAgentStateDynamic.SetStatus(status);
 
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
@@ -311,7 +341,7 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent(Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent (Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
         {
             Random random = new Random();
             List<string> agentsNames = new List<string>();
@@ -374,7 +404,7 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public KeyValuePair<LocationStatic, LocationDynamic> GetLocation(LocationStatic locationKey)
+        public KeyValuePair<LocationStatic, LocationDynamic> GetLocation (LocationStatic locationKey)
         {
             foreach (var location in currentStateOfLocations)
             {
@@ -619,11 +649,19 @@ namespace Narrative_Generator
                 agentsReferenceEquals = false;
             }
 
+            bool helpMagesEquals = helpMages.Equals(anotherWorld.helpMages);
+            bool helpTemplarsEquals = helpTemplars.Equals(anotherWorld.helpTemplars);
+            bool helpElfsEquals = helpElfs.Equals(anotherWorld.helpElfs);
+            bool helpWerewolvesEquals = helpWerewolves.Equals(anotherWorld.helpWerewolves);
+            bool helpPrinceBelenEquals = helpPrineBelen.Equals(anotherWorld.helpPrineBelen);
+            bool helpLordHarrowmontEquals = helpLordHarrowmont.Equals(anotherWorld.helpLordHarrowmont);
+
             bool worldStateGlobal = worldStateReferenceEquals || worldStateEquals;
             bool locationsGlobal = locationsReferenceEquals || locationsEquals;
             bool agentsGlobal = agentsReferenceEquals || agentsEquals;
 
-            bool equals = worldStateGlobal && locationsGlobal && agentsGlobal;
+            bool equals = worldStateGlobal && locationsGlobal && agentsGlobal && helpMagesEquals && helpTemplarsEquals && helpElfsEquals && helpWerewolvesEquals
+                && helpPrinceBelenEquals && helpLordHarrowmontEquals;
 
             return equals;
         }
@@ -645,6 +683,13 @@ namespace Narrative_Generator
                 csol.Value.ClearHashCode();
                 hashcode = hashcode * 42 + csol.Value.GetHashCode() + csol.Key.GetHashCode();
             }
+
+            hashcode = hashcode + helpMages.GetHashCode();
+            hashcode = hashcode + helpTemplars.GetHashCode();
+            hashcode = hashcode + helpElfs.GetHashCode();
+            hashcode = hashcode + helpWerewolves.GetHashCode();
+            hashcode = hashcode + helpPrineBelen.GetHashCode();
+            hashcode = hashcode + helpLordHarrowmont.GetHashCode();
 
             hashCode = hashcode;
             hasHashCode = true;
