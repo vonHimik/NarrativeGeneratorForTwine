@@ -70,6 +70,11 @@ namespace Narrative_Generator
                 whomEquals = true;
                 whomReferenceEquals = true;
             }
+            else if ((whom == null && anotherWantToEntrap.whom != null) || (whom != null && anotherWantToEntrap.whom == null))
+            {
+                whomEquals = false;
+                whomReferenceEquals = false;
+            }
             else
             {
                 whomEquals = whom.Equals(anotherWantToEntrap.whom);
@@ -82,6 +87,11 @@ namespace Narrative_Generator
             {
                 whereEquals = true;
                 whereReferenceEquals = true;
+            }
+            else if ((where == null && anotherWantToEntrap.where != null) || (where != null && anotherWantToEntrap.where == null))
+            {
+                whereEquals = false;
+                whereReferenceEquals = false;
             }
             else
             {
@@ -116,10 +126,7 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public AgentStateStatic GetVictim()
-        {
-            return whom;
-        }
+        public AgentStateStatic GetVictim() { return whom; }
 
         public void SetLocation (LocationStatic location)
         {
@@ -127,10 +134,7 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public LocationStatic GetLocation()
-        {
-            return where;
-        }
+        public LocationStatic GetLocation() { return where; }
 
         public void SetVictimAndLocation (AgentStateStatic victim, LocationStatic location)
         {
@@ -138,33 +142,18 @@ namespace Narrative_Generator
             SetLocation(location);
         }
 
-        public bool EntrapCheck()
-        {
-            return entraping;
-        }
+        public bool EntrapCheck() { return entraping; }
 
         public bool EntrapingCheckAtAgent (AgentStateStatic agent)
         {
-            if (entraping && agent == whom)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (entraping && agent == whom) { return true; }
+            else { return false; }
         }
 
         public bool EntrapingCheckAtLocation (LocationStatic location)
         {
-            if (entraping && location == where)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (entraping && location == where) { return true; }
+            else { return false; }
         }
 
         //////////////////////

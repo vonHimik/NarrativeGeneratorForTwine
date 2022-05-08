@@ -33,7 +33,7 @@ namespace Narrative_Generator
             }
         }
 
-        public Entrap(params Object[] args) : base(args) { }
+        public Entrap(params Object[] args) : base (args) { }
 
         public Entrap(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                       ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
@@ -44,14 +44,19 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
-        public override bool CheckPreconditions(WorldDynamic state)
+        public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return agent.Key.GetRole().Equals(AgentRole.KILLER) && agent.Value.GetStatus();
+        }
+
+        public override bool CheckPreconditions (WorldDynamic state)
         {
             return (Agent.Key.GetRole() == AgentRole.USUAL || Agent.Key.GetRole() == AgentRole.PLAYER) && Agent.Value.GetStatus() 
                    && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
                    && !Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 1;
         }
 
-        public override void ApplyEffects(ref WorldDynamic state)
+        public override void ApplyEffects (ref WorldDynamic state)
         {
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
@@ -66,9 +71,6 @@ namespace Narrative_Generator
             stateKiller.Value.DecreaseTimeToMove();
         }
 
-        public override void Fail (ref WorldDynamic state)
-        {
-            fail = true;
-        }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }

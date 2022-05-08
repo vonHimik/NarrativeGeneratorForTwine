@@ -27,6 +27,7 @@ namespace Narrative_Generator
         private TalkingWith talkingWith;
         private int skipedTurns;
         private int timeToMove;
+        private int complitedQuestsCounter;
 
         // Beliefs
         private WorldContext beliefs;
@@ -36,6 +37,16 @@ namespace Narrative_Generator
         // Hashcode
         private bool hasHashCode;
         private int hashCode;
+
+        // TRANSFER TO WorldDynamic !!!
+        // Plot variables - need to put it in a separate file and make a mechanism for reading from there
+        // Dragon Age
+        public bool helpMages;
+        public bool helpTemplars;
+        public bool helpElfs;
+        public bool helpWerewolves;
+        public bool helpPrineBelen;
+        public bool helpLordHarrowmont;
 
         /// <summary>
         /// Parameterless constructor.
@@ -59,7 +70,14 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
-            timeToMove = 2;
+            timeToMove = 0; // 2
+            complitedQuestsCounter = 0;
+            helpMages = false;
+            helpTemplars = false;
+            helpElfs = false;
+            helpWerewolves = false;
+            helpPrineBelen = false;
+            helpLordHarrowmont = false;
         }
 
         public AgentStateDynamic (AgentStateDynamic clone)
@@ -74,7 +92,7 @@ namespace Narrative_Generator
             angryAt = (AgentAngryAt)clone.angryAt.Clone();
             scared = clone.scared;
             foundEvidence = (AgentFoundEvidence)clone.foundEvidence.Clone();
-            if (clone.wantsToGo != null) { wantsToGo = (LocationStatic)clone.wantsToGo.Clone(); ; }
+            if (clone.wantsToGo != null) { wantsToGo = (LocationStatic)clone.wantsToGo.Clone();  }
             else { wantsToGo = new LocationStatic(); }
             exploredRooms = new HashSet<LocationStatic>(clone.exploredRooms);
             wantToEntrap = (WantToEntrap)clone.wantToEntrap.Clone();
@@ -83,12 +101,19 @@ namespace Narrative_Generator
             hashCode = clone.hashCode;
             skipedTurns = clone.skipedTurns;
             timeToMove = clone.timeToMove;
+            complitedQuestsCounter = clone.complitedQuestsCounter;
+            helpMages = clone.helpMages;
+            helpTemplars = clone.helpTemplars;
+            helpElfs = clone.helpElfs;
+            helpWerewolves = clone.helpWerewolves;
+            helpPrineBelen = clone.helpPrineBelen;
+            helpLordHarrowmont = clone.helpLordHarrowmont;
         }
 
         /// <summary>
         /// Constructor with parameters.
         /// </summary>
-        public AgentStateDynamic(bool alive, Goal goals, WorldContext beliefs, AgentStateStatic agentInfo)
+        public AgentStateDynamic (bool alive, Goal goals, WorldContext beliefs, AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;
 
@@ -121,7 +146,15 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
-            timeToMove = 2;
+            timeToMove = 0;
+            complitedQuestsCounter = 0;
+
+            helpMages = false;
+            helpTemplars = false;
+            helpElfs = false;
+            helpWerewolves = false;
+            helpPrineBelen = false;
+            helpLordHarrowmont = false;
         }
 
         /// <summary>
@@ -149,6 +182,13 @@ namespace Narrative_Generator
             if (talkingWith != null && talkingWith.GetInterlocutor() != null) { clone.talkingWith = new TalkingWith(talkingWith); }
             clone.skipedTurns = skipedTurns;
             clone.timeToMove = timeToMove;
+            clone.complitedQuestsCounter = complitedQuestsCounter;
+            clone.helpMages = helpMages;
+            clone.helpTemplars = helpTemplars;
+            clone.helpElfs = helpElfs;
+            clone.helpWerewolves = helpWerewolves;
+            clone.helpPrineBelen = helpPrineBelen;
+            clone.helpLordHarrowmont = helpLordHarrowmont;
 
             return clone;
         }
@@ -176,21 +216,50 @@ namespace Narrative_Generator
                     fileName = "KillerProblemTEST";
                     break;
                 case AgentRole.PLAYER:
-                    fileName = "PlayerProblemTEST";
+                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
+                    {
+                        case Setting.Fantasy:
+                            fileName = "PlayerProblemFantasy";
+                            break;
+                        case Setting.DefaultDemo:
+                            fileName = "PlayerProblemTEST";
+                            break;
+                    }
+                    break;
+                case AgentRole.BOSS:
+                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
+                    {
+                        case Setting.Fantasy:
+                            fileName = "BossProblemFantasy";
+                            break;
+                    }
                     break;
             }
 
-            problemName = "detective-problem";
-            domainName = "detective-domain";
+            switch (currentWorldState.GetStaticWorldPart().GetSetting())
+            {
+                case Setting.Fantasy:
+                    problemName = "fantasy-problem";
+                    domainName = "fantasy-domain";
+                    break;
+                case Setting.DefaultDemo:
+                    problemName = "detective-problem";
+                    domainName = "detective-domain";
+                    break;
+            }
 
             foreach (var location in agent.Value.GetBeliefs().GetLocationsInWorld())
             {
                 objects = objects.Insert(objects.Length, location.GetName() + " ");
                 init = init.Insert(init.Length, Environment.NewLine + "(ROOM " + location.GetName() + ") ");
 
-                foreach (var connectedLocation in location.GetConnectedLocations())
+                if (currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo) 
+                    || currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
                 {
-                    init = init.Insert(init.Length, "(connected " + location.GetName() + " " + connectedLocation.GetName() + ")");
+                    foreach (var connectedLocation in location.GetConnectedLocations())
+                    {
+                        init = init.Insert(init.Length, "(connected " + location.GetName() + " " + connectedLocation.GetName() + ")");
+                    }
                 }
             }
 
@@ -215,6 +284,9 @@ namespace Narrative_Generator
                         {
                             init = init.Insert(init.Length, Environment.NewLine + "(AGENT " + a.GetInfo().GetName() + ") ");
                         }
+                        break;
+                    case AgentRole.BOSS:
+                        init = init.Insert(init.Length, Environment.NewLine + "(BOSS " + a.GetInfo().GetName() + ") ");
                         break;
                 }
 
@@ -245,9 +317,9 @@ namespace Narrative_Generator
                                     init = init.Insert(init.Length, "(explored-room " + a.GetInfo().GetName() + " " + loc.GetName() + ")");
                                 }
 
-                                if (agent.Value.GetObjectOfAngry() != null && agent.Value.AngryCheck())
+                                if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck())
                                 {
-                                    init = init.Insert(init.Length, "(angry-at " + agent.Key.GetName() + " " + agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName() + ")");
+                                    init = init.Insert(init.Length, "(angry-at " + agent.Key.GetName() + " " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ")");
                                 }
                             }
                         }
@@ -258,6 +330,11 @@ namespace Narrative_Generator
                                 .GetName() + ") ");
                         break;
                     case AgentRole.PLAYER:
+                        init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName() + " " +
+                                agent.Value.GetBeliefs().GetLocationByName(currentWorldState.SearchAgentAmongLocations(a.GetInfo()).GetName())
+                                .GetName() + ") ");
+                        break;
+                    case AgentRole.BOSS:
                         init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName() + " " +
                                 agent.Value.GetBeliefs().GetLocationByName(currentWorldState.SearchAgentAmongLocations(a.GetInfo()).GetName())
                                 .GetName() + ") ");
@@ -278,26 +355,30 @@ namespace Narrative_Generator
                                 {
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
-                                else if (agent.Value.GetObjectOfAngry() != null && agent.Value.AngryCheck())
+                                else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck() 
+                                    && currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
+                                          Equals(currentWorldState.GetLocationByName(
+                                             currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).
+                                                Value.GetBeliefs().GetMyLocation().GetName())))
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName() + ") ");
+                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
                                 }
                                 else
                                 {
                                     if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
-                                        Value.CountAliveAgents() >= 2)
+                                        Value.CountAliveAgents() >= 2 && !agent.Value.CheckTalking())
                                     {
                                         goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
                                             + currentWorldState.GetRandomAgentInMyLocation(agent).Key.GetName() + ") ");
                                     }
-                                    else if (!CheckIfLocationIsExplored(agent.Value.GetMyLocation()))
+                                    else if (!CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && !GetEvidenceStatus().CheckEvidence())
                                     {
                                         goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " " 
                                             + agent.Value.GetMyLocation().GetName() + ") ");
                                     }
                                     else
                                     {
-                                        if (timeToMove == 0)
+                                        if (timeToMove == 1000) // 0
                                         {
                                             if (agent.Value.GetTargetLocation() != null)
                                             {
@@ -315,9 +396,14 @@ namespace Narrative_Generator
                                                     + agent.Value.GetTargetLocation().GetName() + ") ");
                                             }
                                         }
+                                        else if (agent.Value.GetTargetLocation() != null && agent.Value.CheckTargetLocation())
+                                        {
+                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                + agent.Value.GetTargetLocation().GetName() + ") ");
+                                        }
                                         else
                                         {
-                                            goal = goal.Insert(goal.Length, "(wait" + agent.Key.GetName() + " " + ") ");
+                                            goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
                                         }
                                     }
                                 }
@@ -327,17 +413,17 @@ namespace Narrative_Generator
                     case AgentRole.PLAYER:
                         foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
                         {
-                            if (a.Key.GetRole() == AgentRole.KILLER)
+                            if (a.Key.GetRole() == AgentRole.KILLER || a.Key.GetRole() == AgentRole.BOSS)
                             {
                                 if (a.Key.GetName() != null && a.Key.GetName() != "???" && a.Key.GetName() != "" &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()).GetName())
+                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
                                 {
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
-                                else if (agent.Value.GetObjectOfAngry() != null && agent.Value.AngryCheck() &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()).GetName())
+                                else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck() &&
+                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName() + ") ");
+                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
                                 }
                                 else
                                 {
@@ -404,46 +490,25 @@ namespace Narrative_Generator
                                 goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
                             }
                         }
+                        break;
 
-                        /*killerCantCreatePlan = true;
-                        if (killerCantCreatePlan)
+                    case AgentRole.BOSS:
+                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2)
                         {
-                            if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() > 2 
-                                && timeToMove == 0)
+                            foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
                             {
-                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                   + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
-                                                   + ") ");
-                            }
-                            else if (timeToMove > 0)
-                            {
-
-                            }
-                            else
-                            {
-                                bool hasTarget = false;
-
-                                while (!hasTarget)
+                                if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
                                 {
-                                    BeliefsAboutAgent a = null;
-
-                                    foreach (var agnt in agent.Value.GetBeliefs().GetAgentsInWorld())
-                                    {
-                                        if (agnt.CheckStatus() && (agnt.GetRole() == AgentRole.USUAL || agnt.GetRole() == AgentRole.PLAYER))
-                                        {
-                                            a = agnt;
-                                            break;
-                                        }
-                                    }
-
-                                    if (a.GetInfo().GetRole() == AgentRole.USUAL || a.GetInfo().GetRole() == AgentRole.PLAYER)
-                                    {
-                                        goal = goal.Insert(goal.Length, "(died " + a.GetInfo().GetName() + ") ");
-                                        hasTarget = true;
-                                    }
+                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
                             }
-                        }*/
+                        }
+                        else
+                        {
+                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                + currentWorldState.GetLocationByName(currentWorldState.SearchAgentAmongLocationsByRole(AgentRole.PLAYER).GetName()).Key.GetName()
+                                + ") ");
+                        }
                         break;
                 }
             }
@@ -465,7 +530,6 @@ namespace Narrative_Generator
         /// <summary>
         /// Calculate an action plan for the agent based on PDDL files with descriptions of the domain and problem.
         /// </summary>
-        /// <param name="agent"></param>
         public void CalculatePlan(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
         {
             // We create an instance of the FastDownward class to interact with the planner.
@@ -491,8 +555,26 @@ namespace Narrative_Generator
                     problemFileName = "KillerProblemTEST";
                     break;
                 case AgentRole.PLAYER:
-                    domainFileName = "PlayerDomainTEST";
-                    problemFileName = "PlayerProblemTEST";
+                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
+                    {
+                        case Setting.Fantasy:
+                            domainFileName = "PlayerDomainFantasy";
+                            problemFileName = "PlayerProblemFantasy";
+                            break;
+                        case Setting.DefaultDemo:
+                            domainFileName = "PlayerDomainTEST";
+                            problemFileName = "PlayerProblemTEST";
+                            break;
+                    }
+                    break;
+                case AgentRole.BOSS:
+                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
+                    {
+                        case Setting.Fantasy:
+                            domainFileName = "BossDomainFantasy";
+                            problemFileName = "BossProblemFantasy";
+                            break;
+                    }
                     break;
             }
 
@@ -525,10 +607,10 @@ namespace Narrative_Generator
         /// <summary>
         /// Populates the list of actions available to the agent.
         /// </summary>
-        public void ReceiveAvailableActions(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public void ReceiveAvailableActions (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentState)
         {
             ActionGenerator actionGenerator = new ActionGenerator();
-            myAvailableActions = actionGenerator.GetAvailableActions(agent);
+            myAvailableActions = actionGenerator.GetAvailableActions(agent, currentState);
         }
 
         public List<PlanAction> GetAvailableActions()
@@ -574,10 +656,7 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public bool GetStatus()
-        {
-            return alive;
-        }
+        public bool GetStatus() { return alive; }
 
         public void Die()
         {
@@ -585,40 +664,22 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public void SetGoal(Goal goal)
-        {
-            myGoals = (Goal)goal.Clone();
-        }
+        public void SetGoal(Goal goal) { myGoals = (Goal)goal.Clone(); }
 
-        public Goal GetGoal()
-        {
-            return myGoals;
-        }
+        public Goal GetGoal() { return myGoals; }
 
-        public void SetBeliefs(WorldContext beliefs)
-        {
-            this.beliefs = beliefs;
-        }
+        public void SetBeliefs(WorldContext beliefs) { this.beliefs = beliefs; }
 
-        public WorldContext GetBeliefs()
-        {
-            return beliefs;
-        }
+        public WorldContext GetBeliefs() { return beliefs; }
 
-        public void SetInitiative(int initiative)
-        {
-            this.initiative = initiative;
-        }
+        public void SetInitiative(int initiative) { this.initiative = initiative; }
 
-        public int GetInitiative()
-        {
-            return initiative;
-        }
+        public int GetInitiative() { return initiative; }
 
         /// <summary>
         /// Updates the agent's beliefs about the location where he is.
         /// </summary>
-        public void RefreshBeliefsAboutTheWorld(WorldDynamic currentWorldState, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public void RefreshBeliefsAboutTheWorld(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
         {
             // Before clearing the information, remember the location in which the agent is located.
             //LocationStatic agentIsHereLoc = agent.Value.GetBeliefs().SearchAgentAmongLocations(agent.Key);
@@ -667,15 +728,18 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public LocationStatic GetTargetLocation()
-        {
-            return wantsToGo;
-        }
+        public LocationStatic GetTargetLocation() { return wantsToGo; }
 
         public void ClearTargetLocation()
         {
             wantsToGo = null;
             UpdateHashCode();
+        }
+
+        public bool CheckTargetLocation()
+        {
+            if (wantsToGo.GetName() == "") { return false; }
+            else { return true; }
         }
 
         public void SetObjectOfAngry(AgentStateStatic target)
@@ -691,18 +755,11 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public AgentAngryAt GetObjectOfAngry()
-        {
-            return angryAt;
-        }
+        public AgentAngryAt GetObjectOfAngryComponent() { return angryAt; }
 
         public bool AngryCheck()
         {
-            if (angryAt != null)
-            {
-                return angryAt.AngryCheck();
-            }
-
+            if (angryAt != null) { return angryAt.AngryCheck(); }
             return false;
         }
 
@@ -732,20 +789,11 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public TalkingWith GetTalking()
-        {
-            return talkingWith;
-        }
+        public TalkingWith GetTalking() { return talkingWith; }
 
-        public bool CheckTalking()
-        {
-            return talkingWith.TalkingCheck();
-        }
+        public bool CheckTalking() { return talkingWith.TalkingCheck(); }
 
-        public void ClearTalking()
-        {
-            talkingWith.Clear();
-        }
+        public void ClearTalking() { talkingWith.Clear(); }
 
         public void SetEntrap (WantToEntrap wantToEntrap)
         {
@@ -760,15 +808,9 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public WantToEntrap GetEntrap()
-        {
-            return wantToEntrap;
-        }
+        public WantToEntrap GetEntrap() { return wantToEntrap; }
 
-        public bool CheckEntrap()
-        {
-            return wantToEntrap.EntrapCheck();
-        }
+        public bool CheckEntrap() { return wantToEntrap.EntrapCheck(); }
 
         public void CalmDown()
         {
@@ -777,42 +819,26 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public void AddExploredLocation(LocationStatic location)
+        public void AddExploredLocation (LocationStatic location)
         {
             foreach (var loc in exploredRooms)
             {
-                if (loc.GetName() == location.GetName())
-                {
-                    return;
-                }
+                if (loc.GetName() == location.GetName()) { return; }
             }
 
             exploredRooms.Add(location);
             UpdateHashCode();
         }
 
-        public void AddExploredLocations(HashSet<LocationStatic> locations)
-        {
-            exploredRooms = locations;
-        }
+        public void AddExploredLocations (HashSet<LocationStatic> locations) {  exploredRooms = locations; }
 
-        public HashSet<LocationStatic> GetExploredLocations()
-        {
-            return exploredRooms;
-        }
+        public HashSet<LocationStatic> GetExploredLocations() { return exploredRooms; }
 
-        public LocationStatic GetExploredLocation(int index)
-        {
-            return exploredRooms.ElementAt(index);
-        }
+        public LocationStatic GetExploredLocation (int index) { return exploredRooms.ElementAt(index); }
 
-        public bool CheckIfLocationIsExplored(LocationStatic location)
+        public bool CheckIfLocationIsExplored (LocationStatic location)
         {
-            foreach(var loc in exploredRooms)
-            {
-                if (loc.Equals(location)) { return true; }
-            }
-
+            foreach(var loc in exploredRooms) { if (loc.Equals(location)) { return true; } }
             return false;
         }
 
@@ -820,32 +846,26 @@ namespace Narrative_Generator
         {
             for (int i = 0; i < exploredRooms.Count(); i++)
             {
-                if (exploredRooms.ElementAt(i) == location)
-                {
-                    return true;
-                }
+                if (exploredRooms.ElementAt(i) == location) { return true; }
             }
 
             return false;
         }
 
-        public void AddEvidence(AgentStateStatic criminal)
+        public void AddEvidence (AgentStateStatic criminal)
         {
             foundEvidence.IsEvidence();
             foundEvidence.SetCriminal(criminal);
             UpdateHashCode();
         }
 
-        public void AddEvidence(AgentFoundEvidence foundEvidence)
+        public void AddEvidence (AgentFoundEvidence foundEvidence)
         {
             this.foundEvidence = foundEvidence;
             UpdateHashCode();
         }
 
-        public AgentFoundEvidence GetEvidenceStatus()
-        {
-            return foundEvidence;
-        }
+        public AgentFoundEvidence GetEvidenceStatus() { return foundEvidence; }
 
         public void ClearEvidence()
         {
@@ -860,10 +880,7 @@ namespace Narrative_Generator
         {
             foreach (var a in beliefs.GetAgentsInWorld())
             {
-                if (a.GetObjectOfAngry().AngryCheck())
-                {
-                    return true;
-                }
+                if (a.GetObjectOfAngry().AngryCheck()) { return true; }
             }
 
             return false;
@@ -884,79 +901,49 @@ namespace Narrative_Generator
         /// <summary>
         /// Checks if the agent is scared.
         /// </summary>
-        public bool CheckScared()
-        {
-            return scared;
-        }
+        public bool CheckScared() { return scared; }
 
-        public bool GetPlanStatus()
-        {
-            return myCurrentPlan.planReceived;
-        }
+        public bool GetPlanStatus() { return myCurrentPlan.planReceived; }
 
-        public Plan GetPlan()
-        {
-            return myCurrentPlan;
-        }
+        public Plan GetPlan() { return myCurrentPlan; }
 
-        public void SetAgentInfo(AgentStateStatic agentInfo)
+        public void SetAgentInfo (AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;
             UpdateHashCode();
         }
 
-        public AgentStateStatic GetAgentInfo()
-        {
-            return agentInfo;
-        }
+        public AgentStateStatic GetAgentInfo() { return agentInfo; }
 
         public LocationStatic GetMyLocation()
         {
             foreach (var location in GetBeliefs().GetLocationsInWorld())
             {
-                if (location.GetName() == beliefs.GetMyLocation().GetName())
-                {
-                    return location;
-                }
+                if (location.GetName() == beliefs.GetMyLocation().GetName()) { return location; }
             }
 
             throw new KeyNotFoundException();
         }
 
-        public void ClearTempStates()
-        {
-            this.ClearTalking();
-        }
+        public void ClearTempStates() { this.ClearTalking(); }
 
-        public void SetSkippedTurns (int value)
-        {
-            skipedTurns = value;
-        }
+        public void SetSkippedTurns (int value) { skipedTurns = value; }
 
-        public int GetSkipedTurns()
-        {
-            return skipedTurns;
-        }
+        public int GetSkipedTurns() { return skipedTurns; }
 
-        public void IncreaseSkipedTurns()
-        {
-            skipedTurns++;
-        }
+        public void IncreaseSkipedTurns() { skipedTurns++; }
 
-        public void SetTimeToMove (int value)
-        {
-            timeToMove = value;
-        }
+        public void SetTimeToMove (int value) { timeToMove = value; }
 
-        public int GetTimeToMove()
-        {
-            return timeToMove;
-        }
+        public int GetTimeToMove() { return timeToMove; }
 
-        public void DecreaseTimeToMove()
-        {
-            if (timeToMove > 0) { timeToMove--; }
-        }
+        public void DecreaseTimeToMove() { if (timeToMove > 0) { timeToMove--; } }
+
+        public void SetComplitedQuestsCounter (int value) { complitedQuestsCounter = value; }
+
+        public int GetComplitedQuestsCounter() { return complitedQuestsCounter; }
+
+        public void CompleteQuest() { complitedQuestsCounter++; }
 
         public bool Equals (AgentStateDynamic anotherState)
         {
@@ -986,6 +973,11 @@ namespace Narrative_Generator
             {
                 wantsToGoEquals = true;
                 wantsToGoReferenceEquals = true;
+            }
+            else if ((wantsToGo == null && anotherState.wantsToGo != null) || (wantsToGo != null && anotherState.wantsToGo == null))
+            {
+                wantsToGoEquals = false;
+                wantsToGoReferenceEquals = false;
             }
             else
             {
@@ -1030,6 +1022,14 @@ namespace Narrative_Generator
                 exploredRoomsReferenceEquals = false;
             }
 
+            bool complitedQuestsCounterEquals = complitedQuestsCounter.Equals(anotherState.complitedQuestsCounter);
+            bool helpMagesEquals = helpMages.Equals(anotherState.helpMages);
+            bool helpTemplarsEquals = helpTemplars.Equals(anotherState.helpTemplars);
+            bool helpElfsEquals =  helpElfs.Equals(anotherState.helpElfs);
+            bool helpWerewolvesEquals = helpWerewolves.Equals(anotherState.helpWerewolves);
+            bool helpPrinceBelenEquals = helpPrineBelen.Equals(anotherState.helpPrineBelen);
+            bool helpLordHarrowmontEquals = helpLordHarrowmont.Equals(anotherState.helpLordHarrowmont);
+
             bool agentInfoGlobal = agentInfoEquals || agentInfoReferenceEquals;
             bool statusGlobal = statusEquals || statusReferenceEquals;
             bool goalsGlobal = goalsEquals || goalsReferenceEquals;
@@ -1045,7 +1045,9 @@ namespace Narrative_Generator
             bool exploredRoomsGlobal = exploredRoomsEquals || exploredRoomsReferenceEquals;
 
             bool equal = agentInfoGlobal && statusGlobal && goalsGlobal && initiativeGlobal && scaredGlobal && angryAtGlobal && wantToGoGlobal
-                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal && beliefsGlobal && foundEvidenceGlobal && exploredRoomsGlobal;
+                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal && beliefsGlobal && foundEvidenceGlobal && exploredRoomsGlobal
+                && complitedQuestsCounterEquals && helpMagesEquals && helpTemplarsEquals && helpElfsEquals && helpWerewolvesEquals 
+                && helpPrinceBelenEquals && helpLordHarrowmontEquals;
 
             return equal;
         }
@@ -1098,6 +1100,14 @@ namespace Narrative_Generator
                 hashcode = hashcode * 42 + talkingWith.GetHashCode();
             }
             hashcode = hashcode + skipedTurns;
+
+            hashcode = hashcode + complitedQuestsCounter;
+            hashcode = hashcode + helpMages.GetHashCode();
+            hashcode = hashcode + helpTemplars.GetHashCode();
+            hashcode = hashcode + helpElfs.GetHashCode();
+            hashcode = hashcode + helpWerewolves.GetHashCode();
+            hashcode = hashcode + helpPrineBelen.GetHashCode();
+            hashcode = hashcode + helpLordHarrowmont.GetHashCode();
 
             hashCode = hashcode;
             hasHashCode = true;

@@ -33,7 +33,7 @@ namespace Narrative_Generator
             }
         }
 
-        public Move (params Object[] args) : base(args) { }
+        public Move (params Object[] args) : base (args) { }
 
         public Move (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                      ref KeyValuePair<LocationStatic, LocationDynamic> from, 
@@ -42,6 +42,13 @@ namespace Narrative_Generator
             Arguments.Add(agent);
             Arguments.Add(from);
             Arguments.Add(to);
+        }
+
+        public bool PreCheckPrecondition(WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return agent.Value.GetStatus() && (agent.Key.GetRole().Equals(AgentRole.KILLER) || agent.Key.GetRole().Equals(AgentRole.PLAYER)
+                    || agent.Key.GetRole().Equals(AgentRole.BOSS))
+                    || (agent.Key.GetRole().Equals(AgentRole.USUAL) && agent.Value.GetTargetLocation() != null);
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
@@ -66,7 +73,7 @@ namespace Narrative_Generator
                 SetLocation(stateAgent.Value.GetBeliefs().GetLocationByName(To.Key.GetName()));
             stateAgent.Value.GetBeliefs().SetMyLocation(stateAgent.Value.GetBeliefs().GetLocationByName(To.Key.GetName()));
 
-            if (stateTo.Key == stateAgent.Value.GetTargetLocation())
+            if (stateTo.Key.Equals(stateAgent.Value.GetTargetLocation()))
             {
                 stateAgent.Value.ClearTargetLocation();
             }
@@ -74,10 +81,7 @@ namespace Narrative_Generator
             stateAgent.Value.SetTimeToMove(1);
         }
 
-        public override void Fail (ref WorldDynamic state)
-        {
-            fail = true;
-        }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }
 

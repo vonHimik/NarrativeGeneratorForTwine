@@ -62,10 +62,7 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public bool CheckEvidence()
-        {
-            return foundEvidence;
-        }
+        public bool CheckEvidence() { return foundEvidence; }
 
         public void SetCriminal(AgentStateStatic criminal)
         {
@@ -73,10 +70,7 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public AgentStateStatic GetCriminal()
-        {
-            return evidenceAgainst;
-        }
+        public AgentStateStatic GetCriminal() { return evidenceAgainst; }
 
         public void Clear()
         {

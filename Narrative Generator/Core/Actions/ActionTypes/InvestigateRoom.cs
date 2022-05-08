@@ -33,15 +33,22 @@ namespace Narrative_Generator
             }
         }
 
-        public InvestigateRoom(params Object[] args) : base(args) { }
+        public InvestigateRoom (params Object[] args) : base (args) { }
 
-        public InvestigateRoom(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
-                               ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public InvestigateRoom (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
+                                ref KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
             Arguments.Add(location);
+        }
+
+        public bool PreCheckPrecondition(WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return state.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo) 
+                && agent.Value.GetStatus() && (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER))
+                && !agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && !agent.Value.GetEvidenceStatus().CheckEvidence();
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
@@ -70,6 +77,21 @@ namespace Narrative_Generator
             stateAgent.Value.DecreaseTimeToMove();
         }
 
-        public override void Fail (ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state)
+        {
+            fail = true;
+
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgentClone = state.GetLocationByName(Location.Key.GetName()).Value.GetAgent(Agent);
+            KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
+            KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
+
+            stateAgent.Value.ClearTempStates();
+            stateKiller.Value.ClearTempStates();
+
+            stateAgent.Value.AddExploredLocation(stateLocation.Key);
+
+            stateAgent.Value.DecreaseTimeToMove();
+        }
     }
 }

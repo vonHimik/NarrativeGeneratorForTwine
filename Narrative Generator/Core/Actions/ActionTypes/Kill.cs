@@ -33,7 +33,7 @@ namespace Narrative_Generator
             }
         }
 
-        public Kill (params Object[] args) : base(args) { }
+        public Kill (params Object[] args) : base (args) { }
 
         public Kill (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                      ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
@@ -44,10 +44,15 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
+        public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return (agent.Key.GetRole().Equals(AgentRole.KILLER) || agent.Key.GetRole().Equals(AgentRole.BOSS)) && agent.Value.GetStatus();
+        }
+
         public override bool CheckPreconditions (WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
-                   && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                   && (Killer.Key.GetRole() == AgentRole.KILLER || Killer.Key.GetRole() == AgentRole.BOSS) && Killer.Value.GetStatus()
                    && Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 2;
         }
 

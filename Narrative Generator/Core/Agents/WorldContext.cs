@@ -228,7 +228,7 @@ namespace Narrative_Generator
         public void AddAgentInBeliefs(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, AgentRole role)
         {
             BeliefsAboutAgent newAgent = new BeliefsAboutAgent(agent.Key, role, agent.Value.GetStatus(), agent.Value.GetMyLocation(), 
-                                                                  agent.Value.GetObjectOfAngry());
+                                                                  agent.Value.GetObjectOfAngryComponent());
             agentsInWorld.Add(newAgent);
         }
 
@@ -320,27 +320,21 @@ namespace Narrative_Generator
             return locationsInWorld;
         }
 
-        public LocationStatic SearchAgentAmongLocations(AgentStateStatic agent)
+        public LocationStatic SearchAgentAmongLocations (AgentStateStatic agent)
         {
             foreach (var a in agentsInWorld)
             {
-                if (a.GetInfo() == agent)
-                {
-                    return a.GetLocation();
-                }
+                if (a.GetInfo() == agent) { return a.GetLocation(); }
             }
 
             return null;
         }
 
-        public LocationStatic GetLocationByName(string name)
+        public LocationStatic GetLocationByName (string name)
         {
             foreach (var location in locationsInWorld)
             {
-                if (location.GetName() == name)
-                {
-                    return location;
-                }
+                if (location.GetName() == name) { return location; }
             }
 
             throw new KeyNotFoundException();
@@ -349,7 +343,6 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns a random location, excluding the specified one.
         /// </summary>
-        /// <param name="excludedLocation"></param>
         public LocationStatic GetRandomLocationWithout(LocationStatic excludedLocation)
         {
             // Create an instance of the Random Number Generator.

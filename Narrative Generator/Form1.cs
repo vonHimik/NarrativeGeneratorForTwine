@@ -21,10 +21,20 @@ namespace Narrative_Generator
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-             system.Start();
+            if (rbtn1.Checked || rbtn2.Checked)
+            {
+                system.Start();
+            }
+        }
 
-            //FastDownward fastDownward = new FastDownward();
-            //fastDownward.Run();
+        private void rbtn1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbtn1.Checked) { system.setting = Setting.Fantasy; }
+        }
+
+        private void rbtn2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbtn2.Checked) { system.setting = Setting.Detective; }
         }
     }
 }

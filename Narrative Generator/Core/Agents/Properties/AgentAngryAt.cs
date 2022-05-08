@@ -65,30 +65,19 @@ namespace Narrative_Generator
         public void SetObjectOfAngry(AgentStateStatic target)
         {
             objectOfAngry = target;
+            AngryOn();
             UpdateHashCode();
         }
 
-        public AgentStateStatic GetObjectOfAngry()
-        {
-            return objectOfAngry;
-        }
+        public AgentStateStatic GetObjectOfAngry() { return objectOfAngry; }
 
         public bool AngryCheckAtAgent(AgentStateStatic agent)
         {
-            if (angry && agent == objectOfAngry)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (angry && agent == objectOfAngry) { return true; }
+            else { return false; }
         }
 
-        public bool AngryCheck()
-        {
-            return angry;
-        }
+        public bool AngryCheck() { return angry; }
 
         public bool Equals(AgentAngryAt anotherAngryAt)
         {
@@ -103,6 +92,11 @@ namespace Narrative_Generator
             {
                 objectOfAngryEquals = true;
                 objectOfAngryReferenceEquals = true;
+            }
+            else if  ((objectOfAngry == null && anotherAngryAt.objectOfAngry != null) || objectOfAngry == null && anotherAngryAt.objectOfAngry != null)
+            {
+                objectOfAngryEquals = false;
+                objectOfAngryReferenceEquals = false;
             }
             else
             {

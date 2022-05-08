@@ -48,8 +48,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Constructor method for the dynamic part of the location, the value of the flag about the presence of evidence is used as a parameter.
         /// </summary>
-        /// <param name="containEvidence"></param>
-        public LocationDynamic(bool containEvidence)
+        public LocationDynamic (bool containEvidence)
         {
             locationInfo = new LocationStatic();
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
@@ -62,9 +61,7 @@ namespace Narrative_Generator
         /// Constructor method for the dynamic part of the location,
         /// as a parameter using the values for the flag about the presence of evidence and a link to the static part of the location.
         /// </summary>
-        /// <param name="containEvidence"></param>
-        /// <param name="locationInfo"></param>
-        public LocationDynamic(bool containEvidence, LocationStatic locationInfo)
+        public LocationDynamic (bool containEvidence, LocationStatic locationInfo)
         {
             this.locationInfo = locationInfo;
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
@@ -93,15 +90,11 @@ namespace Narrative_Generator
         /// <summary>
         /// Adds an agent to the list of agents located in this location.
         /// </summary>
-        /// <param name="agent"></param>
-        public void AddAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public void AddAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             foreach (var a in agentsAtLocations)
             {
-                if (a.Key.GetName().Equals(agent.Key.GetName()))
-                {
-                    return;
-                }
+                if (a.Key.GetName().Equals(agent.Key.GetName())) { return; }
             }
 
             //AgentStateStatic sPrefab = (AgentStateStatic)agent.Key.Clone();
@@ -109,18 +102,12 @@ namespace Narrative_Generator
             agentsAtLocations.Add(agent.Key, agent.Value);
 
             UpdateHashCode();
-
-            // Очистка
-            //sPrefab = null;
-            //dPrefab = null;
-            //GC.Collect();
         }
 
         /// <summary>
         /// Adds a set of agents to the list of agents located in this location.
         /// </summary>
-        /// <param name="agents"></param>
-        public void AddAgents(Dictionary<AgentStateStatic, AgentStateDynamic> agents)
+        public void AddAgents (Dictionary<AgentStateStatic, AgentStateDynamic> agents)
         {
             agentsAtLocations = agentsAtLocations.Concat(agents).ToDictionary(x => x.Key, x => x.Value);
             UpdateHashCode();
@@ -129,8 +116,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Returns the specified agent from the list of agents in the location.
         /// </summary>
-        /// <param name="agent"></param>
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             // We go through all the agents in the location.
             foreach (var a in agentsAtLocations)
@@ -155,10 +141,7 @@ namespace Narrative_Generator
             Dictionary<AgentStateStatic, AgentStateDynamic> agents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
 
             // We go through the list of agents located in this location and add them to the newly created dictionary.
-            foreach (var agent in agentsAtLocations)
-            {
-                agents.Add(agent.Key, agent.Value);
-            }
+            foreach (var agent in agentsAtLocations) { agents.Add(agent.Key, agent.Value); }
 
             // We return this dictionary.
             return agents;
@@ -205,8 +188,7 @@ namespace Narrative_Generator
         /// Searches for the specified agent in the list of agents located in the given location, 
         ///    returns true on success, and returns false on failure.
         /// </summary>
-        /// <param name="agent"></param>
-        public bool SearchAgent(AgentStateStatic agent)
+        public bool SearchAgent (AgentStateStatic agent)
         {
             // We go through all the agents in the list of agents located in this location.
             foreach (var a in agentsAtLocations)
@@ -223,7 +205,7 @@ namespace Narrative_Generator
             return false;
         }
 
-        public bool SearchAgentByName(string name)
+        public bool SearchAgentByName (string name)
         {
             // We go through all the agents in the list of agents located in this location.
             foreach (var a in agentsAtLocations)
@@ -240,26 +222,36 @@ namespace Narrative_Generator
             return false;
         }
 
+        public bool SearchAgentByRole (AgentRole role)
+        {
+            // We go through all the agents in the list of agents located in this location.
+            foreach (var a in agentsAtLocations)
+            {
+                // We compare the name of the agent with the name of the desired agent.
+                if (a.Key.GetRole() == role)
+                {
+                    // Return true if the search is successful.
+                    return true;
+                }
+            }
+
+            // Otherwise, we return false.
+            return false;
+        }
+
         /// <summary>
         /// Returns the number of agents located in this location.
         /// </summary>
-        public int CountAgents()
-        {
-            return agentsAtLocations.Count();
-        }
+        public int CountAgents() { return agentsAtLocations.Count(); }
 
         /// <summary>
         /// Returns whether there is evidence in the given location or not.
         /// </summary>
-        public bool CheckEvidence()
-        {
-            return containEvidence;
-        }
+        public bool CheckEvidence() { return containEvidence; }
 
         /// <summary>
         /// Sets a link to the specified static part of the location.
         /// </summary>
-        /// <param name="locationInfo"></param>
         public void SetLocationInfo(LocationStatic locationInfo)
         {
             this.locationInfo = locationInfo;
@@ -269,10 +261,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Returns the static part of the given location.
         /// </summary>
-        public LocationStatic GetLocationInfo()
-        {
-            return locationInfo;
-        }
+        public LocationStatic GetLocationInfo() { return locationInfo; }
 
         public bool Equals(LocationDynamic anotherLocation)
         {
@@ -338,6 +327,18 @@ namespace Narrative_Generator
             foreach (var agent in agentsAtLocations)
             {
                 if (agent.Value.GetStatus()) { counter++; }
+            }
+
+            return counter;
+        }
+
+        public int CountDeadAgents()
+        {
+            int counter = 0;
+
+            foreach (var agent in agentsAtLocations)
+            {
+                if (!agent.Value.GetStatus()) { counter++; }
             }
 
             return counter;

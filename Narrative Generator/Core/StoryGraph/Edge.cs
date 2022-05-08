@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class Edge
+    public class Edge
     {
         private StoryNode upperNode;
         private StoryNode lowerNode;
         private PlanAction action;
 
-        public void SetUpperNode(ref StoryNode node)
-        {
-            upperNode = node;
-        }
+        public void SetUpperNode (ref StoryNode node) { upperNode = node; }
 
         public void ClearUpperNode()
         {
@@ -23,15 +20,9 @@ namespace Narrative_Generator
             upperNode = null;
         }
 
-        public StoryNode GetUpperNode()
-        {
-            return upperNode;
-        }
+        public StoryNode GetUpperNode() { return upperNode; }
 
-        public void SetLowerNode(ref StoryNode node)
-        {
-            lowerNode = node;
-        }
+        public void SetLowerNode (ref StoryNode node) { lowerNode = node; }
 
         public void ClearLowerNode()
         {
@@ -42,25 +33,13 @@ namespace Narrative_Generator
             }
         }
 
-        public StoryNode GetLowerNode()
-        {
-            return lowerNode;
-        }
+        public StoryNode GetLowerNode() { return lowerNode; }
 
-        public void SetAction(PlanAction action)
-        {
-            this.action = action;
-        }
+        public void SetAction (PlanAction action) { this.action = action; }
 
-        public void ClearAction()
-        {
-            action = null;
-        }
+        public void ClearAction() { action = null; }
 
-        public PlanAction GetAction()
-        {
-            return action;
-        }
+        public PlanAction GetAction() { return action; }
 
         public void ClearEdge()
         {

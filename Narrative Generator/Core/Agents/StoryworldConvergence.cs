@@ -32,7 +32,6 @@ namespace Narrative_Generator
         /// <summary>
         /// Checks the achievement of any of the goal conditions (in state).
         /// </summary>
-        /// <param name="currentWorldState"></param>
         public bool ControlToAchieveGoalState(ref StoryNode currentNode)
         {
             foreach (var goal in allGoalStates)
@@ -52,6 +51,7 @@ namespace Narrative_Generator
                             case AgentRole.USUAL: if(!agent.Value.GetStatus()) { killCounter++; } break;
                             case AgentRole.PLAYER: if(!agent.Value.GetStatus()) { killCounter++; } break;
                             case AgentRole.KILLER: if(!agent.Value.GetStatus()) { killerDied = true; } break;
+                            case AgentRole.BOSS: if (!agent.Value.GetStatus()) { killerDied = true; } break;
                         }
                     }
 
@@ -74,15 +74,16 @@ namespace Narrative_Generator
         /// <summary>
         /// Adds the specified constraint to the constraint list.
         /// </summary>
-        public void AddConstraint(WorldConstraint constraint)
-        {
-            constraints.Add(constraint);
-        }
+        public void AddConstraint (WorldConstraint constraint) { constraints.Add(constraint); }
 
         /// <summary>
         /// Checking whether the application of an action would violate the established constraints.
         /// </summary>
-        public bool ConstraintsControl(WorldDynamic currentState, PlanAction action, bool succsessControl)
+        public bool ConstraintsControl (StoryGraph currentGraph, 
+                                        WorldDynamic currentState, 
+                                        PlanAction action, 
+                                        bool succsessControl, 
+                                        StoryNode currentNode)
         {
             WorldDynamic worldForTest = (WorldDynamic)currentState.Clone();
             if (!succsessControl) { action.Fail(ref worldForTest); }
@@ -90,7 +91,7 @@ namespace Narrative_Generator
 
             foreach (var constraint in constraints)
             {
-                if (!constraint.IsSatisfied(worldForTest))
+                if (!constraint.IsSatisfied(worldForTest, currentState, currentGraph, action, currentNode))
                 {
                     // Cleaning
                     worldForTest = null;
@@ -124,9 +125,9 @@ namespace Narrative_Generator
 
             if (agent.Key.GetRole().Equals(AgentRole.PLAYER))
             {
-                agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent);
+                agent.Value.RefreshBeliefsAboutTheWorld(agent, currentState);
                 agent.Value.GenerateNewPDDLProblem(agent, currentState);
-                agent.Value.ReceiveAvailableActions(agent);
+                agent.Value.ReceiveAvailableActions(agent, currentState);
 
                 List<PlanAction> receivedActions = agent.Value.GetAvailableActions();
 
@@ -142,21 +143,53 @@ namespace Narrative_Generator
                                 MultiAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root, 
                                                 ref globalNodeNumber, ref queue);
                                 break;
-                            case "Fight": // Not relevant yet
+                            case "Fight":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                              ref globalNodeNumber, ref queue);
                                 break;
                             case "InvestigateRoom":
                                 SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root, 
-                                                 ref globalNodeNumber, ref queue);
+                                              ref globalNodeNumber, ref queue);
                                 break;
-                            case "NeutralizeKiller": // Not relevant yet
+                            case "NeutralizeKiller":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                              ref globalNodeNumber, ref queue);
                                 break;
-                            case "NothingToDo": SkipTurn(currentState);
+                            case "NothingToDo":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                              ref globalNodeNumber, ref queue);
                                 break;
-                            case "Reassure": // Not relevant yet
+                            case "Reassure":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                              ref globalNodeNumber, ref queue);
                                 break;
-                            case "Run": // Not relevant yet
+                            case "Talk":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                              ref globalNodeNumber, ref queue);
                                 break;
-                            case "Talk": // Not relevant yet
+                            case "HelpElfs":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                    ref globalNodeNumber, ref queue);
+                                break;
+                            case "HelpWerewolves":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                    ref globalNodeNumber, ref queue);
+                                break;
+                            case "HelpMages":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                    ref globalNodeNumber, ref queue);
+                                break;
+                            case "HelpTemplars":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                    ref globalNodeNumber, ref queue);
+                                break;
+                            case "HelpPrinceBelen":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                    ref globalNodeNumber, ref queue);
+                                break;
+                            case "HelpLordHarrowmont":
+                                SingleAVandAC(ref receivedAction, currentState, agent, cspModule, currentGraph, currentNode, root,
+                                    ref globalNodeNumber, ref queue);
                                 break;
                         }
 
@@ -172,10 +205,10 @@ namespace Narrative_Generator
             }
             else
             {
-                agent.Value.RefreshBeliefsAboutTheWorld(currentState, agent);
+                agent.Value.RefreshBeliefsAboutTheWorld(agent, currentState);
                 agent.Value.GenerateNewPDDLProblem(agent, currentState);
                 agent.Value.CalculatePlan(agent, currentState);
-                agent.Value.ReceiveAvailableActions(agent);
+                agent.Value.ReceiveAvailableActions(agent, currentState);
 
                 PlanAction receivedAction = agent.Value.ChooseAction();
 
@@ -264,13 +297,17 @@ namespace Narrative_Generator
             action.success = succsessControl;
             action.fail = !succsessControl;
 
-            bool constraintsControl = ConstraintsControl(currentState, action, succsessControl);
+            bool constraintsControl = ConstraintsControl(currentGraph, currentState, action, succsessControl, currentNode);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, succsessControl);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, succsessControl);
             //bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl);
             bool cyclesControl = true;
 
-            if (constraintsControl && deadEndsControl && cyclesControl && duplicateControl)
+            if (!constraintsControl && agent.Key.GetRole().Equals(AgentRole.PLAYER))
+            {
+                currentGraph.CreateEndNode();
+            }
+            else if (constraintsControl && deadEndsControl && cyclesControl && duplicateControl)
             {
                 // If all checks are passed, then we apply the action.
                 ApplyAction(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, succsessControl, false);
@@ -289,10 +326,6 @@ namespace Narrative_Generator
 
                 if (skip)
                 {
-                    //NothingToDo newAction = new NothingToDo();
-                    //newAction.Arguments.Add(agent);
-                    //ApplyAction(newAction, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, succsessControl, true);
-
                     ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
                 }
             }
@@ -860,10 +893,6 @@ namespace Narrative_Generator
                     }
                 }
 
-                //stageOne_NewNode = false;
-                //stageTwo_ConnectedNode = true;
-
-
                 if (stageOne_NewNode)
                 {
                     stageOne_NewNode = false;
@@ -902,6 +931,13 @@ namespace Narrative_Generator
             else if (action is TellAboutASuspicious) { threshold = 80; }
             else if (action is CounterTellAboutASuspicious) { threshold = 100; }
             else if (action is Talk || action is CounterTalk) { threshold = 100; }
+            else if (action is ToBeAWitness) { threshold = 100; }
+            else if (action is HelpElfs) { threshold = 100; }
+            else if (action is HelpWerewolves) { threshold = 100; }
+            else if (action is HelpMages) { threshold = 100; }
+            else if (action is HelpTemplars) { threshold = 100; }
+            else if (action is HelpPrinceBelen) { threshold = 100; }
+            else if (action is HelpLordHarrowmont) { threshold = 100; }
 
             if (probability <= threshold) { return true; }
             else { return false; }
@@ -932,7 +968,7 @@ namespace Narrative_Generator
             action.success = succsessControl;
             action.fail = !succsessControl;
 
-            bool constraintsControl = ConstraintsControl(currentState, action, succsessControl);
+            bool constraintsControl = ConstraintsControl(currentGraph, currentState, action, succsessControl, currentNode);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, succsessControl);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, succsessControl);
             //bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl);

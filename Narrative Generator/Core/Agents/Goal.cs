@@ -65,10 +65,7 @@ namespace Narrative_Generator
             return clone;
         }
 
-        public WorldDynamic GetGoalState()
-        {
-            return goalState;
-        }
+        public WorldDynamic GetGoalState() { return goalState; }
 
         public bool Equals(Goal anotherGoal)
         {

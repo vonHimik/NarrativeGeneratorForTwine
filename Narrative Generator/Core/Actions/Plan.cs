@@ -106,6 +106,41 @@ namespace Narrative_Generator
                 Talk talk = new Talk();
                 actions.Add(talk);
             }
+            if (actionName == "to-be-a-witness")
+            {
+                ToBeAWitness toBeAWitness = new ToBeAWitness();
+                actions.Add(toBeAWitness);
+            }
+            if (actionName == "help-mages")
+            {
+                HelpMages helpMages = new HelpMages();
+                actions.Add(helpMages);
+            }
+            if (actionName == "help-templars")
+            {
+                HelpTemplars helpTemplars = new HelpTemplars();
+                actions.Add(helpTemplars);
+            }
+            if (actionName == "help-elfs")
+            {
+                HelpElfs helpElfs = new HelpElfs();
+                actions.Add(helpElfs);
+            }
+            if (actionName == "help-werewolves")
+            {
+                HelpWerewolves helpWerewolves = new HelpWerewolves();
+                actions.Add(helpWerewolves);
+            }
+            if (actionName == "help-prinec")
+            {
+                HelpPrinceBelen helpPrinceBelen = new HelpPrinceBelen();
+                actions.Add(helpPrinceBelen);
+            }
+            if (actionName == "help-lord")
+            {
+                HelpLordHarrowmont helpLordHarrowmont = new HelpLordHarrowmont();
+                actions.Add(helpLordHarrowmont);
+            }
         }
 
         public PlanAction GetAction(int index)

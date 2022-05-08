@@ -27,10 +27,7 @@ namespace Narrative_Generator
 
         public bool RunGraphviz(string fileName)
         {
-            if (Run("cmd", "dot.exe -Tpng –O " + fileName))
-            {
-                return true;
-            }
+            if (Run("cmd", "dot.exe -Tpng –O " + fileName)) { return true; }
             else { return false; }
         }
     }

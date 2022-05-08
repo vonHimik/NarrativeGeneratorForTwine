@@ -11,6 +11,7 @@ namespace Narrative_Generator
     {
         private HashSet<LocationStatic> locations; // List of locations.
         private int turn;
+        private Setting setting;
 
         private bool hasHashCode;
         private int hashCode;
@@ -19,6 +20,7 @@ namespace Narrative_Generator
         {
             locations = new HashSet<LocationStatic>();
             turn = 0;
+            setting = Setting.DefaultDemo;
             hasHashCode = false;
             hashCode = 0;
         }
@@ -27,6 +29,7 @@ namespace Narrative_Generator
         {
             locations = new HashSet<LocationStatic>(clone.locations);
             turn = clone.turn;
+            setting = clone.setting;
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
         }
@@ -37,16 +40,14 @@ namespace Narrative_Generator
 
             clone.locations = new HashSet<LocationStatic>(locations);
             clone.turn = turn;
+            clone.setting = setting;
 
             return clone;
         }
 
-        public void AddLocations(List<LocationStatic> locations)
+        public void AddLocations (List<LocationStatic> locations)
         {
-            foreach (var location in locations)
-            {
-                AddLocation(location);
-            }
+            foreach (var location in locations) { AddLocation(location); }
 
             UpdateHashCode();
         }
@@ -57,33 +58,25 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public HashSet<LocationStatic> GetLocations()
-        {
-            return locations;
-        }
+        public HashSet<LocationStatic> GetLocations() { return locations; }
 
-        public LocationStatic GetLocation(string name)
+        public LocationStatic GetLocation (string name)
         {
             foreach (var location in locations)
             {
-                if (location.GetName() == name)
-                {
-                    return location;
-                }
+                if (location.GetName() == name) { return location; }
             }
 
             throw new MissingMemberException();
         }
 
-        public int GetTurnNumber()
-        {
-            return turn;
-        }
+        public int GetTurnNumber() { return turn; }
 
-        public void IncreaseTurnNumber()
-        {
-            turn++;
-        }
+        public void IncreaseTurnNumber() { turn++; }
+
+        public void SetSetting (Setting setting) { this.setting = setting; }
+
+        public Setting GetSetting() { return setting; }
 
         public bool Equals(WorldStatic anotherWorld)
         {
@@ -107,10 +100,14 @@ namespace Narrative_Generator
             bool turnEquals = turn.Equals(anotherWorld.GetTurnNumber());
             bool turnReferenceEquals = object.ReferenceEquals(turn, anotherWorld.turn);
 
+            bool settingEquals = setting.Equals(anotherWorld.setting);
+            bool settingReferenceEquals = object.ReferenceEquals(setting, anotherWorld.setting);
+
             bool locationsGlobal = locationsReferenceEquals || locationsEquals;
             bool turnGlobal = turnEquals || turnReferenceEquals;
+            bool settingGlobal = settingEquals || settingReferenceEquals;
 
-            bool equal = locationsGlobal && turnGlobal;
+            bool equal = locationsGlobal && turnGlobal && settingGlobal;
 
             return equal;
         }
@@ -125,9 +122,10 @@ namespace Narrative_Generator
 
             foreach (var location in locations)
             {
-                //location.ClearHashCode();
                 hashcode = hashcode * 42 + location.GetHashCode();
             }
+
+            hashcode = hashcode * 42 + setting.GetHashCode();
 
             hashCode = hashcode;
             hasHashCode = true;

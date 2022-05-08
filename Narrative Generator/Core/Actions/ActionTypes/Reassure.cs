@@ -49,7 +49,7 @@ namespace Narrative_Generator
             }
         }
 
-        public Reassure(params Object[] args) : base(args) { }
+        public Reassure(params Object[] args) : base (args) { }
 
         public Reassure(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
                         ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2, 
@@ -64,14 +64,20 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
-        public override bool CheckPreconditions(WorldDynamic state)
+        public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return state.GetStaticWorldPart().Equals(Setting.DefaultDemo) && (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER))
+                && agent.Value.GetStatus() && agent.Value.ThinksThatSomeoneIsAngry();
+        }
+
+        public override bool CheckPreconditions (WorldDynamic state)
         {
             return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
                       && Agent2.Key.GetRole() == AgentRole.USUAL && Agent2.Value.GetStatus()
                       && Agent3.Key.GetRole() == AgentRole.USUAL 
                       && Killer.Key.GetRole() == AgentRole.KILLER 
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
-                      && (Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Killer.Key))
+                      && (Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Killer.Key))
                       && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.KILLER).Equals(Killer);
         }
 
