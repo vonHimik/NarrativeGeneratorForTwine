@@ -23,8 +23,13 @@ namespace Narrative_Generator
         // Start --> current state
         public WorldDynamic currentStoryState = new WorldDynamic();
         public int goalsCounter = 2;
+<<<<<<< Updated upstream
         public int agentsCounter = 2; // 7
         public int locationsCounter = 6; // 8
+=======
+        public int agentsCounter = 3; // 7
+        public int locationsCounter = 4; // 8
+>>>>>>> Stashed changes
 
         // Output graphs
         public StoryGraph newStoryGraph = new StoryGraph();
@@ -62,7 +67,7 @@ namespace Narrative_Generator
 
             domainName = "detective-domain";
 
-            predicates = "(ROOM ?x) (AGENT ?x) (KILLER ?x) (alive ?x) (died ?x) (wait ?x) (in-room ?x ?y) (connected ?x ?y)";
+            predicates = "(ROOM ?x) (AGENT ?x) (KILLER ?x) (alive ?x) (died ?x) (in-room ?x ?y) (connected ?x ?y)";
 
             // Action - Kill
             actions = actions.Insert(actions.Length, Environment.NewLine + "(:action Kill" + Environment.NewLine + ":parameters (?k ?victim ?r");
@@ -123,12 +128,6 @@ namespace Narrative_Generator
                 + "(in-room ?k ?place) (in-room ?a ?place) (not (= ?place ?suspicious-place)))" + Environment.NewLine 
                 + " :effect (and (in-room ?a ?suspicious-place)))" + Environment.NewLine);
 
-            // Action - Nothing to do
-            actions = actions.Insert(actions.Length, Environment.NewLine + "(:action nothing-to-do" + Environment.NewLine
-                + " :parameters (?k)" + Environment.NewLine
-                + " :precondition (and (KILLER ?k) (alive ?k))" + Environment.NewLine
-                + " :effect (wait ?k))" + Environment.NewLine);
-
            FileStream file = new FileStream(fileName + ".pddl", FileMode.Create, FileAccess.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(file, Encoding.GetEncoding(1251));
 
@@ -184,8 +183,26 @@ namespace Narrative_Generator
                 {
                     switch (setting)
                     {
+<<<<<<< Updated upstream
                         case Setting.Fantasy:
                             if (agent.Key.GetRole() == AgentRole.PLAYER)
+=======
+                        // Unless the agent has the role of the killer.
+                        if (agent.Key.GetRole() != AgentRole.KILLER)
+                        {
+                            // Then his goal is that the killer must be neutralized.
+                            agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false);
+                        }
+                        // If the agent is the killer.
+                        else if (agent.Key.GetRole() == AgentRole.KILLER)
+                        {
+                            int agentCounter = 0;
+                            int playerCounter = 1;
+                            int killerCounter = NumberOfKillers();
+
+                            // Then we go through all the agents.
+                            foreach (var anotherAgent in currentStoryState.GetAgents())
+>>>>>>> Stashed changes
                             {
                                 agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.BOSS, false, "Archdemon");
                                 agent.Value.SetObjectOfAngry(currentStoryState.GetAgentByRole(AgentRole.BOSS).Key);
@@ -244,6 +261,7 @@ namespace Narrative_Generator
                                     // And for everyone who is not a killer...
                                     if (anotherAgent.Key.GetRole() != AgentRole.KILLER)
                                     {
+<<<<<<< Updated upstream
                                         agentCounter++;
 
                                         // ...add a new "victim" to the goals.
@@ -253,6 +271,11 @@ namespace Narrative_Generator
                                         }
                                         else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false, anotherAgent.Key.GetName()); }
                                     }
+=======
+                                        agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false);
+                                    }
+                                    else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false); }
+>>>>>>> Stashed changes
                                 }
                             }
                             break;
@@ -1043,7 +1066,7 @@ namespace Narrative_Generator
                     else
                     {
                         // We determine the index of the agent, which will have to act when creating a new node.
-                        actualAgentNumber = GetActualAgentNumber(currentNode.GetWorldState().GetIndexOfAgent(currentNode.GetActiveAgent()), ref currentNode);
+                        actualAgentNumber = GetActualAgentNumber(currentNode.GetWorldState().GetIndexOfAgent(currentNode.GetActiveAgent()));
 
                         // We call the method to create a new node.
                         Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber, ref queue);
@@ -1157,7 +1180,7 @@ namespace Narrative_Generator
 
             while (!currentStoryState.GetAgentByIndex(agentIndex).Value.GetStatus())
             {
-                agentIndex = GetActualAgentNumber(agentIndex, ref currentNode);
+                agentIndex = GetActualAgentNumber(agentIndex);
             }
 
             // We check if the agent from whom we are going to request an action is alive (i.e. capable of doing it).
@@ -1173,13 +1196,13 @@ namespace Narrative_Generator
         /// A method that returns the index of the agent that should perform the action.
         /// </summary>
         /// <param name="prevNumber">Index of the agent who performed the action in the previous state.</param>
-        public int GetActualAgentNumber(int prevNumber, ref StoryNode currentNode)
+        public int GetActualAgentNumber(int prevNumber)
         {
             // Flag for checking if the agent being checked is alive.
             bool aliveControl = false;
 
             // Determine how many agents exist in the current state.
-            int maxNumber = currentNode.GetWorldState().GetNumberOfAgents();
+            int maxNumber = currentStoryState.GetNumberOfAgents();
 
             // Default result.
             int result = 0;
@@ -1202,7 +1225,7 @@ namespace Narrative_Generator
                 }
 
                 // We check if the agent with the received index is alive. If not, we continue the cycle.
-                if (!currentNode.GetWorldState().GetAgentByIndex(result).Value.GetStatus()) { continue; }
+                if (!currentStoryState.GetAgentByIndex(result).Value.GetStatus()) { continue; }
 
                 // Otherwise, we raise the flag that the control has been passed.
                 aliveControl = true;

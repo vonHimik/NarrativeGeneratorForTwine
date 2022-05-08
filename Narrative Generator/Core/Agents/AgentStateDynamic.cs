@@ -26,8 +26,11 @@ namespace Narrative_Generator
         private WantToEntrap wantToEntrap;
         private TalkingWith talkingWith;
         private int skipedTurns;
+<<<<<<< Updated upstream
         private int timeToMove;
         private int complitedQuestsCounter;
+=======
+>>>>>>> Stashed changes
 
         // Beliefs
         private WorldContext beliefs;
@@ -70,6 +73,7 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
+<<<<<<< Updated upstream
             timeToMove = 0; // 2
             complitedQuestsCounter = 0;
             helpMages = false;
@@ -78,6 +82,8 @@ namespace Narrative_Generator
             helpWerewolves = false;
             helpPrineBelen = false;
             helpLordHarrowmont = false;
+=======
+>>>>>>> Stashed changes
         }
 
         public AgentStateDynamic (AgentStateDynamic clone)
@@ -100,6 +106,7 @@ namespace Narrative_Generator
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
             skipedTurns = clone.skipedTurns;
+<<<<<<< Updated upstream
             timeToMove = clone.timeToMove;
             complitedQuestsCounter = clone.complitedQuestsCounter;
             helpMages = clone.helpMages;
@@ -108,6 +115,8 @@ namespace Narrative_Generator
             helpWerewolves = clone.helpWerewolves;
             helpPrineBelen = clone.helpPrineBelen;
             helpLordHarrowmont = clone.helpLordHarrowmont;
+=======
+>>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -146,6 +155,7 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
+<<<<<<< Updated upstream
             timeToMove = 0;
             complitedQuestsCounter = 0;
 
@@ -155,6 +165,8 @@ namespace Narrative_Generator
             helpWerewolves = false;
             helpPrineBelen = false;
             helpLordHarrowmont = false;
+=======
+>>>>>>> Stashed changes
         }
 
         /// <summary>
@@ -181,6 +193,7 @@ namespace Narrative_Generator
             }
             if (talkingWith != null && talkingWith.GetInterlocutor() != null) { clone.talkingWith = new TalkingWith(talkingWith); }
             clone.skipedTurns = skipedTurns;
+<<<<<<< Updated upstream
             clone.timeToMove = timeToMove;
             clone.complitedQuestsCounter = complitedQuestsCounter;
             clone.helpMages = helpMages;
@@ -189,6 +202,8 @@ namespace Narrative_Generator
             clone.helpWerewolves = helpWerewolves;
             clone.helpPrineBelen = helpPrineBelen;
             clone.helpLordHarrowmont = helpLordHarrowmont;
+=======
+>>>>>>> Stashed changes
 
             return clone;
         }
@@ -351,7 +366,7 @@ namespace Narrative_Generator
                         {
                             if (a.Key.GetRole() == AgentRole.KILLER)
                             {
-                                if (a.Key.GetName() != null && a.Key.GetName() != "" && a.Key.GetName() != "???")
+                                if (a.Key.GetName() != null && a.Key.GetName() != "")
                                 {
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
@@ -365,11 +380,15 @@ namespace Narrative_Generator
                                 }
                                 else
                                 {
+<<<<<<< Updated upstream
                                     if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
                                         Value.CountAliveAgents() >= 2 && !agent.Value.CheckTalking())
+=======
+                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents().Count >= 2)
+>>>>>>> Stashed changes
                                     {
                                         goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
-                                            + currentWorldState.GetRandomAgentInMyLocation(agent).Key.GetName() + ") ");
+                                            + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
                                     }
                                     else if (!CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && !GetEvidenceStatus().CheckEvidence())
                                     {
@@ -378,23 +397,14 @@ namespace Narrative_Generator
                                     }
                                     else
                                     {
+<<<<<<< Updated upstream
                                         if (timeToMove == 1000) // 0
+=======
+                                        if (agent.Value.GetTargetLocation() != null)
+>>>>>>> Stashed changes
                                         {
-                                            if (agent.Value.GetTargetLocation() != null)
-                                            {
-                                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                    + agent.Value.GetTargetLocation().GetName() + ") ");
-                                            }
-                                            else
-                                            {
-                                                agent.Value.SetTargetLocation(
-                                                    currentWorldState.GetRandomLocationWithout(
-                                                        currentWorldState.GetLocationByName(
-                                                            agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
-
-                                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                    + agent.Value.GetTargetLocation().GetName() + ") ");
-                                            }
+                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                + agent.Value.GetTargetLocation().GetName() + ") ");
                                         }
                                         else if (agent.Value.GetTargetLocation() != null && agent.Value.CheckTargetLocation())
                                         {
@@ -403,8 +413,21 @@ namespace Narrative_Generator
                                         }
                                         else
                                         {
+<<<<<<< Updated upstream
                                             goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
+=======
+                                            agent.Value.SetTargetLocation(
+                                                currentWorldState.GetRandomLocationWithout(
+                                                    currentWorldState.GetLocationByName(
+                                                        agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
+
+                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                + agent.Value.GetTargetLocation().GetName() + ") ");
+>>>>>>> Stashed changes
                                         }
+
+                                        //goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                        //    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName() + ") ");
                                     }
                                 }
                             }
@@ -415,8 +438,13 @@ namespace Narrative_Generator
                         {
                             if (a.Key.GetRole() == AgentRole.KILLER || a.Key.GetRole() == AgentRole.BOSS)
                             {
+<<<<<<< Updated upstream
                                 if (a.Key.GetName() != null && a.Key.GetName() != "???" && a.Key.GetName() != "" &&
                                     agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
+=======
+                                if (a.Key.GetName() != null && a.Key.GetName() != "" &&
+                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()).GetName())
+>>>>>>> Stashed changes
                                 {
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
@@ -454,12 +482,16 @@ namespace Narrative_Generator
                                             goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
                                                 + agent.Value.GetTargetLocation().GetName() + ") ");
                                         }
+
+                                        //goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                        //    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName() + ") ");
                                     }
                                 }
                             }
                         }
                         break;
                     case AgentRole.KILLER:
+<<<<<<< Updated upstream
 
                         if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2)
                         {
@@ -496,9 +528,22 @@ namespace Narrative_Generator
                         if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2)
                         {
                             foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
+=======
+                        killerCantCreatePlan = true;
+                        if (killerCantCreatePlan)
+                        {
+                            if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() > 2)
+                            {
+                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                   + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
+                                                   + ") ");
+                            }
+                            else
+>>>>>>> Stashed changes
                             {
                                 if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
                                 {
+<<<<<<< Updated upstream
                                     goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                 }
                             }
@@ -509,6 +554,29 @@ namespace Narrative_Generator
                                 + currentWorldState.GetLocationByName(currentWorldState.SearchAgentAmongLocationsByRole(AgentRole.PLAYER).GetName()).Key.GetName()
                                 + ") ");
                         }
+=======
+                                    //BeliefsAboutAgent a = agent.Value.GetBeliefs().GetRandomAgent();
+                                    //  !!! If all ordinary agents are killed, but the killer continues his move, we will get an error. !!!
+                                    BeliefsAboutAgent a = null;
+
+                                    foreach (var agnt in agent.Value.GetBeliefs().GetAgentsInWorld())
+                                    {
+                                        if (agnt.CheckStatus() && (agnt.GetRole() == AgentRole.USUAL || agnt.GetRole() == AgentRole.PLAYER))
+                                        {
+                                            a = agnt;
+                                            break;
+                                        }
+                                    }
+
+                                    if (a.GetInfo().GetRole() == AgentRole.USUAL || a.GetInfo().GetRole() == AgentRole.PLAYER)
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + a.GetInfo().GetName() + ") ");
+                                        hasTarget = true;
+                                    }
+                                }
+                            }
+                        }
+>>>>>>> Stashed changes
                         break;
                 }
             }
@@ -933,6 +1001,7 @@ namespace Narrative_Generator
 
         public void IncreaseSkipedTurns() { skipedTurns++; }
 
+<<<<<<< Updated upstream
         public void SetTimeToMove (int value) { timeToMove = value; }
 
         public int GetTimeToMove() { return timeToMove; }
@@ -945,6 +1014,8 @@ namespace Narrative_Generator
 
         public void CompleteQuest() { complitedQuestsCounter++; }
 
+=======
+>>>>>>> Stashed changes
         public bool Equals (AgentStateDynamic anotherState)
         {
             if (anotherState == null) { return false; }
@@ -1010,7 +1081,7 @@ namespace Narrative_Generator
                     {
                         exploredRoomsEquals = false;
                     }
-                    if (!object.ReferenceEquals(exploredRooms.ElementAt(i), anotherState.exploredRooms.ElementAt(i)))
+                    if (object.ReferenceEquals(exploredRooms.ElementAt(i), anotherState.exploredRooms.ElementAt(i)))
                     {
                         exploredRoomsReferenceEquals = false;
                     }
@@ -1045,9 +1116,13 @@ namespace Narrative_Generator
             bool exploredRoomsGlobal = exploredRoomsEquals || exploredRoomsReferenceEquals;
 
             bool equal = agentInfoGlobal && statusGlobal && goalsGlobal && initiativeGlobal && scaredGlobal && angryAtGlobal && wantToGoGlobal
+<<<<<<< Updated upstream
                 && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal && beliefsGlobal && foundEvidenceGlobal && exploredRoomsGlobal
                 && complitedQuestsCounterEquals && helpMagesEquals && helpTemplarsEquals && helpElfsEquals && helpWerewolvesEquals 
                 && helpPrinceBelenEquals && helpLordHarrowmontEquals;
+=======
+                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal /*&& beliefsGlobal*/ && foundEvidenceGlobal && exploredRoomsGlobal;
+>>>>>>> Stashed changes
 
             return equal;
         }

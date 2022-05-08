@@ -231,12 +231,9 @@ namespace Narrative_Generator
                                             KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                             StoryNode currentNode,
                                             int globalNodeNumber,
-                                            ref Queue<StoryNode> queue,
-                                            bool succsessControl,
-                                            ref bool skip)
+                                            ref Queue<StoryNode> queue)
         {
-            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, false, globalNodeNumber, succsessControl);
-            testNode.UpdateHashCode();
+            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, false, globalNodeNumber, true);
 
             if (!testNode.Equals(currentNode))
             {
@@ -253,7 +250,6 @@ namespace Narrative_Generator
             else
             {
                 DeleteTestNode(ref testNode);
-                skip = true;
             }
         }
     }

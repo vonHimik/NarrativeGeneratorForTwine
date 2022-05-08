@@ -142,7 +142,7 @@ namespace Narrative_Generator
             bool activeAgentStaticGlobal = activeAgentStaticEquals || activeAgentStaticReferenceEquals;
             bool activeAgentDynamicGlobal = activeAgentDynamicEquals || activeAgentDynamicReferenceEquals;
 
-            bool equal = worldStateGlobal /*&& playerIsActiveEquals && activeAgentStaticGlobal && activeAgentDynamicGlobal*/;
+            bool equal = worldStateGlobal && playerIsActiveEquals && activeAgentStaticGlobal && activeAgentDynamicGlobal;
 
             return equal;
         }
