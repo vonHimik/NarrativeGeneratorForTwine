@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    class StoryNode : IEquatable<StoryNode>, ICloneable
+    public class StoryNode : IEquatable<StoryNode>, ICloneable
     {
         // Story state.
         private WorldDynamic worldState;
@@ -63,86 +63,49 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public WorldDynamic GetWorldState()
-        {
-            return worldState;
-        }
+        public WorldDynamic GetWorldState() { return worldState; }
 
-        public void SetActivePlayer (bool playerIsActive)
-        {
-            this.playerIsActive = playerIsActive;
-        }
+        public void SetActivePlayer (bool playerIsActive) { this.playerIsActive = playerIsActive; }
 
-        public bool GetActivePlayer()
-        {
-            return playerIsActive;
-        }
+        public bool GetActivePlayer() { return playerIsActive; }
 
-        public void SetActiveAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent)
-        {
-            this.activeAgent = activeAgent;
-        }
+        public void SetActiveAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent) { this.activeAgent = activeAgent; }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetActiveAgent()
-        {
-            return activeAgent;
-        }
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetActiveAgent() { return activeAgent; }
 
-        public void AddLinkToNode(ref StoryNode node)
-        {
-            links.Add(node);
-        }
+        public void AddLinkToNode (ref StoryNode node) { links.Add(node); }
 
-        public StoryNode GetLinkToNode(int index)
-        {
-            return links.ElementAt(index);
-        }
+        public StoryNode GetLinkToNode (int index) { return links.ElementAt(index); }
 
         public StoryNode GetLinkToNode(StoryNode node)
         {
-            foreach (var l in links)
-            {
-                if (node.Equals(l)) { return l; }
-            }
-
+            foreach (var link in links) { if (node.Equals(link)) { return link; } }
             throw new KeyNotFoundException();
         }
 
-        public HashSet<StoryNode> GetLinks()
-        {
-            return links;
-        }
+        public HashSet<StoryNode> GetLinks() { return links; }
 
-        public void DeleteLink(StoryNode linkedNode)
+        public void DeleteLink (StoryNode linkedNode)
         {
             linkedNode.GetLinks().Remove(this);
             links.Remove(linkedNode);
         }
 
-        public bool ConnectedWith(StoryNode anotherNode)
+        public bool ConnectedWith (StoryNode anotherNode)
         {
             bool result = false;
 
             foreach (var linkedNode in links)
             {
-                if (linkedNode.Equals(anotherNode))
-                {
-                    result = true;
-                }
+                if (linkedNode.Equals(anotherNode)) { result = true; }
             }
 
             return result;
         }
 
-        public void AddEdge(Edge edge)
-        {
-            edges.Add(edge);
-        }
+        public void AddEdge (Edge edge) { edges.Add(edge); }
 
-        public Edge GetEdge(int index)
-        {
-            return edges.ElementAt(index);
-        }
+        public Edge GetEdge (int index) { return edges.ElementAt(index); }
 
         public Edge GetEdge (Edge edge)
         {
@@ -154,20 +117,11 @@ namespace Narrative_Generator
             throw new KeyNotFoundException();
         }
 
-        public HashSet<Edge> GetEdges()
-        {
-            return edges;
-        }
+        public HashSet<Edge> GetEdges() { return edges; }
 
-        public void RemoveEdge (Edge edge)
-        {
-            edges.Remove(edge);
-        }
+        public Edge GetLastEdge() { return edges.Last(); }
 
-        /*public override bool Equals (object obj)
-        {
-            return Equals(obj as StoryNode);
-        }*/
+        public void RemoveEdge (Edge edge) { edges.Remove(edge); }
 
         public bool Equals (StoryNode anotherNode)
         {
@@ -193,15 +147,9 @@ namespace Narrative_Generator
             return equal;
         }
 
-        public int GetNumberInSequence()
-        {
-            return numberInSequence;
-        }
+        public int GetNumberInSequence() { return numberInSequence; }
 
-        public void SetNumberInSequence(int newNumber)
-        {
-            numberInSequence = newNumber;
-        }
+        public void SetNumberInSequence (int newNumber) { numberInSequence = newNumber; }
 
         public bool isChildren(StoryNode probablyParentNode)
         {

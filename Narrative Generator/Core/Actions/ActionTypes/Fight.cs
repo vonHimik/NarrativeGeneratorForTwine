@@ -33,23 +33,32 @@ namespace Narrative_Generator
             }
         }
 
-        public Fight(params Object[] args) : base(args) { }
+        public Fight (params Object[] args) : base (args) { }
 
-        public Fight(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
-                     ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2, 
-                     ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public Fight (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
+                      ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2, 
+                      ref KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
             Arguments.Add(location);
         }
 
+        public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return (agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus()
+                    && agent.Value.GetObjectOfAngryComponent().AngryCheck()
+                    && state.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetStatus()
+                    && state.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Key.
+                       Equals(state.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetBeliefs().GetMyLocation());
+        }
+
         public override bool CheckPreconditions (WorldDynamic state)
         {
-            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
-                      && Agent2.Key.GetRole() == AgentRole.KILLER && Agent2.Value.GetStatus()
+            return    (Agent1.Key.GetRole() == AgentRole.USUAL || Agent1.Key.GetRole() == AgentRole.PLAYER) && Agent1.Value.GetStatus() 
+                      && Agent2.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key) 
-                      && Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent2.Key);
+                      && Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent2.Key);
         }
 
         public override void ApplyEffects (ref WorldDynamic state)

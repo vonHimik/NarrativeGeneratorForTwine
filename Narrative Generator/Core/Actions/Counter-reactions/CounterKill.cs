@@ -74,6 +74,8 @@ namespace Narrative_Generator
             stateKiller.Value.GetBeliefs().GetAgentByName(stateAgent.Key.GetName()).Dead();
 
             state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.GetAgent(stateAgent).Value.Die();
+
+            stateKiller.Value.DecreaseTimeToMove();
         }
 
         public override void Fail(ref WorldDynamic state) { fail = true; }

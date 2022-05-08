@@ -41,17 +41,22 @@ namespace Narrative_Generator
             }
         }
 
-        public TellAboutASuspicious(params Object[] args) : base(args) { }
+        public TellAboutASuspicious (params Object[] args) : base (args) { }
 
-        public TellAboutASuspicious(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                    ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
-                                    ref KeyValuePair<LocationStatic, LocationDynamic> location1, 
-                                    ref KeyValuePair<LocationStatic, LocationDynamic> location2)
+        public TellAboutASuspicious (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                     ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
+                                     ref KeyValuePair<LocationStatic, LocationDynamic> location1, 
+                                     ref KeyValuePair<LocationStatic, LocationDynamic> location2)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
             Arguments.Add(location1);
             Arguments.Add(location2);
+        }
+
+        public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return agent.Key.GetRole().Equals(AgentRole.KILLER) && agent.Value.GetStatus();
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
@@ -75,6 +80,6 @@ namespace Narrative_Generator
             stateAgent.Value.DecreaseTimeToMove();
         }
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }

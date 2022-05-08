@@ -45,8 +45,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Method-constructor of the static part of the location, using the location name as a parameter.
         /// </summary>
-        /// <param name="name"></param>
-        public LocationStatic(string name)
+        public LocationStatic (string name)
         {
             // We assign the specified name to the location.
             this.name = name;
@@ -77,8 +76,7 @@ namespace Narrative_Generator
         /// <summary>
         /// The method that sets the name of the location.
         /// </summary>
-        /// <param name="name"></param>
-        public void SetName(string name)
+        public void SetName (string name)
         {
             this.name = name;
             UpdateHashCode();
@@ -87,10 +85,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Method that returns the name of the location.
         /// </summary>
-        public string GetName()
-        {
-            return name;
-        }
+        public string GetName() { return name; }
 
         public bool ConnectionChecking(LocationStatic checkedLocation)
         {
@@ -105,15 +100,9 @@ namespace Narrative_Generator
             return false;
         }
 
-        public HashSet<LocationStatic> GetConnectedLocations()
-        {
-            return connectedLocations;
-        }
+        public HashSet<LocationStatic> GetConnectedLocations() { return connectedLocations; }
 
-        public LocationStatic GetConnectedLocationsFromIndex(int index)
-        {
-            return connectedLocations.ElementAt(index);
-        }
+        public LocationStatic GetConnectedLocationsFromIndex (int index) { return connectedLocations.ElementAt(index); }
 
         public LocationStatic GetRandomConnectedLocation()
         {

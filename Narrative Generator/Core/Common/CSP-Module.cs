@@ -8,7 +8,7 @@ namespace Narrative_Generator
 {
     class CSP_Module
     {
-        public bool AssignVariables(ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        public bool AssignVariables (ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             if (action is Entrap || action is CounterEntrap)
             {
@@ -30,8 +30,9 @@ namespace Narrative_Generator
             {
                 foreach (var agent in currentState.GetAgents())
                 {
-                    if ((agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus() 
-                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key))
+                    if (agent.Value.GetStatus() && !agent.Equals(initiator)
+                        && currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.SearchAgent(agent.Key) 
+                        && initiator.Value.GetObjectOfAngryComponent().GetObjectOfAngry().Equals(agent.Key))
                     {
                         action.Arguments.Add(initiator);
                         action.Arguments.Add(agent);
@@ -94,12 +95,14 @@ namespace Narrative_Generator
                     action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
 
                     if (initiator.Value.GetTargetLocation() != null && initiator.Key.GetRole() != AgentRole.PLAYER &&
-                        currentState.SearchAgentAmongLocations(initiator.Key).ConnectionChecking(initiator.Value.GetTargetLocation()))
+                        currentState.SearchAgentAmongLocations(initiator.Key).ConnectionChecking(initiator.Value.GetTargetLocation()) 
+                        && !currentState.GetStaticWorldPart().GetSetting().Equals(Setting.Fantasy))
                     {
                         action.Arguments.Add(currentState.GetLocationByName(initiator.Value.GetTargetLocation().GetName()));
                         return true;
                     }
-                    else
+                    else if (currentState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective) 
+                          || currentState.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo))
                     {
                         KeyValuePair<LocationStatic, LocationDynamic> randLoc = currentState.
                           GetRandomConnectedLocation(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
@@ -110,6 +113,14 @@ namespace Narrative_Generator
                             action.Arguments.Add(randLoc);
                             return true;
                         }
+                    }
+                    else
+                    {
+                        KeyValuePair<LocationStatic, LocationDynamic> randLoc = currentState.
+                          GetRandomLocationWithout(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
+
+                        action.Arguments.Add(randLoc);
+                        return true;
                     }
                 }
                 return false;
@@ -138,7 +149,7 @@ namespace Narrative_Generator
                     {
                         action.Arguments.Add(agent);
                         action.Arguments.Add(initiator);
-                        action.Arguments.Add(currentState.GetAgentByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()));
+                        action.Arguments.Add(currentState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()));
                         break;
                     }
                 }
@@ -202,19 +213,84 @@ namespace Narrative_Generator
 
                 return false;
             }
+            else if (action is ToBeAWitness)
+            {
+                action.Arguments.Add(initiator);
+
+                foreach (var victim in currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)).Value.GetAgents())
+                {
+                    if (!victim.Value.GetStatus())
+                    {
+                        action.Arguments.Add(victim);
+                        break;
+                    }
+                }
+
+                foreach (var killer in currentState.GetAgents())
+                {
+                    if (killer.Key.GetRole() == AgentRole.KILLER && killer.Value.GetStatus())
+                    {
+                        action.Arguments.Add(killer);
+                        break;
+                    }
+                }
+
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+            else if (action is HelpElfs)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+            else if (action is HelpWerewolves)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+            else if (action is HelpMages)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+            else if (action is HelpTemplars)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+            else if (action is HelpPrinceBelen)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+            else if (action is HelpLordHarrowmont)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
+
             return false;
         }
 
-        public List<PlanAction> MassiveAssignVariables(ref PlanAction action, 
-                                           WorldDynamic currentState, 
-                                           KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        public List<PlanAction> MassiveAssignVariables (ref PlanAction action, 
+                                                        WorldDynamic currentState, 
+                                                        KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             List<PlanAction> actions = new List<PlanAction>();
 
             if (action is Move)
             {
-                int locationsCount = 
-                    currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocations().Count;
+                int locationsCount = 0;
+
+                switch (currentState.GetStaticWorldPart().GetSetting())
+                {
+                    case Setting.DefaultDemo:
+                        locationsCount =
+                        currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocations().Count;
+                        break;
+                    case Setting.Fantasy:
+                        locationsCount = currentState.GetLocations().Count - 1;
+                        break;
+                }
 
                 List<Move> moveArr = new List<Move>();
 
@@ -224,13 +300,26 @@ namespace Narrative_Generator
                     moveArr.Add(move);
                 }
 
-                for (int i = 0; i < locationsCount; i++)
+                for (int i = 0, j = 0; i < locationsCount; i++, j++)
                 {
-                    moveArr[i].Arguments.Add(initiator);
-                    moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
-                    moveArr[i].Arguments.Add(currentState.GetLocationByName
-                        (currentState.GetLocationByName(
-                            currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationsFromIndex(i).GetName()));
+                    switch (currentState.GetStaticWorldPart().GetSetting())
+                    {
+                        case Setting.DefaultDemo:
+                            moveArr[i].Arguments.Add(initiator);
+                            moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
+                            moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.GetLocationByName(
+                                currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationsFromIndex(i).GetName()));
+                            break;
+                        case Setting.Fantasy:
+                            if (!currentState.GetLocationByIndex(j).Key.Equals(currentState.SearchAgentAmongLocations(initiator.Key)))
+                            {
+                                moveArr[i].Arguments.Add(initiator);
+                                moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
+                                moveArr[i].Arguments.Add(currentState.GetLocationByIndex(j));
+                            }
+                            else { i--; }
+                            break;
+                    }
                 }
 
                 foreach (var a in moveArr)

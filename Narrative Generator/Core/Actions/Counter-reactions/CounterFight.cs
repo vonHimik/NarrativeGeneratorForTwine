@@ -59,7 +59,7 @@ namespace Narrative_Generator
             return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
                       && Agent2.Key.GetRole() == AgentRole.KILLER && Agent2.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
-                      && Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent2.Key);
+                      && Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent2.Key);
         }
 
         public override void ApplyEffects(ref WorldDynamic state)
@@ -71,6 +71,8 @@ namespace Narrative_Generator
             stateAgent2.Value.ClearTempStates();
 
             stateAgent2.Value.SetStatus(false);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail(ref WorldDynamic state) { fail = true; }

@@ -11,9 +11,9 @@ namespace Narrative_Generator
     class StoryAlgorithm
     {
         // Settings
-        public bool manualInput = true;
+        public Setting setting /*= Setting.DefaultDemo*/;
         public bool reachedGoalState = false;
-        public int maxNodes = 450; // 350
+        public int maxNodes = 350; // 350
 
         // Internal components
         public StoryworldConvergence storyworldConvergence = new StoryworldConvergence();
@@ -23,8 +23,8 @@ namespace Narrative_Generator
         // Start --> current state
         public WorldDynamic currentStoryState = new WorldDynamic();
         public int goalsCounter = 2;
-        public int agentsCounter = 4; // 7
-        public int locationsCounter = 5; // 8
+        public int agentsCounter = 2; // 7
+        public int locationsCounter = 6; // 8
 
         // Output graphs
         public StoryGraph newStoryGraph = new StoryGraph();
@@ -110,11 +110,11 @@ namespace Narrative_Generator
                 + " :effect (and (in-room ?k ?room-to) (not(in-room ?k ?room-from))))" + Environment.NewLine);
 
             // Action - Entrap
-            actions = actions.Insert(actions.Length, Environment.NewLine + "(:action Entrap" + Environment.NewLine 
+            /*actions = actions.Insert(actions.Length, Environment.NewLine + "(:action Entrap" + Environment.NewLine 
                + " :parameters(?k ?a ?place)" + Environment.NewLine
                + " :precondition (and (ROOM ?place) (KILLER ?k) (AGENT ?a) (alive ?k) (alive ?a)" + Environment.NewLine
                + " (in-room ?k ?place) (not (in-room ?a ?place)))" + Environment.NewLine
-               + " :effect (and (in-room ?a ?place)))" + Environment.NewLine);
+               + " :effect (and (in-room ?a ?place)))" + Environment.NewLine);*/
 
             // Action - Tell about a suspicious
             actions = actions.Insert(actions.Length, Environment.NewLine + "(:action TellAboutASuspicious" + Environment.NewLine 
@@ -145,96 +145,149 @@ namespace Narrative_Generator
         /// </summary>
         public void CreateInitialState()
         {
-            if (manualInput) // Demo story
+            // === LOCATIONS CREATING ===
+
+            // We create locations, determine their names and the presence of evidence in them.
+            List<string> locationNames = CreateLocationsNamesList(locationsCounter);
+            List<bool> locationsEvidences = CreateLocationsEvidencesList(locationsCounter);
+            Dictionary<LocationStatic, LocationDynamic> locations = CreateLocationSet(locationNames, locationsEvidences);
+            
+            // The first step in creating the initial state is setting up the environment, that is - locations.
+            CreateEnviroment(locations);
+
+            // === AGENTS CREATING ===
+
+            // We create sets of attributes for agents: names, states, roles, goals, and beliefs.
+            List<string> names = CreateAgentsNamesList(agentsCounter);
+            List<bool> statuses = CreateStatusesList(agentsCounter);
+            List<AgentRole> roles = CreateAgentsRolesList(agentsCounter);
+            List<Goal> goals = CreateGoalSet(roles);
+            List<WorldContext> beliefs = CreateBeliefsSet(agentsCounter);
+
+            // The second step in creating the initial state is the creation of agents, initially with empty goals and beliefs, 
+            //    since they are highly dependent on the agents themselves existing in the "world". We'll finish setting this up in the next step.
+            CreateAgents(names, statuses, roles, goals, beliefs, GetRandomLocationName(locationNames), agentsCounter, locationNames);
+
+            // We randomly assign an initiative value to the agents to determine the order of their turn, and sort the agents on the initiative.
+            DistributionOfInitiative();
+            currentStoryState.OrderAgentsByInitiative();
+
+            // The third step in creating an initial state is assigning to agents their goals and beliefs.
+
+            // === Goals === //
+
+            // Go through all the agents in the world.
+            foreach (var agent in currentStoryState.GetAgents())
             {
-
-                // === LOCATIONS CREATING ===
-
-                // We create locations, determine their names and the presence of evidence in them.
-                List<string> locationNames = CreateLocationsNamesList(locationsCounter);
-                List<bool> locationsEvidences = CreateLocationsEvidencesList(locationsCounter);
-                Dictionary<LocationStatic, LocationDynamic> locations = CreateLocationSet(locationNames, locationsEvidences);
-
-                // The first step in creating the initial state is setting up the environment, that is - locations.
-                CreateEnviroment(locations);
-
-                // === AGENTS CREATING ===
-
-                // We create sets of attributes for agents: names, states, roles, goals, and beliefs.
-                List<string> names = CreateAgentsNamesList(agentsCounter);
-                List<bool> statuses = CreateStatusesList(agentsCounter);
-                List<AgentRole> roles = CreateAgentsRolesList(agentsCounter);
-                List<Goal> goals = CreateGoalSet(roles);
-                List<WorldContext> beliefs = CreateBeliefsSet(agentsCounter);
-
-                // The second step in creating the initial state is the creation of agents, initially with empty goals and beliefs, 
-                //    since they are highly dependent on the agents themselves existing in the "world". We'll finish setting this up in the next step.
-                CreateAgents(names, statuses, roles, goals, beliefs, GetRandomLocationName(locationNames), agentsCounter);
-
-                // We randomly assign an initiative value to the agents to determine the order of their turn, and sort the agents on the initiative.
-                DistributionOfInitiative();
-                currentStoryState.OrderAgentsByInitiative();
-
-                // The third step in creating an initial state is assigning to agents their goals and beliefs.
-
-                // === Goals === //
-
-                // Go through all the agents in the world.
-                foreach (var agent in currentStoryState.GetAgents())
+                // If the agent's goal is to save/kill someone.
+                if (agent.Value.GetGoal().goalTypeIsStatus == true)
                 {
-                    // If the agent's goal is to save/kill someone.
-                    if (agent.Value.GetGoal().goalTypeIsStatus == true)
+                    switch (setting)
                     {
-                        // Unless the agent has the role of the killer.
-                        if (agent.Key.GetRole() != AgentRole.KILLER)
-                        {
-                            // Then his goal is that the killer must be neutralized.
-                            agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false, "???");
-                        }
-                        // If the agent is the killer.
-                        else if (agent.Key.GetRole() == AgentRole.KILLER)
-                        {
-                            int agentCounter = 0;
-                            int playerCounter = 1;
-                            int killerCounter = NumberOfKillers();
-
-                            // Then we go through all the agents.
-                            foreach (var anotherAgent in currentStoryState.GetAgents())
+                        case Setting.Fantasy:
+                            if (agent.Key.GetRole() == AgentRole.PLAYER)
                             {
-                                // And for everyone who is not a killer...
-                                if (anotherAgent.Key.GetRole() != AgentRole.KILLER)
-                                {
-                                    agentCounter++;
+                                agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.BOSS, false, "Archdemon");
+                                agent.Value.SetObjectOfAngry(currentStoryState.GetAgentByRole(AgentRole.BOSS).Key);
+                            }
+                            else if (agent.Key.GetRole() == AgentRole.BOSS)
+                            {
+                                agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false, "Grey Warden");
+                            }
+                            break;
+                        case Setting.Detective:
+                            if (agent.Key.GetRole() != AgentRole.KILLER)
+                            {
+                                agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false, "???");
+                            }
+                            else if (agent.Key.GetRole() == AgentRole.KILLER)
+                            {
+                                int agentCounter = 0;
+                                int playerCounter = 1;
+                                int killerCounter = NumberOfKillers();
 
-                                    // ...add a new "victim" to the goals.
-                                    if (agentCounter == (currentStoryState.GetAgents().Count() - playerCounter - killerCounter))
+                                // Then we go through all the agents.
+                                foreach (var anotherAgent in currentStoryState.GetAgents())
+                                {
+                                    // And for everyone who is not a killer...
+                                    if (anotherAgent.Key.GetRole() != AgentRole.KILLER)
                                     {
-                                        agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false, anotherAgent.Key.GetName());
+                                        agentCounter++;
+
+                                        // ...add a new "victim" to the goals.
+                                        if (agentCounter == (currentStoryState.GetAgents().Count() - playerCounter - killerCounter))
+                                        {
+                                            agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false, anotherAgent.Key.GetName());
+                                        }
+                                        else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false, anotherAgent.Key.GetName()); }
                                     }
-                                    else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false, anotherAgent.Key.GetName()); }
                                 }
                             }
-                        }
-                    }
+                            break;
+                        case Setting.DefaultDemo:
+                            // Unless the agent has the role of the killer.
+                            if (agent.Key.GetRole() != AgentRole.KILLER)
+                            {
+                                // Then his goal is that the killer must be neutralized.
+                                agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.KILLER, false, "???");
+                            }
+                            // If the agent is the killer.
+                            else if (agent.Key.GetRole() == AgentRole.KILLER)
+                            {
+                                int agentCounter = 0;
+                                int playerCounter = 1;
+                                int killerCounter = NumberOfKillers();
+
+                                // Then we go through all the agents.
+                                foreach (var anotherAgent in currentStoryState.GetAgents())
+                                {
+                                    // And for everyone who is not a killer...
+                                    if (anotherAgent.Key.GetRole() != AgentRole.KILLER)
+                                    {
+                                        agentCounter++;
+
+                                        // ...add a new "victim" to the goals.
+                                        if (agentCounter == (currentStoryState.GetAgents().Count() - playerCounter - killerCounter))
+                                        {
+                                            agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.PLAYER, false, anotherAgent.Key.GetName());
+                                        }
+                                        else { agent.Value.GetGoal().GetGoalState().AddAgent(AgentRole.USUAL, false, anotherAgent.Key.GetName()); }
+                                    }
+                                }
+                            }
+                            break;
+                    }                  
                 }
+            }
 
-                // === Beliefs === //
+            // === Beliefs === //
 
-                // We go through all the agents in the world.
-                foreach (var agent in currentStoryState.GetAgents())
+            // We go through all the agents in the world.
+            foreach (var agent in currentStoryState.GetAgents())
+            {
+                // For each separately.
+                foreach (var anotherAgent in currentStoryState.GetAgents())
                 {
-                    // For each separately.
-                    foreach (var anotherAgent in currentStoryState.GetAgents())
+                    // If the agent meets himself.
+                    if (agent.Equals(anotherAgent))
                     {
-                        // If the agent meets himself.
-                        if (agent.Equals(anotherAgent))
+                        continue;
+                    }
+                    else
+                    {
+                        switch (setting)
                         {
-                            continue;
-                        }
-                        else
-                        {
-                            // Otherwise, copies the name of the selected agent and by default does not consider him a killer.
-                            agent.Value.GetBeliefs().AddAgentInBeliefs(anotherAgent, AgentRole.USUAL);
+                            case Setting.Fantasy:
+                                agent.Value.GetBeliefs().AddAgentInBeliefs(anotherAgent, anotherAgent.Key.GetRole());
+                                break;
+                            case Setting.Detective:
+                                // Otherwise, copies the name of the selected agent and by default does not consider him a killer.
+                                agent.Value.GetBeliefs().AddAgentInBeliefs(anotherAgent, AgentRole.USUAL);
+                                break;
+                            case Setting.DefaultDemo:
+                                // Otherwise, copies the name of the selected agent and by default does not consider him a killer.
+                                agent.Value.GetBeliefs().AddAgentInBeliefs(anotherAgent, AgentRole.USUAL);
+                                break;
                         }
                     }
                 }
@@ -249,17 +302,37 @@ namespace Narrative_Generator
             // We create an empty list.
             List<string> namesList = new List<string>();
 
-            // We prepare a list with manually specified names.
-            List<string> defaultNamesList = new List<string>
+            // We prepare a list with specified names.
+            List<string> specifiedNamesList = new List<string>();
+
+            switch (setting)
             {
-                "kitchen", "dining-room", "hall", "garden", "bedroom", "guest-bedroom", "bathroom", "attic"
-            };
+                case Setting.Fantasy:
+                    specifiedNamesList = new List<string>
+                    {
+                        "Lothering", "MagesTower", "Orzammar", "BrecilianForest", "Denerim", "DeepRoads"
+                    };
+                    break;
+                case Setting.Detective:
+                    specifiedNamesList = new List<string>
+                    {
+                        "Living Room", "Rock", "Beach", "Marston Room", "Rogers Room", "MacArthur Room", "Brent Room", "Wargrave Room",
+                        "Armstrong Room", "Blore Room", "Lombard Room", "Clayton Room", "Player Room"
+                    };
+                    break;
+                case Setting.DefaultDemo:
+                    specifiedNamesList = new List<string>
+                    {
+                        "kitchen", "dining-room", "hall", "garden", "bedroom", "guest-bedroom", "bathroom", "attic"
+                    };
+                    break;
+            }
 
             // We go through the empty list, assigning an entry from the list with prepared names to the corresponding cell.
             // Until we reach the specified cell (there may be more names than necessary).
             for (int i = 0; i < locationsCounter; i++)
             {
-                namesList.Add(defaultNamesList[i]);
+                namesList.Add(specifiedNamesList[i]);
             }
 
             // We return a list with the names of locations.
@@ -273,6 +346,15 @@ namespace Narrative_Generator
         {
             // We create a list that stores information about the presence of evidence in locations.
             List<bool> locationsEvidences = new List<bool>();
+
+            for (int i = 0; i < evidenceCount; i++) { locationsEvidences.Add(false); }
+
+            switch (setting)
+            {
+                case Setting.Fantasy: return locationsEvidences;
+                case Setting.Detective: break;
+                case Setting.DefaultDemo: return locationsEvidences;
+            }
 
             // We go through the list, adding information about the presence of evidence. At the moment - there is no evidence !!!
             // Until we reach the specified cell (there may be more names than necessary).
@@ -303,22 +385,43 @@ namespace Narrative_Generator
         }
 
         // A method that creates a list of names for agents.
-        public List<string> CreateAgentsNamesList(int agentsCounter)
+        public List<string> CreateAgentsNamesList (int agentsCounter)
         {
             // We create an empty list.
             List<string> namesList = new List<string>();
 
-            // Create a list with manually entered names.
-            List<string> defaultNamesList = new List<string>()
-            {               
-                "Player", "Judge", "Journalist", "Mafia-boss", "Politician", "Rich", "Clerk"
-            };
+            // Create a list with specified names.
+            List<string> specifiedNamesList = new List<string>();
+
+            switch (setting)
+            {
+                case Setting.Fantasy:
+                    specifiedNamesList = new List<string>()
+                    {
+                        "GreyWarden", "Archdemon"
+                    };
+                    break;
+                case Setting.Detective:
+                    specifiedNamesList = new List<string>()
+                    {
+                        "Anthony James Marston", "Ethel Rogers", "John Gordon MacArthur", "Thomas Rogers", "Emily Caroline Brent",
+                        "Lawrence John Wargrave", "Edward George Armstrong", "William Henry Blore", "Philip Lombard", "Vera Elizabeth Claythorne",
+                        "Player"
+                    };
+                    break;
+                case Setting.DefaultDemo:
+                    specifiedNamesList = new List<string>()
+                    {
+                        "Player", "Judge", "Journalist", "Mafia-boss", "Politician", "Rich", "Clerk"
+                    };
+                    break;
+            }
 
             // We go through the empty list, adding names from the list with names to the corresponding cells.
             // Until we reach the specified cell (there may be more names than necessary).
             for (int i = 0; i < agentsCounter; i++)
             {
-                namesList.Add(defaultNamesList[i]);
+                namesList.Add(specifiedNamesList[i]);
             }
 
             // We return a list with the names of the agents.
@@ -346,17 +449,37 @@ namespace Narrative_Generator
             // We create an empty list.
             List<AgentRole> rolesList = new List<AgentRole>();
 
-            // Create a list with manually assigned roles.
-            List<AgentRole> defaultRolesList = new List<AgentRole>()
-            {                  
-                AgentRole.PLAYER, AgentRole.KILLER, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL
-            };
+            // Create a list with roles.
+            List<AgentRole> specifiedRolesList = new List<AgentRole>();
+
+            switch (setting)
+            {
+                case Setting.Fantasy:
+                    specifiedRolesList = new List<AgentRole>()
+                    {
+                        AgentRole.PLAYER, AgentRole.BOSS
+                    };
+                    break;
+                case Setting.Detective:
+                    specifiedRolesList = new List<AgentRole>()
+                    {
+                        AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.KILLER, AgentRole.USUAL,
+                        AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.PLAYER
+                    };
+                    break;
+                case Setting.DefaultDemo:
+                    specifiedRolesList = new List<AgentRole>()
+                    {
+                        AgentRole.PLAYER, AgentRole.KILLER, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL, AgentRole.USUAL
+                    };
+                    break;
+            }
 
             // We go through the empty list, assigning values from the list with roles to the corresponding cells.
             // Until we reach the specified cell (there may be more roles than necessary).
             for (int i = 0; i < agentsCounter; i++)
             {
-                rolesList.Add(defaultRolesList[i]);
+                rolesList.Add(specifiedRolesList[i]);
             }
 
             // Returning a list with agent roles.
@@ -373,10 +496,7 @@ namespace Narrative_Generator
             // We go through the list of agents and increase the counter every time we meet an agent with the role of "Killer".
             foreach (var agent in currentStoryState.GetAgents())
             {
-                if (agent.Key.GetRole() == AgentRole.KILLER)
-                {
-                    counter++;
-                }
+                if (agent.Key.GetRole() == AgentRole.KILLER) { counter++; }
             }
 
             return counter;
@@ -387,11 +507,30 @@ namespace Narrative_Generator
         /// and we will have to design them and add them to the game world.
         /// </summary>
         public void CreateAgents(List<string> names, List<bool> statuses, List<AgentRole> roles, List<Goal> goals, 
-                                 List<WorldContext> beliefs, string spawnLocationName, int numbers)
+                                 List<WorldContext> beliefs, string spawnLocationName, int numbers, List<string> namesList)
         {
             for (int i = 0; i < numbers; i++)
             {
-                CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], spawnLocationName);
+                switch (setting)
+                {
+                    case Setting.Fantasy:
+                        switch (roles[i])
+                        {
+                            case AgentRole.BOSS:
+                                CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], "DeepRoads");
+                                break;
+                            case AgentRole.PLAYER:
+                                CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], "Lothering");
+                                break;
+                        }
+                        break;
+                    case Setting.Detective:
+                        CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], "Living Room");
+                        break;
+                    case Setting.DefaultDemo:
+                        CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*namesList[i]*/ spawnLocationName);
+                        break;
+                }
             }
         }
 
@@ -522,11 +661,72 @@ namespace Narrative_Generator
         /// </summary>
         public void CreateConstraints()
         {
-            if (manualInput) // Constraints for demo-story
+            switch (setting)
             {
-                // The killer must be alive for the first 5 turns.
-                ConstraintAlive killerMustBeAliveFiveTurns = new ConstraintAlive(true, false, currentStoryState.GetAgentByRole(AgentRole.KILLER), 1);
-                storyworldConvergence.AddConstraint(killerMustBeAliveFiveTurns);
+                case Setting.Fantasy:
+                    HashSet<AgentStateStatic> restrictedAgents = new HashSet<AgentStateStatic>();
+                    restrictedAgents.Add(currentStoryState.GetAgentByName("GreyWarden").Key);
+                    restrictedAgents.Add(currentStoryState.GetAgentByName("Archdemon").Key);
+
+                    HashSet<AgentStateStatic> playerAgent = new HashSet<AgentStateStatic>() { currentStoryState.GetAgentByName("GreyWarden").Key };
+
+                    HashSet<LocationStatic> restrictedLocations = new HashSet<LocationStatic>();
+                    restrictedLocations.Add(currentStoryState.GetLocationByName("Denerim").Key);
+                    restrictedLocations.Add(currentStoryState.GetLocationByName("DeepRoads").Key);
+
+                    HashSet<LocationStatic> bannedLocations = new HashSet<LocationStatic>();
+                    bannedLocations.Add(currentStoryState.GetLocationByName("DeepRoads").Key);
+
+                    HashSet<LocationStatic> questLocations = new HashSet<LocationStatic>();
+                    questLocations.Add(currentStoryState.GetLocationByName("MagesTower").Key);
+                    questLocations.Add(currentStoryState.GetLocationByName("Orzammar").Key);
+                    questLocations.Add(currentStoryState.GetLocationByName("BrecilianForest").Key);
+
+                    RestrictingLocationAvailability archdemonWaitsUntilPlayerComesToDenerim =
+                        new RestrictingLocationAvailability(false, false, true, false, false, false, false, restrictedLocations, restrictedAgents, 0);
+                    storyworldConvergence.AddConstraint(archdemonWaitsUntilPlayerComesToDenerim);
+
+                    RestrictingLocationAvailability revisitBanForPlayer =
+                        new RestrictingLocationAvailability(false, false, false, true, false, false, false, null, playerAgent, 0);
+                    storyworldConvergence.AddConstraint(revisitBanForPlayer);
+
+                    RestrictingLocationAvailability playerMustCompleteQuestBeforeMoving =
+                        new RestrictingLocationAvailability(false, false, false, false, true, false, false, questLocations, playerAgent, 0);
+                    storyworldConvergence.AddConstraint(playerMustCompleteQuestBeforeMoving);
+
+                    RestrictingLocationAvailability playerCantMoveToDeepRoads =
+                        new RestrictingLocationAvailability(false, false, false, false, false, true, false, bannedLocations, restrictedAgents, 0);
+                    storyworldConvergence.AddConstraint(playerCantMoveToDeepRoads);
+
+                    RestrictingLocationAvailability questsLimitFromPlayerBeforeMoveToDenerim =
+                        new RestrictingLocationAvailability(false, false, false, false, false, false, true, restrictedLocations, playerAgent, 3);
+
+                    ActionsRestricting helpMagesVsHelpTemplars = new ActionsRestricting(true, true, new HelpMages(), 
+                        new List<PlanAction> { new HelpTemplars() }, 0);
+                    storyworldConvergence.AddConstraint(helpMagesVsHelpTemplars);
+                    ActionsRestricting helpTemplarsVsHelpMages = new ActionsRestricting(true, true, new HelpTemplars(), 
+                        new List<PlanAction> { new HelpMages() }, 0);
+                    storyworldConvergence.AddConstraint(helpTemplarsVsHelpMages);
+                    ActionsRestricting helpElfsVsHelpWerewolves = new ActionsRestricting(true, true, new HelpElfs(),
+                        new List<PlanAction> { new HelpWerewolves() }, 0);
+                    storyworldConvergence.AddConstraint(helpElfsVsHelpWerewolves);
+                    ActionsRestricting helpWerewolvesVsHelpElfs = new ActionsRestricting(true, true, new HelpWerewolves(),
+                        new List<PlanAction> { new HelpElfs() }, 0);
+                    storyworldConvergence.AddConstraint(helpWerewolvesVsHelpElfs);
+                    ActionsRestricting helpBelenVsHelpHarrowmont = new ActionsRestricting(true, true, new HelpPrinceBelen(),
+                        new List<PlanAction> { new HelpLordHarrowmont() }, 0);
+                    storyworldConvergence.AddConstraint(helpBelenVsHelpHarrowmont);
+                    ActionsRestricting helpHarrowmontVsHelpBelen = new ActionsRestricting(true, true, new HelpLordHarrowmont(),
+                        new List<PlanAction> { new HelpPrinceBelen() }, 0);
+                    storyworldConvergence.AddConstraint(helpHarrowmontVsHelpBelen);
+
+                    break;
+                case Setting.Detective: break;
+                case Setting.DefaultDemo:
+                    // The killer must be alive for the first N turns.
+                    ConstraintAlive killerMustBeAliveFiveTurns = new ConstraintAlive(true, false, currentStoryState.GetAgentByRole(AgentRole.KILLER).Key, 0);
+                    storyworldConvergence.AddConstraint(killerMustBeAliveFiveTurns);
+                    break;
             }
         }
 
@@ -559,7 +759,7 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that creates a set of goals to pass to agents.
         /// </summary>
-        public List<Goal> CreateGoalSet(List<AgentRole> roles)
+        public List<Goal> CreateGoalSet (List<AgentRole> roles)
         {
             // We create an empty list of goals.
             List<Goal> goals = new List<Goal>();
@@ -573,16 +773,64 @@ namespace Narrative_Generator
                 switch (role)
                 {
                     case AgentRole.USUAL:
-                        Goal standardAgentGoal = new Goal(false, true, false, newGoalState);
-                        goals.Add(standardAgentGoal);
+                        Goal standardAgentGoal = new Goal();
+                        switch (setting)
+                        {
+                            case Setting.Fantasy: break;
+                            case Setting.Detective:
+                                standardAgentGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(standardAgentGoal);
+                                break;
+                            case Setting.DefaultDemo:
+                                standardAgentGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(standardAgentGoal);
+                                break;
+                        }
                         break;
                     case AgentRole.KILLER:
-                        Goal killerAgentGoal = new Goal(false, true, false, newGoalState);
-                        goals.Add(killerAgentGoal);
+                        Goal killerAgentGoal = new Goal();
+                        switch (setting)
+                        {
+                            case Setting.Fantasy: break;
+                            case Setting.Detective:
+                                killerAgentGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(killerAgentGoal);
+                                break;
+                            case Setting.DefaultDemo:
+                                killerAgentGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(killerAgentGoal);
+                                break;
+                        }
                         break;
                     case AgentRole.PLAYER:
-                        Goal playerGoal = new Goal(false, true, false, newGoalState);
-                        goals.Add(playerGoal);
+                        Goal playerGoal = new Goal();
+                        switch (setting)
+                        {
+                            case Setting.Fantasy:
+                                playerGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(playerGoal);
+                                break;
+                            case Setting.Detective:
+                                playerGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(playerGoal);
+                                break;
+                            case Setting.DefaultDemo:
+                                playerGoal = new Goal(false, true, false, newGoalState);
+                                goals.Add(playerGoal);
+                                break;
+                        }
+                        break;
+                    case AgentRole.BOSS:
+                        Goal bossGoal = new Goal();
+                        switch (setting)
+                        {
+                            case Setting.Fantasy:
+                                bossGoal = new Goal(true, true, false, newGoalState);
+                                goals.Add(bossGoal);
+                                break;
+                            case Setting.Detective: break;
+                            case Setting.DefaultDemo: break;
+                        }
                         break;
                 }
             }
@@ -727,6 +975,7 @@ namespace Narrative_Generator
 
             // We create a start node (root) based on the start state of the world.
             StoryNode root = new StoryNode();
+            currentStoryState.GetStaticWorldPart().SetSetting(setting);
             root.SetWorldState(currentStoryState);
             root.SetActivePlayer(false);
             root.SetActiveAgent(currentStoryState.GetFirstAgent());
@@ -757,7 +1006,7 @@ namespace Narrative_Generator
             Queue<StoryNode> queue = new Queue<StoryNode>();
             HashSet<StoryNode> visitedNodes = new HashSet<StoryNode>();
 
-            // Добавляем узел в очередь и список посещённых узлов.
+            // We add the node to the queue and the list of visited nodes.
             queue.Enqueue(rootNode);
             visitedNodes.Add(rootNode);
 
@@ -774,7 +1023,6 @@ namespace Narrative_Generator
                 // If we come across a node with a target state, then we do not expand it.
                 if (storyworldConvergence.ControlToAchieveGoalState(ref currentNode))
                 {
-                    //currentNode.goalState = true;
                     continue;
                 }
                 else

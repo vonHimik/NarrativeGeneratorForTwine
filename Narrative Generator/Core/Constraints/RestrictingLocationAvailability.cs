@@ -8,46 +8,193 @@ namespace Narrative_Generator
 {
     public class RestrictingLocationAvailability : WorldConstraint
     {
-        public bool temporaryRestricting;
-        public bool permanentRestricting;
-        public KeyValuePair<LocationStatic, LocationDynamic> targetLocation;
-        public Dictionary<AgentStateStatic, AgentStateDynamic> targetAgents;
-        public int termOfRestricting;
+        public bool temporaryTimeRestricting;
+        public bool permanentTimeRestricting;
+        public bool waitingAnotherAgent;
+        public bool revisitBan;
+        public bool waitingAnotherAction;
+        public bool locationsBan;
+        public bool questsCounterRestricting;
+        public HashSet<LocationStatic> targetLocations;
+        public HashSet<AgentStateStatic> targetAgents;
+        public int value;
 
-        public RestrictingLocationAvailability(bool temporaryRestricting, 
-                                               bool permanentRestricting, 
-                                               KeyValuePair<LocationStatic, LocationDynamic> targetLocation,
-                                               Dictionary<AgentStateStatic, AgentStateDynamic> targetAgents,
-                                               int termOfRestricting)
+        public RestrictingLocationAvailability(bool temporaryTimeRestricting, 
+                                               bool permanentTimeRestricting,
+                                               bool waitingAnotherAgent,
+                                               bool revisitBan,
+                                               bool waitingAnotherAction,
+                                               bool locationsBan,
+                                               bool questsCounterRestricting,
+                                               HashSet<LocationStatic> targetLocations,
+                                               HashSet<AgentStateStatic> targetAgents,
+                                               int value)
         {
-            this.temporaryRestricting = temporaryRestricting;
-            this.permanentRestricting = permanentRestricting;
-            this.targetLocation = targetLocation;
+            this.temporaryTimeRestricting = temporaryTimeRestricting;
+            this.permanentTimeRestricting = permanentTimeRestricting;
+            this.waitingAnotherAgent = waitingAnotherAgent;
+            this.revisitBan = revisitBan;
+            this.waitingAnotherAction = waitingAnotherAction;
+            this.locationsBan = locationsBan;
+            this.questsCounterRestricting = questsCounterRestricting;
+            this.targetLocations = targetLocations;
             this.targetAgents = targetAgents;
-            this.termOfRestricting = termOfRestricting;
+            this.value = value;
         }
 
-        public void ChangeTermOfRestricting(int newTerm)
+        public void ChangeTermOfTimeRestricting (int newTerm)
         {
-            this.termOfRestricting = newTerm;
+            this.value = newTerm;
         }
 
-        public override bool IsSatisfied(WorldDynamic state)
+        public override bool IsSatisfied (WorldDynamic newState, 
+                                          WorldDynamic currentState, 
+                                          StoryGraph graph, 
+                                          PlanAction currentAction, 
+                                          StoryNode currentNode)
         {
-            foreach (var targetAgent in targetAgents)
+            if (temporaryTimeRestricting && value != 0)
             {
-                if (temporaryRestricting && !permanentRestricting && targetAgent.Key != null && targetAgent.Value != null && termOfRestricting != 0 
-                                         && targetLocation.Key != null && targetLocation.Value != null)
+                if (targetAgents != null && targetLocations != null)
                 {
-                    if ((targetLocation.Value.SearchAgent(targetAgent.Key) && state.GetStaticWorldPart().GetTurnNumber() <= termOfRestricting))
+                    foreach (var targetAgent in targetAgents)
+                    {
+                        foreach (var targetLocation in targetLocations)
+                        {
+                            if ((newState.GetLocation(targetLocation).Value.SearchAgent(targetAgent)
+                                   && newState.GetStaticWorldPart().GetTurnNumber() <= value))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (permanentTimeRestricting)
+            {
+                foreach (var targetAgent in targetAgents)
+                {
+                    foreach (var targetLocation in targetLocations)
+                    {
+                        if (newState.GetLocation(targetLocation).Value.SearchAgent(targetAgent)) { return false; }
+                    }
+                }
+            }
+            else if (waitingAnotherAgent)
+            {
+                if ((newState.GetLocation(targetLocations.ElementAt(0)).Value.SearchAgent(targetAgents.ElementAt(0))
+                    && newState.GetLocation(targetLocations.ElementAt(1)).Value.SearchAgent(targetAgents.ElementAt(1))) ||
+                    (newState.GetLocation(targetLocations.ElementAt(0)).Value.SearchAgent(targetAgents.ElementAt(0))
+                    && newState.GetLocation(targetLocations.ElementAt(0)).Value.SearchAgent(targetAgents.ElementAt(1))) ||
+                    (!newState.GetLocation(targetLocations.ElementAt(0)).Value.SearchAgent(targetAgents.ElementAt(0))
+                    && newState.GetLocation(targetLocations.ElementAt(1)).Value.SearchAgent(targetAgents.ElementAt(1))))
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            else if (revisitBan)
+            {
+                /*foreach (var node in graph.GetNodes())
+                {
+                    foreach (var edge in node.GetEdges())
+                    {
+                        if (edge.GetAction() is Move && ((Move)edge.GetAction()).Agent.Key.Equals(targetAgents.First()))
+                        {
+                            if (((Move)edge.GetAction()).From.Key.Equals(state.SearchAgentAmongLocations(targetAgents.First())))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }*/
+
+                if (currentAction is Move || currentAction is CounterMove)
+                {
+                    StoryNode testNode = currentNode;
+
+                    while (testNode.GetNumberInSequence() != 0)
+                    {
+                        if (testNode.GetEdges().First().GetAction() is Move || testNode.GetEdges().First().GetAction() is CounterMove)
+                        {
+                            if (((Move)testNode.GetEdges().First().GetAction()).From.Key.Equals(((Move)currentAction).To.Key))
+                            {
+                                return false;
+                            }
+                        }
+
+                        testNode = testNode.GetEdges().First().GetUpperNode();
+                    }
+                }
+            }
+            else if (waitingAnotherAction)
+            {
+                /*HashSet<StoryNode> newNodesList = graph.GetNodes().Reverse().ToHashSet();
+
+                foreach (var node in newNodesList)
+                {
+                    HashSet<Edge> newEdgesList = node.GetEdges().Reverse().ToHashSet();
+
+                    foreach (var edge in newEdgesList)
+                    {
+                        if (((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.Equals(targetAgents.First()))
+                        {
+                            if (edge.GetAction() is Move)
+                            {
+                                return ((Move)edge.GetAction()).To.Key.Equals(state.SearchAgentAmongLocations(targetAgents.First()));
+                            }
+                        }
+                    }
+                }*/
+
+                foreach (var location in targetLocations)
+                {
+                    foreach (var agent in targetAgents)
+                    {
+                        if (currentState.SearchAgentAmongLocations(agent).Equals(location))
+                        {
+                            if (currentAction is Move || currentAction is CounterMove)
+                            {
+                                StoryNode testNode = currentNode;
+
+                                while (testNode.GetNumberInSequence() != 0)
+                                {
+                                    if (((KeyValuePair<AgentStateStatic, AgentStateDynamic>)testNode.GetEdges().First().GetAction().Arguments[0]).Key.
+                                           Equals(agent)) // Agent in action = Player
+                                    {
+                                        if (testNode.GetEdges().First().GetAction() is Move || testNode.GetEdges().First().GetAction() is CounterMove)
+                                        {
+                                            return false;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+
+                                    testNode = testNode.GetEdges().First().GetUpperNode();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (locationsBan)
+            {
+                foreach (var targetLocation in targetLocations)
+                {
+                    if (newState.SearchAgentAmongLocations(targetAgents.First()).Equals(targetLocation))
                     {
                         return false;
                     }
                 }
-                else if (permanentRestricting && !temporaryRestricting && targetAgent.Key != null && targetAgent.Value != null 
-                                              && targetLocation.Key != null && targetLocation.Value != null)
+            }
+            else if (questsCounterRestricting)
+            {
+                if (newState.SearchAgentAmongLocations(targetAgents.First()).Equals(targetLocations.First())
+                    && newState.GetAgentByName(targetAgents.First().GetName()).Value.GetComplitedQuestsCounter() < value)
                 {
-                    if (targetLocation.Value.SearchAgent(targetAgent.Key)) { return false; }
+                    return false;
                 }
             }
 

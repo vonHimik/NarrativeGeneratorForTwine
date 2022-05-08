@@ -168,7 +168,7 @@ namespace Narrative_Generator
 
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
 
-            // Очистка
+            // Clear
             newAgentStateStatic = null;
             newAgentStateDynamic = null;
             GC.Collect();
@@ -179,9 +179,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Add the agent to the existing collection of agents using only the specified role and name.
         /// </summary>
-        /// <param name="role"></param>
-        /// <param name="name"></param>
-        public void AddAgent(AgentRole role, string name)
+        public void AddAgent (AgentRole role, string name)
         {
             // Create empty instances of the static and dynamic parts of the agent.
             AgentStateStatic newAgentStateStatic = new AgentStateStatic();
@@ -197,7 +195,7 @@ namespace Narrative_Generator
             // We combine both parts into one and add to the collection.
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
 
-            // Очистка
+            // Clear
             newAgentStateStatic = null;
             newAgentStateDynamic = null;
             GC.Collect();
@@ -211,7 +209,7 @@ namespace Narrative_Generator
             AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
 
-            // Очистка
+            // Clear
             newAgentStateStatic = null;
             newAgentStateDynamic = null;
             GC.Collect();
@@ -219,41 +217,25 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetFirstAgent()
-        {
-            return agents.First();
-        }
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetFirstAgent() { return agents.First(); }
 
-        public Dictionary<AgentStateStatic, AgentStateDynamic> GetAgents()
-        {
-            return agents;
-        }
+        public Dictionary<AgentStateStatic, AgentStateDynamic> GetAgents() { return agents; }
 
         /// <summary>
         /// Returns the first founded agent with the specified role.
         /// </summary>
-        /// <param name="role"></param>
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByRole(AgentRole role)
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByRole (AgentRole role)
         {
-            foreach (var agent in agents.Where(a => a.Key.GetRole().Equals(role)))
-            {
-                return agent;
-            }
-
+            foreach (var agent in agents.Where(a => a.Key.GetRole().Equals(role))) { return agent; }
             throw new KeyNotFoundException();
         }
 
         /// <summary>
         /// Returns the first founded agent with the specified name.
         /// </summary>
-        /// <param name="name"></param>
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByName(string name)
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByName (string name)
         {
-            foreach (var agent in agents.Where(a => a.Key.GetName().Equals(name)))
-            {
-                return agent;
-            }
-
+            foreach (var agent in agents.Where(a => a.Key.GetName().Equals(name))) { return agent; }
             throw new KeyNotFoundException();
         }
 
@@ -289,20 +271,14 @@ namespace Narrative_Generator
 
             foreach (var agent in agents)
             {
-                if (counter == randomIndex)
-                {
-                    return agent;
-                }
-                else
-                {
-                    counter++;
-                }
+                if (counter == randomIndex) { return agent; }
+                else { counter++; }
             }
 
             throw new KeyNotFoundException();
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             Random random = new Random();
             List<string> agentsNames = new List<string>();
@@ -336,7 +312,7 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent(Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent (Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
         {
             Random random = new Random();
             List<string> agentsNames = new List<string>();
@@ -356,10 +332,7 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByIndex (int index)
-        {
-            return agents.ElementAt(index);
-        }
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByIndex (int index) { return agents.ElementAt(index); }
 
         public int GetIndexOfAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
@@ -375,10 +348,7 @@ namespace Narrative_Generator
             return index;
         }
 
-        public int GetNumberOfAgents()
-        {
-            return agents.Count();
-        }
+        public int GetNumberOfAgents() { return agents.Count(); }
 
         /// <summary>
         /// Sorts the agents in the dictionary according to their initiative. CORRECT WORKING IS NOT GUARANTEED.
@@ -409,10 +379,7 @@ namespace Narrative_Generator
         {
             foreach (var location in currentStateOfLocations)
             {
-                if (location.Key.Equals(locationKey))
-                {
-                    return location;
-                }
+                if (location.Key.Equals(locationKey)) { return location; }
             }
 
             throw new KeyNotFoundException();
@@ -420,23 +387,22 @@ namespace Narrative_Generator
             //return currentStateOfLocations[locationKey];
         }
 
-        public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByName(string name)
+        public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByName (string name)
         {
             foreach (var location in currentStateOfLocations)
             {
-                if (name.ToLower() == location.Key.GetName())
-                {
-                    return location;
-                }
+                if (name.ToLower() == location.Key.GetName().ToLower()) { return location; }
             }
 
             throw new KeyNotFoundException();
         }
 
-        public Dictionary<LocationStatic, LocationDynamic> GetLocations()
+        public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByIndex (int index)
         {
-            return currentStateOfLocations;
+            return currentStateOfLocations.ElementAt(index);
         }
+
+        public Dictionary<LocationStatic, LocationDynamic> GetLocations() { return currentStateOfLocations; }
 
         public Dictionary<LocationStatic, LocationDynamic> CloneLocations()
         {
@@ -448,7 +414,7 @@ namespace Narrative_Generator
                 var newDynamic = x.Value.Clone();
                 newLocations.Add((LocationStatic)newStatic, (LocationDynamic)newDynamic);
 
-                // Очистка
+                // Clear
                 newStatic = null;
                 newDynamic = null;
                 GC.Collect();
@@ -485,7 +451,6 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns a random location, excluding the specified one.
         /// </summary>
-        /// <param name="excludedLocation"></param>
         public KeyValuePair<LocationStatic, LocationDynamic> GetRandomLocationWithout(KeyValuePair<LocationStatic, LocationDynamic> excludedLocation)
         {
             // Create an instance of the Random Number Generator.
@@ -544,16 +509,10 @@ namespace Narrative_Generator
             throw new KeyNotFoundException();
         }
 
-        public bool LocationIsEmpty(KeyValuePair<LocationStatic, LocationDynamic> location)
+        public bool LocationIsEmpty (KeyValuePair<LocationStatic, LocationDynamic> location)
         {
-            if (location.Value.GetAgents().Count() == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (location.Value.GetAgents().Count() == 0) { return true; }
+            else { return false; }
         }
 
         public void AddAgentIntoLocation(KeyValuePair<LocationStatic, LocationDynamic> location, 
@@ -566,7 +525,7 @@ namespace Narrative_Generator
 
             UpdateHashCode();
 
-            // Очистка
+            // Clear
             sNewAgent = null;
             dNewAgent = null;
             GC.Collect();
@@ -575,37 +534,37 @@ namespace Narrative_Generator
         /// <summary>
         /// Returns the static part (name) of the location where the searched agent is located.
         /// </summary>
-        /// <param name="agent"></param>
-        public LocationStatic SearchAgentAmongLocations(AgentStateStatic agent)
+        public LocationStatic SearchAgentAmongLocations (AgentStateStatic agent)
         {
             foreach (var location in currentStateOfLocations)
             {
-                if (location.Value.SearchAgent(agent))
-                {
-                    return location.Key;
-                }
+                if (location.Value.SearchAgent(agent)) { return location.Key; }
             }
 
             return null;
         }
 
-        public LocationStatic SearchAgentAmongLocationsByName(string name)
+        public LocationStatic SearchAgentAmongLocationsByName (string name)
         {
             foreach (var location in currentStateOfLocations)
             {
-                if (location.Value.SearchAgentByName(name))
-                {
-                    return location.Key;
-                }
+                if (location.Value.SearchAgentByName(name)) { return location.Key; }
             }
 
             return null;
         }
 
-        public WorldStatic GetStaticWorldPart()
+        public LocationStatic SearchAgentAmongLocationsByRole (AgentRole role)
         {
-            return world;
+            foreach (var location in currentStateOfLocations)
+            {
+                if (location.Value.SearchAgentByRole(role)) { return location.Key; }
+            }
+
+            return null;
         }
+
+        public WorldStatic GetStaticWorldPart() { return world; }
 
         public void SetStaticWorldPart(WorldStatic world)
         {

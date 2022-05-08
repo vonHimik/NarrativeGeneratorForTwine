@@ -29,7 +29,10 @@
         private void InitializeComponent()
         {
             this.btnStart = new System.Windows.Forms.Button();
-            this.lblProcessInfo = new System.Windows.Forms.Label();
+            this.rbtn1 = new System.Windows.Forms.RadioButton();
+            this.rbtn2 = new System.Windows.Forms.RadioButton();
+            this.grbx1 = new System.Windows.Forms.GroupBox();
+            this.grbx1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -42,33 +45,62 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // lblProcessInfo
+            // rbtn1
             // 
-            this.lblProcessInfo.AutoSize = true;
-            this.lblProcessInfo.Location = new System.Drawing.Point(344, 83);
-            this.lblProcessInfo.Name = "lblProcessInfo";
-            this.lblProcessInfo.Size = new System.Drawing.Size(46, 17);
-            this.lblProcessInfo.TabIndex = 1;
-            this.lblProcessInfo.Text = "lblProcessInfo";
+            this.rbtn1.AutoSize = true;
+            this.rbtn1.Location = new System.Drawing.Point(6, 30);
+            this.rbtn1.Name = "rbtn1";
+            this.rbtn1.Size = new System.Drawing.Size(79, 21);
+            this.rbtn1.TabIndex = 2;
+            this.rbtn1.TabStop = true;
+            this.rbtn1.Text = "Fantasy";
+            this.rbtn1.UseVisualStyleBackColor = true;
+            this.rbtn1.CheckedChanged += new System.EventHandler(this.rbtn1_CheckedChanged);
+            // 
+            // rbtn2
+            // 
+            this.rbtn2.AutoSize = true;
+            this.rbtn2.Location = new System.Drawing.Point(6, 57);
+            this.rbtn2.Name = "rbtn2";
+            this.rbtn2.Size = new System.Drawing.Size(88, 21);
+            this.rbtn2.TabIndex = 3;
+            this.rbtn2.TabStop = true;
+            this.rbtn2.Text = "Detective";
+            this.rbtn2.UseVisualStyleBackColor = true;
+            this.rbtn2.CheckedChanged += new System.EventHandler(this.rbtn2_CheckedChanged);
+            // 
+            // grbx1
+            // 
+            this.grbx1.Controls.Add(this.rbtn1);
+            this.grbx1.Controls.Add(this.rbtn2);
+            this.grbx1.Location = new System.Drawing.Point(12, 12);
+            this.grbx1.Name = "grbx1";
+            this.grbx1.Size = new System.Drawing.Size(200, 100);
+            this.grbx1.TabIndex = 4;
+            this.grbx1.TabStop = false;
+            this.grbx1.Text = "Setting";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblProcessInfo);
+            this.Controls.Add(this.grbx1);
             this.Controls.Add(this.btnStart);
             this.Name = "Form1";
             this.Text = "Main Window";
+            this.grbx1.ResumeLayout(false);
+            this.grbx1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Label lblProcessInfo;
+        private System.Windows.Forms.RadioButton rbtn1;
+        private System.Windows.Forms.RadioButton rbtn2;
+        private System.Windows.Forms.GroupBox grbx1;
     }
 }
 

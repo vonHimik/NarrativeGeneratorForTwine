@@ -53,6 +53,12 @@
   <ItemGroup>
     <Compile Include="Core\Actions\ActionGenerator.cs" />
     <Compile Include="Core\Actions\ActionTypes\Entrap.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpElfs.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpLordHarrowmont.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpMages.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpPrinceBelen.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpTemplars.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpWerewolves.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fight.cs" />
     <Compile Include="Core\Actions\ActionTypes\InvestigateRoom.cs" />
     <Compile Include="Core\Actions\ActionTypes\Kill.cs" />
@@ -63,8 +69,7 @@
     <Compile Include="Core\Actions\ActionTypes\Run.cs" />
     <Compile Include="Core\Actions\ActionTypes\Talk.cs" />
     <Compile Include="Core\Actions\ActionTypes\TellAboutASuspicious.cs" />
-    <Compile Include="Core\Actions\Counter-reactions\AngerIsInTheAir.cs" />
-    <Compile Include="Core\Actions\Counter-reactions\ChangeOfMood.cs" />
+    <Compile Include="Core\Actions\ActionTypes\ToBeAWitness .cs" />
     <Compile Include="Core\Actions\Counter-reactions\CounterEntrap.cs" />
     <Compile Include="Core\Actions\Counter-reactions\CounterFight.cs" />
     <Compile Include="Core\Actions\Counter-reactions\CounterInvestigateRoom.cs" />
@@ -75,9 +80,6 @@
     <Compile Include="Core\Actions\Counter-reactions\CounterRun.cs" />
     <Compile Include="Core\Actions\Counter-reactions\CounterTalk.cs" />
     <Compile Include="Core\Actions\Counter-reactions\CounterTellAboutASusoicious.cs" />
-    <Compile Include="Core\Actions\Counter-reactions\EnvironmentIsNotConduciveToTalk.cs" />
-    <Compile Include="Core\Actions\Counter-reactions\MiraculousSalvation.cs" />
-    <Compile Include="Core\Actions\Counter-reactions\UnexpectedObstacle.cs" />
     <Compile Include="Core\Actions\PlanAction.cs" />
     <Compile Include="Core\Agents\AgentRole.cs" />
     <Compile Include="Core\Agents\AgentStateDynamic.cs" />
@@ -90,6 +92,8 @@
     <Compile Include="Core\Agents\WorldContext.cs" />
     <Compile Include="Core\Common\CSP-Module.cs" />
     <Compile Include="Core\Common\GraphСonstructor.cs" />
+    <Compile Include="Core\Common\Setting.cs" />
+    <Compile Include="Core\Constraints\ActionsRestricting.cs" />
     <Compile Include="Core\Constraints\CalmLimiting.cs" />
     <Compile Include="Core\Constraints\ForbiddenToSpeak.cs" />
     <Compile Include="Core\Constraints\RestrictingLocationAvailability.cs" />

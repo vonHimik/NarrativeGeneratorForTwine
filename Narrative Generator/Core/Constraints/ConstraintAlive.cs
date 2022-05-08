@@ -10,12 +10,12 @@ namespace Narrative_Generator
     {
         public bool temporaryInvulnerability;
         public bool permanentInvulnerability;
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent;
+        public AgentStateStatic targetAgent;
         public int termOfProtection;
 
         public ConstraintAlive(bool temporaryInvulnerability, 
                                bool permanentInvulnerability, 
-                               KeyValuePair<AgentStateStatic, AgentStateDynamic> targetAgent, 
+                               AgentStateStatic targetAgent, 
                                int termOfProtection)
         {
             this.temporaryInvulnerability = temporaryInvulnerability;
@@ -24,23 +24,30 @@ namespace Narrative_Generator
             this.termOfProtection = termOfProtection;
         }
 
-        public void ChangeTermOfProtection(int newTerm)
+        public void ChangeTermOfProtection (int newTerm)
         {
             this.termOfProtection = newTerm;
         }
 
-        public override bool IsSatisfied(WorldDynamic state)
+        public override bool IsSatisfied (WorldDynamic newState, 
+                                          WorldDynamic currentState, 
+                                          StoryGraph graph, 
+                                          PlanAction currentAction, 
+                                          StoryNode currentNode)
         {
-            if (temporaryInvulnerability && !permanentInvulnerability && targetAgent.Key != null && targetAgent.Value != null && termOfProtection != 0)
+            if (temporaryInvulnerability && !permanentInvulnerability && targetAgent != null && termOfProtection != 0)
             {
-                return ((targetAgent.Value.GetStatus() && state.GetStaticWorldPart().GetTurnNumber() <= termOfProtection) || state.GetStaticWorldPart().GetTurnNumber() > termOfProtection);
+                return ((newState.GetAgentByName(targetAgent.GetName()).Value.GetStatus() 
+                        && newState.GetStaticWorldPart().GetTurnNumber() <= termOfProtection) 
+                        || newState.GetStaticWorldPart().GetTurnNumber() > termOfProtection);
+
             }
-            else if (permanentInvulnerability && !temporaryInvulnerability && targetAgent.Key != null && targetAgent.Value != null)
+            else if (permanentInvulnerability && !temporaryInvulnerability && targetAgent != null)
             {
-                return (targetAgent.Value.GetStatus());
+                return (newState.GetAgentByName(targetAgent.GetName()).Value.GetStatus());
             }
 
-            return false;
+            return true;
         }
     }
 }

@@ -64,6 +64,12 @@ namespace Narrative_Generator
                 interlocutorEquals = true;
                 interlocutorReferenceEquals = true;
             }
+            else if ((interlocutor != null && anotherTalkingWith.interlocutor == null) 
+                || (interlocutor == null && anotherTalkingWith.interlocutor != null))
+            {
+                interlocutorEquals = false;
+                interlocutorReferenceEquals = false;
+            }
             else
             {
                 interlocutorEquals = interlocutor.Equals(anotherTalkingWith.interlocutor);
@@ -96,15 +102,9 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public AgentStateStatic GetInterlocutor()
-        {
-            return interlocutor;
-        }
+        public AgentStateStatic GetInterlocutor() { return interlocutor; }
 
-        public bool TalkingCheck()
-        {
-            return talking;
-        }
+        public bool TalkingCheck() { return talking; }
 
         public void Clear()
         {
@@ -114,14 +114,8 @@ namespace Narrative_Generator
 
         public bool TalkingCheckAtAgent (AgentStateStatic agent)
         {
-            if (talking && agent == interlocutor)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (talking && agent == interlocutor) { return true; }
+            else { return false; }
         }
 
         //////////////////////

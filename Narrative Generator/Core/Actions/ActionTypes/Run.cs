@@ -33,7 +33,7 @@ namespace Narrative_Generator
             }
         }
 
-        public Run(params Object[] args) : base(args) { }
+        public Run(params Object[] args) : base (args) { }
 
         public Run(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                    ref KeyValuePair<LocationStatic, LocationDynamic> from, 
@@ -42,6 +42,11 @@ namespace Narrative_Generator
             Arguments.Add(agent);
             Arguments.Add(from);
             Arguments.Add(to);
+        }
+
+        public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        {
+            return agent.Key.GetRole().Equals(AgentRole.USUAL) && agent.Value.GetStatus() && agent.Value.CheckScared();
         }
 
         public override bool CheckPreconditions (WorldDynamic state)

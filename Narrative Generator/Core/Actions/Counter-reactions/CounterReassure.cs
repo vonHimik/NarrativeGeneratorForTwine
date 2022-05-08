@@ -76,12 +76,13 @@ namespace Narrative_Generator
 
         public override bool CheckPreconditions(WorldDynamic state)
         {
-            return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
+            return    state.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo)
+                      && Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
                       && Agent2.Key.GetRole() == AgentRole.USUAL && Agent2.Value.GetStatus()
                       && Agent3.Key.GetRole() == AgentRole.USUAL
                       && Killer.Key.GetRole() == AgentRole.KILLER
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
-                      && (Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngry().AngryCheckAtAgent(Killer.Key))
+                      && (Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Killer.Key))
                       && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.KILLER).Equals(Killer);
         }
 
@@ -98,8 +99,10 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent1.Value.CalmDown();
+
+            stateAgent2.Value.DecreaseTimeToMove();
         }
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }

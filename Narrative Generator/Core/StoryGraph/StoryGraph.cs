@@ -9,7 +9,7 @@ namespace Narrative_Generator
     /// <summary>
     /// A class that is a representation of a history graph, where nodes are states of the world and edges are actions.
     /// </summary>
-    class StoryGraph
+    public class StoryGraph
     {
         // Link to the root node.
         private StoryNode root;
@@ -29,32 +29,19 @@ namespace Narrative_Generator
         /// <summary>
         /// Adds a node to the list of nodes in the story graph.
         /// </summary>
-        /// <param name="newNode"></param>
-        public void AddNode(StoryNode newNode)
-        {
-            nodes.Add(newNode);
-        }
+        public void AddNode (StoryNode newNode) { nodes.Add(newNode); }
 
-        public bool FindNode(StoryNode node)
-        {
-            return nodes.Contains(node);
-        }
+        public bool FindNode (StoryNode node) { return nodes.Contains(node); }
 
         /// <summary>
         /// Returns a list of nodes in the story graph.
         /// </summary>
-        public HashSet<StoryNode> GetNodes()
-        {
-            return nodes;
-        }
+        public HashSet<StoryNode> GetNodes() { return nodes; }
 
         /// <summary>
         /// Returns the root node of the story graph.
         /// </summary>
-        public StoryNode GetRoot()
-        {
-            return root;
-        }
+        public StoryNode GetRoot() { return root; }
 
         public void SetRoot(StoryNode newRoot)
         {
@@ -65,32 +52,17 @@ namespace Narrative_Generator
         /// <summary>
         /// Returns the last node from the list of nodes in the story graph.
         /// </summary>
-        public StoryNode GetLastNode()
-        {
-            return nodes.Last();
-        }
+        public StoryNode GetLastNode() { return nodes.Last(); }
 
-        public StoryNode GetNode(int index)
-        {
-            return nodes.ElementAt(index);
-        }
+        public StoryNode GetNode (int index) { return nodes.ElementAt(index); }
 
-        public StoryNode GetNode(StoryNode node)
+        public StoryNode GetNode (StoryNode node)
         {
-            foreach (var n in nodes)
-            {
-                if (node.Equals(n)) { return n; }
-            }
-
+            foreach (var n in nodes) { if (node.Equals(n)) { return n; } }
             throw new KeyNotFoundException();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="firstNode">Current node</param>
-        /// <param name="secondNode">New node</param>
-        public void ConnectionTwoNodes(PlanAction action, StoryNode firstNode, StoryNode secondNode, bool duplicate)
+        public void ConnectionTwoNodes (PlanAction action, StoryNode firstNode, StoryNode secondNode, bool duplicate)
         {
 
             Edge newEdge = new Edge();
@@ -220,6 +192,8 @@ namespace Narrative_Generator
             globalNodeNumber++;
             currentNode.SetNumberInSequence(globalNodeNumber);
         }
+
+        public void CreateEndNode() { }
 
         public void DeleteTestNode(ref StoryNode testNode)
         {

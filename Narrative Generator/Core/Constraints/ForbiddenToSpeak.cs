@@ -24,18 +24,22 @@ namespace Narrative_Generator
             this.termOfRestricting = termOfRestricting;
         }
 
-        public void ChangeTermOfRestricting(int newTerm)
+        public void ChangeTermOfRestricting (int newTerm)
         {
             this.termOfRestricting = newTerm;
         }
 
-        public override bool IsSatisfied(WorldDynamic state)
+        public override bool IsSatisfied (WorldDynamic newState, 
+                                          WorldDynamic currentState, 
+                                          StoryGraph graph, 
+                                          PlanAction currentAction, 
+                                          StoryNode currentNode)
         {
             foreach (var targetAgent in targetAgents)
             {
                 if (temporaryRestricting && !permanentRestricting && targetAgent.Key != null && targetAgent.Value != null && termOfRestricting != 0)
                 {
-                    if (targetAgent.Value.GetPlan().GetAction(0) is Talk && state.GetStaticWorldPart().GetTurnNumber() <= termOfRestricting)
+                    if (targetAgent.Value.GetPlan().GetAction(0) is Talk && newState.GetStaticWorldPart().GetTurnNumber() <= termOfRestricting)
                     {
                         return false;
                     }

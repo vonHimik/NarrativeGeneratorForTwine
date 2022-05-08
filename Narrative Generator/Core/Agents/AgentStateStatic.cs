@@ -81,15 +81,11 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns the name of the agent.
         /// </summary>
-        public string GetName()
-        {
-            return name;
-        }
+        public string GetName() { return name; }
 
         /// <summary>
         /// A method that assigns a role to an agent.
         /// </summary>
-        /// <param name="role"></param>
         public void AssignRole(AgentRole role)
         {
             this.role = role;
@@ -99,7 +95,6 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that assigns a role to an agent.
         /// </summary>
-        /// <param name="role"></param>
         public void AssignRole(string role)
         {
             this.role = AgentRoleUtils.GetEnum(role);
@@ -109,10 +104,7 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns the role of the agent.
         /// </summary>
-        public AgentRole GetRole()
-        {
-            return role;
-        }
+        public AgentRole GetRole() { return role; }
 
         public bool Equals (AgentStateStatic anotherState)
         {

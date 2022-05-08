@@ -15,7 +15,7 @@ namespace Narrative_Generator
 
         public PlanAction() {}
 
-        public PlanAction(params Object[] args)
+        public PlanAction (params Object[] args)
         {
             foreach (Object arg in args)
             {
@@ -27,7 +27,7 @@ namespace Narrative_Generator
 
         public abstract void ApplyEffects (ref WorldDynamic state);
 
-        public bool TakeAction(WorldDynamic state)
+        public bool TakeAction (WorldDynamic state)
         {
             if (CheckPreconditions(state))
             {
@@ -38,6 +38,6 @@ namespace Narrative_Generator
             return false;
         }
 
-        public abstract void Fail(ref WorldDynamic state);
+        public abstract void Fail (ref WorldDynamic state);
     }
 }
