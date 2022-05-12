@@ -12,6 +12,7 @@ namespace Narrative_Generator
         private HashSet<LocationStatic> locations; // List of locations.
         private int turn;
         private Setting setting;
+        private bool locationsAreConnected;
 
         private bool hasHashCode;
         private int hashCode;
@@ -21,6 +22,7 @@ namespace Narrative_Generator
             locations = new HashSet<LocationStatic>();
             turn = 0;
             setting = Setting.DefaultDemo;
+            locationsAreConnected = false;
             hasHashCode = false;
             hashCode = 0;
         }
@@ -30,6 +32,7 @@ namespace Narrative_Generator
             locations = new HashSet<LocationStatic>(clone.locations);
             turn = clone.turn;
             setting = clone.setting;
+            locationsAreConnected = clone.locationsAreConnected;
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
         }
@@ -78,6 +81,12 @@ namespace Narrative_Generator
 
         public Setting GetSetting() { return setting; }
 
+        public void ConnectionOn() { locationsAreConnected = true; }
+
+        public void ConnectionOff() { locationsAreConnected = false; }
+
+        public bool GetConnectionStatus() { return locationsAreConnected; }
+
         public bool Equals(WorldStatic anotherWorld)
         {
             if (anotherWorld == null) { return false; }
@@ -105,9 +114,8 @@ namespace Narrative_Generator
 
             bool locationsGlobal = locationsReferenceEquals || locationsEquals;
             bool turnGlobal = turnEquals || turnReferenceEquals;
-            bool settingGlobal = settingEquals || settingReferenceEquals;
 
-            bool equal = locationsGlobal && turnGlobal && settingGlobal;
+            bool equal = locationsGlobal && turnGlobal;
 
             return equal;
         }

@@ -27,14 +27,28 @@ namespace Narrative_Generator
             }
         }
 
-        private void rbtn1_CheckedChanged(object sender, EventArgs e)
+        private void rbtn1_CheckedChanged (object sender, EventArgs e)
         {
-            if (rbtn1.Checked) { system.setting = Setting.Fantasy; }
+            if (rbtn1.Checked)
+            {
+                system.setting = Setting.Fantasy;
+                chBoxRandEnc.Enabled = true;
+            }
         }
 
-        private void rbtn2_CheckedChanged(object sender, EventArgs e)
+        private void rbtn2_CheckedChanged (object sender, EventArgs e)
         {
             if (rbtn2.Checked) { system.setting = Setting.Detective; }
+        }
+
+        private void chBoxRandEnc_CheckedChanged (object sender, EventArgs e)
+        {
+            if (chBoxRandEnc.Checked) { system.randomEncounters = true; }
+        }
+
+        private void chBoxRandConOfLoc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chBoxRandConOfLoc.Checked) { system.randomConnectionOfLocations = true; }
         }
     }
 }

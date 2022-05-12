@@ -52,7 +52,7 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
             stateAgent.Value.CompleteQuest();
-            stateAgent.Value.helpWerewolves = true;
+            state.helpWerewolves = true;
         }
 
         public override void Fail(ref WorldDynamic state) { fail = true; }

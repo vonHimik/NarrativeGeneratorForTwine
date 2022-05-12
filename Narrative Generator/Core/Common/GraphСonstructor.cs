@@ -60,6 +60,60 @@ namespace Narrative_Generator
                 // If the node under consideration is not the last.
                 if (node != storyGraph.GetLastNode())
                 {
+                    /*HashSet<Edge> newEdges = new HashSet<Edge>();
+
+                    foreach (var oldEdge in node.GetEdges())
+                    {
+                        Edge newEdge = (Edge)oldEdge.Clone();
+                        newEdges.Add(newEdge);
+                    }
+
+                    for (int i = 0; i < newEdges.Count; i++)
+                    {
+                        if (newEdges.ElementAt(i).GetAction() is NothingToDo)
+                        {
+                            if (newEdges.ElementAt(i) == newEdges.Last())
+                            {
+                                newEdges.Remove(newEdges.ElementAt(i));
+                                continue;
+                            }
+                            else if (newEdges.ElementAt(i) == newEdges.First())
+                            {
+                                foreach (var nonNTDEdges in newEdges)
+                                {
+                                    if (!(nonNTDEdges.GetAction() is NothingToDo))
+                                    {
+                                        StoryNode newNode = newEdges.ElementAt(i).GetUpperNode();
+                                        nonNTDEdges.SetUpperNode(ref newNode);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var currentEdge in newEdges)
+                    {
+                        if (currentEdge.GetAction() is NothingToDo)
+                        {
+                            if (currentEdge == newEdges.Last())
+                            {
+                                newEdges.Remove(currentEdge);
+                                continue;
+                            }
+                            else if (currentEdge == newEdges.First())
+                            {
+                                foreach (var nonNTDEdges in newEdges)
+                                {
+                                    if (!(nonNTDEdges.GetAction() is NothingToDo))
+                                    {
+                                        StoryNode newNode = currentEdge.GetUpperNode();
+                                        nonNTDEdges.SetUpperNode(ref newNode);
+                                    }
+                                }
+                            }
+                        }
+                    }*/
+
                     // Then we go along the edges attached to this node.
                     foreach (var edge in node.GetEdges())
                     {
@@ -228,19 +282,25 @@ namespace Narrative_Generator
                                 graphSTR = graphSTR.Insert(graphSTR.Length,
                                     edge.GetUpperNode().GetNumberInSequence() + "->" + edge.GetLowerNode().GetNumberInSequence()
                                     + "[label = " + " " + '"'
-                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
+                                    + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
                                     + Environment.NewLine
                                     + " " + edge.GetAction().ToString().Remove(0, 20)
                                     + Environment.NewLine
                                     + " " + "who: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[1]).Key.GetName()
+                                    + " " + "whom: " + ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).Key.GetName()
                                     + Environment.NewLine
-                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + " " + "from: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[2]).Key.GetName()
+                                    + Environment.NewLine
+                                    + " " + "to: " + ((KeyValuePair<LocationStatic, LocationDynamic>)edge.GetAction().Arguments[3]).Key.GetName()
                                     + Environment.NewLine
                                     + " " + "Success: " + edge.GetAction().success.ToString()
                                     + '"' + "] \r\n");
                             }
+                            /*else if (edge.GetAction() is NothingToDo)
+                            {
+
+                            }*/
                             else
                             {
                                 graphSTR = graphSTR.Insert(graphSTR.Length,

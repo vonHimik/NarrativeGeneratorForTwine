@@ -114,7 +114,7 @@ namespace Narrative_Generator
             return connectedLocations.ElementAt(index);
         }
 
-        public void AddConnection(LocationStatic location)
+        public void AddConnection (LocationStatic location)
         {
             connectedLocations.Add(location);
             UpdateHashCode();

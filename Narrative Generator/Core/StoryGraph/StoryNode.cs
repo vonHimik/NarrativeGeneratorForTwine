@@ -51,6 +51,8 @@ namespace Narrative_Generator
 
             clone.links = new HashSet<StoryNode>(links);
             clone.edges = new HashSet<Edge>(edges);
+            clone.numberInSequence = numberInSequence;
+
             clone.hasHashCode = true;
             clone.GetHashCode();
 
@@ -142,7 +144,7 @@ namespace Narrative_Generator
             bool activeAgentStaticGlobal = activeAgentStaticEquals || activeAgentStaticReferenceEquals;
             bool activeAgentDynamicGlobal = activeAgentDynamicEquals || activeAgentDynamicReferenceEquals;
 
-            bool equal = worldStateGlobal && playerIsActiveEquals && activeAgentStaticGlobal && activeAgentDynamicGlobal;
+            bool equal = worldStateGlobal /*&& playerIsActiveEquals && activeAgentStaticGlobal && activeAgentDynamicGlobal*/;
 
             return equal;
         }

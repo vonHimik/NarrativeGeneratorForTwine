@@ -332,6 +332,16 @@ namespace Narrative_Generator
             return counter;
         }
 
+        public bool playerOrUsualIsHere()
+        {
+            foreach (var agent in agentsAtLocations)
+            {
+                if (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER)) { return true; }
+            }
+
+            return false;
+        }
+
         public int CountDeadAgents()
         {
             int counter = 0;

@@ -32,12 +32,19 @@ namespace Narrative_Generator
         /// <summary>
         /// Checks the achievement of any of the goal conditions (in state).
         /// </summary>
-        public bool ControlToAchieveGoalState(ref StoryNode currentNode)
+        public bool ControlToAchieveGoalState (ref StoryNode currentNode)
         {
             foreach (var goal in allGoalStates)
             {
                 // todo: convert to switch
                 // todo: supplement the types of goals - group and specific
+
+                int antagonistsCounter = 0;
+
+                foreach (var agent in currentNode.GetWorldState().GetAgents())
+                {
+                    if (agent.Key.GetRole().Equals(AgentRole.KILLER) || agent.Key.GetRole().Equals(AgentRole.BOSS)) { antagonistsCounter++; }
+                }
 
                 if (goal.goalTypeIsStatus)
                 {
@@ -55,7 +62,7 @@ namespace Narrative_Generator
                         }
                     }
 
-                    if (killCounter == currentNode.GetWorldState().GetAgents().Count - 1)
+                    if (killCounter == currentNode.GetWorldState().GetAgents().Count - antagonistsCounter)
                     {
                         currentNode.goalState = true;
                         return true;
@@ -113,9 +120,6 @@ namespace Narrative_Generator
         /// <summary>
         /// The agent updates his beliefs, calculates a plan, chooses an action, assigns variables to it, and sends it for further control.
         /// </summary>
-        /// <param name="agent"></param>
-        /// <param name="currentGraph"></param>
-        /// <param name="currentState"></param>
         public void ActionRequest(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                                   ref StoryGraph currentGraph, 
                                   ref WorldDynamic currentState,
@@ -303,7 +307,8 @@ namespace Narrative_Generator
             bool constraintsControl = ConstraintsControl(currentGraph, currentState, action, succsessControl, currentNode);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, succsessControl);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, succsessControl);
-            bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl);
+            //bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl);
+            bool cyclesControl = true;
 
             if (!constraintsControl && agent.Key.GetRole().Equals(AgentRole.PLAYER))
             {
@@ -321,19 +326,15 @@ namespace Narrative_Generator
             }
             else if (!duplicateControl && cyclesControl)
             {
-                // connection current node --> finded node
+                bool skip = false;
 
+                // connection current node --> finded node
                 currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue, succsessControl, ref skip);
 
                 if (skip)
                 {
                     ActionCounteract(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, ref queue);
                 }
-
-                currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue);
-
-                currentGraph.DuplicateNodeConnecting(currentState, action, agent, currentNode, globalNodeNumber, ref queue);
-
             }
             else
             {
@@ -543,6 +544,8 @@ namespace Narrative_Generator
              bool stageTwo_ConnectedNode = false;
              bool counterreactionFound = false;
 
+            bool skip = false;
+
             string currentAction = action.GetType().ToString().Remove(0, 20);
 
              while (!counterreactionFound)
@@ -571,7 +574,7 @@ namespace Narrative_Generator
                      {
                          if (constractionAndDeadEndAndCicle && !duplicate)
                          {
-                             currentGraph.DuplicateNodeConnecting(currentState, counterreactionTalk, agent, currentNode, globalNodeNumber, ref queue);
+                             currentGraph.DuplicateNodeConnecting(currentState, counterreactionTalk, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                              counterreactionFound = true;
                          }
                      }
@@ -603,7 +606,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionEntrap, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionEntrap, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -636,7 +639,7 @@ namespace Narrative_Generator
                         {
                             if (constractionAndDeadEndAndCicle && !duplicate)
                             {
-                                currentGraph.DuplicateNodeConnecting(currentState, counterreactionKill, agent, currentNode, globalNodeNumber, ref queue);
+                                currentGraph.DuplicateNodeConnecting(currentState, counterreactionKill, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                 counterreactionFound = true;
                             }
                         }
@@ -669,7 +672,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionIR, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionIR, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -702,7 +705,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionNK, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionNK, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -735,7 +738,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionTalkAboutSuspicious, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionTalkAboutSuspicious, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -768,7 +771,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionFight, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionFight, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -801,7 +804,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionReassure, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionReassure, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -834,7 +837,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionRun, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionRun, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -867,7 +870,7 @@ namespace Narrative_Generator
                          {
                              if (constractionAndDeadEndAndCicle && !duplicate)
                              {
-                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionMove, agent, currentNode, globalNodeNumber, ref queue);
+                                 currentGraph.DuplicateNodeConnecting(currentState, counterreactionMove, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                                  counterreactionFound = true;
                              }
                          }
@@ -892,20 +895,12 @@ namespace Narrative_Generator
                     }
                     else if (constractionAndDeadEndAndCicle && !duplicate)
                     {
-                        currentGraph.DuplicateNodeConnecting(currentState, counterreactionSkip, agent, currentNode, globalNodeNumber, ref queue);
+                        currentGraph.DuplicateNodeConnecting(currentState, counterreactionSkip, agent, currentNode, globalNodeNumber, ref queue, true, ref skip);
                         counterreactionFound = true;
                     }
                 }
 
-
                 if (stageOne_NewNode)
-
-                stageOne_NewNode = false;
-                stageTwo_ConnectedNode = true;
-
-
-                /*if (stageOne_NewNode)
-
                 {
                     stageOne_NewNode = false;
                     stageTwo_ConnectedNode = true;
@@ -914,7 +909,7 @@ namespace Narrative_Generator
                 {
                     stageOne_NewNode = true;
                     stageTwo_ConnectedNode = false;
-                }*/
+                }
             }
             
         }
@@ -930,7 +925,7 @@ namespace Narrative_Generator
 
             if (action is Entrap) { threshold = 80; }
             else if (action is CounterEntrap) { threshold = 100; }
-            else if (action is Fight) { threshold = 75; }
+            else if (action is Fight) { threshold = 100; }
             else if (action is CounterFight) { threshold = 100; }
             else if (action is InvestigateRoom || action is CounterInvestigateRoom) { threshold = 60; }
             else if (action is Kill || action is CounterKill) { threshold = 100; }
@@ -983,7 +978,8 @@ namespace Narrative_Generator
             bool constraintsControl = ConstraintsControl(currentGraph, currentState, action, succsessControl, currentNode);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, succsessControl);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, succsessControl);
-            bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl);
+            //bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl);
+            bool cyclesControl = true;
 
             controlOne = constraintsControl & deadEndsControl & cyclesControl;
             controlTwo = duplicateControl;
