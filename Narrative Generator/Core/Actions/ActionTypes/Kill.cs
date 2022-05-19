@@ -70,8 +70,28 @@ namespace Narrative_Generator
 
             state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.GetAgent(stateAgent).Value.Die();
             //state.GetLocationByName(state.SearchAgentAmongLocations(stateAgent.Key).GetName()).Value.RemoveDiedAgents();
+
+            stateKiller.Value.DecreaseTimeToMove();
         }
 
-        public override void Fail (ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state)
+        {
+            fail = true;
+
+            if (state.GetStaticWorldPart().GetRandomBattlesResultsStatus())
+            {
+                KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
+                KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
+
+                stateAgent.Value.ClearTempStates();
+                stateKiller.Value.ClearTempStates();
+
+                stateKiller.Value.SetStatus(false);
+                stateKiller.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).Dead();
+                stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).Dead();
+
+                state.GetLocationByName(state.SearchAgentAmongLocations(stateKiller.Key).GetName()).Value.GetAgent(stateKiller).Value.Die();
+            }
+        }
     }
 }

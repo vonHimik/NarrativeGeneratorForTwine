@@ -33,7 +33,8 @@ namespace Narrative_Generator
                                           WorldDynamic currentState, 
                                           StoryGraph graph, 
                                           PlanAction currentAction, 
-                                          StoryNode currentNode)
+                                          StoryNode currentNode,
+                                          StoryNode newNode)
         {
             if (temporaryInvulnerability && !permanentInvulnerability && targetAgent != null && termOfProtection != 0)
             {
