@@ -28,7 +28,8 @@ namespace Narrative_Generator
                                           WorldDynamic currentState, 
                                           StoryGraph graph, 
                                           PlanAction currentAction, 
-                                          StoryNode currentNode)
+                                          StoryNode currentNode,
+                                          StoryNode newNode)
         {
             if (mutuallyExclusiveActions)
             {
