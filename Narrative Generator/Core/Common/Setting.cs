@@ -9,6 +9,7 @@ namespace Narrative_Generator
     public enum Setting
     {
         Fantasy,
+        GenericFantasy,
         Detective,
         DefaultDemo,
     }

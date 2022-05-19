@@ -141,6 +141,11 @@ namespace Narrative_Generator
                 HelpLordHarrowmont helpLordHarrowmont = new HelpLordHarrowmont();
                 actions.Add(helpLordHarrowmont);
             }
+            if (actionName == "complete-quest")
+            {
+                CompleteQuest completeQuest = new CompleteQuest();
+                actions.Add(completeQuest);
+            }
         }
 
         public PlanAction GetAction(int index)

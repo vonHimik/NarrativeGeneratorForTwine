@@ -10,16 +10,19 @@ namespace Narrative_Generator
     {
         public bool temporaryInvulnerability;
         public bool permanentInvulnerability;
+        public bool endIfDied;
         public AgentStateStatic targetAgent;
         public int termOfProtection;
 
         public ConstraintAlive(bool temporaryInvulnerability, 
                                bool permanentInvulnerability, 
+                               bool endIfDied,
                                AgentStateStatic targetAgent, 
                                int termOfProtection)
         {
             this.temporaryInvulnerability = temporaryInvulnerability;
             this.permanentInvulnerability = permanentInvulnerability;
+            this.endIfDied = endIfDied;
             this.targetAgent = targetAgent;
             this.termOfProtection = termOfProtection;
         }
@@ -33,7 +36,8 @@ namespace Narrative_Generator
                                           WorldDynamic currentState, 
                                           StoryGraph graph, 
                                           PlanAction currentAction, 
-                                          StoryNode currentNode)
+                                          StoryNode currentNode,
+                                          StoryNode newNode)
         {
             if (temporaryInvulnerability && !permanentInvulnerability && targetAgent != null && termOfProtection != 0)
             {
@@ -45,6 +49,13 @@ namespace Narrative_Generator
             else if (permanentInvulnerability && !temporaryInvulnerability && targetAgent != null)
             {
                 return (newState.GetAgentByName(targetAgent.GetName()).Value.GetStatus());
+            }
+            else if (endIfDied)
+            {
+                if (!currentState.GetAgentByName(targetAgent.GetName()).Value.GetStatus())
+                {
+                    return false;
+                }
             }
 
             return true;

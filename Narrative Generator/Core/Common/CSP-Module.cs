@@ -174,6 +174,10 @@ namespace Narrative_Generator
                         GetRandomLocationWithout(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName())));
                 return true;
             }
+            else if (action is NothingToDo)
+            {
+                action.Arguments.Add(initiator);
+            }
             else if (action is TellAboutASuspicious || action is CounterTellAboutASuspicious)
             {
                 foreach (var agent in currentState.GetAgents())
@@ -263,6 +267,11 @@ namespace Narrative_Generator
                 action.Arguments.Add(initiator);
                 action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
             }
+            else if (action is CompleteQuest)
+            {
+                action.Arguments.Add(initiator);
+                action.Arguments.Add(currentState.GetLocation(currentState.SearchAgentAmongLocations(initiator.Key)));
+            }
 
             return false;
         }
@@ -277,15 +286,14 @@ namespace Narrative_Generator
             {
                 int locationsCount = 0;
 
-                switch (currentState.GetStaticWorldPart().GetSetting())
+                if (currentState.GetStaticWorldPart().GetConnectionStatus())
                 {
-                    case Setting.DefaultDemo:
-                        locationsCount =
-                        currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocations().Count;
-                        break;
-                    case Setting.Fantasy:
-                        locationsCount = currentState.GetLocations().Count - 1;
-                        break;
+                    locationsCount =
+                       currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocations().Count;
+                }
+                else if (!currentState.GetStaticWorldPart().GetConnectionStatus())
+                {
+                    locationsCount = currentState.GetLocations().Count - 1;
                 }
 
                 List<Move> moveArr = new List<Move>();
@@ -298,23 +306,22 @@ namespace Narrative_Generator
 
                 for (int i = 0, j = 0; i < locationsCount; i++, j++)
                 {
-                    switch (currentState.GetStaticWorldPart().GetSetting())
+                    if (currentState.GetStaticWorldPart().GetConnectionStatus())
                     {
-                        case Setting.DefaultDemo:
+                        moveArr[i].Arguments.Add(initiator);
+                        moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
+                        moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.GetLocationByName(
+                            currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationsFromIndex(i).GetName()));
+                    }
+                    else if (!currentState.GetStaticWorldPart().GetConnectionStatus())
+                    {
+                        if (!currentState.GetLocationByIndex(j).Key.Equals(currentState.SearchAgentAmongLocations(initiator.Key)))
+                        {
                             moveArr[i].Arguments.Add(initiator);
                             moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
-                            moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.GetLocationByName(
-                                currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationsFromIndex(i).GetName()));
-                            break;
-                        case Setting.Fantasy:
-                            if (!currentState.GetLocationByIndex(j).Key.Equals(currentState.SearchAgentAmongLocations(initiator.Key)))
-                            {
-                                moveArr[i].Arguments.Add(initiator);
-                                moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
-                                moveArr[i].Arguments.Add(currentState.GetLocationByIndex(j));
-                            }
-                            else { i--; }
-                            break;
+                            moveArr[i].Arguments.Add(currentState.GetLocationByIndex(j));
+                        }
+                        else { i--; }
                     }
                 }
 

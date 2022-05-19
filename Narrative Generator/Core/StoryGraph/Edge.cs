@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class Edge
+    public class Edge: ICloneable
     {
         private StoryNode upperNode;
         private StoryNode lowerNode;
         private PlanAction action;
+
+        public object Clone()
+        {
+            var clone = new Edge();
+
+            clone.upperNode = (StoryNode)upperNode.Clone();
+            clone.lowerNode = (StoryNode)lowerNode.Clone();
+            clone.action = action;
+
+            return clone;
+        }
 
         public void SetUpperNode (ref StoryNode node) { upperNode = node; }
 

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Core\Actions\ActionGenerator.cs" />
     <Compile Include="Core\Actions\ActionTypes\Entrap.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\CompleteQuest.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpElfs.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpLordHarrowmont.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpMages.cs" />
