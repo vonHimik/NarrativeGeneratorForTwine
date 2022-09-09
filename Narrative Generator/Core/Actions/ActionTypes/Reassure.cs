@@ -49,6 +49,8 @@ namespace Narrative_Generator
             }
         }
 
+        public Reassure (WorldDynamic state) { DefineDescription(state); }
+
         public Reassure(params Object[] args) : base (args) { }
 
         public Reassure(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
@@ -64,6 +66,11 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             return state.GetStaticWorldPart().Equals(Setting.DefaultDemo) && (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER))
@@ -75,10 +82,10 @@ namespace Narrative_Generator
             return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus() 
                       && Agent2.Key.GetRole() == AgentRole.USUAL && Agent2.Value.GetStatus()
                       && Agent3.Key.GetRole() == AgentRole.USUAL 
-                      && Killer.Key.GetRole() == AgentRole.KILLER 
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST 
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
                       && (Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Killer.Key))
-                      && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.KILLER).Equals(Killer);
+                      && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.ANTAGONIST).Equals(Killer);
         }
 
         public override void ApplyEffects (ref WorldDynamic state)
@@ -94,6 +101,8 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent1.Value.CalmDown();
+
+            stateAgent2.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

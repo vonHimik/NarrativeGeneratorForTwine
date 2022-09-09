@@ -33,6 +33,8 @@ namespace Narrative_Generator
             }
         }
 
+        public NeutralizeKiller (WorldDynamic state) { DefineDescription(state); }
+
         public NeutralizeKiller (params Object[] args) : base (args) { }
 
         public NeutralizeKiller (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
@@ -44,11 +46,16 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             return (agent.Key.GetRole() == AgentRole.USUAL || agent.Key.GetRole() == AgentRole.PLAYER) && agent.Value.GetStatus()
                 && agent.Value.GetObjectOfAngryComponent().AngryCheck()
-                && agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetRole() == AgentRole.KILLER
+                && agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetRole() == AgentRole.ANTAGONIST
                 && state.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetStatus()
                 && state.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
                 Equals(state.GetLocationByName(state.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetBeliefs().GetMyLocation().GetName()));
@@ -57,7 +64,7 @@ namespace Narrative_Generator
         public override bool CheckPreconditions (WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
-                      && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) 
                       && Agent.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Killer.Key);
         }
@@ -71,6 +78,8 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateKiller.Value.SetStatus(false);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

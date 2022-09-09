@@ -33,15 +33,22 @@ namespace Narrative_Generator
             }
         }
 
-        public CounterTalk(params Object[] args) : base(args) { }
+        public CounterTalk (WorldDynamic state) { DefineDescription(state); }
+
+        public CounterTalk (params Object[] args) : base(args) { }
 
         public CounterTalk (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
-                           ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
-                           string originalAction)
+                            ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
+                            string originalAction)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
             Arguments.Add(originalAction);
+        }
+
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
         }
 
         public override bool CheckPreconditions(WorldDynamic state)
@@ -63,12 +70,12 @@ namespace Narrative_Generator
             stateAgent2.Value.SetInterlocutor(stateAgent1);
 
             if (stateAgent1.Value.GetObjectOfAngryComponent().AngryCheck() && stateAgent1.Value.GetEvidenceStatus().CheckEvidence() &&
-                stateAgent2.Key.GetRole() != AgentRole.KILLER)
+                stateAgent2.Key.GetRole() != AgentRole.ANTAGONIST)
             {
                 stateAgent2.Value.SetObjectOfAngry(stateAgent1.Value.GetObjectOfAngryComponent());
             }
             else if (stateAgent2.Value.GetObjectOfAngryComponent().AngryCheck() && stateAgent2.Value.GetEvidenceStatus().CheckEvidence() &&
-                     stateAgent1.Key.GetRole() != AgentRole.KILLER)
+                     stateAgent1.Key.GetRole() != AgentRole.ANTAGONIST)
             {
                 stateAgent1.Value.SetObjectOfAngry(stateAgent2.Value.GetObjectOfAngryComponent());
             }

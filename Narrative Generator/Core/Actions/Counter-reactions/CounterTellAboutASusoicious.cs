@@ -41,13 +41,23 @@ namespace Narrative_Generator
             }
         }
 
-        public CounterTellAboutASuspicious(params Object[] args) : base(args) { }
+        public string OriginalAction
+        {
+            get
+            {
+                return (string)Arguments[4];
+            }
+        }
 
-        public CounterTellAboutASuspicious(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
-                                    ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
-                                    ref KeyValuePair<LocationStatic, LocationDynamic> location1,
-                                    ref KeyValuePair<LocationStatic, LocationDynamic> location2,
-                                    string originalAction)
+        public CounterTellAboutASuspicious (WorldDynamic state) { DefineDescription(state); }
+
+        public CounterTellAboutASuspicious (params Object[] args) : base(args) { }
+
+        public CounterTellAboutASuspicious (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                                            ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
+                                            ref KeyValuePair<LocationStatic, LocationDynamic> location1,
+                                            ref KeyValuePair<LocationStatic, LocationDynamic> location2,
+                                            string originalAction)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
@@ -56,10 +66,15 @@ namespace Narrative_Generator
             Arguments.Add(originalAction);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
-                      && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                       && Location1.Value.SearchAgent(Agent.Key) && Location1.Value.SearchAgent(Killer.Key) && !Location1.Equals(Location2);
         }
 

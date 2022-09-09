@@ -16,6 +16,7 @@ namespace Narrative_Generator
         private string name;
         private HashSet<LocationStatic> connectedLocations;
 
+        // Hashcode
         private bool hasHashCode;
         private int hashCode;
 
@@ -34,6 +35,10 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Constructor with parameters of the LocationStatic, which creates a new instance of the LocationStatic based on the passed clone.
+        /// </summary>
+        /// <param name="clone">A LocationStatic instance that will serve as the basis for creating a new instance.</param>
         public LocationStatic (LocationStatic clone)
         {
             name = clone.name;
@@ -45,6 +50,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Method-constructor of the static part of the location, using the location name as a parameter.
         /// </summary>
+        /// <param name="name">The name of the location to be created.</param>
         public LocationStatic (string name)
         {
             // We assign the specified name to the location.
@@ -58,8 +64,9 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// A method for cloning a location.
+        ///  A method for cloning a location.
         /// </summary>
+        /// <returns>A new instance that is a copy of the current one.</returns>
         public object Clone()
         {
             // Preparing an empty clone.
@@ -76,6 +83,7 @@ namespace Narrative_Generator
         /// <summary>
         /// The method that sets the name of the location.
         /// </summary>
+        /// <param name="name">New location name.</param>
         public void SetName (string name)
         {
             this.name = name;
@@ -85,9 +93,15 @@ namespace Narrative_Generator
         /// <summary>
         /// Method that returns the name of the location.
         /// </summary>
+        /// <returns>Location name.</returns>
         public string GetName() { return name; }
 
-        public bool ConnectionChecking(LocationStatic checkedLocation)
+        /// <summary>
+        /// Checks if there is a path (connection) between this location and the specified location.
+        /// </summary>
+        /// <param name="checkedLocation">Checked location.</param>
+        /// <returns>True if yes, otherwise false.</returns>
+        public bool ConnectionChecking (LocationStatic checkedLocation)
         {
             if (connectedLocations != null)
             {
@@ -100,10 +114,23 @@ namespace Narrative_Generator
             return false;
         }
 
+        /// <summary>
+        /// Returns a list of all locations that have a path from this location (they are connected).
+        /// </summary>
+        /// <returns>List of all locations that have a path from this location.</returns>
         public HashSet<LocationStatic> GetConnectedLocations() { return connectedLocations; }
 
+        /// <summary>
+        /// Returns a specific location from a list of all locations that have a path from that location (they are connected).
+        /// </summary>
+        /// <param name="index">The index of the required location.</param>
+        /// <returns>Specific location from a list of all locations that have a path from that location.</returns>
         public LocationStatic GetConnectedLocationsFromIndex (int index) { return connectedLocations.ElementAt(index); }
 
+        /// <summary>
+        /// Returns a random location from a list of all locations that have a path from this location (they are connected).
+        /// </summary>
+        /// <returns>Random location from a list of all locations that have a path from this location.</returns>
         public LocationStatic GetRandomConnectedLocation()
         {
             // Create an instance of the Random Number Generator.
@@ -114,18 +141,30 @@ namespace Narrative_Generator
             return connectedLocations.ElementAt(index);
         }
 
-        public void AddConnection(LocationStatic location)
+        /// <summary>
+        /// Adds a path (connection) between this location and the specified location.
+        /// </summary>
+        /// <param name="location">Information about the connected location.</param>
+        public void AddConnection (LocationStatic location)
         {
             connectedLocations.Add(location);
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Removes information about all paths (connections) from this location to other locations.
+        /// </summary>
         public void ClearAllConnections()
         {
             connectedLocations.Clear();
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Method for comparing two LocationStatic instance.
+        /// </summary>
+        /// <param name="anotherLocation">Another LocationStatic instance, for comparison.</param>
+        /// <returns>True if both instance are the same, false otherwise.</returns>
         public bool Equals (LocationStatic anotherLocation)
         {
             if (anotherLocation == null) { return false; }
@@ -168,6 +207,10 @@ namespace Narrative_Generator
         /* HASHCODE SECTION */
         //////////////////////
 
+        /// <summary>
+        /// Calculates and returns the hash code of this instance of the LocationStatic.
+        /// </summary>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
@@ -175,11 +218,6 @@ namespace Narrative_Generator
             int hashcode = 18;
 
             hashcode = hashcode * 42 + name.GetHashCode();
-            /*foreach (var location in connectedLocations)
-            {
-                //location.ClearHashCode();
-                hashcode = hashcode * 42 + location.GetHashCode();
-            }*/
 
             hashCode = hashcode;
             hasHashCode = true;
@@ -187,12 +225,18 @@ namespace Narrative_Generator
             return hashcode;
         }
 
+        /// <summary>
+        /// Clears the current hash code value.
+        /// </summary>
         public void ClearHashCode()
         {
             hasHashCode = false;
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Updates (refresh) the current hash code value.
+        /// </summary>
         public void UpdateHashCode()
         {
             ClearHashCode();

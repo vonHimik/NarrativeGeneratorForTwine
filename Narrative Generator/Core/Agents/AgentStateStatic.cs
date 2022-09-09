@@ -12,10 +12,11 @@ namespace Narrative_Generator
     [Serializable]
     public class AgentStateStatic : IEquatable<AgentStateStatic>, ICloneable
     {
-        // Agent properties.
+        // Agent properties
         private string name;
         private AgentRole role;
 
+        // Hashcode
         private bool hasHashCode;
         private int hashCode;
 
@@ -30,6 +31,10 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        /// <summary>
+        /// The conditional constructor of the static part of the agent, which creates a new instance of the agent based on the passed clone.
+        /// </summary>
+        /// <param name="clone">An agent instance that will serve as the basis for creating a new instance.</param>
         public AgentStateStatic (AgentStateStatic clone)
         {
             name = clone.name;
@@ -41,9 +46,9 @@ namespace Narrative_Generator
         /// <summary>
         /// Method-constructor of the static part of the agent (with input parameters).
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="role"></param>
-        public AgentStateStatic(string name, AgentRole role)
+        /// <param name="name">The name of the agent to construct.</param>
+        /// <param name="role">The role of the constructed agent.</param>
+        public AgentStateStatic (string name, AgentRole role)
         {
             // We assign the specified name and role.
             SetName(name);
@@ -55,6 +60,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Method for cloning an agent.
         /// </summary>
+        /// <returns>A new instance that is a copy of the current one.</returns>
         public object Clone()
         {
             // Create an empty clone.
@@ -71,8 +77,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that assigns the name of the agent.
         /// </summary>
-        /// <param name="name"></param>
-        public void SetName(string name)
+        /// <param name="name">New name of the agent.</param>
+        public void SetName (string name)
         {
             this.name = name;
             UpdateHashCode();
@@ -86,7 +92,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that assigns a role to an agent.
         /// </summary>
-        public void AssignRole(AgentRole role)
+        /// <param name="role">New role of the agent.</param>
+        public void AssignRole (AgentRole role)
         {
             this.role = role;
             UpdateHashCode();
@@ -95,7 +102,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that assigns a role to an agent.
         /// </summary>
-        public void AssignRole(string role)
+        /// <param name="role">Name of new role of the agent.</param>
+        public void AssignRole (string role)
         {
             this.role = AgentRoleUtils.GetEnum(role);
             UpdateHashCode();
@@ -106,6 +114,11 @@ namespace Narrative_Generator
         /// </summary>
         public AgentRole GetRole() { return role; }
 
+        /// <summary>
+        /// Method for comparing two static parts of agent states.
+        /// </summary>
+        /// <param name="anotherState">Another static state of the agent, for comparison.</param>
+        /// <returns>True if both states are the same, false otherwise.</returns>
         public bool Equals (AgentStateStatic anotherState)
         {
             if (anotherState == null) { return false; }
@@ -128,6 +141,10 @@ namespace Narrative_Generator
         /* HASHCODE SECTION */
         //////////////////////
 
+        /// <summary>
+        /// Calculates and returns the hash code of this instance of the static part of the agent's state.
+        /// </summary>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
@@ -143,12 +160,18 @@ namespace Narrative_Generator
             return hashcode;
         }
 
+        /// <summary>
+        /// Clears the current hash code value.
+        /// </summary>
         public void ClearHashCode()
         {
             hasHashCode = false;
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Updates (refresh) the current hash code value.
+        /// </summary>
         public void UpdateHashCode()
         {
             ClearHashCode();

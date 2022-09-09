@@ -10,14 +10,21 @@ namespace Narrative_Generator
     {
         public bool mutuallyExclusiveActions;
         public bool onlyOneFire;
+        public bool onlyOnceInLocation;
         public PlanAction mainAction;
         public List<PlanAction> targetActions;
         public int timer;
 
-        public ActionsRestricting (bool mutuallyExclusiveActions, bool onlyOneFire, PlanAction mainAction, List<PlanAction> targetActions, int timer)
+        public ActionsRestricting (bool mutuallyExclusiveActions, 
+                                   bool onlyOneFire, 
+                                   bool onlyOnceInLocation,
+                                   PlanAction mainAction, 
+                                   List<PlanAction> targetActions, 
+                                   int timer)
         {
             this.mutuallyExclusiveActions = mutuallyExclusiveActions;
             this.onlyOneFire = onlyOneFire;
+            this.onlyOnceInLocation = onlyOnceInLocation;
             this.mainAction = mainAction;
             this.targetActions = targetActions;
             this.timer = timer;
@@ -28,7 +35,8 @@ namespace Narrative_Generator
                                           WorldDynamic currentState, 
                                           StoryGraph graph, 
                                           PlanAction currentAction, 
-                                          StoryNode currentNode)
+                                          StoryNode currentNode,
+                                          StoryNode newNode)
         {
             if (mutuallyExclusiveActions)
             {
@@ -61,6 +69,29 @@ namespace Narrative_Generator
                         }
 
                         testNode = testNode.GetEdge(0).GetUpperNode();
+                    }
+                }
+            }
+            if (onlyOnceInLocation)
+            {
+                if (currentAction.GetType().Equals(mainAction.GetType()))
+                {
+                    StoryNode testNode = currentNode;
+
+                    while (testNode.GetNumberInSequence() != 0)
+                    {
+                        foreach (var edge in testNode.GetEdges())
+                        {
+                            if (edge.GetLowerNode().Equals(testNode) && edge.GetAction().GetType().Equals(mainAction.GetType())
+                                && ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)edge.GetAction().Arguments[0]).
+                                Value.GetBeliefs().GetMyLocation().Equals(
+                                    ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)currentAction.Arguments[0]).Value.GetMyLocation()))
+                            {
+                                return false;
+                            }
+                        }
+
+                        testNode = testNode.GetEdges().First().GetUpperNode();
                     }
                 }
             }

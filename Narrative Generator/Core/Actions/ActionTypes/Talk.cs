@@ -25,7 +25,9 @@ namespace Narrative_Generator
             }
         }
 
-        public Talk(params Object[] args) : base(args) { }
+        public Talk (WorldDynamic state) { DefineDescription(state); }
+
+        public Talk (params Object[] args) : base(args) { }
 
         public Talk  (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
                       ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2)
@@ -34,13 +36,18 @@ namespace Narrative_Generator
             Arguments.Add(agent2);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             if (state.GetLocation(state.SearchAgentAmongLocations(agent.Key)).Value.CountAliveAgents() == 2)
             {
                 foreach (var person in state.GetLocation(state.SearchAgentAmongLocations(agent.Key)).Value.GetAgents())
                 {
-                    if (!person.Key.Equals(agent.Key) && agent.Value.GetStatus() && person.Key.GetRole().Equals(AgentRole.BOSS))
+                    if (!person.Key.Equals(agent.Key) && agent.Value.GetStatus() && person.Key.GetRole().Equals(AgentRole.ENEMY))
                     {
                         return false;
                     }
@@ -56,7 +63,7 @@ namespace Narrative_Generator
 
         public override bool CheckPreconditions (WorldDynamic state)
         {
-            return Agent1.Value.GetStatus() && Agent2.Value.GetStatus() && !(Agent1.Equals(Agent2)) && !Agent2.Key.GetRole().Equals(AgentRole.BOSS)
+            return Agent1.Value.GetStatus() && Agent2.Value.GetStatus() && !(Agent1.Equals(Agent2)) && !Agent2.Key.GetRole().Equals(AgentRole.ENEMY)
                    && (Agent1.Value.GetMyLocation().Equals(Agent2.Value.GetMyLocation()));
         }
 
@@ -72,19 +79,19 @@ namespace Narrative_Generator
             stateAgent2.Value.SetInterlocutor(stateAgent1);
 
             if (stateAgent1.Value.GetObjectOfAngryComponent().AngryCheck() && stateAgent1.Value.GetEvidenceStatus().CheckEvidence() &&
-                stateAgent2.Key.GetRole() != AgentRole.KILLER)
+                stateAgent2.Key.GetRole() != AgentRole.ANTAGONIST)
             {
                 stateAgent2.Value.AddEvidence(stateAgent1.Value.GetObjectOfAngryComponent().GetObjectOfAngry());
                 stateAgent2.Value.GetBeliefs().GetAgentByName(
-                    stateAgent1.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).AssignRole(AgentRole.KILLER);
+                    stateAgent1.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).AssignRole(AgentRole.ANTAGONIST);
                 stateAgent2.Value.SetObjectOfAngry(stateAgent1.Value.GetObjectOfAngryComponent());
             }
             else if (stateAgent2.Value.GetObjectOfAngryComponent().AngryCheck() && stateAgent2.Value.GetEvidenceStatus().CheckEvidence() &&
-                stateAgent1.Key.GetRole() != AgentRole.KILLER)
+                stateAgent1.Key.GetRole() != AgentRole.ANTAGONIST)
             {
                 stateAgent1.Value.AddEvidence(stateAgent2.Value.GetObjectOfAngryComponent().GetObjectOfAngry());
                 stateAgent1.Value.GetBeliefs().GetAgentByName(
-                    stateAgent2.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).AssignRole(AgentRole.KILLER);
+                    stateAgent2.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).AssignRole(AgentRole.ANTAGONIST);
                 stateAgent1.Value.SetObjectOfAngry(stateAgent2.Value.GetObjectOfAngryComponent());
             }
 

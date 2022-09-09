@@ -57,14 +57,16 @@ namespace Narrative_Generator
             }
         }
 
-        public CounterReassure(params Object[] args) : base(args) { }
+        public CounterReassure (WorldDynamic state) { DefineDescription(state); }
 
-        public CounterReassure(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
-                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
-                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent3,
-                               ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
-                               ref KeyValuePair<LocationStatic, LocationDynamic> location,
-                               string originalAction)
+        public CounterReassure (params Object[] args) : base(args) { }
+
+        public CounterReassure (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
+                                ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2,
+                                ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent3,
+                                ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
+                                ref KeyValuePair<LocationStatic, LocationDynamic> location,
+                                string originalAction)
         {
             Arguments.Add(agent1);
             Arguments.Add(agent2);
@@ -74,16 +76,21 @@ namespace Narrative_Generator
             Arguments.Add(originalAction);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public override bool CheckPreconditions(WorldDynamic state)
         {
             return    state.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo)
                       && Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
                       && Agent2.Key.GetRole() == AgentRole.USUAL && Agent2.Value.GetStatus()
                       && Agent3.Key.GetRole() == AgentRole.USUAL
-                      && Killer.Key.GetRole() == AgentRole.KILLER
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
                       && (Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent3.Key) || Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Killer.Key))
-                      && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.KILLER).Equals(Killer);
+                      && !Agent1.Value.GetBeliefs().GetAgentByRole(AgentRole.ANTAGONIST).Equals(Killer);
         }
 
         public override void ApplyEffects(ref WorldDynamic state)

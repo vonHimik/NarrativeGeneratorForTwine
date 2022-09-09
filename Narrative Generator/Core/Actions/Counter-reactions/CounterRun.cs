@@ -41,17 +41,24 @@ namespace Narrative_Generator
             }
         }
 
-        public CounterRun(params Object[] args) : base(args) { }
+        public CounterRun (WorldDynamic state) { DefineDescription(state); }
 
-        public CounterRun(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
-                          ref KeyValuePair<LocationStatic, LocationDynamic> from,
-                          ref KeyValuePair<LocationStatic, LocationDynamic> to,
-                          string originalAction)
+        public CounterRun (params Object[] args) : base(args) { }
+
+        public CounterRun (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                           ref KeyValuePair<LocationStatic, LocationDynamic> from,
+                           ref KeyValuePair<LocationStatic, LocationDynamic> to,
+                           string originalAction)
         {
             Arguments.Add(agent);
             Arguments.Add(from);
             Arguments.Add(to);
             Arguments.Add(originalAction);
+        }
+
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
         }
 
         public override bool CheckPreconditions(WorldDynamic state)

@@ -41,6 +41,8 @@ namespace Narrative_Generator
             }
         }
 
+        public TellAboutASuspicious (WorldDynamic state) { DefineDescription(state); }
+
         public TellAboutASuspicious (params Object[] args) : base (args) { }
 
         public TellAboutASuspicious (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
@@ -54,15 +56,20 @@ namespace Narrative_Generator
             Arguments.Add(location2);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return agent.Key.GetRole().Equals(AgentRole.KILLER) && agent.Value.GetStatus();
+            return agent.Key.GetRole().Equals(AgentRole.ANTAGONIST) && agent.Value.GetStatus();
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
-                      && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                       && Location1.Value.SearchAgent(Agent.Key) && Location1.Value.SearchAgent(Killer.Key) && !Location1.Equals(Location2);
         }
 
@@ -76,6 +83,8 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent.Value.SetTargetLocation (stateLocation2.Key);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

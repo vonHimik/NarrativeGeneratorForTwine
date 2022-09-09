@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     [Serializable]
-    class HelpLordHarrowmont : PlanAction
+    class CompleteQuest : PlanAction
     {
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> Agent
         {
@@ -25,12 +25,12 @@ namespace Narrative_Generator
             }
         }
 
-        public HelpLordHarrowmont (WorldDynamic state) { DefineDescription(state); }
+        public CompleteQuest (WorldDynamic state) { DefineDescription(state); }
 
-        public HelpLordHarrowmont (params Object[] args) : base(args) { }
+        public CompleteQuest (params Object[] args) : base(args) { }
 
-        public HelpLordHarrowmont (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
-                                   ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public CompleteQuest (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                              ref KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             Arguments.Add(agent);
             Arguments.Add(location);
@@ -43,15 +43,14 @@ namespace Narrative_Generator
 
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return state.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) && agent.Key.GetRole().Equals(AgentRole.PLAYER)
-                && agent.Value.GetStatus() && state.SearchAgentAmongLocations(agent.Key).GetName().Equals("Orzammar")
-                && state.GetLocationByName(state.SearchAgentAmongLocations(agent.Key).GetName()).Value.SearchAgent(agent.Key);
+            return state.GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy) && agent.Key.GetRole().Equals(AgentRole.PLAYER)
+                && agent.Value.GetStatus() && state.GetLocationByName(state.SearchAgentAmongLocations(agent.Key).GetName()).Value.SearchAgent(agent.Key);
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
         {
-            return state.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) && Agent.Key.GetRole().Equals(AgentRole.PLAYER)
-                && Agent.Value.GetStatus() && Location.Key.GetName().Equals("Orzammar") && Location.Value.SearchAgent(Agent.Key);
+            return state.GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy) && Agent.Key.GetRole().Equals(AgentRole.PLAYER)
+                && Agent.Value.GetStatus() && Location.Value.SearchAgent(Agent.Key);
         }
 
         public override void ApplyEffects (ref WorldDynamic state)
@@ -59,9 +58,8 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
             stateAgent.Value.CompleteQuest();
-            state.helpLordHarrowmont = true;
         }
 
-        public override void Fail(ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state) { fail = true; }
     }
 }

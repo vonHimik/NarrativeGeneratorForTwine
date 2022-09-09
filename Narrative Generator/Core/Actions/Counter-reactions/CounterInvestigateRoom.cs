@@ -41,6 +41,8 @@ namespace Narrative_Generator
             }
         }
 
+        public CounterInvestigateRoom (WorldDynamic state) { DefineDescription(state); }
+
         public CounterInvestigateRoom(params Object[] args) : base(args) { }
 
         public CounterInvestigateRoom(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
@@ -54,12 +56,17 @@ namespace Narrative_Generator
             Arguments.Add(originalAction);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
-                      && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent.Key)
-                      && !Agent.Value.SearchAmongExploredLocations(Location.Key) && Location.Value.CheckEvidence();
+                      && !Agent.Value.CheckIfLocationIsExplored(Location.Key) && Location.Value.CheckEvidence();
         }
 
         public override void ApplyEffects(ref WorldDynamic state)
@@ -73,7 +80,7 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent.Value.AddEvidence(stateKiller.Key);
-            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.KILLER);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.ANTAGONIST);
             stateAgent.Value.SetObjectOfAngry(stateKiller.Key);
             stateAgent.Value.AddExploredLocation(stateLocation.Key);
 

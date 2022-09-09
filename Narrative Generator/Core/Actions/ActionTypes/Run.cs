@@ -33,6 +33,8 @@ namespace Narrative_Generator
             }
         }
 
+        public Run (WorldDynamic state) { DefineDescription(state); }
+
         public Run(params Object[] args) : base (args) { }
 
         public Run(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
@@ -42,6 +44,11 @@ namespace Narrative_Generator
             Arguments.Add(agent);
             Arguments.Add(from);
             Arguments.Add(to);
+        }
+
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
         }
 
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
@@ -72,6 +79,8 @@ namespace Narrative_Generator
             {
                 stateAgent.Value.ClearTargetLocation();
             }
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

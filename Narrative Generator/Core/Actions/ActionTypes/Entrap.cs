@@ -33,26 +33,33 @@ namespace Narrative_Generator
             }
         }
 
-        public Entrap(params Object[] args) : base (args) { }
+        public Entrap (WorldDynamic state) { DefineDescription(state); }
 
-        public Entrap(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                      ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
-                      ref KeyValuePair<LocationStatic, LocationDynamic> location)
+        public Entrap (params Object[] args) : base (args) { }
+
+        public Entrap (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                       ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer, 
+                       ref KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
             Arguments.Add(location);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return agent.Key.GetRole().Equals(AgentRole.KILLER) && agent.Value.GetStatus();
+            return agent.Key.GetRole().Equals(AgentRole.ANTAGONIST) && agent.Value.GetStatus();
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
         {
             return (Agent.Key.GetRole() == AgentRole.USUAL || Agent.Key.GetRole() == AgentRole.PLAYER) && Agent.Value.GetStatus() 
-                   && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                   && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                    && !Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 1;
         }
 
@@ -67,6 +74,8 @@ namespace Narrative_Generator
 
             stateAgent.Value.SetTargetLocation(stateLocation.Key);
             stateKiller.Value.SetEntrap(stateAgent.Key, stateLocation.Key);
+
+            stateKiller.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

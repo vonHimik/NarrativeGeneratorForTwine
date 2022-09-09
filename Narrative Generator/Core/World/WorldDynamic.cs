@@ -11,29 +11,72 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// A class that implements a dynamic (frequently changed) part of the state of the storyworld that stores information about the current state of locations and agents.
+    /// </summary>
     [Serializable]
     public class WorldDynamic : ICloneable, IEquatable<WorldDynamic>
     {
         private WorldStatic world;
         private Dictionary<LocationStatic, LocationDynamic> currentStateOfLocations;
-        private Dictionary<AgentStateStatic, AgentStateDynamic> agents;                 // Agents (include agents states).
-        //private HashSet<Goal> goalStates;                                             // List of goal state(s).
+        private Dictionary<AgentStateStatic, AgentStateDynamic> agents;
 
+        // Plot variables - need to put it in a separate file and make a mechanism for reading from there
+        // Dragon Age
+        /// <summary>
+        /// Information about reaching the story event in the story (progress point) - Help Mages.
+        /// </summary>
+        public bool helpMages;
+        /// <summary>
+        /// Information about reaching the story event in the story (progress point) - Help Templars.
+        /// </summary>
+        public bool helpTemplars;
+        /// <summary>
+        /// Information about reaching the story event in the story (progress point) - Help Elfs.
+        /// </summary>
+        public bool helpElfs;
+        /// <summary>
+        /// Information about reaching the story event in the story (progress point) - Help Werewolves.
+        /// </summary>
+        public bool helpWerewolves;
+        /// <summary>
+        /// Information about reaching the story event in the story (progress point) - Help Prince Belen.
+        /// </summary>
+        public bool helpPrineBelen;
+        /// <summary>
+        /// Information about reaching the story event in the story (progress point) - Help Lord Harrowmont.
+        /// </summary>
+        public bool helpLordHarrowmont;
+
+        // Hashcode
         private bool hasHashCode;
         private int hashCode;
 
+        /// <summary>
+        /// Constructor without parameters.
+        /// </summary>
         public WorldDynamic()
         {
             world = new WorldStatic();
             currentStateOfLocations = new Dictionary<LocationStatic, LocationDynamic>();
             agents = new Dictionary<AgentStateStatic, AgentStateDynamic>();
-            //goalStates = new HashSet<Goal>();
+
+            helpMages = false;
+            helpTemplars = false;
+            helpElfs = false;
+            helpWerewolves = false;
+            helpPrineBelen = false;
+            helpLordHarrowmont = false;
+
             hasHashCode = false;
-            hashCode = 0;
-            
+            hashCode = 0;           
         }
 
-        public WorldDynamic(WorldDynamic clone)
+        /// <summary>
+        /// Constructor with parameters of the WorldDynamic, which creates a new instance of the WorldDynamic based on the passed clone.
+        /// </summary>
+        /// <param name="clone">A WorldDynamic instance that will serve as the basis for creating a new instance.</param>
+        public WorldDynamic (WorldDynamic clone)
         {
             world = (WorldStatic)clone.world.Clone();
 
@@ -44,10 +87,21 @@ namespace Narrative_Generator
             agents = new Dictionary<AgentStateStatic, AgentStateDynamic>(clone.agents.ToDictionary(entry => (AgentStateStatic)entry.Key.Clone(),
                                                                                                    entry => (AgentStateDynamic)entry.Value.Clone()));
 
+            helpMages = clone.helpMages;
+            helpTemplars = clone.helpTemplars;
+            helpElfs = clone.helpElfs;
+            helpWerewolves = clone.helpWerewolves;
+            helpPrineBelen = clone.helpPrineBelen;
+            helpLordHarrowmont = clone.helpLordHarrowmont;
+
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
         }
 
+        /// <summary>
+        /// Method for cloning an WorldDynamic instance.
+        /// </summary>
+        /// <returns>A new instance that is a copy of the current one.</returns>
         public object Clone()
         {
             var clone = new WorldDynamic();
@@ -75,13 +129,22 @@ namespace Narrative_Generator
                 }
             }
 
-
-            //clone.goalStates = goalStates;
+            clone.helpMages = helpMages;
+            clone.helpTemplars = helpTemplars;
+            clone.helpElfs = helpElfs;
+            clone.helpWerewolves = helpWerewolves;
+            clone.helpPrineBelen = helpPrineBelen;
+            clone.helpLordHarrowmont = helpLordHarrowmont;
 
             return clone;
         }
 
-        public Byte[] ToBinary(Dictionary<AgentStateStatic, AgentStateDynamic> cloneDictionary)
+        /// <summary>
+        /// Method for serializing the list of agents when cloning, converting them into an array of bytes.
+        /// </summary>
+        /// <param name="cloneDictionary">Cloned agent list.</param>
+        /// <returns>Array of bytes.</returns>
+        public Byte[] ToBinary (Dictionary<AgentStateStatic, AgentStateDynamic> cloneDictionary)
         {
             MemoryStream memoryStream = null;
             Byte[] byteArray = null;
@@ -107,7 +170,12 @@ namespace Narrative_Generator
             return byteArray;
         }
 
-        public object FromBinary(Byte[] buffer)
+        /// <summary>
+        /// Method for deserializing binary objects.
+        /// </summary>
+        /// <param name="buffer">Array of bytes.</param>
+        /// <returns>Deserialized object.</returns>
+        public object FromBinary (Byte[] buffer)
         {
             MemoryStream memoryStream = null;
             object deserializedObject = null;
@@ -129,6 +197,9 @@ namespace Narrative_Generator
             return deserializedObject;
         }
 
+        /// <summary>
+        /// Iterates through all instances of locations in the list of locations and clears them of stored information about the agents located in them.
+        /// </summary>
         public void ClearLocations()
         {
             foreach (var location in currentStateOfLocations)
@@ -139,17 +210,31 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Adds to the list of agents those agents that have been passed.
+        /// </summary>
+        /// <param name="agents">List of agents to add.</param>
         public void AddAgents (Dictionary<AgentStateStatic, AgentStateDynamic> agents)
         {
             agents.ToList().ForEach(x => this.agents.Add(x.Key, x.Value));
         }
 
+        /// <summary>
+        /// Adds the passed agent to the list of agents.
+        /// </summary>
+        /// <param name="newAgentStatic">The static part of the state of the agent being added.</param>
+        /// <param name="newAgentStateDynamic">The dynamic part of the state of the agent being added.</param>
         public void AddAgent (AgentStateStatic newAgentStatic, AgentStateDynamic newAgentStateDynamic)
         {
             agents.Add(newAgentStatic, newAgentStateDynamic);
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Adds the specified agent to the specified location.
+        /// </summary>
+        /// <param name="agent">The agent to add.</param>
+        /// <param name="location">The location to add the agent.</param>
         public void AddAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             agents.Add(agent.Key, agent.Value);
@@ -157,7 +242,32 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public void AddAgent(AgentRole role, bool status)
+        /// <summary>
+        /// Adding an agent, basic information about it is specified in separate parameters.
+        /// </summary>
+        /// <param name="role">The role of the added agent.</param>
+        /// <param name="status">The status (alive or dead) of the agent being added.</param>
+        /// <param name="name">The name of the agent to add.</param>
+        public void AddAgent (AgentRole role, bool status, string name)
+        {
+            AgentStateStatic newAgentStateStatic = new AgentStateStatic();
+            AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
+
+            newAgentStateStatic.AssignRole(role);
+            newAgentStateStatic.SetName(name);
+            newAgentStateDynamic.SetStatus(status);
+
+            agents.Add(newAgentStateStatic, newAgentStateDynamic);
+
+            UpdateHashCode();
+        }
+
+        /// <summary>
+        /// Add an agent without specifying its name.
+        /// </summary>
+        /// <param name="role">The role of the added agent.</param>
+        /// <param name="status">The status (alive or dead) of the agent being added.</param>
+        public void AddAgent (AgentRole role, bool status)
         {
             AgentStateStatic newAgentStateStatic = new AgentStateStatic();
             AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
@@ -167,17 +277,14 @@ namespace Narrative_Generator
 
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
 
-            // Clear
-            newAgentStateStatic = null;
-            newAgentStateDynamic = null;
-            GC.Collect();
-
             UpdateHashCode();
         }
 
         /// <summary>
         /// Add the agent to the existing collection of agents using only the specified role and name.
         /// </summary>
+        /// <param name="role">The role of the added agent.</param>
+        /// <param name="name">The name of the agent to add.</param>
         public void AddAgent (AgentRole role, string name)
         {
             // Create empty instances of the static and dynamic parts of the agent.
@@ -194,35 +301,38 @@ namespace Narrative_Generator
             // We combine both parts into one and add to the collection.
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
 
-            // Clear
-            newAgentStateStatic = null;
-            newAgentStateDynamic = null;
-            GC.Collect();
-
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Adds an "empty" agent, without passing any information about it.
+        /// </summary>
         public void AddEmptyAgent()
         {
             AgentStateStatic newAgentStateStatic = new AgentStateStatic();
             AgentStateDynamic newAgentStateDynamic = new AgentStateDynamic();
             agents.Add(newAgentStateStatic, newAgentStateDynamic);
 
-            // Clear
-            newAgentStateStatic = null;
-            newAgentStateDynamic = null;
-            GC.Collect();
-
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Returns the first agent from the list of agents.
+        /// </summary>
+        /// <returns>Required agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetFirstAgent() { return agents.First(); }
 
+        /// <summary>
+        /// Returns a list of all agents.
+        /// </summary>
+        /// <returns>List of agents.</returns>
         public Dictionary<AgentStateStatic, AgentStateDynamic> GetAgents() { return agents; }
 
         /// <summary>
         /// Returns the first founded agent with the specified role.
         /// </summary>
+        /// <param name="role">The role of the required agent.</param>
+        /// <returns>Required agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByRole (AgentRole role)
         {
             foreach (var agent in agents.Where(a => a.Key.GetRole().Equals(role))) { return agent; }
@@ -232,6 +342,8 @@ namespace Narrative_Generator
         /// <summary>
         /// Returns the first founded agent with the specified name.
         /// </summary>
+        /// <param name="name">The name of the required agent.</param>
+        /// <returns>Required agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByName (string name)
         {
             foreach (var agent in agents.Where(a => a.Key.GetName().Equals(name))) { return agent; }
@@ -239,28 +351,9 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// A method that returns a random agent.
+        ///  A method that returns a random agent. (faster)
         /// </summary>
-
-        // The old method. Longer runnable than new, according to my estimates.
-        /*public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent()
-        {
-            Random random = new Random();
-            List<string> agentsNames = new List<string>();
-
-            foreach (var agent in agents)
-            {
-                if (agent.Value.GetStatus())
-                {
-                    agentsNames.Add(agent.Key.GetName());
-                }
-            }
-
-            int index = random.Next(agentsNames.Count() - 1);
-            return GetAgentByName(agentsNames[index]);
-        }*/
-
-        // The new method, I think, is faster than the old one.
+        /// <returns>Random agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent()
         {
             Random random = new Random();
@@ -277,6 +370,11 @@ namespace Narrative_Generator
             throw new KeyNotFoundException();
         }
 
+        /// <summary>
+        /// A method that returns a random agent from the list of agents, except for the agent that initiates the call to this method.
+        /// </summary>
+        /// <param name="initiator">Agent that initiates the call to this method.</param>
+        /// <returns>Random agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             Random random = new Random();
@@ -294,6 +392,11 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
+        /// <summary>
+        /// A method that returns a random agent from the list of agents in the location with the agent that will call this method, except for himself.
+        /// </summary>
+        /// <param name="initiator">Agent that initiates the call to this method.</param>
+        /// <returns>Random agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgentInMyLocation (KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
         {
             Random random = new Random();
@@ -311,7 +414,12 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
-        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent(Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
+        /// <summary>
+        /// A method that returns a random agent from the list of agents, except for the agents that initiates the call to this method.
+        /// </summary>
+        /// <param name="initiators">Agents that initiates the call to this method.</param>
+        /// <returns>Random agent.</returns>
+        public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetRandomAgent (Dictionary<AgentStateStatic, AgentStateDynamic> initiators)
         {
             Random random = new Random();
             List<string> agentsNames = new List<string>();
@@ -331,9 +439,19 @@ namespace Narrative_Generator
             return GetAgentByName(agentsNames[index]);
         }
 
+        /// <summary>
+        /// Returns the agent with the specified index.
+        /// </summary>
+        /// <param name="index">The index of the required agent.</param>
+        /// <returns>Required agent.</returns>
         public KeyValuePair<AgentStateStatic, AgentStateDynamic> GetAgentByIndex (int index) { return agents.ElementAt(index); }
 
-        public int GetIndexOfAgent(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        /// <summary>
+        /// Returns the index of the specified agent in the list of agents.
+        /// </summary>
+        /// <param name="agent">Information about the agent whose index is necessary to find out.</param>
+        /// <returns>Numeric index value of the specified agent.</returns>
+        public int GetIndexOfAgent (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             int index = -1;
 
@@ -347,6 +465,10 @@ namespace Narrative_Generator
             return index;
         }
 
+        /// <summary>
+        /// Returns the number of agents in the list of agents.
+        /// </summary>
+        /// <returns>Numeric value for the number of agents in the agent list.</returns>
         public int GetNumberOfAgents() { return agents.Count(); }
 
         /// <summary>
@@ -357,7 +479,11 @@ namespace Narrative_Generator
             agents = agents.OrderBy(x => x.Value.GetInitiative()).ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public void AddLocations(Dictionary<LocationStatic, LocationDynamic> locations)
+        /// <summary>
+        /// Adds the specified locations to the list of locations.
+        /// </summary>
+        /// <param name="locations">List of locations to add.</param>
+        public void AddLocations (Dictionary<LocationStatic, LocationDynamic> locations)
         {
             foreach (var location in locations)
             {
@@ -365,7 +491,7 @@ namespace Narrative_Generator
                 LocationDynamic dPrefab = (LocationDynamic)location.Value.Clone();
                 currentStateOfLocations.Add(sPrefab, dPrefab);
 
-                // Очистка
+                // Clear
                 sPrefab = null;
                 dPrefab = null;
                 GC.Collect();
@@ -374,7 +500,12 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
-        public KeyValuePair<LocationStatic, LocationDynamic> GetLocation(LocationStatic locationKey)
+        /// <summary>
+        /// Returns a location from the list of locations if the key (the static part of the location state) matches.
+        /// </summary>
+        /// <param name="locationKey">Static part of required location.</param>
+        /// <returns>Required location.</returns>
+        public KeyValuePair<LocationStatic, LocationDynamic> GetLocation (LocationStatic locationKey)
         {
             foreach (var location in currentStateOfLocations)
             {
@@ -382,10 +513,13 @@ namespace Narrative_Generator
             }
 
             throw new KeyNotFoundException();
-
-            //return currentStateOfLocations[locationKey];
         }
 
+        /// <summary>
+        /// Returns a location from the list of locations if the specified name matches the name of the location.
+        /// </summary>
+        /// <param name="name">Name of required location.</param>
+        /// <returns>Required location.</returns>
         public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByName (string name)
         {
             foreach (var location in currentStateOfLocations)
@@ -396,13 +530,23 @@ namespace Narrative_Generator
             throw new KeyNotFoundException();
         }
 
-        public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByIndex (int index)
-        {
-            return currentStateOfLocations.ElementAt(index);
-        }
+        /// <summary>
+        /// Returns a location from the list of locations according to the specified index.
+        /// </summary>
+        /// <param name="index">Index of required location.</param>
+        /// <returns>Required location.</returns>
+        public KeyValuePair<LocationStatic, LocationDynamic> GetLocationByIndex (int index) { return currentStateOfLocations.ElementAt(index); }
 
+        /// <summary>
+        /// Returns a list of all locations.
+        /// </summary>
+        /// <returns>List of locations.</returns>
         public Dictionary<LocationStatic, LocationDynamic> GetLocations() { return currentStateOfLocations; }
 
+        /// <summary>
+        /// Creates a copy of the current location list instance.
+        /// </summary>
+        /// <returns>List of locations.</returns>
         public Dictionary<LocationStatic, LocationDynamic> CloneLocations()
         {
             Dictionary<LocationStatic, LocationDynamic> newLocations = new Dictionary<LocationStatic, LocationDynamic>();
@@ -425,6 +569,7 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns a random location.
         /// </summary>
+        /// <returns>Random location.</returns>
         public KeyValuePair<LocationStatic, LocationDynamic> GetRandomLocation()
         {
             // Create an instance of the Random Number Generator.
@@ -450,7 +595,9 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns a random location, excluding the specified one.
         /// </summary>
-        public KeyValuePair<LocationStatic, LocationDynamic> GetRandomLocationWithout(KeyValuePair<LocationStatic, LocationDynamic> excludedLocation)
+        /// <param name="excludedLocation">Excluded location/</param>
+        /// <returns>Random location.</returns>
+        public KeyValuePair<LocationStatic, LocationDynamic> GetRandomLocationWithout (KeyValuePair<LocationStatic, LocationDynamic> excludedLocation)
         {
             // Create an instance of the Random Number Generator.
             Random random = new Random();
@@ -476,6 +623,10 @@ namespace Narrative_Generator
             return GetLocationByName(locationsNames[index]);
         }
 
+        /// <summary>
+        /// Returns a random location where there are no agents.
+        /// </summary>
+        /// <returns>Random location without agents.</returns>
         public KeyValuePair<LocationStatic, LocationDynamic> GetRandomEmptyLocation()
         {
             Random random = new Random();
@@ -493,7 +644,12 @@ namespace Narrative_Generator
             return GetLocationByName(locationsNames[index]);
         }
 
-        public KeyValuePair<LocationStatic, LocationDynamic> GetRandomConnectedLocation(KeyValuePair<LocationStatic, LocationDynamic> checkedLocation)
+        /// <summary>
+        /// Returns a random location that has a path (connection) to the specified location.
+        /// </summary>
+        /// <param name="checkedLocation">Information about the checked location.</param>
+        /// <returns>Random location.</returns>
+        public KeyValuePair<LocationStatic, LocationDynamic> GetRandomConnectedLocation (KeyValuePair<LocationStatic, LocationDynamic> checkedLocation)
         {
             Random rand = new Random();
             int randomIndex = rand.Next(0, checkedLocation.Key.GetConnectedLocations().Count);
@@ -508,14 +664,24 @@ namespace Narrative_Generator
             throw new KeyNotFoundException();
         }
 
+        /// <summary>
+        /// Checks if there are no agents in the specified location.
+        /// </summary>
+        /// <param name="location">Information about the checked location.</param>
+        /// <returns>True if there are no agents in the checked location, false otherwise.</returns>
         public bool LocationIsEmpty (KeyValuePair<LocationStatic, LocationDynamic> location)
         {
             if (location.Value.GetAgents().Count() == 0) { return true; }
             else { return false; }
         }
 
-        public void AddAgentIntoLocation(KeyValuePair<LocationStatic, LocationDynamic> location, 
-                                         KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
+        /// <summary>
+        /// Adds the specified agent to the specified location.
+        /// </summary>
+        /// <param name="location">Information about the agent to be added.</param>
+        /// <param name="agent">The location where need to add an agent.</param>
+        public void AddAgentIntoLocation (KeyValuePair<LocationStatic, LocationDynamic> location, 
+                                          KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             AgentStateStatic sNewAgent = (AgentStateStatic)agent.Key.Clone();
             AgentStateDynamic dNewAgent = (AgentStateDynamic)agent.Value.Clone();
@@ -533,6 +699,8 @@ namespace Narrative_Generator
         /// <summary>
         /// Returns the static part (name) of the location where the searched agent is located.
         /// </summary>
+        /// <param name="agent">Information about the searched agent.</param>
+        /// <returns>Required location.</returns>
         public LocationStatic SearchAgentAmongLocations (AgentStateStatic agent)
         {
             foreach (var location in currentStateOfLocations)
@@ -543,6 +711,11 @@ namespace Narrative_Generator
             return null;
         }
 
+        /// <summary>
+        /// Searches for the location where the agent with the specified name is located and returns information about it, up to the first match.
+        /// </summary>
+        /// <param name="name">Name of the searched agent.</param>
+        /// <returns>Required location.</returns>
         public LocationStatic SearchAgentAmongLocationsByName (string name)
         {
             foreach (var location in currentStateOfLocations)
@@ -553,6 +726,11 @@ namespace Narrative_Generator
             return null;
         }
 
+        /// <summary>
+        /// Searches for the location where the agent with the specified role is located and returns information about it, up to the first match.
+        /// </summary>
+        /// <param name="role">Role of the searched agent.</param>
+        /// <returns>Required location.</returns>
         public LocationStatic SearchAgentAmongLocationsByRole (AgentRole role)
         {
             foreach (var location in currentStateOfLocations)
@@ -563,15 +741,28 @@ namespace Narrative_Generator
             return null;
         }
 
-        public WorldStatic GetStaticWorldPart() { return world; }
-
-        public void SetStaticWorldPart(WorldStatic world)
+        /// <summary>
+        /// Adds a component with a static part of the state of this storyworld.
+        /// </summary>
+        /// <param name="world">Component with a static part of the state of this storyworld.</param>
+        public void SetStaticWorldPart (WorldStatic world)
         {
             this.world = (WorldStatic)world.Clone();
             UpdateHashCode();
         }
 
-        public bool Equals(WorldDynamic anotherWorld)
+        /// <summary>
+        /// Returns a component with the static part of the state of this storyworld.
+        /// </summary>
+        /// <returns>Component with a static part of the state of this storyworld.</returns>
+        public WorldStatic GetStaticWorldPart() { return world; }
+
+        /// <summary>
+        /// Method for comparing two WorldDynamic instance.
+        /// </summary>
+        /// <param name="anotherWorld">Another WorldDynamic instance, for comparison.</param>
+        /// <returns>True if both instance are the same, false otherwise.</returns>
+        public bool Equals (WorldDynamic anotherWorld)
         {
             if (anotherWorld == null) { return false; }
 
@@ -619,26 +810,36 @@ namespace Narrative_Generator
                 agentsReferenceEquals = false;
             }
 
+            bool helpMagesEquals = helpMages.Equals(anotherWorld.helpMages);
+            bool helpTemplarsEquals = helpTemplars.Equals(anotherWorld.helpTemplars);
+            bool helpElfsEquals = helpElfs.Equals(anotherWorld.helpElfs);
+            bool helpWerewolvesEquals = helpWerewolves.Equals(anotherWorld.helpWerewolves);
+            bool helpPrinceBelenEquals = helpPrineBelen.Equals(anotherWorld.helpPrineBelen);
+            bool helpLordHarrowmontEquals = helpLordHarrowmont.Equals(anotherWorld.helpLordHarrowmont);
+
             bool worldStateGlobal = worldStateReferenceEquals || worldStateEquals;
             bool locationsGlobal = locationsReferenceEquals || locationsEquals;
             bool agentsGlobal = agentsReferenceEquals || agentsEquals;
 
-            bool equals = worldStateGlobal && locationsGlobal && agentsGlobal;
+            bool equals = worldStateGlobal && locationsGlobal && agentsGlobal && helpMagesEquals && helpTemplarsEquals && helpElfsEquals && helpWerewolvesEquals
+                && helpPrinceBelenEquals && helpLordHarrowmontEquals;
 
             return equals;
         }
 
+        //////////////////////
         /* HASHCODE SECTION */
+        //////////////////////
 
+        /// <summary>
+        /// Calculates and returns the hash code of this instance of the WorldDynamic.
+        /// </summary>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
 
             int hashcode = 18;
-
-            //world.ClearHashCode();
-
-            //hashcode = hashcode * 42 + world.GetHashCode();
 
             foreach (var csol in currentStateOfLocations)
             {
@@ -646,18 +847,31 @@ namespace Narrative_Generator
                 hashcode = hashcode * 42 + csol.Value.GetHashCode() + csol.Key.GetHashCode();
             }
 
+            hashcode = hashcode + helpMages.GetHashCode();
+            hashcode = hashcode + helpTemplars.GetHashCode();
+            hashcode = hashcode + helpElfs.GetHashCode();
+            hashcode = hashcode + helpWerewolves.GetHashCode();
+            hashcode = hashcode + helpPrineBelen.GetHashCode();
+            hashcode = hashcode + helpLordHarrowmont.GetHashCode();
+
             hashCode = hashcode;
             hasHashCode = true;
 
             return hashcode;
         }
 
+        /// <summary>
+        /// Clears the current hash code value.
+        /// </summary>
         public void ClearHashCode()
         {
             hasHashCode = false;
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Updates (refresh) the current hash code value.
+        /// </summary>
         public void UpdateHashCode()
         {
             ClearHashCode();

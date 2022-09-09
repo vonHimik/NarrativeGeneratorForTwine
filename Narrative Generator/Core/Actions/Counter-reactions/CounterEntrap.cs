@@ -41,6 +41,8 @@ namespace Narrative_Generator
             }
         }
 
+        public CounterEntrap (WorldDynamic state) { DefineDescription(state); }
+
         public CounterEntrap(params Object[] args) : base(args) { }
 
         public CounterEntrap(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
@@ -54,10 +56,15 @@ namespace Narrative_Generator
             Arguments.Add(originalAction);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public override bool CheckPreconditions(WorldDynamic state)
         {
             return (Agent.Key.GetRole() == AgentRole.USUAL || Agent.Key.GetRole() == AgentRole.PLAYER) && Agent.Value.GetStatus()
-                   && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                   && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                    && !Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 1;
         }
 

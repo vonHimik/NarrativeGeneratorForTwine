@@ -41,12 +41,14 @@ namespace Narrative_Generator
             }
         }
 
-        public CounterKill(params Object[] args) : base(args) { }
+        public CounterKill (WorldDynamic state) { DefineDescription(state); }
 
-        public CounterKill(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
-                           ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
-                           ref KeyValuePair<LocationStatic, LocationDynamic> location,
-                           string originalAction)
+        public CounterKill (params Object[] args) : base(args) { }
+
+        public CounterKill (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
+                            ref KeyValuePair<AgentStateStatic, AgentStateDynamic> killer,
+                            ref KeyValuePair<LocationStatic, LocationDynamic> location,
+                            string originalAction)
         {
             Arguments.Add(agent);
             Arguments.Add(killer);
@@ -54,10 +56,15 @@ namespace Narrative_Generator
             Arguments.Add(originalAction);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
-                   && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                   && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                    && Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Killer.Key) && Location.Value.CountAgents() == 2;
         }
 

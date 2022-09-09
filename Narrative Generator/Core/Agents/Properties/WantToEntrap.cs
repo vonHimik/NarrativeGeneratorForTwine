@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// A class that implements the agent's beliefs about whether he wants to entrap (move) some other agent to some location, which agent and where.
+    /// </summary>
     [Serializable]
     public class WantToEntrap : AgentProperty, ICloneable, IEquatable<WantToEntrap>
     {
@@ -16,6 +19,9 @@ namespace Narrative_Generator
         private bool hasHashCode;
         private int hashCode;
 
+        /// <summary>
+        /// Constructor without parameters.
+        /// </summary>
         public WantToEntrap()
         {
             entraping = false;
@@ -25,6 +31,10 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Constructor with parameters of the WantToEntrap, which creates a new instance of the WantToEntrap based on the passed clone.
+        /// </summary>
+        /// <param name="clone">A WantToEntrap instance that will serve as the basis for creating a new instance.</param>
         public WantToEntrap (WantToEntrap clone)
         {
             entraping = clone.entraping;
@@ -36,6 +46,13 @@ namespace Narrative_Generator
             hashCode = clone.hashCode;
         }
 
+        /// <summary>
+        /// A constructor with parameters that takes a status indicator of the desire to entrap this agent, 
+        ///    information about the agent that needs to be moved to another location, and information about the target location.
+        /// </summary>
+        /// <param name="entraping">Status indicator of the desire to entrap this agent.</param>
+        /// <param name="whom">Information about the agent that needs to be moved to another location.</param>
+        /// <param name="where">Information about the target location.</param>
         public WantToEntrap (bool entraping, AgentStateStatic whom, LocationStatic where)
         {
             this.entraping = entraping;
@@ -45,6 +62,10 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Method for cloning an WantToEntrap instance.
+        /// </summary>
+        /// <returns>A new instance that is a copy of the current one.</returns>
         public object Clone()
         {
             var clone = new WantToEntrap();
@@ -56,7 +77,101 @@ namespace Narrative_Generator
             return clone;
         }
 
-        public bool Equals (WantToEntrap anotherWantToEntrap)
+        /// <summary>
+        /// A method that sets the entrap desire status for this agent to True.
+        /// </summary>
+        public void EntrapingStart()
+        {
+            entraping = true;
+            UpdateHashCode();
+        }
+
+        /// <summary>
+        /// A method that sets the entrap desire status for this agent to False.
+        /// </summary>
+        public void EntrapingEnd()
+        {
+            entraping = false;
+            UpdateHashCode();
+        }
+
+        /// <summary>
+        /// Sets the agent that this agent will want to move to some location.
+        /// </summary>
+        /// <param name="victim">Agent that this agent will want to move to some location.</param>
+        public void SetVictim (AgentStateStatic victim)
+        {
+            whom = victim;
+            UpdateHashCode();
+        }
+
+        /// <summary>
+        /// Returns information about the agent that this agent would like to move to some location.
+        /// </summary>
+        /// <returns>Information about the agent that this agent would like to move to some location.</returns>
+        public AgentStateStatic GetVictim() { return whom; }
+
+        /// <summary>
+        /// Sets the target location to which this agent wants to move some other agent.
+        /// </summary>
+        /// <param name="location">Location to which this agent wants to move some other agent.</param>
+        public void SetLocation (LocationStatic location)
+        {
+            where = location;
+            UpdateHashCode();
+        }
+
+        /// <summary>
+        /// Returns the target location to which this agent would like to move some other agent.
+        /// </summary>
+        /// <returns>Location to which this agent would like to move some other agent.</returns>
+        public LocationStatic GetLocation() { return where; }
+
+        /// <summary>
+        /// Sets the agent that this agent will want to move to some location AND the target location to which this agent wants to move some other agent.
+        /// </summary>
+        /// <param name="victim">Information about the agent that this agent would like to move to some location.</param>
+        /// <param name="location">Location to which this agent would like to move some other agent.</param>
+        public void SetVictimAndLocation (AgentStateStatic victim, LocationStatic location)
+        {
+            SetVictim(victim);
+            SetLocation(location);
+        }
+
+        /// <summary>
+        /// Returns the desire status of this agent to entrap (move) some other agent to some location.
+        /// </summary>
+        /// <returns>True if the desire to entrap (move) exists, otherwise false.</returns>
+        public bool EntrapCheck() { return entraping; }
+
+        /// <summary>
+        /// Checks if this agent wants to entrap (move to another location) the specified agent.
+        /// </summary>
+        /// <param name="agent">Information about the checked agent.</param>
+        /// <returns>True if yes, otherwise false.</returns>
+        public bool EntrapingCheckAtAgent (AgentStateStatic agent)
+        {
+            if (entraping && agent == whom) { return true; }
+            else { return false; }
+        }
+
+        /// <summary>
+        /// Checks if this agent wants to entrap (move) another agent to the specified location.
+        /// </summary>
+        /// <param name="location">Information about the checked location.</param>
+        /// <returns>True if yes, otherwise false.</returns>
+        public bool EntrapingCheckAtLocation (LocationStatic location)
+        {
+            if (entraping && location == where) { return true; }
+            else { return false; }
+        }
+
+        /// <summary>
+        /// Method for comparing two WantToEntrap instance.
+        /// </summary>
+        /// <param name="anotherWantToEntrap">Another WantToEntrap instance, for comparison.</param>
+        /// <returns>True if both instance are the same, false otherwise.</returns>
+        public bool Equals(WantToEntrap anotherWantToEntrap)
         {
             if (anotherWantToEntrap == null) { return false; }
 
@@ -108,58 +223,14 @@ namespace Narrative_Generator
             return equal;
         }
 
-        public void EntrapingStart()
-        {
-            entraping = true;
-            UpdateHashCode();
-        }
-
-        public void EntrapingEnd()
-        {
-            entraping = false;
-            UpdateHashCode();
-        }
-
-        public void SetVictim (AgentStateStatic victim)
-        {
-            whom = victim;
-            UpdateHashCode();
-        }
-
-        public AgentStateStatic GetVictim() { return whom; }
-
-        public void SetLocation (LocationStatic location)
-        {
-            where = location;
-            UpdateHashCode();
-        }
-
-        public LocationStatic GetLocation() { return where; }
-
-        public void SetVictimAndLocation (AgentStateStatic victim, LocationStatic location)
-        {
-            SetVictim(victim);
-            SetLocation(location);
-        }
-
-        public bool EntrapCheck() { return entraping; }
-
-        public bool EntrapingCheckAtAgent (AgentStateStatic agent)
-        {
-            if (entraping && agent == whom) { return true; }
-            else { return false; }
-        }
-
-        public bool EntrapingCheckAtLocation (LocationStatic location)
-        {
-            if (entraping && location == where) { return true; }
-            else { return false; }
-        }
-
         //////////////////////
         /* HASHCODE SECTION */
         //////////////////////
 
+        /// <summary>
+        /// Calculates and returns the hash code of this instance of the WantToEntrap.
+        /// </summary>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
@@ -184,12 +255,18 @@ namespace Narrative_Generator
             return hashcode;
         }
 
+        /// <summary>
+        /// Clears the current hash code value.
+        /// </summary>
         public void ClearHashCode()
         {
             hasHashCode = false;
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Updates (refresh) the current hash code value.
+        /// </summary>
         public void UpdateHashCode()
         {
             ClearHashCode();

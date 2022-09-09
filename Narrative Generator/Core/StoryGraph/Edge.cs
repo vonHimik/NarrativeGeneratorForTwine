@@ -6,24 +6,60 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
-    public class Edge
+    /// <summary>
+    /// A class that implements the edges between the nodes of the storygraph, which store the action serving as a transition trigger between them.
+    /// </summary>
+    public class Edge: ICloneable
     {
         private StoryNode upperNode;
         private StoryNode lowerNode;
         private PlanAction action;
 
+        /// <summary>
+        /// A method that implements edge cloning.
+        /// </summary>
+        /// <returns>Returns a clone of the current edge object.</returns>
+        public object Clone()
+        {
+            var clone = new Edge();
+
+            clone.upperNode = (StoryNode)upperNode.Clone();
+            clone.lowerNode = (StoryNode)lowerNode.Clone();
+            clone.action = action;
+
+            return clone;
+        }
+
+        /// <summary>
+        /// This method allows assign a node for the top vertex of an edge (outgoing, earlier in time).
+        /// </summary>
+        /// <param name="node">The node that will be assigned to the top slot of this edge.</param>
         public void SetUpperNode (ref StoryNode node) { upperNode = node; }
 
+        /// <summary>
+        /// This method clears the top vertex of an edge from a connected node.
+        /// </summary>
         public void ClearUpperNode()
         {
             upperNode.GetEdges().Remove(this);
             upperNode = null;
         }
 
+        /// <summary>
+        /// This method returns the node attached to the top vertex of this edge.
+        /// </summary>
+        /// <returns>Returns the node attached to the top vertex of edge.</returns>
         public StoryNode GetUpperNode() { return upperNode; }
 
+        /// <summary>
+        /// This method allows assign a node to the bottom vertex of an edge (incoming, later in time).
+        /// </summary>
+        /// <param name="node">The node that will be assigned to the bottom slot of this edge.</param>
         public void SetLowerNode (ref StoryNode node) { lowerNode = node; }
 
+        /// <summary>
+        /// This method clears the bottom vertex of an edge from a connected node.
+        /// </summary>
         public void ClearLowerNode()
         {
             if (lowerNode != null)
@@ -33,14 +69,32 @@ namespace Narrative_Generator
             }
         }
 
+        /// <summary>
+        /// This method returns the node attached to the bottom vertex of this edge.
+        /// </summary>
+        /// <returns>Returns the node attached to the bottom vertex of edge.</returns>
         public StoryNode GetLowerNode() { return lowerNode; }
 
+        /// <summary>
+        /// This method allows assign an action to this edge.
+        /// </summary>
+        /// <param name="action">The action to be assigned to this edge.</param>
         public void SetAction (PlanAction action) { this.action = action; }
 
+        /// <summary>
+        /// This method removes the action attached to this edge.
+        /// </summary>
         public void ClearAction() { action = null; }
 
+        /// <summary>
+        /// This method returns the action attached to this edge.
+        /// </summary>
+        /// <returns>Returns the action attached to edge</returns>
         public PlanAction GetAction() { return action; }
 
+        /// <summary>
+        /// This method completely clears the edge, removing both nodes attached to it and the action attached to it too.
+        /// </summary>
         public void ClearEdge()
         {
             ClearAction();

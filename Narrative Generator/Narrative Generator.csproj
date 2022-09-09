@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Narrative Generator.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Core\Actions\ActionGenerator.cs" />
     <Compile Include="Core\Actions\ActionTypes\Entrap.cs" />
+    <Compile Include="Core\Actions\ActionTypes\Fantasy\CompleteQuest.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpElfs.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpLordHarrowmont.cs" />
     <Compile Include="Core\Actions\ActionTypes\Fantasy\HelpMages.cs" />
@@ -84,6 +86,9 @@
     <Compile Include="Core\Agents\AgentRole.cs" />
     <Compile Include="Core\Agents\AgentStateDynamic.cs" />
     <Compile Include="Core\Agents\AgentStateStatic.cs" />
+    <Compile Include="Core\Common\ConstraintManager.cs" />
+    <Compile Include="Core\Common\GoalManager.cs" />
+    <Compile Include="Core\Agents\GoalTypes.cs" />
     <Compile Include="Core\Agents\Properties\AgentAngryAt.cs" />
     <Compile Include="Core\Agents\Properties\AgentFoundEvidence.cs" />
     <Compile Include="Core\Agents\Properties\AgentProperty.cs" />
@@ -92,6 +97,7 @@
     <Compile Include="Core\Agents\WorldContext.cs" />
     <Compile Include="Core\Common\CSP-Module.cs" />
     <Compile Include="Core\Common\GraphСonstructor.cs" />
+    <Compile Include="Core\Common\PDDL-Module.cs" />
     <Compile Include="Core\Common\Setting.cs" />
     <Compile Include="Core\Constraints\ActionsRestricting.cs" />
     <Compile Include="Core\Constraints\CalmLimiting.cs" />
@@ -112,11 +118,11 @@
     <Compile Include="Core\World\WorldStatic.cs" />
     <Compile Include="Core\ForAPI\FastDownwardWrapper.cs" />
     <Compile Include="Core\StoryGraph\Edge.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Common\Program.cs" />
     <Compile Include="Core\Actions\Plan.cs" />
@@ -124,9 +130,8 @@
     <Compile Include="Core\World\LocationStatic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Common\StoryAlgorithm.cs" />
-    <Compile Include="Core\Twine\TwineGraph.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

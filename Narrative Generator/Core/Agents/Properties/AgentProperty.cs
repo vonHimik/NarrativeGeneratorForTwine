@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// Base class for implementing derived classes that implement various properties of agents.
+    /// </summary>
     [Serializable]
     public abstract class AgentProperty {}
 }

@@ -41,6 +41,8 @@ namespace Narrative_Generator
             }
         }
 
+        public CounterFight (WorldDynamic state) { DefineDescription(state); }
+
         public CounterFight(params Object[] args) : base(args) { }
 
         public CounterFight(ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1,
@@ -54,10 +56,15 @@ namespace Narrative_Generator
             Arguments.Add(originalAction);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public override bool CheckPreconditions(WorldDynamic state)
         {
             return Agent1.Key.GetRole() == AgentRole.USUAL && Agent1.Value.GetStatus()
-                      && Agent2.Key.GetRole() == AgentRole.KILLER && Agent2.Value.GetStatus()
+                      && Agent2.Key.GetRole() == AgentRole.ANTAGONIST && Agent2.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent1.Key) && Location.Value.SearchAgent(Agent2.Key)
                       && Agent1.Value.GetObjectOfAngryComponent().AngryCheckAtAgent(Agent2.Key);
         }

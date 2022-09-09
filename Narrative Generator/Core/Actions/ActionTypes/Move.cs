@@ -33,7 +33,9 @@ namespace Narrative_Generator
             }
         }
 
-        public Move (params Object[] args) : base (args) { }
+        public Move (WorldDynamic state) { DefineDescription(state); }
+
+        public Move (params Object[] args) : base (args) {}
 
         public Move (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
                      ref KeyValuePair<LocationStatic, LocationDynamic> from, 
@@ -44,10 +46,15 @@ namespace Narrative_Generator
             Arguments.Add(to);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition(WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return agent.Value.GetStatus() && (agent.Key.GetRole().Equals(AgentRole.KILLER) || agent.Key.GetRole().Equals(AgentRole.PLAYER)
-                    || agent.Key.GetRole().Equals(AgentRole.BOSS))
+            return agent.Value.GetStatus() && (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST) || agent.Key.GetRole().Equals(AgentRole.PLAYER)
+                    || agent.Key.GetRole().Equals(AgentRole.ENEMY))
                     || (agent.Key.GetRole().Equals(AgentRole.USUAL) && agent.Value.GetTargetLocation() != null);
         }
 
@@ -77,6 +84,8 @@ namespace Narrative_Generator
             {
                 stateAgent.Value.ClearTargetLocation();
             }
+
+            stateAgent.Value.SetTimeToMove(1);
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }

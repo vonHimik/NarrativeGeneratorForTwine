@@ -25,6 +25,8 @@ namespace Narrative_Generator
             }
         }
 
+        public HelpPrinceBelen (WorldDynamic state) { DefineDescription(state); }
+
         public HelpPrinceBelen (params Object[] args) : base(args) { }
 
         public HelpPrinceBelen (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
@@ -34,16 +36,21 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return state.GetStaticWorldPart().GetSetting().Equals(Setting.Fantasy) && agent.Key.GetRole().Equals(AgentRole.PLAYER)
+            return state.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) && agent.Key.GetRole().Equals(AgentRole.PLAYER)
                 && agent.Value.GetStatus() && state.SearchAgentAmongLocations(agent.Key).GetName().Equals("Orzammar")
                 && state.GetLocationByName(state.SearchAgentAmongLocations(agent.Key).GetName()).Value.SearchAgent(agent.Key);
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
         {
-            return state.GetStaticWorldPart().GetSetting().Equals(Setting.Fantasy) && Agent.Key.GetRole().Equals(AgentRole.PLAYER)
+            return state.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) && Agent.Key.GetRole().Equals(AgentRole.PLAYER)
                 && Agent.Value.GetStatus() && Location.Key.GetName().Equals("Orzammar") && Location.Value.SearchAgent(Agent.Key);
         }
 
@@ -52,7 +59,7 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
             stateAgent.Value.CompleteQuest();
-            stateAgent.Value.helpPrineBelen = true;
+            state.helpPrineBelen = true;
         }
 
         public override void Fail(ref WorldDynamic state) { fail = true; }

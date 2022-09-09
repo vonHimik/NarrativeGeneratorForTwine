@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Narrative_Generator
 {
     /// <summary>
-    /// A class that is a representation of a history graph, where nodes are states of the world and edges are actions.
+    /// A class that is a representation of a narrative graph, where nodes are states of the world and edges are actions (inside nodes).
     /// </summary>
     public class StoryGraph
     {
@@ -31,18 +31,29 @@ namespace Narrative_Generator
         /// </summary>
         public void AddNode (StoryNode newNode) { nodes.Add(newNode); }
 
+        /// <summary>
+        /// This method searches specified node among all nodes that make up the storygraph.
+        /// </summary>
+        /// <param name="node">The node to be found.</param>
+        /// <returns>True if the node is in the graph, false if it is not.</returns>
         public bool FindNode (StoryNode node) { return nodes.Contains(node); }
 
         /// <summary>
-        /// Returns a list of nodes in the story graph.
+        /// Returns a list of nodes in the storygraph.
         /// </summary>
+        /// <returns>All nodes in the storygraph.</returns>
         public HashSet<StoryNode> GetNodes() { return nodes; }
 
         /// <summary>
-        /// Returns the root node of the story graph.
+        /// Returns the root node of the storygraph.
         /// </summary>
+        /// <returns>Root node.</returns>
         public StoryNode GetRoot() { return root; }
 
+        /// <summary>
+        /// Sets the root node for the storygraph.
+        /// </summary>
+        /// <param name="newRoot">The node that will become the new root.</param>
         public void SetRoot(StoryNode newRoot)
         {
             root = newRoot;
@@ -50,18 +61,36 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Returns the last node from the list of nodes in the story graph.
+        /// Returns the last node from the list of nodes in the storygraph.
         /// </summary>
+        /// <returns>Last node in the storygraph.</returns>
         public StoryNode GetLastNode() { return nodes.Last(); }
 
+        /// <summary>
+        /// Returns the specified node from the storygraph.
+        /// </summary>
+        /// <param name="index">The index of the requested node.</param>
+        /// <returns>Specified node from the storygraph.</returns>
         public StoryNode GetNode (int index) { return nodes.ElementAt(index); }
 
+        /// <summary>
+        /// Returns the specified node from the storygraph.
+        /// </summary>
+        /// <param name="node">Parameters of the node to get.</param>
+        /// <returns>Specified node from the storygraph.</returns>
         public StoryNode GetNode (StoryNode node)
         {
             foreach (var n in nodes) { if (node.Equals(n)) { return n; } }
             throw new KeyNotFoundException();
         }
 
+        /// <summary>
+        /// Connects two specified nodes with an edge.
+        /// </summary>
+        /// <param name="action">An action that triggers a transition from one state to another and is written to the edge.</param>
+        /// <param name="firstNode">First connected node, current state.</param>
+        /// <param name="secondNode">Second connected node, new state.</param>
+        /// <param name="duplicate">An indication that the second node already exists in the graph (it does not need to be created).</param>
         public void ConnectionTwoNodes (PlanAction action, StoryNode firstNode, StoryNode secondNode, bool duplicate)
         {
 
@@ -77,18 +106,22 @@ namespace Narrative_Generator
 
             firstNode.AddLinkToNode(ref secondNode);
             secondNode.AddLinkToNode(ref firstNode);
-
-            if (firstNode.GetEdges().Count != firstNode.GetLinks().Count)
-            {
-                bool test = true;
-            }
         }
 
+        /// <summary>
+        /// This method creates a node with the specified parameters, which will then be deleted.
+        /// </summary>
+        /// <param name="currentState">The current state of the storyworld.</param>
+        /// <param name="action">The action that the current agent has chosen to perform on the current turn.</param>
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentNode">A graph node that stores the current state.</param>
+        /// <param name="globalNodeNumber">The number of the last created node.</param>
+        /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
+        /// <returns>Constructed node.</returns>
         public StoryNode CreateTestNode(WorldDynamic currentState,
                                         PlanAction action,
                                         KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                         StoryNode currentNode,
-                                        bool connection,
                                         int globalNodeNumber,
                                         bool succsessControl)
         {
@@ -98,25 +131,12 @@ namespace Narrative_Generator
             worldForTest.UpdateHashCode();
 
             StoryNode testNode = new StoryNode();
-            //if (counteract) { testNode.counteract = true; }
-            //testNode.SetWorldState(worldForTest);
             testNode.SetWorldState((WorldDynamic)worldForTest.Clone());
-
-            // Create a clone of the agent.
-            //KeyValuePair<AgentStateStatic, AgentStateDynamic> newAgent =
-            //    new KeyValuePair<AgentStateStatic, AgentStateDynamic>((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
             testNode.SetActiveAgent(testNode.GetWorldState().GetAgentByName(agent.Key.GetName()));
 
             // We take the last node from the list of all nodes and assign whether the player is active and which of the agents was active on this turn.
             if (agent.Key.GetRole() == AgentRole.PLAYER) { testNode.SetActivePlayer(true); }
             else { testNode.SetActivePlayer(false); }
-
-            //testNode.SetActiveAgent(newAgent);
-
-            /*if (connection)
-            {
-                ConnectionTwoNodes(action, currentNode, testNode, false);
-            }*/
 
             testNode.SetNumberInSequence(globalNodeNumber + 1);
 
@@ -124,8 +144,15 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Create a new node for the story graph and inserts it.
+        /// Create a new node for the storygraph and inserts it.
         /// </summary>
+        /// <param name="action">The action that the current agent has chosen to perform on the current turn.</param>
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentState">The current state of the storyworld.</param>
+        /// <param name="currentNode">A graph node that stores the current state.</param>
+        /// <param name="globalNodeNumber">The number of the last created node.</param>
+        /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
+        /// <param name="counteract">Indicates whether the action was a counter-reaction or a normal action.</param>
         public void CreateNewNode(PlanAction action,
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                   WorldDynamic currentState,
@@ -155,15 +182,19 @@ namespace Narrative_Generator
             globalNodeNumber++;
             newNode.SetNumberInSequence(globalNodeNumber);
 
-            if (nodes.Contains(newNode))
-            {
-                bool test = true;
-            }
-
             // Add a new node to the graph.
             AddNode(newNode);
         }
 
+        /// <summary>
+        /// Create a root node for the storygraph and inserts it.
+        /// </summary>
+        /// <param name="action">The action that the current agent has chosen to perform on the current turn.</param>
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentState">The current state of the storyworld.</param>
+        /// <param name="currentNode">A graph node that stores the current state.</param>
+        /// <param name="globalNodeNumber">The number of the last created node.</param>
+        /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
         public void CreateRootNode(PlanAction action,
                                    KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                    WorldDynamic currentState,
@@ -181,21 +212,15 @@ namespace Narrative_Generator
             // We assign the state of the world (transferred) to the new node.
             currentNode.SetWorldState((WorldDynamic)newState.Clone());
 
-            //Edge newEdge = new Edge();
-
-            // We adjust the edge - assign its action and indicate the nodes that it connects.
-            //newEdge.SetAction(action);
-            //newEdge.SetUpperNode(ref currentNode);
-
-            //currentNode.AddEdge(newEdge);
-
             globalNodeNumber++;
             currentNode.SetNumberInSequence(globalNodeNumber);
         }
 
-        public void CreateEndNode() { }
-
-        public void DeleteTestNode(ref StoryNode testNode)
+        /// <summary>
+        /// Delete the specified test node.
+        /// </summary>
+        /// <param name="testNode">Link to node.</param>
+        public void DeleteTestNode (ref StoryNode testNode)
         {
             foreach (var edge in testNode.GetEdges().ToList())
             {
@@ -210,7 +235,12 @@ namespace Narrative_Generator
             }
         }
 
-        public bool NodeExistenceControl(StoryNode checkedNode)
+        /// <summary>
+        /// Checking for the presence of the specified node in the graph.
+        /// </summary>
+        /// <param name="checkedNode">The looking node.</param>
+        /// <returns>True if the specified node is in the graph, false otherwise.</returns>
+        public bool NodeExistenceControl (StoryNode checkedNode)
         {
             foreach (var node in GetNodes())
             {
@@ -220,20 +250,40 @@ namespace Narrative_Generator
             return false;
         }
 
-        public bool TwoNodesComparison(StoryNode nodeOne, StoryNode nodeTwo)
+        /// <summary>
+        /// Method for comparing two nodes with each other.
+        /// </summary>
+        /// <param name="nodeOne">The first node to compare.</param>
+        /// <param name="nodeTwo">The second node to compare.</param>
+        /// <returns>True if the nodes are the same, false otherwise.</returns>
+        public bool TwoNodesComparison (StoryNode nodeOne, StoryNode nodeTwo)
         {
             if (nodeOne.Equals(nodeTwo)) { return true; }
             return false;
         }
 
-        public void DuplicateNodeConnecting(WorldDynamic currentState, 
-                                            PlanAction action, 
-                                            KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                            StoryNode currentNode,
-                                            int globalNodeNumber,
-                                            ref Queue<StoryNode> queue)
+        /// <summary>
+        /// Connects two nodes if both already exist and are in the graph.
+        /// </summary>
+        /// <param name="currentState">The current state of the storyworld.</param>
+        /// <param name="action">The action that the current agent has chosen to perform on the current turn.</param>
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentNode">A graph node that stores the current state.</param>
+        /// <param name="globalNodeNumber">The number of the last created node.</param>
+        /// <param name="queue">Reference to the queue of nodes to be processed.</param>
+        /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
+        /// <param name="skip">A reference to a variable that will indicate if the creation of a new node should be skipped.</param>
+        public void DuplicateNodeConnecting (WorldDynamic currentState, 
+                                             PlanAction action, 
+                                             KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
+                                             StoryNode currentNode,
+                                             int globalNodeNumber,
+                                             ref Queue<StoryNode> queue,
+                                             bool succsessControl,
+                                             ref bool skip)
         {
-            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, false, globalNodeNumber, true);
+            StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, globalNodeNumber, succsessControl);
+            testNode.UpdateHashCode();
 
             if (!testNode.Equals(currentNode))
             {
@@ -250,6 +300,7 @@ namespace Narrative_Generator
             else
             {
                 DeleteTestNode(ref testNode);
+                skip = true;
             }
         }
     }

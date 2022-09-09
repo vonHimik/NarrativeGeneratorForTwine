@@ -33,6 +33,8 @@ namespace Narrative_Generator
             }
         }
 
+        public Fight (WorldDynamic state) { DefineDescription(state); }
+
         public Fight (params Object[] args) : base (args) { }
 
         public Fight (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, 
@@ -42,6 +44,11 @@ namespace Narrative_Generator
             Arguments.Add(agent1);
             Arguments.Add(agent2);
             Arguments.Add(location);
+        }
+
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
         }
 
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
@@ -70,8 +77,24 @@ namespace Narrative_Generator
             stateAgent2.Value.ClearTempStates();
 
             stateAgent2.Value.SetStatus(false);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
-        public override void Fail (ref WorldDynamic state) { fail = true; }
+        public override void Fail (ref WorldDynamic state)
+        {
+            fail = true;
+
+            //if (state.GetStaticWorldPart().GetRandomBattlesResultsStatus())
+            //{
+                KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent1.Key.GetName());
+                KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent2 = state.GetAgentByName(Agent2.Key.GetName());
+
+                stateAgent.Value.ClearTempStates();
+                stateAgent2.Value.ClearTempStates();
+
+                stateAgent.Value.SetStatus(false);
+            //}
+        }
     }
 }

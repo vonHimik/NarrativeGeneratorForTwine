@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// The class that implements the agent, its behavior and the information it stores. The dynamic part, which includes values that change during the development of story.
+    /// </summary>
     [Serializable]
     public class AgentStateDynamic : IEquatable<AgentStateDynamic>, ICloneable
     {
@@ -26,10 +29,8 @@ namespace Narrative_Generator
         private WantToEntrap wantToEntrap;
         private TalkingWith talkingWith;
         private int skipedTurns;
-
         private int timeToMove;
         private int complitedQuestsCounter;
-
 
         // Beliefs
         private WorldContext beliefs;
@@ -39,16 +40,6 @@ namespace Narrative_Generator
         // Hashcode
         private bool hasHashCode;
         private int hashCode;
-
-        // TRANSFER TO WorldDynamic !!!
-        // Plot variables - need to put it in a separate file and make a mechanism for reading from there
-        // Dragon Age
-        public bool helpMages;
-        public bool helpTemplars;
-        public bool helpElfs;
-        public bool helpWerewolves;
-        public bool helpPrineBelen;
-        public bool helpLordHarrowmont;
 
         /// <summary>
         /// Parameterless constructor.
@@ -72,17 +63,14 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
-
             timeToMove = 0; // 2
             complitedQuestsCounter = 0;
-            helpMages = false;
-            helpTemplars = false;
-            helpElfs = false;
-            helpWerewolves = false;
-            helpPrineBelen = false;
-            helpLordHarrowmont = false;
         }
 
+        /// <summary>
+        /// Constructor with parameters of the dynamic part of the agent, which creates a new instance of the agent based on the passed clone.
+        /// </summary>
+        /// <param name="clone">An agent instance that will serve as the basis for creating a new instance.</param>
         public AgentStateDynamic (AgentStateDynamic clone)
         {
             agentInfo = (AgentStateStatic)clone.agentInfo.Clone();
@@ -103,15 +91,8 @@ namespace Narrative_Generator
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
             skipedTurns = clone.skipedTurns;
-
             timeToMove = clone.timeToMove;
             complitedQuestsCounter = clone.complitedQuestsCounter;
-            helpMages = clone.helpMages;
-            helpTemplars = clone.helpTemplars;
-            helpElfs = clone.helpElfs;
-            helpWerewolves = clone.helpWerewolves;
-            helpPrineBelen = clone.helpPrineBelen;
-            helpLordHarrowmont = clone.helpLordHarrowmont;
         }
 
         /// <summary>
@@ -150,21 +131,14 @@ namespace Narrative_Generator
             hasHashCode = false;
             hashCode = 0;
             skipedTurns = 0;
-
             timeToMove = 0;
             complitedQuestsCounter = 0;
-
-            helpMages = false;
-            helpTemplars = false;
-            helpElfs = false;
-            helpWerewolves = false;
-            helpPrineBelen = false;
-            helpLordHarrowmont = false;
         }
 
         /// <summary>
         /// Deep cloning of an agent.
         /// </summary>
+        /// <returns>A new instance that is a copy of the current one.</returns>
         public object Clone()
         {
             var clone = new AgentStateDynamic();
@@ -186,421 +160,25 @@ namespace Narrative_Generator
             }
             if (talkingWith != null && talkingWith.GetInterlocutor() != null) { clone.talkingWith = new TalkingWith(talkingWith); }
             clone.skipedTurns = skipedTurns;
-
             clone.timeToMove = timeToMove;
             clone.complitedQuestsCounter = complitedQuestsCounter;
-            clone.helpMages = helpMages;
-            clone.helpTemplars = helpTemplars;
-            clone.helpElfs = helpElfs;
-            clone.helpWerewolves = helpWerewolves;
-            clone.helpPrineBelen = helpPrineBelen;
-            clone.helpLordHarrowmont = helpLordHarrowmont;
 
             return clone;
         }
 
         /// <summary>
-        /// Generate a new PDDL file with a problem for the specified agent, based on his beliefs.
-        /// </summary>
-        public void GenerateNewPDDLProblem(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
-                                           WorldDynamic currentWorldState, 
-                                           bool killerCantCreatePlan = false)
-        {
-            string fileName = "";
-            string problemName = "";
-            string domainName = "";
-            string objects = "";
-            string init = "";
-            string goal = "";
-
-            switch (agent.Key.GetRole())
-            {
-                case AgentRole.USUAL:
-                    fileName = "AgentProblemTEST";
-                    break;
-                case AgentRole.KILLER:
-                    fileName = "KillerProblemTEST";
-                    break;
-                case AgentRole.PLAYER:
-                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
-                    {
-                        case Setting.Fantasy:
-                            fileName = "PlayerProblemFantasy";
-                            break;
-                        case Setting.DefaultDemo:
-                            fileName = "PlayerProblemTEST";
-                            break;
-                    }
-                    break;
-                case AgentRole.BOSS:
-                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
-                    {
-                        case Setting.Fantasy:
-                            fileName = "BossProblemFantasy";
-                            break;
-                    }
-                    break;
-            }
-
-            switch (currentWorldState.GetStaticWorldPart().GetSetting())
-            {
-                case Setting.Fantasy:
-                    problemName = "fantasy-problem";
-                    domainName = "fantasy-domain";
-                    break;
-                case Setting.DefaultDemo:
-                    problemName = "detective-problem";
-                    domainName = "detective-domain";
-                    break;
-            }
-
-            foreach (var location in agent.Value.GetBeliefs().GetLocationsInWorld())
-            {
-                objects = objects.Insert(objects.Length, location.GetName() + " ");
-                init = init.Insert(init.Length, Environment.NewLine + "(ROOM " + location.GetName() + ") ");
-
-                if (currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo) 
-                    || currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
-                {
-                    foreach (var connectedLocation in location.GetConnectedLocations())
-                    {
-                        init = init.Insert(init.Length, "(connected " + location.GetName() + " " + connectedLocation.GetName() + ")");
-                    }
-                }
-            }
-
-            foreach (var a in agent.Value.GetBeliefs().GetAgentsInWorld())
-            {
-                objects = objects.Insert(objects.Length, a.GetInfo().GetName() + " ");
-
-                switch (a.GetRole())
-                {
-                    case AgentRole.USUAL:
-                        init = init.Insert(init.Length, Environment.NewLine + "(AGENT " + a.GetInfo().GetName() + ") ");
-                        break;
-                    case AgentRole.KILLER:
-                        init = init.Insert(init.Length, Environment.NewLine + "(KILLER " + a.GetInfo().GetName() + ") ");
-                        break;
-                    case AgentRole.PLAYER:
-                        if (agent.Key.GetRole() == AgentRole.PLAYER)
-                        {
-                            init = init.Insert(init.Length, Environment.NewLine + "(PLAYER " + a.GetInfo().GetName() + ") ");
-                        }
-                        else
-                        {
-                            init = init.Insert(init.Length, Environment.NewLine + "(AGENT " + a.GetInfo().GetName() + ") ");
-                        }
-                        break;
-                    case AgentRole.BOSS:
-                        init = init.Insert(init.Length, Environment.NewLine + "(BOSS " + a.GetInfo().GetName() + ") ");
-                        break;
-                }
-
-                switch (a.CheckStatus())
-                {
-                    case true:
-                        init = init.Insert(init.Length, "(alive " + a.GetInfo().GetName() + ") ");
-                        break;
-                    case false:
-                        init = init.Insert(init.Length, "(died " + a.GetInfo().GetName() + ") ");
-                        break;
-                }
-
-                switch (agent.Key.GetRole())
-                {
-                    case AgentRole.USUAL:
-                        // An agent can claim that some other agent is in a certain location only if he has this information.
-                        if (agent.Value.GetBeliefs().SearchAgentAmongLocations(a.GetInfo()) != null)
-                        {
-                            init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName() + " " + 
-                                agent.Value.GetBeliefs().GetLocationByName(agent.Value.GetBeliefs().SearchAgentAmongLocations(a.GetInfo()).GetName())
-                                .GetName() + ") ");
-
-                            if (agent.Key.GetName() == a.GetInfo().GetName())
-                            {
-                                foreach (var loc in agent.Value.GetExploredLocations())
-                                {
-                                    init = init.Insert(init.Length, "(explored-room " + a.GetInfo().GetName() + " " + loc.GetName() + ")");
-                                }
-
-                                if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck())
-                                {
-                                    init = init.Insert(init.Length, "(angry-at " + agent.Key.GetName() + " " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ")");
-                                }
-                            }
-                        }
-                        break;
-                    case AgentRole.KILLER:
-                        init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName () + " " +
-                                agent.Value.GetBeliefs().GetLocationByName(currentWorldState.SearchAgentAmongLocations(a.GetInfo()).GetName())
-                                .GetName() + ") ");
-                        break;
-                    case AgentRole.PLAYER:
-                        init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName() + " " +
-                                agent.Value.GetBeliefs().GetLocationByName(currentWorldState.SearchAgentAmongLocations(a.GetInfo()).GetName())
-                                .GetName() + ") ");
-                        break;
-                    case AgentRole.BOSS:
-                        init = init.Insert(init.Length, "(in-room " + a.GetInfo().GetName() + " " +
-                                agent.Value.GetBeliefs().GetLocationByName(currentWorldState.SearchAgentAmongLocations(a.GetInfo()).GetName())
-                                .GetName() + ") ");
-                        break;
-                }
-            }
-
-            if (agent.Value.GetGoal().goalTypeIsStatus)
-            {
-                switch (agent.Key.GetRole())
-                {
-                    case AgentRole.USUAL:
-                        foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
-                        {
-                            if (a.Key.GetRole() == AgentRole.KILLER)
-                            {
-                                if (a.Key.GetName() != null && a.Key.GetName() != "")
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
-                                }
-                                else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck() 
-                                    && currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
-                                          Equals(currentWorldState.GetLocationByName(
-                                             currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).
-                                                Value.GetBeliefs().GetMyLocation().GetName())))
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
-                                }
-                                else
-                                {
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
-                                        Value.CountAliveAgents() >= 2 && !agent.Value.CheckTalking())
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents().Count >= 2)
-
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents().Count >= 2)
-
-                                    {
-                                        goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
-                                            + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
-                                    }
-                                    else if (!CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && !GetEvidenceStatus().CheckEvidence())
-                                    {
-                                        goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " " 
-                                            + agent.Value.GetMyLocation().GetName() + ") ");
-                                    }
-                                    else
-                                    {
-                                        if (timeToMove == 1000) // 0
-
-                                        if (agent.Value.GetTargetLocation() != null)
-
-                                        {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                        else if (agent.Value.GetTargetLocation() != null && agent.Value.CheckTargetLocation())
-                                        {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                        else
-                                        {
-
-                                            goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
-
-                                        if (agent.Value.GetTargetLocation() != null)
-                                        {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                        else
-                                        {
-
-                                            agent.Value.SetTargetLocation(
-                                                currentWorldState.GetRandomLocationWithout(
-                                                    currentWorldState.GetLocationByName(
-                                                        agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
-
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-
-                                        }
-
-                                        //goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                        //    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName() + ") ");
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case AgentRole.PLAYER:
-                        foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
-                        {
-                            if (a.Key.GetRole() == AgentRole.KILLER || a.Key.GetRole() == AgentRole.BOSS)
-                            {
-
-                                if (a.Key.GetName() != null && a.Key.GetName() != "???" && a.Key.GetName() != "" &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
-
-                                if (a.Key.GetName() != null && a.Key.GetName() != "" &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngry().GetObjectOfAngry().GetName()).GetName())
-
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
-                                }
-                                else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck() &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
-                                }
-                                else
-                                {
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents().Count >= 2)
-                                    {
-                                        goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
-                                            + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
-                                    }
-                                    else if (!CheckIfLocationIsExplored(agent.Value.GetMyLocation()))
-                                    {
-                                        goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " "
-                                            + agent.Value.GetMyLocation().GetName() + ") ");
-                                    }
-                                    else
-                                    {
-                                        if (agent.Value.GetTargetLocation() != null)
-                                        {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                        else
-                                        {
-                                            agent.Value.SetTargetLocation(
-                                                currentWorldState.GetRandomLocationWithout(
-                                                    currentWorldState.GetLocationByName(
-                                                        agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
-
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-
-                                        //goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                        //    + agent.Value.GetBeliefs().GetRandomLocationWithout(agent.Value.GetMyLocation()).GetName() + ") ");
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case AgentRole.KILLER:
-
-
-                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2)
-                        {
-                            foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
-                            {
-                                if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
-                                }
-                            }
-                        }
-                        else if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 1)
-                        {
-                            goal = goal.Insert(goal.Length, "(in-room " + currentWorldState.GetRandomAgent(agent).Key.GetName() + " "
-                                                  + currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName()).Key.GetName()
-                                                  + ") ");
-                        }
-                        else
-                        {
-                            if (timeToMove == 0)
-                            {
-                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                   + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
-                                                   + ") ");
-                            }
-                            else
-                            {
-                                goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
-                            }
-                        }
-                        break;
-
-                    case AgentRole.BOSS:
-                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2)
-                        {
-                            foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
-
-                        killerCantCreatePlan = true;
-                        if (killerCantCreatePlan)
-                        {
-                            if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() > 2)
-                            {
-                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                   + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
-                                                   + ") ");
-                            }
-                            else
-
-                            {
-                                if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
-                                {
-
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                + currentWorldState.GetLocationByName(currentWorldState.SearchAgentAmongLocationsByRole(AgentRole.PLAYER).GetName()).Key.GetName()
-                                + ") ");
-                        }
-
-                                    //BeliefsAboutAgent a = agent.Value.GetBeliefs().GetRandomAgent();
-                                    //  !!! If all ordinary agents are killed, but the killer continues his move, we will get an error. !!!
-                                    BeliefsAboutAgent a = null;
-
-                                    foreach (var agnt in agent.Value.GetBeliefs().GetAgentsInWorld())
-                                    {
-                                        if (agnt.CheckStatus() && (agnt.GetRole() == AgentRole.USUAL || agnt.GetRole() == AgentRole.PLAYER))
-                                        {
-                                            a = agnt;
-                                            break;
-                                        }
-                                    }
-
-                                    if (a.GetInfo().GetRole() == AgentRole.USUAL || a.GetInfo().GetRole() == AgentRole.PLAYER)
-                                    {
-                                        goal = goal.Insert(goal.Length, "(died " + a.GetInfo().GetName() + ") ");
-                                        hasTarget = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        break;
-                }
-            }
-
-
-            FileStream file = new FileStream(fileName + ".pddl", FileMode.Create, FileAccess.ReadWrite);
-            StreamWriter streamWriter = new StreamWriter(file, Encoding.GetEncoding(1251));
-
-            streamWriter.WriteLine("(define (problem " + problemName + ")");
-            streamWriter.WriteLine("(:domain " + domainName + ")");
-            streamWriter.WriteLine("(:objects " + objects + ")");
-            streamWriter.WriteLine("(:init " + init + ")");
-            streamWriter.WriteLine("(:goal (and " + goal + "))");
-            streamWriter.WriteLine(")");
-
-            streamWriter.Close();
-        }
-
-        /// <summary>
         /// Calculate an action plan for the agent based on PDDL files with descriptions of the domain and problem.
         /// </summary>
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentWorldState">The current state of the storyworld.</param>
         public void CalculatePlan(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
         {
             // We create an instance of the FastDownward class to interact with the planner.
             FastDownward fastDownward = new FastDownward();
 
+            PDDL_Module pddlModule = new PDDL_Module(currentWorldState.GetStaticWorldPart().GetSetting(), currentWorldState.GetStaticWorldPart().GetConnectionStatus(), 
+                                                       currentWorldState.GetAgents().Count);
+ 
             // We initialize variables containing the names of the Domain and Problem PDDL files.
             string domainFileName = null;
             string problemFileName = null;
@@ -610,39 +188,8 @@ namespace Narrative_Generator
 
             // The agent's role affects what actions are available to him and what goals he pursues, therefore, the role determines what
             //    what PDDL files need to be processed.
-            switch (agent.Key.GetRole())
-            {
-                case AgentRole.USUAL:
-                    domainFileName = "AgentDomainTEST";
-                    problemFileName = "AgentProblemTEST";
-                    break;
-                case AgentRole.KILLER:
-                    domainFileName = "KillerDomainTEST";
-                    problemFileName = "KillerProblemTEST";
-                    break;
-                case AgentRole.PLAYER:
-                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
-                    {
-                        case Setting.Fantasy:
-                            domainFileName = "PlayerDomainFantasy";
-                            problemFileName = "PlayerProblemFantasy";
-                            break;
-                        case Setting.DefaultDemo:
-                            domainFileName = "PlayerDomainTEST";
-                            problemFileName = "PlayerProblemTEST";
-                            break;
-                    }
-                    break;
-                case AgentRole.BOSS:
-                    switch (currentWorldState.GetStaticWorldPart().GetSetting())
-                    {
-                        case Setting.Fantasy:
-                            domainFileName = "BossDomainFantasy";
-                            problemFileName = "BossProblemFantasy";
-                            break;
-                    }
-                    break;
-            }
+            domainFileName = agent.Key.GetRole().ToString() + "Domain";
+            problemFileName = agent.Key.GetRole().ToString() + "Problem";
 
             // We launch the planner, specifying the names of the files with the corresponding Domain and Problem.
             fastDownward.Run(domainFileName, problemFileName);
@@ -651,13 +198,13 @@ namespace Narrative_Generator
             if (fastDownward.isSuccess)
             {
                 // Then we try to extract the plan from the file created by the planner.
-                fastDownward.GetResultPlan(ref myCurrentPlan);
+                fastDownward.GetResultPlan(ref myCurrentPlan, currentWorldState);
 
                 // If, for some reason, it was not possible to extract the plan, then recursively try to generate a new file with the Problem
                 //    and fetch the plan again.
                 if (!myCurrentPlan.planReceived)
                 {
-                    GenerateNewPDDLProblem(agent, currentWorldState, true);
+                    pddlModule.GeneratePDDLProblem(agent, currentWorldState, true);
                     CalculatePlan(agent, currentWorldState);
                 }
             }
@@ -665,7 +212,7 @@ namespace Narrative_Generator
             //    and fetch the plan again.
             else
             {
-                GenerateNewPDDLProblem(agent, currentWorldState);
+                pddlModule.GeneratePDDLProblem(agent, currentWorldState);
                 CalculatePlan(agent, currentWorldState);
             }
         }
@@ -673,12 +220,18 @@ namespace Narrative_Generator
         /// <summary>
         /// Populates the list of actions available to the agent.
         /// </summary>
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentState">The current state of the storyworld.</param>
         public void ReceiveAvailableActions (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentState)
         {
             ActionGenerator actionGenerator = new ActionGenerator();
             myAvailableActions = actionGenerator.GetAvailableActions(agent, currentState);
         }
 
+        /// <summary>
+        /// A method that returns a list of currently available actions for the agent.
+        /// </summary>
+        /// <returns>List of action instances.</returns>
         public List<PlanAction> GetAvailableActions()
         {
             return myAvailableActions;
@@ -716,36 +269,73 @@ namespace Narrative_Generator
             return null;
         }
 
+        /// <summary>
+        /// The method that sets the agent's status.
+        /// </summary>
+        /// <param name="status">Status value (alive - true / dead - false)</param>
         public void SetStatus(bool status)
         {
             alive = status;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Method that returns the value of the agent's status.
+        /// </summary>
+        /// <returns>Alive - true / dead - false</returns>
         public bool GetStatus() { return alive; }
 
+        /// <summary>
+        /// The method that sets the status value to false (dead).
+        /// </summary>
         public void Die()
         {
             alive = false;
             UpdateHashCode();
         }
 
-        public void SetGoal(Goal goal) { myGoals = (Goal)goal.Clone(); }
+        /// <summary>
+        /// A method for setting a goal for an agent.
+        /// </summary>
+        /// <param name="goal">An instance of the goal world states descryption that will be copied into the agent's beliefs about the goal states.</param>
+        public void SetGoal (Goal goal) { myGoals = (Goal)goal.Clone(); }
 
+        /// <summary>
+        /// Returns an object of the "Goal" class that stores information about goal states for this agent.
+        /// </summary>
+        /// <returns>Information about goal states for this agent</returns>
         public Goal GetGoal() { return myGoals; }
 
-        public void SetBeliefs(WorldContext beliefs) { this.beliefs = beliefs; }
+        /// <summary>
+        /// A method that allows to establish the agent's beliefs about the storyworld (environment).
+        /// </summary>
+        /// <param name="beliefs">An object that stores information about the agent's beliefs about the storyworld.</param>
+        public void SetBeliefs (WorldContext beliefs) { this.beliefs = beliefs; }
 
+        /// <summary>
+        /// The method allows to receive information about the agent's beliefs about the storyworld (environment).
+        /// </summary>
+        /// <returns>An object that stores information about the agent's beliefs about the storyworld.</returns>
         public WorldContext GetBeliefs() { return beliefs; }
 
-        public void SetInitiative(int initiative) { this.initiative = initiative; }
+        /// <summary>
+        /// A method that allows to set value of the initiative of this agent.
+        /// </summary>
+        /// <param name="initiative">The new numerical value of the initiative.</param>
+        public void SetInitiative (int initiative) { this.initiative = initiative; }
 
+        /// <summary>
+        /// A method that allows to get the current value of the agent's initiative.
+        /// </summary>
+        /// <returns>Numerical value of the initiative.</returns>
         public int GetInitiative() { return initiative; }
 
         /// <summary>
         /// Updates the agent's beliefs about the location where he is.
         /// </summary>
-        public void RefreshBeliefsAboutTheWorld(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
+        /// <param name="agent">The acting agent that performs the action.</param>
+        /// <param name="currentWorldState">The current state of the storyworld.</param>
+        public void RefreshBeliefsAboutTheWorld (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
         {
             // Before clearing the information, remember the location in which the agent is located.
             //LocationStatic agentIsHereLoc = agent.Value.GetBeliefs().SearchAgentAmongLocations(agent.Key);
@@ -783,52 +373,94 @@ namespace Narrative_Generator
                     && currentWorldState.GetAgentByName(agent1.GetInfo().GetName()).Value.GetMyLocation().GetName() != agentIsHereLoc.GetName()
                     && agent.Key.GetName() != agent1.GetInfo().GetName())
                 {
-                    agent1.SetLocation(currentWorldState.GetLocationByName(agentIsHereLoc.GetName()).Key.GetRandomConnectedLocation());
+                    if (currentWorldState.GetStaticWorldPart().GetConnectionStatus())
+                    {
+                        agent1.SetLocation(currentWorldState.GetLocationByName(agentIsHereLoc.GetName()).Key.GetRandomConnectedLocation());
+                    }
+                    else
+                    {
+                        agent1.SetLocation(currentWorldState.GetRandomLocationWithout(currentWorldState.GetLocationByName(agentIsHereLoc.GetName())).Key);
+                    }
                 }
             }
         }
 
-        public void SetTargetLocation(LocationStatic location)
+        /// <summary>
+        /// A method that allows to set the target location for the agent (the one he wants to go to).
+        /// </summary>
+        /// <param name="location">Information about the target location.</param>
+        public void SetTargetLocation (LocationStatic location)
         {
             wantsToGo = location;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that returns information about the target location of this agent.
+        /// </summary>
+        /// <returns>Information about the target location of this agent.</returns>
         public LocationStatic GetTargetLocation() { return wantsToGo; }
 
+        /// <summary>
+        /// A method that allows to clear information about the target location of this agent (delete it).
+        /// </summary>
         public void ClearTargetLocation()
         {
             wantsToGo = null;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method to find out if a target location exists for this agent.
+        /// </summary>
+        /// <returns>True if exists, false otherwise.</returns>
         public bool CheckTargetLocation()
         {
             if (wantsToGo.GetName() == "") { return false; }
             else { return true; }
         }
 
-        public void SetObjectOfAngry(AgentStateStatic target)
+        /// <summary>
+        /// A method that allows to set the agent with which this agent will be angry.
+        /// </summary>
+        /// <param name="target">Information about the target agent.</param>
+        public void SetObjectOfAngry (AgentStateStatic target)
         {
             angryAt.AngryOn();
             angryAt.SetObjectOfAngry(target);
             UpdateHashCode();
         }
 
-        public void SetObjectOfAngry(AgentAngryAt angryAt)
+        /// <summary>
+        /// A method that allows to set the agent with which this agent will be angry.
+        /// </summary>
+        /// <param name="angryAt">An object that stores information that the agent is angry with someone.</param>
+        public void SetObjectOfAngry (AgentAngryAt angryAt)
         {
             this.angryAt = angryAt;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Returns an object containing information that the agent is angry with someone.
+        /// </summary>
+        /// <returns>Object containing information that the agent is angry with someone</returns>
         public AgentAngryAt GetObjectOfAngryComponent() { return angryAt; }
 
+        /// <summary>
+        /// Checking if this agent is angry with any other agent.
+        /// </summary>
+        /// <returns>Truth if angry, otherwise false.</returns>
         public bool AngryCheck()
         {
             if (angryAt != null) { return angryAt.AngryCheck(); }
             return false;
         }
 
+        /// <summary>
+        /// A method that allows an agent to start a conversation with another agent and remember this fact (while the conversation is in progress).
+        /// </summary>
+        /// <param name="interlocutor">Information about the interlocutor agent.</param>
         public void SetInterlocutor (AgentStateStatic interlocutor)
         {
             talkingWith.TalkingStart();
@@ -836,18 +468,31 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to assign an object that stores information about whether the agent is talking now and who his interlocutor is.
+        /// </summary>
+        /// <param name="talkingWith">Object that stores information about whether the agent is talking now and who his interlocutor is</param>
         public void SetTalking (TalkingWith talkingWith)
         {
             this.talkingWith = talkingWith;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to start a conversation between two specified agents.
+        /// </summary>
+        /// <param name="agent1">First agent.</param>
+        /// <param name="agent2">Second agent.</param>
         public void SetTalking (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent1, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent2)
         {
             agent1.Value.SetInterlocutor(agent2);
             agent2.Value.SetInterlocutor(agent1);
         }
 
+        /// <summary>
+        /// A method that allows an agent to start a conversation with another agent and remember this fact (while the conversation is in progress).
+        /// </summary>
+        /// <param name="interlocutor">Interlocutor agent.</param>
         public void SetInterlocutor (KeyValuePair<AgentStateStatic, AgentStateDynamic> interlocutor)
         {
             talkingWith.TalkingStart();
@@ -855,18 +500,38 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to get an object that stores information about whether the agent is currently talking and if so, with whom.
+        /// </summary>
+        /// <returns>Object that stores information about whether the agent is currently talking and if so, with whom</returns>
         public TalkingWith GetTalking() { return talkingWith; }
 
+        /// <summary>
+        /// Method for checking if this agent is talking to some other agent.
+        /// </summary>
+        /// <returns>True if yes, otherwise false</returns>
         public bool CheckTalking() { return talkingWith.TalkingCheck(); }
 
+        /// <summary>
+        /// A method to clear information about this agent's conversation.
+        /// </summary>
         public void ClearTalking() { talkingWith.Clear(); }
 
+        /// <summary>
+        /// A method that allows to assign this agent an object that stores information about whether he wants to entrap someone.
+        /// </summary>
+        /// <param name="wantToEntrap">Object that stores information about whether agent wants to entrap someone.</param>
         public void SetEntrap (WantToEntrap wantToEntrap)
         {
             this.wantToEntrap = wantToEntrap;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows this agent to start entrap the specified agent at the specified location.
+        /// </summary>
+        /// <param name="victim">Information about the agent that this agent wants to entrap to another location.</param>
+        /// <param name="location">Information about the location this agent wants to entrap the specified agent.</param>
         public void SetEntrap (AgentStateStatic victim, LocationStatic location)
         {
             wantToEntrap.EntrapingStart();
@@ -874,10 +539,22 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows you to get an object that stores the beliefs of this agent about whether he wants to entrap someone to another location, 
+        ///    and if so, who and where.
+        /// </summary>
+        /// <returns>Object that stores the beliefs of this agent about whether he wants to entrap someone to another location, and if so, who and where.</returns>
         public WantToEntrap GetEntrap() { return wantToEntrap; }
 
+        /// <summary>
+        /// A method that checks if this agent wants to entrap some other agent to some location.
+        /// </summary>
+        /// <returns>True if yes, otherwise false.</returns>
         public bool CheckEntrap() { return wantToEntrap.EntrapCheck(); }
 
+        /// <summary>
+        /// A method that allows to clear the information that the this agent is angry with some other agent (delete it).
+        /// </summary>
         public void CalmDown()
         {
             angryAt.AngryOff();
@@ -885,6 +562,10 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to add information about the specified location to the list of explored locations.
+        /// </summary>
+        /// <param name="location">Information about the location.</param>
         public void AddExploredLocation (LocationStatic location)
         {
             foreach (var loc in exploredRooms)
@@ -896,28 +577,40 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to add information about the specified locations to the list of explored locations.
+        /// </summary>
+        /// <param name="locations">List of locations.</param>
         public void AddExploredLocations (HashSet<LocationStatic> locations) {  exploredRooms = locations; }
 
+        /// <summary>
+        /// Returns a list of locations explored by this agent.
+        /// </summary>
+        /// <returns>List of explored locations.</returns>
         public HashSet<LocationStatic> GetExploredLocations() { return exploredRooms; }
 
+        /// <summary>
+        /// Returns information about a location from the list of locations explored by this agent, according to the specified index.
+        /// </summary>
+        /// <param name="index">The index of the required location.</param>
+        /// <returns>Information about the specified location.</returns>
         public LocationStatic GetExploredLocation (int index) { return exploredRooms.ElementAt(index); }
 
+        /// <summary>
+        /// Checks if the specified location has been explored by this agent.
+        /// </summary>
+        /// <param name="location">Information about the checked location.</param>
+        /// <returns>True if yes, otherwise no.</returns>
         public bool CheckIfLocationIsExplored (LocationStatic location)
         {
-            foreach(var loc in exploredRooms) { if (loc.Equals(location)) { return true; } }
+            foreach (var loc in exploredRooms) { if (loc.Equals(location)) { return true; } }
             return false;
         }
 
-        public bool SearchAmongExploredLocations(LocationStatic location)
-        {
-            for (int i = 0; i < exploredRooms.Count(); i++)
-            {
-                if (exploredRooms.ElementAt(i) == location) { return true; }
-            }
-
-            return false;
-        }
-
+        /// <summary>
+        /// A method to give this agent evidence against the specified agent.
+        /// </summary>
+        /// <param name="criminal">Information about the agent against whom the evidence will be added.</param>
         public void AddEvidence (AgentStateStatic criminal)
         {
             foundEvidence.IsEvidence();
@@ -925,14 +618,25 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to assign to this agent an object that stores information about the presence of evidence against other agents.
+        /// </summary>
+        /// <param name="foundEvidence">Object that stores information about the presence of evidence against other agents.</param>
         public void AddEvidence (AgentFoundEvidence foundEvidence)
         {
             this.foundEvidence = foundEvidence;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// A method that allows to return information about the presence of evidence against other agents.
+        /// </summary>
+        /// <returns>Object that stores information about the presence of evidence against other agents.</returns>
         public AgentFoundEvidence GetEvidenceStatus() { return foundEvidence; }
 
+        /// <summary>
+        /// Clears information about evidence against other agents from this agent (deletes it).
+        /// </summary>
         public void ClearEvidence()
         {
             foundEvidence.Clear();
@@ -952,12 +656,18 @@ namespace Narrative_Generator
             return false;
         }
 
+        /// <summary>
+        /// Puts the agent in the "Scared" state.
+        /// </summary>
         public void ScaredOn()
         {
             scared = true;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Get out the agent from the "Scared" state.
+        /// </summary>
         public void ScaredOff()
         {
             scared = false;
@@ -967,20 +677,41 @@ namespace Narrative_Generator
         /// <summary>
         /// Checks if the agent is scared.
         /// </summary>
+        /// <returns>True if yes, otherwise false.</returns>
         public bool CheckScared() { return scared; }
 
+        /// <summary>
+        /// Returns information about whether the agent found the plan or not.
+        /// </summary>
+        /// <returns>True if yes, otherwise false.</returns>
         public bool GetPlanStatus() { return myCurrentPlan.planReceived; }
 
+        /// <summary>
+        /// Returns the action plan for this agent.
+        /// </summary>
+        /// <returns>Plan instance.</returns>
         public Plan GetPlan() { return myCurrentPlan; }
 
+        /// <summary>
+        /// Assigns static (unchanging) information about this agent.
+        /// </summary>
+        /// <param name="agentInfo">An instance of static (unchangeable) information about this agent.</param>
         public void SetAgentInfo (AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Returns static (unchangeable) information about this agent.
+        /// </summary>
+        /// <returns>Information about this agent.</returns>
         public AgentStateStatic GetAgentInfo() { return agentInfo; }
 
+        /// <summary>
+        /// Returns information about the location in which this agent is located (according to his beliefs).
+        /// </summary>
+        /// <returns>Information about location.</returns>
         public LocationStatic GetMyLocation()
         {
             foreach (var location in GetBeliefs().GetLocationsInWorld())
@@ -991,28 +722,68 @@ namespace Narrative_Generator
             throw new KeyNotFoundException();
         }
 
+        /// <summary>
+        /// Removes all temporary states of the agent.
+        /// </summary>
         public void ClearTempStates() { this.ClearTalking(); }
 
+        /// <summary>
+        /// Sets the number of moves skipped by the agent (in which he did nothing).
+        /// </summary>
+        /// <param name="value">Number of moves skipped by the agent.</param>
         public void SetSkippedTurns (int value) { skipedTurns = value; }
 
+
+        /// <summary>
+        /// Returns the number of moves skipped by the agent (in which he did nothing).
+        /// </summary>
+        /// <returns>Number of moves skipped by the agent.</returns>
         public int GetSkipedTurns() { return skipedTurns; }
 
+        /// <summary>
+        /// Increases the number of moves skipped by the agent (in which he did nothing) by one.
+        /// </summary>
         public void IncreaseSkipedTurns() { skipedTurns++; }
 
-
+        /// <summary>
+        /// Sets the delay before moving to another location, in turns.
+        /// </summary>
+        /// <param name="value">Value of delay, in turns.</param>
         public void SetTimeToMove (int value) { timeToMove = value; }
 
+        /// <summary>
+        /// Returns the delay before moving to another location, in turns.
+        /// </summary>
+        /// <returns>Value of delay, in turns.</returns>
         public int GetTimeToMove() { return timeToMove; }
 
+        /// <summary>
+        /// Decrease the delay before moving to another location, in turns, by one.
+        /// </summary>
         public void DecreaseTimeToMove() { if (timeToMove > 0) { timeToMove--; } }
 
+        /// <summary>
+        /// Sets the number of quests completed by this agent.
+        /// </summary>
+        /// <param name="value">New value of counter of quests completed by this agent.</param>
         public void SetComplitedQuestsCounter (int value) { complitedQuestsCounter = value; }
 
+        /// <summary>
+        /// Returns the number of quests completed by this agent.
+        /// </summary>
+        /// <returns>Value of counter of quests completed by this agent.</returns>
         public int GetComplitedQuestsCounter() { return complitedQuestsCounter; }
 
+        /// <summary>
+        /// Increases the counter of quests completed by this agent by one.
+        /// </summary>
         public void CompleteQuest() { complitedQuestsCounter++; }
 
-
+        /// <summary>
+        /// Method for comparing two dynamic parts of agent states.
+        /// </summary>
+        /// <param name="anotherState">Another dynamic state of the agent, for comparison.</param>
+        /// <returns>True if both states are the same, false otherwise.</returns>
         public bool Equals (AgentStateDynamic anotherState)
         {
             if (anotherState == null) { return false; }
@@ -1023,8 +794,8 @@ namespace Narrative_Generator
             bool statusEquals = (alive == anotherState.alive);
             bool statusReferenceEquals = object.ReferenceEquals(alive, anotherState.alive);
 
-            bool goalsEquals = myGoals.Equals(anotherState.myGoals);
-            bool goalsReferenceEquals = object.ReferenceEquals(myGoals, anotherState.myGoals);
+            //bool goalsEquals = myGoals.Equals(anotherState.myGoals);
+            //bool goalsReferenceEquals = object.ReferenceEquals(myGoals, anotherState.myGoals);
 
             bool initiativeEquals = (initiative == anotherState.initiative);
             bool initiativeReferenceEquals = object.ReferenceEquals(initiative, anotherState.initiative);
@@ -1078,7 +849,7 @@ namespace Narrative_Generator
                     {
                         exploredRoomsEquals = false;
                     }
-                    if (object.ReferenceEquals(exploredRooms.ElementAt(i), anotherState.exploredRooms.ElementAt(i)))
+                    if (!object.ReferenceEquals(exploredRooms.ElementAt(i), anotherState.exploredRooms.ElementAt(i)))
                     {
                         exploredRoomsReferenceEquals = false;
                     }
@@ -1091,16 +862,10 @@ namespace Narrative_Generator
             }
 
             bool complitedQuestsCounterEquals = complitedQuestsCounter.Equals(anotherState.complitedQuestsCounter);
-            bool helpMagesEquals = helpMages.Equals(anotherState.helpMages);
-            bool helpTemplarsEquals = helpTemplars.Equals(anotherState.helpTemplars);
-            bool helpElfsEquals =  helpElfs.Equals(anotherState.helpElfs);
-            bool helpWerewolvesEquals = helpWerewolves.Equals(anotherState.helpWerewolves);
-            bool helpPrinceBelenEquals = helpPrineBelen.Equals(anotherState.helpPrineBelen);
-            bool helpLordHarrowmontEquals = helpLordHarrowmont.Equals(anotherState.helpLordHarrowmont);
 
             bool agentInfoGlobal = agentInfoEquals || agentInfoReferenceEquals;
             bool statusGlobal = statusEquals || statusReferenceEquals;
-            bool goalsGlobal = goalsEquals || goalsReferenceEquals;
+            //bool goalsGlobal = goalsEquals || goalsReferenceEquals;
             bool initiativeGlobal = initiativeEquals || initiativeReferenceEquals;
             bool scaredGlobal = scaredEquals || scaredReferenceEquals;
             bool angryAtGlobal = angryAtEquals || angryAtReferenceEquals;
@@ -1112,17 +877,9 @@ namespace Narrative_Generator
             bool foundEvidenceGlobal = foundEvidenceEquals || foundEvidenceReferenceEquals;
             bool exploredRoomsGlobal = exploredRoomsEquals || exploredRoomsReferenceEquals;
 
-            bool equal = agentInfoGlobal && statusGlobal && goalsGlobal && initiativeGlobal && scaredGlobal && angryAtGlobal && wantToGoGlobal
-
+            bool equal = agentInfoGlobal && statusGlobal /*&& goalsGlobal*/ && initiativeGlobal && scaredGlobal && angryAtGlobal && wantToGoGlobal
                 && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal && beliefsGlobal && foundEvidenceGlobal && exploredRoomsGlobal
-                && complitedQuestsCounterEquals && helpMagesEquals && helpTemplarsEquals && helpElfsEquals && helpWerewolvesEquals 
-                && helpPrinceBelenEquals && helpLordHarrowmontEquals;
-
-                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal /*&& beliefsGlobal*/ && foundEvidenceGlobal && exploredRoomsGlobal;
-
-
-                && wantToEntrapGlobal && talkingWithGlobal && skipedTurnsGlobal /*&& beliefsGlobal*/ && foundEvidenceGlobal && exploredRoomsGlobal;
-
+                && complitedQuestsCounterEquals;
 
             return equal;
         }
@@ -1131,6 +888,10 @@ namespace Narrative_Generator
         /* HASHCODE SECTION */
         //////////////////////
 
+        /// <summary>
+        /// Calculates and returns the hash code of this instance of the dynamic part of the agent's state.
+        /// </summary>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
@@ -1177,12 +938,6 @@ namespace Narrative_Generator
             hashcode = hashcode + skipedTurns;
 
             hashcode = hashcode + complitedQuestsCounter;
-            hashcode = hashcode + helpMages.GetHashCode();
-            hashcode = hashcode + helpTemplars.GetHashCode();
-            hashcode = hashcode + helpElfs.GetHashCode();
-            hashcode = hashcode + helpWerewolves.GetHashCode();
-            hashcode = hashcode + helpPrineBelen.GetHashCode();
-            hashcode = hashcode + helpLordHarrowmont.GetHashCode();
 
             hashCode = hashcode;
             hasHashCode = true;
@@ -1190,12 +945,18 @@ namespace Narrative_Generator
             return hashcode;
         }
 
+        /// <summary>
+        /// Clears the current hash code value.
+        /// </summary>
         public void ClearHashCode()
         {
             hasHashCode = false;
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Updates (refresh) the current hash code value.
+        /// </summary>
         public void UpdateHashCode()
         {
             ClearHashCode();

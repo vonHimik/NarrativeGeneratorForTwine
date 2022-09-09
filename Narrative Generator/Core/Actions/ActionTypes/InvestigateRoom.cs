@@ -33,6 +33,8 @@ namespace Narrative_Generator
             }
         }
 
+        public InvestigateRoom (WorldDynamic state) { DefineDescription(state); }
+
         public InvestigateRoom (params Object[] args) : base (args) { }
 
         public InvestigateRoom (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
@@ -44,9 +46,14 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition(WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return state.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo) 
+            return (state.GetStaticWorldPart().GetSetting().Equals(Setting.DefaultDemo) || state.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
                 && agent.Value.GetStatus() && (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER))
                 && !agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && !agent.Value.GetEvidenceStatus().CheckEvidence();
         }
@@ -54,9 +61,9 @@ namespace Narrative_Generator
         public override bool CheckPreconditions (WorldDynamic state)
         {
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
-                      && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent.Key) 
-                      && !Agent.Value.SearchAmongExploredLocations(Location.Key) && Location.Value.CheckEvidence();
+                      && !Agent.Value.CheckIfLocationIsExplored(Location.Key) && Location.Value.CheckEvidence();
         }
 
         public override void ApplyEffects (ref WorldDynamic state)
@@ -70,9 +77,11 @@ namespace Narrative_Generator
             stateKiller.Value.ClearTempStates();
 
             stateAgent.Value.AddEvidence(stateKiller.Key);
-            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.KILLER);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.ANTAGONIST);
             stateAgent.Value.SetObjectOfAngry(stateKiller.Key);
             stateAgent.Value.AddExploredLocation(stateLocation.Key);
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state)

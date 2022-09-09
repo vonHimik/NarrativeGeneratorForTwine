@@ -40,6 +40,8 @@ namespace Narrative_Generator
             }
         }
 
+        public ToBeAWitness (WorldDynamic state) { DefineDescription(state); }
+
         public ToBeAWitness (params Object[] args) : base(args) { }
 
         public ToBeAWitness (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
@@ -53,12 +55,17 @@ namespace Narrative_Generator
             Arguments.Add(location);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition(WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
             return agent.Key.GetRole() == AgentRole.USUAL && agent.Value.GetStatus() 
                       && state.GetLocation(state.SearchAgentAmongLocations(agent.Key)).Value.CountDeadAgents() >= 1
                       && state.GetLocation(state.SearchAgentAmongLocations(agent.Key)).
-                            Equals(state.GetLocation(state.SearchAgentAmongLocations(state.GetAgentByRole(AgentRole.KILLER).Key)));
+                            Equals(state.GetLocation(state.SearchAgentAmongLocations(state.GetAgentByRole(AgentRole.ANTAGONIST).Key)));
         }
 
         public override bool CheckPreconditions(WorldDynamic state)
@@ -66,7 +73,7 @@ namespace Narrative_Generator
             return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
                       && (Victim.Key.GetRole() == AgentRole.USUAL || Victim.Key.GetRole() == AgentRole.PLAYER) &&!Victim.Value.GetStatus()
                       && !Agent.Equals(Victim)
-                      && Killer.Key.GetRole() == AgentRole.KILLER && Killer.Value.GetStatus()
+                      && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
                       && Location.Value.SearchAgent(Agent.Key) && Location.Value.SearchAgent(Victim.Key) && Location.Value.SearchAgent(Killer.Key);
         }
 
@@ -80,7 +87,7 @@ namespace Narrative_Generator
             stateAgent.Value.ClearTempStates();
 
             stateAgent.Value.AddEvidence(stateKiller.Key);
-            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.KILLER);
+            stateAgent.Value.GetBeliefs().GetAgentByName(stateKiller.Key.GetName()).AssignRole(AgentRole.ANTAGONIST);
             stateAgent.Value.SetObjectOfAngry(stateKiller.Key);
 
             stateAgent.Value.DecreaseTimeToMove();

@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// A class that implements the knowledge and memory of an agent regarding the evidence found on other agents.
+    /// </summary>
     [Serializable]
     public class AgentFoundEvidence : AgentProperty, ICloneable, IEquatable<AgentFoundEvidence>
     {
+        // AgentFoundEvidence components
         private bool foundEvidence;
         private AgentStateStatic evidenceAgainst;
 
+        // Hashcode
         private bool hasHashCode;
         private int hashCode;
 
+        /// <summary>
+        /// Constructor without parameters.
+        /// </summary>
         public AgentFoundEvidence()
         {
             foundEvidence = false;
@@ -23,6 +31,10 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Constructor with parameters of the AgentFoundEvidence, which creates a new instance of the AgentFoundEvidence based on the passed clone.
+        /// </summary>
+        /// <param name="clone">An AgentFoundEvidence instance that will serve as the basis for creating a new instance.</param>
         public AgentFoundEvidence (AgentFoundEvidence clone)
         {
             foundEvidence = clone.foundEvidence;
@@ -32,7 +44,12 @@ namespace Narrative_Generator
             hashCode = clone.hashCode;
         }
 
-        public AgentFoundEvidence(bool foundEvidence, AgentStateStatic evidenceAgainst)
+        /// <summary>
+        /// A parameterized constructor that takes an indicator that a evidence has been found and information about the agent it points to.
+        /// </summary>
+        /// <param name="foundEvidence">Indicator that a evidence has been found.</param>
+        /// <param name="evidenceAgainst">Information about the agent pointed to by the evidence.</param>
+        public AgentFoundEvidence (bool foundEvidence, AgentStateStatic evidenceAgainst)
         {
             this.foundEvidence = foundEvidence;
             this.evidenceAgainst = evidenceAgainst;
@@ -40,6 +57,10 @@ namespace Narrative_Generator
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Method for cloning an AgentFoundEvidence instance.
+        /// </summary>
+        /// <returns>A new instance that is a copy of the current one.</returns>
         public object Clone()
         {
             var clone = new AgentFoundEvidence();
@@ -50,28 +71,49 @@ namespace Narrative_Generator
             return clone;
         }
 
+        /// <summary>
+        /// Sets the status of clue detection to True.
+        /// </summary>
         public void IsEvidence()
         {
             foundEvidence = true;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Sets the status of clue detection to False.
+        /// </summary>
         public void NoEvidence()
         {
             foundEvidence = false;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Checks the status of finding evidence by this agent.
+        /// </summary>
+        /// <returns>True if evidence is found, false otherwise.</returns>
         public bool CheckEvidence() { return foundEvidence; }
 
+        /// <summary>
+        /// Sets information about the agent against which the evidence points.
+        /// </summary>
+        /// <param name="criminal">Information about the agent against which the evidence points</param>
         public void SetCriminal(AgentStateStatic criminal)
         {
             evidenceAgainst = criminal;
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Returns information about the agent against which the evidence points.
+        /// </summary>
+        /// <returns>Information about the agent against which the evidence points.</returns>
         public AgentStateStatic GetCriminal() { return evidenceAgainst; }
 
+        /// <summary>
+        /// Clears all information about the found evidence and the agent to which the evidence points (deletes it).
+        /// </summary>
         public void Clear()
         {
             foundEvidence = false;
@@ -79,6 +121,11 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// Method for comparing two AgentFoundEvidence instance.
+        /// </summary>
+        /// <param name="anotherAgentFoundEvidence">Another AgentFoundEvidence instance, for comparison.</param>
+        /// <returns>True if both instance are the same, false otherwise.</returns>
         public bool Equals(AgentFoundEvidence anotherAgentFoundEvidence)
         {
             if (anotherAgentFoundEvidence == null) { return false; }
@@ -116,6 +163,10 @@ namespace Narrative_Generator
         /* HASHCODE SECTION */
         //////////////////////
 
+        /// <summary>
+        /// Calculates and returns the hash code of this instance of the AgentFoundEvidence.
+        /// </summary>
+        /// <returns>Hash code.</returns>
         public override int GetHashCode()
         {
             if (hasHashCode && hashCode != 0) { return hashCode; }
@@ -135,12 +186,18 @@ namespace Narrative_Generator
             return hashcode;
         }
 
+        /// <summary>
+        /// Clears the current hash code value.
+        /// </summary>
         public void ClearHashCode()
         {
             hasHashCode = false;
             hashCode = 0;
         }
 
+        /// <summary>
+        /// Updates (refresh) the current hash code value.
+        /// </summary>
         public void UpdateHashCode()
         {
             ClearHashCode();

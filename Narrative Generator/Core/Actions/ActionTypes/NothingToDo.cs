@@ -17,6 +17,8 @@ namespace Narrative_Generator
             }
         }
 
+        public NothingToDo (WorldDynamic state) { DefineDescription(state); }
+
         public NothingToDo (params Object[] args) : base (args) { }
 
         public NothingToDo (ref KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
@@ -24,9 +26,14 @@ namespace Narrative_Generator
             Arguments.Add(agent);
         }
 
+        public override void DefineDescription (WorldDynamic state)
+        {
+            desc = GetType().ToString().Remove(0, 20);
+        }
+
         public bool PreCheckPrecondition (WorldDynamic state, KeyValuePair<AgentStateStatic, AgentStateDynamic> agent)
         {
-            return (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.KILLER)) && agent.Value.GetStatus();
+            return (agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.ANTAGONIST)) && agent.Value.GetStatus();
         }
 
         public override bool CheckPreconditions (WorldDynamic state)
@@ -39,6 +46,8 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
             stateAgent.Value.IncreaseSkipedTurns();
+
+            stateAgent.Value.DecreaseTimeToMove();
         }
 
         public override void Fail (ref WorldDynamic state) { fail = true; }
