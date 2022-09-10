@@ -1,49 +1,10 @@
 # NarrativeGeneratorForTwine
 
-What is there:
+1) Description
+- This program is a procedural narrative generator. Based on the given settings, it generates "skeletons" of interactive stories, in which the generation takes into account the presence of the player and his ability to choose from several actions within the interactivity. The system handles this by not allowing the player to disrupt the flow of the narrative, while still giving them free rein. It also allows the author of the story to fine-tune its parameters so that it best suits his vision and thereby instills his intention into the story. The result of the work of this program - its output - is a .dot file, with which the "skeleton" of the generated story can be visualized as a graph, as well as an .html file that can be uploaded to the platform for writing interactive literature, text games and visual novels Twine, to be converted into an interactive story/game.
+2) Installation instructions
+- The program is designed for PC based on Windows OS. You must have Python 3 installed, the path to which must be written in the Path system variable. Also, the FastDownward planner should be placed in the directory with the program files. To compile and edit the code, it is preferable to use Microsoft Visual Studio (version 2017 or later).
+3) User manual
+- When the program starts, the "main window" of the program will open. Here the user has the opportunity to select all the necessary settings. The user can select the setting of the story, set the types of goals for the characters, specify in which cases randomization should be used to calculate the result, specify the seed, configure the visualization graph generation parameters, then it will be possible to select (and partially manually specify the limits) constraints that will apply to the generated story (for example, the antagonist will not be able to die for the specified number of turns and will have to perform their actions in a certain order) and adjust the behavior of the characters.
 
-1) Wrapper
-
-- Launches FastDownward, passes it launch parameters, need to specify the path to the PDDL files with the domain and the problem.
-
-2) A class for interacting with FastDownward.
-
-- Uses a wrapper, can read the plan at the output (from a text file) and add actions to the plan.
-
-3) Plan
-
-- A class that implements actions in an array, managing their addition and retrieval.
-
-4) Action
-
-- A class that implements such a thing as an action. It is subdivided into several types (to determine whether it can be used by different types of agents), requires CSP of variables / parameters (implemented as method parameters), execution of preconditions (specially specified Boolean conditions) and, as a result, produces an effect (implemented as a change in the state of the World)... All types are reference types to interact and modify directly, rather than working with values ​​within a class.
-
-5) World
-
-- A class that implements the state of the world / system. In various cases, it can be used as a display of a real situation, or as a representation of the goal state, or as a representation of agents' beliefs about the world around them. Contains lists of locations, agents, goal states, and all actions available in the game.
-
-6) Location
-
-- Representation of a certain area of ​​space in which agents are located. Contains a list of agents located in it, pointers to related locations, allows searching for agents within itself.
-
-7) Agent
-
-- A class that implements and manages agents. Has a plan, a list of available actions, name, role, status (alive / dead), goals, beliefs and initiative. Based on the plan from his list of available actions, he chooses an action to perform (the plan is made in advance, each move, using the planner), and sends it to the Storyworld Convergence.
-
-8) Storyworld Convergence
-
-- A class that implements a managing agent, which requests actions from the others in accordance with their initiative, checks for compliance with the constraints, and applies or interrupts with its action.
-
-9) Constraint
-
-- A class that implements constraints on the actions of agents. Implements different types of constraints, checks with boolean checks that certain conditions are met when an action is applied.
-
-10) Storytelling algorithm
-
-- Determines the order of work of other classes, their interaction, construction of a graph of data and determines the initial state of the world. More precisely, constructs it.
-
-11) Node of the graph (StoryNode).
-
-- A class that implements the story-graph node. Stores the state of the world, and stores information about whose turn it is at the moment.
-
-The rest of the things are still in a somewhat rudimentary state.
+- After starting, the program will perform calculations for several minutes and as a result will create two files in .dot and .html format. The first file contains a description of the resulting story graph, which can be displayed using appropriate software such as Graphviz. The second file contains instructions for Twine to display the generated story as interactive literature.
