@@ -44,6 +44,7 @@ var class_narrative___generator_1_1_world_dynamic =
     [ "SearchAgentAmongLocations", "class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392", null ],
     [ "SearchAgentAmongLocationsByName", "class_narrative___generator_1_1_world_dynamic.html#a186939824bff3f75387354b22cf18b1a", null ],
     [ "SearchAgentAmongLocationsByRole", "class_narrative___generator_1_1_world_dynamic.html#ad6f86eded18595a37ac52bcb4c6745f9", null ],
+    [ "SecondlyGetNearestAgent", "class_narrative___generator_1_1_world_dynamic.html#a6f05df943b18f6f2a0291e48dba1dfc2", null ],
     [ "SetStaticWorldPart", "class_narrative___generator_1_1_world_dynamic.html#a97dc3159cb47c2f3b17fd9337a82c62e", null ],
     [ "ToBinary", "class_narrative___generator_1_1_world_dynamic.html#aa04f46d473aa042aca154834dac0148a", null ],
     [ "UpdateHashCode", "class_narrative___generator_1_1_world_dynamic.html#a14ee6a0a9695ebd179d4c378a63fffdc", null ],

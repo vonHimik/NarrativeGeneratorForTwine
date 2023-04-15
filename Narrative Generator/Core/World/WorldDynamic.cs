@@ -762,6 +762,13 @@ namespace Narrative_Generator
             UpdateHashCode();
         }
 
+        /// <summary>
+        /// The recursive part of the method for determining distances to agents. Considers searching in a specific location and moving to neighboring ones.
+        /// </summary>
+        /// <param name="list">List of distances to each agent.</param>
+        /// <param name="startingLocation">Location where the search starts</param>
+        /// <param name="counter">Distance counter</param>
+        /// <param name="locationsList">List of visited locations</param>
         public void SecondlyGetNearestAgent (ref ListOfDistanceToAgent list, LocationStatic startingLocation, int counter, ref HashSet<LocationStatic> locationsList)
         {
             foreach (var location in currentStateOfLocations)
@@ -795,7 +802,7 @@ namespace Narrative_Generator
         /// <param name="startingLocation">Location where the search starts</param>
         /// <param name="locationsList">List of visited locations</param>
         /// <param name="counter">Distance counter</param>
-        /// <returns></returns>
+        /// <returns>List of distances to each agent.</returns>
         public DistanceToAgent GetNearestAgentTo (LocationStatic startingLocation, HashSet<LocationStatic> locationsList = null, int counter = 0)
         {
             ListOfDistanceToAgent listOfAgents = new ListOfDistanceToAgent();

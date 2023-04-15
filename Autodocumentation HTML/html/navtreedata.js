@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "My Project", "index.html", [
+  [ "Narrative Generator", "index.html", [
     [ "Packages", "namespaces.html", [
       [ "Package List", "namespaces.html", "namespaces_dup" ],
       [ "Package Members", "namespacemembers.html", [
@@ -51,12 +51,12 @@ var NAVTREEINDEX =
 "annotated.html",
 "class_narrative___generator_1_1_agent_state_static.html#ae69ab8132165ed897c507586fb5e9ffa",
 "class_narrative___generator_1_1_counter_neutralize_killer.html#a9f1a3a1853726fd0b138432be409da01",
-"class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#a118f6271ee78d62a921a2f99c7112388",
-"class_narrative___generator_1_1_location_dynamic.html#aee60f410e554da3f7cfab1072451744a",
-"class_narrative___generator_1_1_restricting_location_availability.html#a503e5c1dab1152b6d44e5f9cc573e5a3",
-"class_narrative___generator_1_1_story_node.html#a6da2821e1cf905da08707fda5a37e865",
-"class_narrative___generator_1_1_world_context.html#a16c52fcee831ca8783d02343617bbc80",
-"functions_func_p.html"
+"class_narrative___generator_1_1_help_elfs.html#a171e93d7da7f2fecaa57429aaa534674",
+"class_narrative___generator_1_1_location_static.html#a219e327651e7e34dd7a6401c63483477",
+"class_narrative___generator_1_1_restricting_location_availability.html#a8f9407cadd77da98c43202877543bc4d",
+"class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8",
+"class_narrative___generator_1_1_world_context.html#a3d0098cfadab4548ceb24d6fd0fc9d0a",
+"functions_i.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

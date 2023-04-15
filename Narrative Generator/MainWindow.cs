@@ -102,24 +102,36 @@ namespace Narrative_Generator
             else { system.Seed = Int32.Parse(txtBoxSeed.Text); }
         }
 
+        /// <summary>
+        /// Method controlling the assignment of the maximum number of nodes.
+        /// </summary>
         public void NodeCountControl()
         {
             if (txtBoxNodeCount.Text == null) { txtBoxNodeCount.Text = "350"; system.MaxNodes = 350; }
             else { system.MaxNodes = Int32.Parse(txtBoxNodeCount.Text); }
         }
 
+        /// <summary>
+        /// A method that controls the assignment of the protagonist's protection time.
+        /// </summary>
         public void ProtagonistProtectionControl()
         {
             if (txtProtagonistSurvTime.Text == null) { txtProtagonistSurvTime.Text = "0"; system.ProtagonistProtectionTime = 0; }
             else { system.ProtagonistProtectionTime = Int32.Parse(txtProtagonistSurvTime.Text); }
         }
 
+        /// <summary>
+        /// A method that controls the assignment of the antagonist's protection time.
+        /// </summary>
         public void AntagonistProtectionControl()
         {
             if (txtAntagonistSurvTime.Text == null) { txtAntagonistSurvTime.Text = "0"; system.AntagonistProtectionTime = 0; }
             else { system.AntagonistProtectionTime = Int32.Parse(txtAntagonistSurvTime.Text); }
         }
 
+        /// <summary>
+        /// A method that controls the assignment of the probability of finding an evidence.
+        /// </summary>
         public void EvidenceFindChanceControl()
         {
             if (txtBoxEvChance.Text == null) { txtBoxEvChance.Text = "60"; system.EvidenceFindChance = 60; }

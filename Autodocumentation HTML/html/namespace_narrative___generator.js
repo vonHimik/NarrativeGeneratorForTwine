@@ -30,7 +30,6 @@ var namespace_narrative___generator =
     [ "Fight", "class_narrative___generator_1_1_fight.html", "class_narrative___generator_1_1_fight" ],
     [ "Goal", "class_narrative___generator_1_1_goal.html", "class_narrative___generator_1_1_goal" ],
     [ "GoalManager", "class_narrative___generator_1_1_goal_manager.html", "class_narrative___generator_1_1_goal_manager" ],
-    [ "GraphСonstructor", "class_narrative___generator_1_1_graph_xD0_xA1onstructor.html", "class_narrative___generator_1_1_graph_xD0_xA1onstructor" ],
     [ "HelpElfs", "class_narrative___generator_1_1_help_elfs.html", "class_narrative___generator_1_1_help_elfs" ],
     [ "HelpLordHarrowmont", "class_narrative___generator_1_1_help_lord_harrowmont.html", "class_narrative___generator_1_1_help_lord_harrowmont" ],
     [ "HelpMages", "class_narrative___generator_1_1_help_mages.html", "class_narrative___generator_1_1_help_mages" ],
@@ -65,21 +64,7 @@ var namespace_narrative___generator =
     [ "WorldContext", "class_narrative___generator_1_1_world_context.html", "class_narrative___generator_1_1_world_context" ],
     [ "WorldDynamic", "class_narrative___generator_1_1_world_dynamic.html", "class_narrative___generator_1_1_world_dynamic" ],
     [ "WorldStatic", "class_narrative___generator_1_1_world_static.html", "class_narrative___generator_1_1_world_static" ],
-    [ "AgentRole", "namespace_narrative___generator.html#aee2bb25263c7cf02b7b139705ae6d765", [
-      [ "USUAL", "namespace_narrative___generator.html#aee2bb25263c7cf02b7b139705ae6d765a3993fd85ce0cce2634bc734006a64f64", null ],
-      [ "ANTAGONIST", "namespace_narrative___generator.html#aee2bb25263c7cf02b7b139705ae6d765a92158424933eff5ae97c730dc069e928", null ],
-      [ "PLAYER", "namespace_narrative___generator.html#aee2bb25263c7cf02b7b139705ae6d765a07c80e2a355d91402a00d82b1fa13855", null ],
-      [ "ENEMY", "namespace_narrative___generator.html#aee2bb25263c7cf02b7b139705ae6d765a92b09d1635332c90ae8508618a174244", null ]
-    ] ],
-    [ "GoalTypes", "namespace_narrative___generator.html#a96765b21d74ffe9037619ce546571022", [
-      [ "STATUS", "namespace_narrative___generator.html#a96765b21d74ffe9037619ce546571022a5f241c8c8f985b3c51e05d39cf030f4c", null ],
-      [ "LOCATION", "namespace_narrative___generator.html#a96765b21d74ffe9037619ce546571022a71233d73cc90bba8f4d5bbea0792e551", null ],
-      [ "POSSESSION", "namespace_narrative___generator.html#a96765b21d74ffe9037619ce546571022a1150f485a3f2cbd83548ffec80a1d3c9", null ]
-    ] ],
-    [ "Setting", "namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aeb", [
-      [ "DragonAge", "namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aeba23e9b0218431b334ba361edb44a61a2b", null ],
-      [ "GenericFantasy", "namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aeba52b2f606a80d4b1ab368fdff88e30ee4", null ],
-      [ "Detective", "namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aeba206b8dd228298b4d984d32870c206ab4", null ],
-      [ "DefaultDemo", "namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aebad4de555524d9657011392be2189e1e87", null ]
-    ] ]
+    [ "AgentRole", "namespace_narrative___generator.html#aee2bb25263c7cf02b7b139705ae6d765", null ],
+    [ "GoalTypes", "namespace_narrative___generator.html#a96765b21d74ffe9037619ce546571022", null ],
+    [ "Setting", "namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aeb", null ]
 ];
