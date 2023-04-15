@@ -70,16 +70,6 @@ The last block of settings allows more accurately determine the behavior of agen
 
 The final stage of the configuration is to specify the path to the directory where the program will have to save the resulting files. To do this, use the "Select Path" button.
 
-## Program work
-
-When the setting is completed, it is necessary to press the "Start" button. The program will start its work.
-
-To start the generation process, some of the settings must be specified mandatory. These include the choice of setting, the choice of the type of agent's goals and the selecting of the path for outputting the resulting files. If something from this list is not performed, then the "Start" button will not be available for clicking.
-
-In the process of work, the program will inform about its current state in a special window in the lower left corner. Also, when selecting settings, this window will display brief descriptions of each of them.
-
-Also, during the generation process, may occur events that require the user's attention. In these cases, the program will notify about them using pop-up windows. Such events include, for example: error notifications, a request to restart in case of unsuccessful generation, and in case of successful generation, at its end, a clarification of whether it is required to generate the resulting file of a certain type, or to proceed to the next stage.
-
 ## Settings presets
 
 Should be taken into account that most of these settings are used to generate a narrative that is more in line with the user's desires, i.e. more flexible and varied, but it are not required by default. On the contrary, when the more complex the narrative needs to be generated, with a large number of agents, locations, actions, and various additional conditions and mechanics, then the more time it will take, and the greater the likelihood of various errors.
@@ -89,6 +79,16 @@ For example, protection of the agent representing the player by the system leads
 * Fantasy - Dragon Age - Kill the antagonist / all enemies - cunning, aggressive
 * Fantasy - Generic fantasy - kill the antagonist / all enemies - cunning, aggressive
 * Detective - kill the antagonist / all enemies - evidence can be found 100% - cunning, aggressive
+
+## Program work
+
+When the setting is completed, it is necessary to press the "Start" button. The program will start its work.
+
+To start the generation process, some of the settings must be specified mandatory. These include the choice of setting, the choice of the type of agent's goals and the selecting of the path for outputting the resulting files. If something from this list is not performed, then the "Start" button will not be available for clicking.
+
+In the process of work, the program will inform about its current state in a special window in the lower left corner. Also, when selecting settings, this window will display brief descriptions of each of them.
+
+Also, during the generation process, may occur events that require the user's attention. In these cases, the program will notify about them using pop-up windows. Such events include, for example: error notifications, a request to restart in case of unsuccessful generation, and in case of successful generation, at its end, a clarification of whether it is required to generate the resulting file of a certain type, or to proceed to the next stage.
 
 ## Visualization (Graphviz)
 
