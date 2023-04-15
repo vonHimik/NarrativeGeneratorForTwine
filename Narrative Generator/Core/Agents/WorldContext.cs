@@ -12,10 +12,25 @@ namespace Narrative_Generator
     public class BeliefsAboutAgent : ICloneable, IEquatable<BeliefsAboutAgent>
     {
         // Information about another agent.
+        /// <summary>
+        /// Immutable information about the agent.
+        /// </summary>
         private AgentStateStatic info;
+        /// <summary>
+        /// The role of the agent.
+        /// </summary>
         private AgentRole role;
+        /// <summary>
+        /// Agent status.
+        /// </summary>
         private bool isAlive;
+        /// <summary>
+        /// Estimated location of the agent.
+        /// </summary>
         private LocationStatic inLocation;
+        /// <summary>
+        /// The assumption that the other agent is angry.
+        /// </summary>
         private AgentAngryAt angryAt;
 
         /// <summary>
@@ -110,7 +125,10 @@ namespace Narrative_Generator
         /// Assigns the specified role to the agent.
         /// </summary>
         /// <param name="role">Role of the agent.</param>
-        public void AssignRole (AgentRole role) { this.role = role; }
+        public void AssignRole (AgentRole role)
+        {
+            this.role = role;
+        }
 
         /// <summary>
         /// Returns information about the location where the agent is located.

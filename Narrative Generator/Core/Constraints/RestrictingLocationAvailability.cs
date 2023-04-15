@@ -12,47 +12,47 @@ namespace Narrative_Generator
     public class RestrictingLocationAvailability : WorldConstraint
     {
         /// <summary>
-        /// If true, sets a temporary restriction on access to the specified location.
+        /// Marker to the type of constraint to apply: a temporary restriction on access to the specified location.
         /// </summary>
         public bool temporaryTimeRestricting;
         /// <summary>
-        /// If true, sets a permanent restriction on access to the specified location.
+        /// Marker to the type of constraint to apply: a permanent restriction on access to the specified location.
         /// </summary>
         public bool permanentTimeRestricting;
         /// <summary>
-        /// If true, then the first specified target agent will not be able to enter the specified location until the second specified target agent is located there.
+        /// Marker to the type of constraint to apply: the first specified target agent will not be able to enter the specified location until the second specified target agent is located there.
         /// </summary>
         public bool waitingAnotherAgent;
         /// <summary>
-        /// If true, then prohibits re-visiting the location.
+        /// Marker to the type of constraint to apply: prohibits re-visiting the location.
         /// </summary>
         public bool revisitBan;
         /// <summary>
-        /// If true, prevents leaving the location until some other action is taken.
+        /// Marker to the type of constraint to apply: prevents leaving the location until some other action is taken.
         /// </summary>
         public bool waitingAnotherAction;
         /// <summary>
-        /// If true, then prohibits visiting the specified location.
+        /// Marker to the type of constraint to apply: prohibits visiting the specified location.
         /// </summary>
         public bool locationsBan;
         /// <summary>
-        /// If true, then prohibits entry to the location until the counter of completed quests matches the specified number.
+        /// Marker to the type of constraint to apply: prohibits entry to the location until the counter of completed quests matches the specified number.
         /// </summary>
         public bool questsCounterRestricting;
         /// <summary>
-        /// If true, limits the number of times the target agent moves between target locations.
+        /// Marker to the type of constraint to apply: limits the number of times the target agent moves between target locations.
         /// </summary>
         public bool restrictionOfAccessByLocations;
         /// <summary>
-        /// If true, then prohibits the specified agent from moving between locations.
+        /// Marker to the type of constraint to apply: prohibits the specified agent from moving between locations.
         /// </summary>
         public bool doNotMove;
         /// <summary>
-        /// If true, then the specified agent must visit the specified location at least once.
+        /// Marker to the type of constraint to apply: the specified agent must visit the specified location at least once.
         /// </summary>
         public bool mustVisitLeastOne;
         /// <summary>
-        /// If true, then the specified agent will be able to visit the specified location only once.
+        /// Marker to the type of constraint to apply: the specified agent will be able to visit the specified location only once.
         /// </summary>
         public bool visitOnlyOneOf;
         /// <summary>
@@ -132,21 +132,23 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Overloading a method that checks whether the conditions of the specified constraints are met.
+        /// OA method that checks whether the specified world state satisfies constraints.
         /// </summary>
         /// <param name="newState">The new state that will be obtained when applying the action on the current state.</param>
         /// <param name="currentState">The current state of the storyworld.</param>
-        /// <param name="graph">Story graph.</param>
-        /// <param name="currentAction">The action that the current agent has chosen to perform on the current turn.</param>
-        /// <param name="currentNode">A graph node that stores the current state.</param>
-        /// <param name="newNode">A graph node that stores the future state.</param>
-        /// <returns>Returns the result of the check.</returns>
+        /// <param name="graph">Story graph, which is a collection of nodes connected by oriented edges.</param>
+        /// <param name="currentAction">The action currently performed by the agent, and whose influence on changing the world is being checked.</param>
+        /// <param name="currentNode">A node that stores the current state.</param>
+        /// <param name="newNode">A node that stores the future world state, resulting from applying the current action on the current node.</param>
+        /// <param name="succsessControl">A variable into which the overridden result (succes or fail) of an action can be written.</param>
+        /// <returns>Result of the check.</returns>
         public override bool IsSatisfied (WorldDynamic newState, 
                                           WorldDynamic currentState, 
                                           StoryGraph graph, 
-                                          PlanAction currentAction, 
+                                          ref PlanAction currentAction, 
                                           StoryNode currentNode,
-                                          StoryNode newNode)
+                                          StoryNode newNode,
+                                          ref bool succsessControl)
         {
             if (temporaryTimeRestricting && value != 0)
             {
@@ -211,10 +213,7 @@ namespace Narrative_Generator
                                 {
                                     foreach (var location in targetLocations)
                                     {
-                                        if (location.Equals(((Move)currentAction).To.Key))
-                                        {
-                                            return false;
-                                        }
+                                        if (location.Equals(((Move)currentAction).To.Key)) { return false; }
                                     }
                                 }
                             }
@@ -230,10 +229,7 @@ namespace Narrative_Generator
                                 {
                                     foreach (var location in targetLocations)
                                     {
-                                        if (location.Equals(((CounterMove)currentAction).To.Key))
-                                        {
-                                            return false;
-                                        }
+                                        if (location.Equals(((CounterMove)currentAction).To.Key)) { return false; }
                                     }
                                 }
                             }
@@ -249,10 +245,7 @@ namespace Narrative_Generator
                                 {
                                     foreach (var location in targetLocations)
                                     {
-                                        if (location.Equals(((CounterMove)currentAction).To.Key))
-                                        {
-                                            return false;
-                                        }
+                                        if (location.Equals(((CounterMove)currentAction).To.Key)) { return false; }
                                     }
                                 }
                             }
@@ -268,10 +261,7 @@ namespace Narrative_Generator
                                 {
                                     foreach (var location in targetLocations)
                                     {
-                                        if (location.Equals(((Move)currentAction).To.Key))
-                                        {
-                                            return false;
-                                        }
+                                        if (location.Equals(((Move)currentAction).To.Key)) { return false; }
                                     }
                                 }
                             }
@@ -289,7 +279,8 @@ namespace Narrative_Generator
                     {
                         if (currentState.SearchAgentAmongLocations(agent).Equals(location))
                         {
-                            if (currentAction is Move || currentAction is CounterMove)
+                            if ((currentAction is Move || currentAction is CounterMove) && 
+                                ((KeyValuePair<AgentStateStatic, AgentStateDynamic>)currentAction.Arguments[0]).Key.Equals(agent))
                             {
                                 StoryNode testNode = currentNode;
 
@@ -302,10 +293,7 @@ namespace Narrative_Generator
                                         {
                                             return false;
                                         }
-                                        else
-                                        {
-                                            return true;
-                                        }
+                                        else { return true; }
                                     }
 
                                     testNode = testNode.GetEdges().First().GetUpperNode();

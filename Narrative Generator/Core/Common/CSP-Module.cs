@@ -3,13 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// A class that implements the assignment of parameters to actions according to the CSP methodology.
+    /// </summary>
     class CSP_Module
     {
-        public bool AssignVariables (ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+        /// <summary>
+        /// A method that assigns parameters to an action.
+        /// </summary>
+        /// <param name="action">The action to which the parameters are assigned.</param>
+        /// <param name="currentState">The current world state.</param>
+        /// <param name="initiator">The agent performing the action.</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        /// <returns>True if the assignment was successful, false otherwise.</returns>
+        public bool AssignVariables (ref PlanAction action, WorldDynamic currentState, KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator, ref TextBox note)
         {
+            note.Text = "ASSIGN VARIABLES FOR ACTION";
+
             if (action is Entrap || action is CounterEntrap)
             {
                 foreach (var agent in currentState.GetAgents())
@@ -94,8 +108,9 @@ namespace Narrative_Generator
                     action.Arguments.Add(initiator);
                     action.Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
 
-                    if (initiator.Value.GetTargetLocation() != null && initiator.Key.GetRole() != AgentRole.PLAYER &&
-                        currentState.SearchAgentAmongLocations(initiator.Key).ConnectionChecking(initiator.Value.GetTargetLocation())
+                    if (initiator.Value.GetTargetLocation() != null && initiator.Value.GetTargetLocation().GetName() != "" &&
+                        initiator.Key.GetRole() != AgentRole.PLAYER /*&&
+                        currentState.SearchAgentAmongLocations(initiator.Key).ConnectionChecking(initiator.Value.GetTargetLocation())*/
                         && !currentState.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge))
                     {
                         action.Arguments.Add(currentState.GetLocationByName(initiator.Value.GetTargetLocation().GetName()));
@@ -277,10 +292,21 @@ namespace Narrative_Generator
             return false;
         }
 
+        /// <summary>
+        /// Method for assigning parameters to several actions of the same type.
+        /// </summary>
+        /// <param name="action">The action to which the parameters are assigned.</param>
+        /// <param name="currentState">The current world state.</param>
+        /// <param name="initiator">The agent performing the action.</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        /// <returns>True if the assignment was successful, false otherwise.</returns>
         public List<PlanAction> MassiveAssignVariables (ref PlanAction action, 
                                                         WorldDynamic currentState, 
-                                                        KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator)
+                                                        KeyValuePair<AgentStateStatic, AgentStateDynamic> initiator,
+                                                        ref TextBox note)
         {
+            note.Text = "MASSIVE ASSIGN VARIABLES FOR ACTIONS";
+
             List<PlanAction> actions = new List<PlanAction>();
 
             if (action is Move)
@@ -312,7 +338,7 @@ namespace Narrative_Generator
                         moveArr[i].Arguments.Add(initiator);
                         moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.SearchAgentAmongLocations(initiator.Key).GetName()));
                         moveArr[i].Arguments.Add(currentState.GetLocationByName(currentState.GetLocationByName(
-                            currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationsFromIndex(i).GetName()));
+                            currentState.SearchAgentAmongLocations(initiator.Key).GetName()).Key.GetConnectedLocationFromIndex(i).GetName()));
                     }
                     else if (!currentState.GetStaticWorldPart().GetConnectionStatus())
                     {

@@ -11,13 +11,19 @@ namespace Narrative_Generator
     /// </summary>
     public class StoryNode : IEquatable<StoryNode>, ICloneable
     {
-        // Story state.
+        /// <summary>
+        /// Story state.
+        /// </summary>
         private WorldDynamic worldState;
-        
-        // Active player = true, active agent = false.
+
+        /// <summary>
+        /// Player activity indicator.
+        /// </summary>
         private bool playerIsActive;
 
-        // If the player does not move, then one of the agents move - which?
+        /// <summary>
+        /// The agent that created the node by its action.
+        /// </summary>
         private KeyValuePair<AgentStateStatic, AgentStateDynamic> activeAgent;
 
         // Properties
@@ -245,7 +251,7 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="probablyParentNode">Probably parent node.</param>
         /// <returns>True if yes, otherwise false.</returns>
-        public bool isChildren (StoryNode probablyParentNode)
+        public bool isChild (StoryNode probablyParentNode)
         {
             bool result = false;
 

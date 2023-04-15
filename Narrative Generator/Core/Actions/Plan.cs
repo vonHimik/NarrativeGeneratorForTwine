@@ -12,6 +12,9 @@ namespace Narrative_Generator
     [Serializable]
     public class Plan : ICloneable
     {
+        /// <summary>
+        /// List of actions in the plan.
+        /// </summary>
         private List<PlanAction> actions;
 
         /// <summary>

@@ -92,5 +92,11 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="state">The current state of the storyworld.</param>
         public abstract void Fail (ref WorldDynamic state);
+
+        /// <summary>
+        /// In counter-actions, returns the name of the action that caused the system to react.
+        /// </summary>
+        /// <returns>A couple from the action and separately its name.</returns>
+        public abstract KeyValuePair<string, PlanAction> ReturnOriginal();
     }
 }

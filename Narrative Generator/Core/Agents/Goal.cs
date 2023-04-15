@@ -13,11 +13,23 @@ namespace Narrative_Generator
     public class Goal : ICloneable, IEquatable<Goal>
     {
         // Goal components
+        /// <summary>
+        /// Goal type marker.
+        /// </summary>
         private GoalTypes goalType;
+        /// <summary>
+        /// Goal state of the world.
+        /// </summary>
         private WorldDynamic goalState;
 
         // Hashcode
+        /// <summary>
+        /// An indicator of whether a hashcode has been generated for this component.
+        /// </summary>
         private bool hasHashCode;
+        /// <summary>
+        /// The hashcode of this component.
+        /// </summary>
         private int hashCode;
 
         /// <summary>

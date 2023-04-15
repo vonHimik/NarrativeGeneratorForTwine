@@ -6,14 +6,32 @@ using System.Threading.Tasks;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// A class that manages the goals of agents.
+    /// </summary>
     class GoalManager
     {
+        /// <summary>
+        /// Active goal type marker: goals based on agent statuses.
+        /// </summary>
         public bool KillAntagonistOrAllEnemis { get; set; }
+        /// <summary>
+        /// Active goal type marker: goals based on agents being in specific locations.
+        /// </summary>
         public bool ReachGoalLocation { get; set; }
+        /// <summary>
+        /// Active goal type marker: goals based on agent ownership of certain items.
+        /// </summary>
         public bool GetImportantItem { get; set; }
 
+        /// <summary>
+        /// Storage of individual instances of active goal types.
+        /// </summary>
         private List<GoalTypes> goalTypes = new List<GoalTypes>();
 
+        /// <summary>
+        /// A method that adds goals that are marked as active to the goal type storage.
+        /// </summary>
         public void Initialization()
         {
             if (KillAntagonistOrAllEnemis) { goalTypes.Add(GoalTypes.STATUS); }
@@ -24,6 +42,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that creates a set of goals to pass to agents.
         /// </summary>
+        /// <param name="roles">Roles of agents existing in the world.</param>
+        /// <returns>Goals set.</returns>
         public List<Goal> CreateGoalSet (List<AgentRole> roles)
         {
             // We create an empty list of goals.
@@ -80,6 +100,10 @@ namespace Narrative_Generator
             return goals;
         }
 
+        /// <summary>
+        /// A method that assigns goals to agents based on their role.
+        /// </summary>
+        /// <param name="state">The current world state.</param>
         public void AssignGoalsToAgents (ref WorldDynamic state)
         {
             Dictionary<AgentStateStatic, AgentStateDynamic> agents = state.GetAgents();
@@ -157,6 +181,8 @@ namespace Narrative_Generator
         /// <summary>
         /// Checks the achievement of any of the goal conditions (in state).
         /// </summary>
+        /// <param name="currentNode">A node that stores the current world state.</param>
+        /// <returns>True if the world state matches the goal state, otherwise false.</returns>
         public bool ControlToAchieveGoalState (ref StoryNode currentNode)
         {
             List<Goal> allGoalStates = new List<Goal>();

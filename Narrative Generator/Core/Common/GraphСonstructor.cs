@@ -4,20 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// The class that controls the conversion of the story graph to dot format.
+    /// </summary>
     class GraphСonstructor
     {
+        /// <summary>
+        /// Active settings marker: whether to hide "empty" actions.
+        /// </summary>
         bool hideNothingToDoActios;
 
+        /// <summary>
+        /// Activator settings to hide "empty" actions.
+        /// </summary>
         public void HideNTDActions() { hideNothingToDoActios = true; }
+        /// <summary>
+        /// Deactivator settings to hide "empty" actions.
+        /// </summary>
         public void ShowNTDActions() { hideNothingToDoActios = false; }
 
         /// <summary>
         /// A method that describes the transmitted story graph in text format and creates a visualization based on it.
         /// </summary>
-        public void CreateGraph(StoryGraph storyGraph, string graphName)
+        /// <param name="storyGraph">Story graph, which is a collection of nodes connected by oriented edges.</param>
+        /// <param name="graphName">The path to the saved file.</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        public void CreateGraph(StoryGraph storyGraph, string graphName, ref TextBox note)
         {
             HashSet<Edge> edges = new HashSet<Edge>();
             string graphSTR = "digraph G { \r\n";
@@ -145,43 +161,43 @@ namespace Narrative_Generator
                         string originalAction = "";
                         if (edge.GetAction() is CounterMove)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterMove)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterMove)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterTalk)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterTalk)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterTalk)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterNeutralizeKiller)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterNeutralizeKiller)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterNeutralizeKiller)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterInvestigateRoom)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterInvestigateRoom)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterInvestigateRoom)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterEntrap)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterEntrap)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterEntrap)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterFight)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterFight)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterFight)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterKill)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterKill)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterKill)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterTellAboutASuspicious)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterTellAboutASuspicious)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterTellAboutASuspicious)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterRun)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterRun)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterRun)edge.GetAction()).OriginalAction.Key;
                         }
                         else if (edge.GetAction() is CounterReassure)
                         {
-                            originalAction = Environment.NewLine + " Original action: " + ((CounterReassure)edge.GetAction()).OriginalAction;
+                            originalAction = Environment.NewLine + " Original action: " + ((CounterReassure)edge.GetAction()).OriginalAction.Key;
                         }
 
                         // If the edge has an attached action and the bottom end is connected to some node.
@@ -473,27 +489,23 @@ namespace Narrative_Generator
             graphSTR = graphSTR.Insert(graphSTR.Length, "}");
 
             // Save the resulting graph to a text file.
-            SaveGraph(graphName, graphSTR);
-
-            // Then we render the resulting graph.
-            // PrintGraph(graphName); // But I prefer to do it manually.
+            SaveGraph(graphName, graphSTR, ref note);
         }
 
         /// <summary>
         /// A method that saves the textual description of the graph to a file with the specified name.
         /// </summary>
-        public void SaveGraph(string fileName, string graph)
+        /// <param name="fileName">The path to the saved file.</param>
+        /// <param name="graph">Generated description of the story graph in dot format.</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        public void SaveGraph(string fileName, string graph, ref TextBox note)
         {
+            note.Text = "GRAPH SAVING IN FILE";
+
             FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(file, Encoding.GetEncoding(1251));
             streamWriter.Write(graph);
             streamWriter.Close();
-        }
-
-        public void PrintGraph(string fileName)
-        {
-            Graphviz graphviz = new Graphviz();
-            graphviz.Run(fileName);
         }
     }
 }

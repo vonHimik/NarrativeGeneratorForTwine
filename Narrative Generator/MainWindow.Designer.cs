@@ -35,6 +35,8 @@
             this.rbtnDefaultDemo = new System.Windows.Forms.RadioButton();
             this.chBoxRandEnc = new System.Windows.Forms.CheckBox();
             this.grbxSettings = new System.Windows.Forms.GroupBox();
+            this.txtBoxNodeCount = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.chBoxHideNTDActions = new System.Windows.Forms.CheckBox();
             this.lblSeed = new System.Windows.Forms.Label();
             this.txtBoxSeed = new System.Windows.Forms.TextBox();
@@ -49,19 +51,23 @@
             this.chBoxGoalKill = new System.Windows.Forms.CheckBox();
             this.chBoxGoalReachFinLoc = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtBoxEvChance = new System.Windows.Forms.TextBox();
+            this.lblEvidence = new System.Windows.Forms.Label();
             this.chBoxEachAgentsHasUG = new System.Windows.Forms.CheckBox();
+            this.txtProtagonistSurvTime = new System.Windows.Forms.TextBox();
             this.chBoxStrOrdVicSec = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.chBoxUniqKills = new System.Windows.Forms.CheckBox();
-            this.checkBox16 = new System.Windows.Forms.CheckBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtAntagonistSurvTime = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.chBoxAntognstWillSurv = new System.Windows.Forms.CheckBox();
+            this.chBoxPrtgWillSurv = new System.Windows.Forms.CheckBox();
+            this.chBoxCanFindEvidence = new System.Windows.Forms.CheckBox();
             this.chBoxTA = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.btnChoiseOutputPath = new System.Windows.Forms.Button();
+            this.txtOutputPath = new System.Windows.Forms.TextBox();
+            this.lblOutputPath = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -107,7 +113,6 @@
             this.rbtnFantasy.Name = "rbtnFantasy";
             this.rbtnFantasy.Size = new System.Drawing.Size(79, 21);
             this.rbtnFantasy.TabIndex = 2;
-            this.rbtnFantasy.TabStop = true;
             this.rbtnFantasy.Text = "Fantasy";
             this.rbtnFantasy.UseVisualStyleBackColor = true;
             this.rbtnFantasy.CheckedChanged += new System.EventHandler(this.RbtnFantasy_CheckedChanged);
@@ -119,7 +124,6 @@
             this.rbtnDetective.Name = "rbtnDetective";
             this.rbtnDetective.Size = new System.Drawing.Size(88, 21);
             this.rbtnDetective.TabIndex = 3;
-            this.rbtnDetective.TabStop = true;
             this.rbtnDetective.Text = "Detective";
             this.rbtnDetective.UseVisualStyleBackColor = true;
             this.rbtnDetective.CheckedChanged += new System.EventHandler(this.RbtnDetective_CheckedChanged);
@@ -139,6 +143,7 @@
             // rbtnDefaultDemo
             // 
             this.rbtnDefaultDemo.AutoSize = true;
+            this.rbtnDefaultDemo.Enabled = false;
             this.rbtnDefaultDemo.Location = new System.Drawing.Point(6, 84);
             this.rbtnDefaultDemo.Name = "rbtnDefaultDemo";
             this.rbtnDefaultDemo.Size = new System.Drawing.Size(115, 21);
@@ -146,13 +151,14 @@
             this.rbtnDefaultDemo.TabStop = true;
             this.rbtnDefaultDemo.Text = "Default Demo";
             this.rbtnDefaultDemo.UseVisualStyleBackColor = true;
+            this.rbtnDefaultDemo.Visible = false;
             this.rbtnDefaultDemo.CheckedChanged += new System.EventHandler(this.RbtnDefaultDemo_CheckedChanged);
             // 
             // chBoxRandEnc
             // 
             this.chBoxRandEnc.AutoSize = true;
             this.chBoxRandEnc.Enabled = false;
-            this.chBoxRandEnc.Location = new System.Drawing.Point(18, 86);
+            this.chBoxRandEnc.Location = new System.Drawing.Point(18, 135);
             this.chBoxRandEnc.Name = "chBoxRandEnc";
             this.chBoxRandEnc.Size = new System.Drawing.Size(158, 21);
             this.chBoxRandEnc.TabIndex = 5;
@@ -162,6 +168,8 @@
             // 
             // grbxSettings
             // 
+            this.grbxSettings.Controls.Add(this.txtBoxNodeCount);
+            this.grbxSettings.Controls.Add(this.label3);
             this.grbxSettings.Controls.Add(this.chBoxHideNTDActions);
             this.grbxSettings.Controls.Add(this.lblSeed);
             this.grbxSettings.Controls.Add(this.txtBoxSeed);
@@ -176,10 +184,29 @@
             this.grbxSettings.TabStop = false;
             this.grbxSettings.Text = "System settings:";
             // 
+            // txtBoxNodeCount
+            // 
+            this.txtBoxNodeCount.Location = new System.Drawing.Point(144, 62);
+            this.txtBoxNodeCount.Name = "txtBoxNodeCount";
+            this.txtBoxNodeCount.Size = new System.Drawing.Size(49, 22);
+            this.txtBoxNodeCount.TabIndex = 11;
+            this.txtBoxNodeCount.Text = "350";
+            this.txtBoxNodeCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtBoxNodeCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBoxNodeCounter_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(15, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(124, 17);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Node count (max):";
+            // 
             // chBoxHideNTDActions
             // 
             this.chBoxHideNTDActions.AutoSize = true;
-            this.chBoxHideNTDActions.Location = new System.Drawing.Point(18, 167);
+            this.chBoxHideNTDActions.Location = new System.Drawing.Point(18, 216);
             this.chBoxHideNTDActions.Name = "chBoxHideNTDActions";
             this.chBoxHideNTDActions.Size = new System.Drawing.Size(214, 21);
             this.chBoxHideNTDActions.TabIndex = 9;
@@ -199,7 +226,7 @@
             // txtBoxSeed
             // 
             this.txtBoxSeed.Enabled = false;
-            this.txtBoxSeed.Location = new System.Drawing.Point(66, 30);
+            this.txtBoxSeed.Location = new System.Drawing.Point(144, 32);
             this.txtBoxSeed.MaxLength = 4;
             this.txtBoxSeed.Name = "txtBoxSeed";
             this.txtBoxSeed.Size = new System.Drawing.Size(49, 22);
@@ -211,7 +238,7 @@
             // chBoxRandDistOfInit
             // 
             this.chBoxRandDistOfInit.AutoSize = true;
-            this.chBoxRandDistOfInit.Location = new System.Drawing.Point(18, 140);
+            this.chBoxRandDistOfInit.Location = new System.Drawing.Point(18, 189);
             this.chBoxRandDistOfInit.Name = "chBoxRandDistOfInit";
             this.chBoxRandDistOfInit.Size = new System.Drawing.Size(227, 21);
             this.chBoxRandDistOfInit.TabIndex = 7;
@@ -222,7 +249,7 @@
             // chBoxRandFightRes
             // 
             this.chBoxRandFightRes.AutoSize = true;
-            this.chBoxRandFightRes.Location = new System.Drawing.Point(18, 113);
+            this.chBoxRandFightRes.Location = new System.Drawing.Point(18, 162);
             this.chBoxRandFightRes.Name = "chBoxRandFightRes";
             this.chBoxRandFightRes.Size = new System.Drawing.Size(175, 21);
             this.chBoxRandFightRes.TabIndex = 7;
@@ -233,7 +260,7 @@
             // chBoxRandConOfLoc
             // 
             this.chBoxRandConOfLoc.AutoSize = true;
-            this.chBoxRandConOfLoc.Location = new System.Drawing.Point(18, 58);
+            this.chBoxRandConOfLoc.Location = new System.Drawing.Point(18, 107);
             this.chBoxRandConOfLoc.Name = "chBoxRandConOfLoc";
             this.chBoxRandConOfLoc.Size = new System.Drawing.Size(232, 21);
             this.chBoxRandConOfLoc.TabIndex = 7;
@@ -293,12 +320,14 @@
             // chBoxGoalGetItem
             // 
             this.chBoxGoalGetItem.AutoSize = true;
+            this.chBoxGoalGetItem.Enabled = false;
             this.chBoxGoalGetItem.Location = new System.Drawing.Point(6, 86);
             this.chBoxGoalGetItem.Name = "chBoxGoalGetItem";
             this.chBoxGoalGetItem.Size = new System.Drawing.Size(166, 21);
             this.chBoxGoalGetItem.TabIndex = 11;
             this.chBoxGoalGetItem.Text = "Get an important item";
             this.chBoxGoalGetItem.UseVisualStyleBackColor = true;
+            this.chBoxGoalGetItem.Visible = false;
             this.chBoxGoalGetItem.CheckedChanged += new System.EventHandler(this.ChBoxGoalGetItem_CheckedChanged);
             // 
             // chBoxGoalKill
@@ -315,25 +344,30 @@
             // chBoxGoalReachFinLoc
             // 
             this.chBoxGoalReachFinLoc.AutoSize = true;
+            this.chBoxGoalReachFinLoc.Enabled = false;
             this.chBoxGoalReachFinLoc.Location = new System.Drawing.Point(6, 59);
             this.chBoxGoalReachFinLoc.Name = "chBoxGoalReachFinLoc";
             this.chBoxGoalReachFinLoc.Size = new System.Drawing.Size(179, 21);
             this.chBoxGoalReachFinLoc.TabIndex = 10;
             this.chBoxGoalReachFinLoc.Text = "Reach the goal location";
             this.chBoxGoalReachFinLoc.UseVisualStyleBackColor = true;
+            this.chBoxGoalReachFinLoc.Visible = false;
             this.chBoxGoalReachFinLoc.CheckedChanged += new System.EventHandler(this.ChBoxGoalReachFinLoc_CheckedChanged);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtBoxEvChance);
+            this.groupBox2.Controls.Add(this.lblEvidence);
             this.groupBox2.Controls.Add(this.chBoxEachAgentsHasUG);
+            this.groupBox2.Controls.Add(this.txtProtagonistSurvTime);
             this.groupBox2.Controls.Add(this.chBoxStrOrdVicSec);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.chBoxUniqKills);
-            this.groupBox2.Controls.Add(this.checkBox16);
-            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.txtAntagonistSurvTime);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.checkBox7);
-            this.groupBox2.Controls.Add(this.checkBox6);
-            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.chBoxAntognstWillSurv);
+            this.groupBox2.Controls.Add(this.chBoxPrtgWillSurv);
+            this.groupBox2.Controls.Add(this.chBoxCanFindEvidence);
             this.groupBox2.Location = new System.Drawing.Point(525, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(288, 330);
@@ -341,21 +375,52 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Story settings:";
             // 
+            // txtBoxEvChance
+            // 
+            this.txtBoxEvChance.Enabled = false;
+            this.txtBoxEvChance.Location = new System.Drawing.Point(251, 37);
+            this.txtBoxEvChance.Name = "txtBoxEvChance";
+            this.txtBoxEvChance.Size = new System.Drawing.Size(31, 22);
+            this.txtBoxEvChance.TabIndex = 16;
+            this.txtBoxEvChance.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxEvChance_KeyPress);
+            // 
+            // lblEvidence
+            // 
+            this.lblEvidence.AutoSize = true;
+            this.lblEvidence.Location = new System.Drawing.Point(159, 40);
+            this.lblEvidence.Name = "lblEvidence";
+            this.lblEvidence.Size = new System.Drawing.Size(86, 17);
+            this.lblEvidence.TabIndex = 15;
+            this.lblEvidence.Text = "Chance (%):";
+            // 
             // chBoxEachAgentsHasUG
             // 
             this.chBoxEachAgentsHasUG.AutoSize = true;
-            this.chBoxEachAgentsHasUG.Location = new System.Drawing.Point(10, 170);
+            this.chBoxEachAgentsHasUG.Enabled = false;
+            this.chBoxEachAgentsHasUG.Location = new System.Drawing.Point(10, 239);
             this.chBoxEachAgentsHasUG.Name = "chBoxEachAgentsHasUG";
             this.chBoxEachAgentsHasUG.Size = new System.Drawing.Size(261, 21);
             this.chBoxEachAgentsHasUG.TabIndex = 9;
             this.chBoxEachAgentsHasUG.Text = "Each agent has its own unique goals";
             this.chBoxEachAgentsHasUG.UseVisualStyleBackColor = true;
+            this.chBoxEachAgentsHasUG.Visible = false;
             this.chBoxEachAgentsHasUG.CheckedChanged += new System.EventHandler(this.chBoxEachAgentsHasUG_CheckedChanged);
+            // 
+            // txtProtagonistSurvTime
+            // 
+            this.txtProtagonistSurvTime.Enabled = false;
+            this.txtProtagonistSurvTime.Location = new System.Drawing.Point(126, 88);
+            this.txtProtagonistSurvTime.Name = "txtProtagonistSurvTime";
+            this.txtProtagonistSurvTime.Size = new System.Drawing.Size(27, 22);
+            this.txtProtagonistSurvTime.TabIndex = 14;
+            this.txtProtagonistSurvTime.Text = "0";
+            this.txtProtagonistSurvTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtProtagonistSurvTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtProtagonistSurvTime_KeyPress);
             // 
             // chBoxStrOrdVicSec
             // 
             this.chBoxStrOrdVicSec.AutoSize = true;
-            this.chBoxStrOrdVicSec.Location = new System.Drawing.Point(10, 143);
+            this.chBoxStrOrdVicSec.Location = new System.Drawing.Point(10, 212);
             this.chBoxStrOrdVicSec.Name = "chBoxStrOrdVicSec";
             this.chBoxStrOrdVicSec.Size = new System.Drawing.Size(215, 21);
             this.chBoxStrOrdVicSec.TabIndex = 8;
@@ -363,10 +428,19 @@
             this.chBoxStrOrdVicSec.UseVisualStyleBackColor = true;
             this.chBoxStrOrdVicSec.CheckedChanged += new System.EventHandler(this.chBoxStrOrdVicSec_CheckedChanged);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 91);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(113, 17);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Term of survival:";
+            // 
             // chBoxUniqKills
             // 
             this.chBoxUniqKills.AutoSize = true;
-            this.chBoxUniqKills.Location = new System.Drawing.Point(10, 116);
+            this.chBoxUniqKills.Location = new System.Drawing.Point(10, 185);
             this.chBoxUniqKills.Name = "chBoxUniqKills";
             this.chBoxUniqKills.Size = new System.Drawing.Size(146, 21);
             this.chBoxUniqKills.TabIndex = 7;
@@ -374,62 +448,58 @@
             this.chBoxUniqKills.UseVisualStyleBackColor = true;
             this.chBoxUniqKills.CheckedChanged += new System.EventHandler(this.chBoxUniqKills_CheckedChanged);
             // 
-            // checkBox16
+            // txtAntagonistSurvTime
             // 
-            this.checkBox16.AutoSize = true;
-            this.checkBox16.CheckAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.checkBox16.Location = new System.Drawing.Point(168, 274);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(57, 38);
-            this.checkBox16.TabIndex = 6;
-            this.checkBox16.Text = "To end";
-            this.checkBox16.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(126, 281);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(27, 22);
-            this.textBox2.TabIndex = 5;
+            this.txtAntagonistSurvTime.Enabled = false;
+            this.txtAntagonistSurvTime.Location = new System.Drawing.Point(125, 148);
+            this.txtAntagonistSurvTime.Name = "txtAntagonistSurvTime";
+            this.txtAntagonistSurvTime.Size = new System.Drawing.Size(27, 22);
+            this.txtAntagonistSurvTime.TabIndex = 5;
+            this.txtAntagonistSurvTime.Text = "0";
+            this.txtAntagonistSurvTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtAntagonistSurvTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtAntagonistSurvTime_KeyPress);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 284);
+            this.label2.Location = new System.Drawing.Point(6, 151);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(113, 17);
             this.label2.TabIndex = 4;
             this.label2.Text = "Term of survival:";
             // 
-            // checkBox7
+            // chBoxAntognstWillSurv
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(10, 89);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(168, 21);
-            this.checkBox7.TabIndex = 3;
-            this.checkBox7.Text = "Antagonist will survive";
-            this.checkBox7.UseVisualStyleBackColor = true;
+            this.chBoxAntognstWillSurv.AutoSize = true;
+            this.chBoxAntognstWillSurv.Location = new System.Drawing.Point(6, 122);
+            this.chBoxAntognstWillSurv.Name = "chBoxAntognstWillSurv";
+            this.chBoxAntognstWillSurv.Size = new System.Drawing.Size(168, 21);
+            this.chBoxAntognstWillSurv.TabIndex = 3;
+            this.chBoxAntognstWillSurv.Text = "Antagonist will survive";
+            this.chBoxAntognstWillSurv.UseVisualStyleBackColor = true;
+            this.chBoxAntognstWillSurv.CheckedChanged += new System.EventHandler(this.chBoxAntognstWillSurv_CheckedChanged);
             // 
-            // checkBox6
+            // chBoxPrtgWillSurv
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(10, 62);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(173, 21);
-            this.checkBox6.TabIndex = 2;
-            this.checkBox6.Text = "Protagonist will survive";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.chBoxPrtgWillSurv.AutoSize = true;
+            this.chBoxPrtgWillSurv.Location = new System.Drawing.Point(10, 65);
+            this.chBoxPrtgWillSurv.Name = "chBoxPrtgWillSurv";
+            this.chBoxPrtgWillSurv.Size = new System.Drawing.Size(173, 21);
+            this.chBoxPrtgWillSurv.TabIndex = 2;
+            this.chBoxPrtgWillSurv.Text = "Protagonist will survive";
+            this.chBoxPrtgWillSurv.UseVisualStyleBackColor = true;
+            this.chBoxPrtgWillSurv.CheckedChanged += new System.EventHandler(this.chboxPrtgWillSurv_CheckedChanged);
             // 
-            // checkBox2
+            // chBoxCanFindEvidence
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(10, 32);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(143, 21);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Can find evidence";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.chBoxCanFindEvidence.AutoSize = true;
+            this.chBoxCanFindEvidence.Location = new System.Drawing.Point(10, 32);
+            this.chBoxCanFindEvidence.Name = "chBoxCanFindEvidence";
+            this.chBoxCanFindEvidence.Size = new System.Drawing.Size(143, 21);
+            this.chBoxCanFindEvidence.TabIndex = 1;
+            this.chBoxCanFindEvidence.Text = "Can find evidence";
+            this.chBoxCanFindEvidence.UseVisualStyleBackColor = true;
+            this.chBoxCanFindEvidence.CheckedChanged += new System.EventHandler(this.chBoxCanFindEvidence_CheckedChanged);
             // 
             // chBoxTA
             // 
@@ -444,8 +514,9 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button2);
-            this.groupBox3.Controls.Add(this.checkBox3);
+            this.groupBox3.Controls.Add(this.btnChoiseOutputPath);
+            this.groupBox3.Controls.Add(this.txtOutputPath);
+            this.groupBox3.Controls.Add(this.lblOutputPath);
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.label1);
@@ -454,56 +525,72 @@
             this.groupBox3.Size = new System.Drawing.Size(660, 111);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Download scenario:";
+            this.groupBox3.Text = "Files settings:";
             // 
-            // button2
+            // btnChoiseOutputPath
             // 
-            this.button2.Location = new System.Drawing.Point(425, 34);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(125, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Clear";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnChoiseOutputPath.Location = new System.Drawing.Point(425, 72);
+            this.btnChoiseOutputPath.Name = "btnChoiseOutputPath";
+            this.btnChoiseOutputPath.Size = new System.Drawing.Size(125, 23);
+            this.btnChoiseOutputPath.TabIndex = 7;
+            this.btnChoiseOutputPath.Text = "Select path";
+            this.btnChoiseOutputPath.UseVisualStyleBackColor = true;
+            this.btnChoiseOutputPath.Click += new System.EventHandler(this.btnChoiseOutputPath_Click);
             // 
-            // checkBox3
+            // txtOutputPath
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(43, 36);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(72, 21);
-            this.checkBox3.TabIndex = 3;
-            this.checkBox3.Text = "On/Off";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.txtOutputPath.Location = new System.Drawing.Point(236, 72);
+            this.txtOutputPath.Name = "txtOutputPath";
+            this.txtOutputPath.ReadOnly = true;
+            this.txtOutputPath.Size = new System.Drawing.Size(182, 22);
+            this.txtOutputPath.TabIndex = 6;
+            // 
+            // lblOutputPath
+            // 
+            this.lblOutputPath.AutoSize = true;
+            this.lblOutputPath.Location = new System.Drawing.Point(143, 72);
+            this.lblOutputPath.Name = "lblOutputPath";
+            this.lblOutputPath.Size = new System.Drawing.Size(87, 17);
+            this.lblOutputPath.TabIndex = 5;
+            this.lblOutputPath.Text = "Output path:";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(146, 62);
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(425, 34);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(273, 36);
+            this.button1.Size = new System.Drawing.Size(125, 22);
             this.button1.TabIndex = 2;
             this.button1.Text = "Select file";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             // 
             // textBox1
             // 
+            this.textBox1.Enabled = false;
             this.textBox1.Location = new System.Drawing.Point(237, 34);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(182, 22);
             this.textBox1.TabIndex = 1;
+            this.textBox1.Visible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(143, 34);
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(102, 37);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 17);
+            this.label1.Size = new System.Drawing.Size(123, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "File address:";
+            this.label1.Text = "Scenario-file path:";
+            this.label1.Visible = false;
             // 
             // chBoxCA
             // 
             this.chBoxCA.AutoSize = true;
+            this.chBoxCA.Checked = true;
+            this.chBoxCA.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chBoxCA.Location = new System.Drawing.Point(13, 59);
             this.chBoxCA.Name = "chBoxCA";
             this.chBoxCA.Size = new System.Drawing.Size(153, 21);
@@ -515,6 +602,8 @@
             // chBoxCE
             // 
             this.chBoxCE.AutoSize = true;
+            this.chBoxCE.Checked = true;
+            this.chBoxCE.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chBoxCE.Location = new System.Drawing.Point(195, 59);
             this.chBoxCE.Name = "chBoxCE";
             this.chBoxCE.Size = new System.Drawing.Size(140, 21);
@@ -569,6 +658,8 @@
             // chBoxAC
             // 
             this.chBoxAC.AutoSize = true;
+            this.chBoxAC.Checked = true;
+            this.chBoxAC.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chBoxAC.Location = new System.Drawing.Point(195, 273);
             this.chBoxAC.Name = "chBoxAC";
             this.chBoxAC.Size = new System.Drawing.Size(171, 21);
@@ -580,6 +671,8 @@
             // chBoxAP
             // 
             this.chBoxAP.AutoSize = true;
+            this.chBoxAP.Checked = true;
+            this.chBoxAP.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chBoxAP.Location = new System.Drawing.Point(13, 273);
             this.chBoxAP.Name = "chBoxAP";
             this.chBoxAP.Size = new System.Drawing.Size(176, 21);
@@ -659,6 +752,7 @@
             this.txtBoxNotesField.Multiline = true;
             this.txtBoxNotesField.Name = "txtBoxNotesField";
             this.txtBoxNotesField.ReadOnly = true;
+            this.txtBoxNotesField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBoxNotesField.Size = new System.Drawing.Size(495, 113);
             this.txtBoxNotesField.TabIndex = 0;
             // 
@@ -721,22 +815,19 @@
         private System.Windows.Forms.CheckBox chBoxGoalKill;
         private System.Windows.Forms.CheckBox chBoxGoalReachFinLoc;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox chBoxCanFindEvidence;
         private System.Windows.Forms.CheckBox chBoxTA;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox chBoxAntognstWillSurv;
+        private System.Windows.Forms.CheckBox chBoxPrtgWillSurv;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chBoxCA;
         private System.Windows.Forms.CheckBox chBoxCE;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox checkBox16;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtAntagonistSurvTime;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox chBoxCC;
         private System.Windows.Forms.CheckBox chBoxCP;
         private System.Windows.Forms.CheckBox chBoxAC;
@@ -751,6 +842,15 @@
         private System.Windows.Forms.CheckBox chBoxUniqKills;
         private System.Windows.Forms.CheckBox chBoxEachAgentsHasUG;
         private System.Windows.Forms.CheckBox chBoxStrOrdVicSec;
+        private System.Windows.Forms.Button btnChoiseOutputPath;
+        private System.Windows.Forms.TextBox txtOutputPath;
+        private System.Windows.Forms.Label lblOutputPath;
+        private System.Windows.Forms.TextBox txtBoxNodeCount;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtProtagonistSurvTime;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtBoxEvChance;
+        private System.Windows.Forms.Label lblEvidence;
     }
 }
 

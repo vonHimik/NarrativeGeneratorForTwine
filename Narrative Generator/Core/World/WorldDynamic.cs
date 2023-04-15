@@ -17,11 +17,22 @@ namespace Narrative_Generator
     [Serializable]
     public class WorldDynamic : ICloneable, IEquatable<WorldDynamic>
     {
+        /// <summary>
+        /// An immutable part of information about the world
+        /// </summary>
         private WorldStatic world;
+
+        /// <summary>
+        /// A set of locations in the world, information about them and their contents
+        /// </summary>
         private Dictionary<LocationStatic, LocationDynamic> currentStateOfLocations;
+
+        /// <summary>
+        /// Agents in the world, immutable and up-to-date information
+        /// </summary>
         private Dictionary<AgentStateStatic, AgentStateDynamic> agents;
 
-        // Plot variables - need to put it in a separate file and make a mechanism for reading from there
+        // Plot variables / TO DO: put it in a separate file and make a mechanism for reading from there
         // Dragon Age
         /// <summary>
         /// Information about reaching the story event in the story (progress point) - Help Mages.
@@ -749,6 +760,77 @@ namespace Narrative_Generator
         {
             this.world = (WorldStatic)world.Clone();
             UpdateHashCode();
+        }
+
+        public void SecondlyGetNearestAgent (ref ListOfDistanceToAgent list, LocationStatic startingLocation, int counter, ref HashSet<LocationStatic> locationsList)
+        {
+            foreach (var location in currentStateOfLocations)
+            {
+                if (location.Key.Equals(startingLocation))
+                {
+                    locationsList.Add(location.Key);
+
+                    foreach (var agent in location.Value.GetAgents())
+                    {
+                        if ((agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER)) && agent.Value.GetStatus())
+                        {
+                            list.Add(agent.Key, counter);
+                        }
+                    }
+
+                    foreach (var neighboringLocation in location.Key.GetConnectedLocations())
+                    {
+                        if (!locationsList.Contains(neighboringLocation))
+                        {
+                            SecondlyGetNearestAgent(ref list, neighboringLocation, counter++, ref locationsList);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method that returns the closest agent, relative to the location where it was called.
+        /// </summary>
+        /// <param name="startingLocation">Location where the search starts</param>
+        /// <param name="locationsList">List of visited locations</param>
+        /// <param name="counter">Distance counter</param>
+        /// <returns></returns>
+        public DistanceToAgent GetNearestAgentTo (LocationStatic startingLocation, HashSet<LocationStatic> locationsList = null, int counter = 0)
+        {
+            ListOfDistanceToAgent listOfAgents = new ListOfDistanceToAgent();
+
+            if (locationsList == null) { locationsList = new HashSet<LocationStatic>(); }
+
+            foreach (var location in currentStateOfLocations)
+            {
+                if (location.Key.Equals(startingLocation))
+                {
+                    locationsList.Add(location.Key);
+
+                    foreach (var agent in location.Value.GetAgents())
+                    {
+                        if ((agent.Key.GetRole().Equals(AgentRole.USUAL) || agent.Key.GetRole().Equals(AgentRole.PLAYER)) && agent.Value.GetStatus())
+                        {
+                            listOfAgents.Add(agent.Key, counter);
+                            return listOfAgents.GetFist();
+                        }
+                    }
+
+                    foreach (var neighboringLocation in location.Key.GetConnectedLocations())
+                    {
+                        if (!locationsList.Contains(neighboringLocation))
+                        {
+                            SecondlyGetNearestAgent(ref listOfAgents, neighboringLocation, counter++, ref locationsList);
+                        }
+                    }
+
+                    return listOfAgents.GetFist();
+                }
+            }
+
+            // This is where we get if there are no agents in the location.
+            return listOfAgents.GetFist();
         }
 
         /// <summary>

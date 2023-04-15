@@ -125,7 +125,7 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="index">The index of the required location.</param>
         /// <returns>Specific location from a list of all locations that have a path from that location.</returns>
-        public LocationStatic GetConnectedLocationsFromIndex (int index) { return connectedLocations.ElementAt(index); }
+        public LocationStatic GetConnectedLocationFromIndex (int index) { return connectedLocations.ElementAt(index); }
 
         /// <summary>
         /// Returns a random location from a list of all locations that have a path from this location (they are connected).

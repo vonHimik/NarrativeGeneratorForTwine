@@ -13,11 +13,23 @@ namespace Narrative_Generator
     public class AgentFoundEvidence : AgentProperty, ICloneable, IEquatable<AgentFoundEvidence>
     {
         // AgentFoundEvidence components
+        /// <summary>
+        /// An indicator of whether this agent behavior modifier is active.
+        /// </summary>
         private bool foundEvidence;
+        /// <summary>
+        /// Another agent that is the target of this agent behavior modifier.
+        /// </summary>
         private AgentStateStatic evidenceAgainst;
 
         // Hashcode
+        /// <summary>
+        /// An indicator of whether a hashcode has been generated for this component.
+        /// </summary>
         private bool hasHashCode;
+        /// <summary>
+        /// The hashcode of this component.
+        /// </summary>
         private int hashCode;
 
         /// <summary>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Narrative_Generator
 {
@@ -15,30 +16,87 @@ namespace Narrative_Generator
     public class AgentStateDynamic : IEquatable<AgentStateDynamic>, ICloneable
     {
         // Action components
+        /// <summary>
+        /// The agent's action plan.
+        /// </summary>
         private Plan myCurrentPlan;
+        /// <summary>
+        /// List of actions for the agent to perform at the current moment.
+        /// </summary>
         private List<PlanAction> myAvailableActions;
 
         // Properties
+        /// <summary>
+        /// Information about the agent that does not change over time.
+        /// </summary>
         private AgentStateStatic agentInfo;
+        /// <summary>
+        /// The current status of the agent.
+        /// </summary>
         private bool alive;
+        /// <summary>
+        /// The agent's goals.
+        /// </summary>
         private Goal myGoals;
+        /// <summary>
+        /// The value of the agent's initiative, which determines the order in which agents perform actions.
+        /// </summary>
         private int initiative;
+        /// <summary>
+        /// Agent behavior modifier: whether the agent is in a state of fear.
+        /// </summary>
         private bool scared;
+        /// <summary>
+        /// Agent behavior modifier: whether the agent is angry with another agent.
+        /// </summary>
         private AgentAngryAt angryAt;
+        /// <summary>
+        /// Agent behavior modifier: whether the agent has the location he wants to go to.
+        /// </summary>
         private LocationStatic wantsToGo;
+        /// <summary>
+        /// Agent behavior modifier: whether the agent intends to entrap another agent into a trap.
+        /// </summary>
         private WantToEntrap wantToEntrap;
+        /// <summary>
+        /// Agent behavior modifier: whether this agent is currently talking to another agent.
+        /// </summary>
         private TalkingWith talkingWith;
+        /// <summary>
+        /// The counter of turns in which the agent was idle.
+        /// </summary>
         private int skipedTurns;
+        /// <summary>
+        /// The counter of the remaining turns until the agent can move.
+        /// </summary>
         private int timeToMove;
+        /// <summary>
+        /// The counter of quests completed by the agent.
+        /// </summary>
         private int complitedQuestsCounter;
 
         // Beliefs
+        /// <summary>
+        /// Representation of the agent's beliefs about the surrounding world.
+        /// </summary>
         private WorldContext beliefs;
+        /// <summary>
+        /// Information about the evidence found by the agent.
+        /// </summary>
         private AgentFoundEvidence foundEvidence;
+        /// <summary>
+        /// List of locations investigated by the agent (in search of evidences).
+        /// </summary>
         private HashSet<LocationStatic> exploredRooms;
 
         // Hashcode
+        /// <summary>
+        /// An indicator of whether a hashcode has been generated for this component.
+        /// </summary>
         private bool hasHashCode;
+        /// <summary>
+        /// The hashcode of this component.
+        /// </summary>
         private int hashCode;
 
         /// <summary>
@@ -98,6 +156,10 @@ namespace Narrative_Generator
         /// <summary>
         /// Constructor with parameters.
         /// </summary>
+        /// <param name="alive">The current status of the agent.</param>
+        /// <param name="goals">The agent's goals.</param>
+        /// <param name="beliefs">Representation of the agent's beliefs about the surrounding world.</param>
+        /// <param name="agentInfo">Information about the agent that does not change over time.</param>
         public AgentStateDynamic (bool alive, Goal goals, WorldContext beliefs, AgentStateStatic agentInfo)
         {
             this.agentInfo = agentInfo;
@@ -171,13 +233,16 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="agent">The acting agent that performs the action.</param>
         /// <param name="currentWorldState">The current state of the storyworld.</param>
-        public void CalculatePlan(KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
+        /// <param name="note">Text to display on the main screen.</param>
+        public void CalculatePlan (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState, ref TextBox note)
         {
+            note.Text = "AGENT'S PLAN CALCULATING";
+
             // We create an instance of the FastDownward class to interact with the planner.
             FastDownward fastDownward = new FastDownward();
 
             PDDL_Module pddlModule = new PDDL_Module(currentWorldState.GetStaticWorldPart().GetSetting(), currentWorldState.GetStaticWorldPart().GetConnectionStatus(), 
-                                                       currentWorldState.GetAgents().Count);
+                                                       currentWorldState.GetAgents().Count, currentWorldState.GetStaticWorldPart().GetCanFindEvidence());
  
             // We initialize variables containing the names of the Domain and Problem PDDL files.
             string domainFileName = null;
@@ -192,28 +257,28 @@ namespace Narrative_Generator
             problemFileName = agent.Key.GetRole().ToString() + "Problem";
 
             // We launch the planner, specifying the names of the files with the corresponding Domain and Problem.
-            fastDownward.Run(domainFileName, problemFileName);
+            fastDownward.Run(domainFileName, problemFileName, ref note);
 
             // In the event that the planner successfully completed its work.
             if (fastDownward.isSuccess)
             {
                 // Then we try to extract the plan from the file created by the planner.
-                fastDownward.GetResultPlan(ref myCurrentPlan, currentWorldState);
+                fastDownward.GetResultPlan(ref myCurrentPlan, currentWorldState, ref note);
 
                 // If, for some reason, it was not possible to extract the plan, then recursively try to generate a new file with the Problem
                 //    and fetch the plan again.
                 if (!myCurrentPlan.planReceived)
                 {
-                    pddlModule.GeneratePDDLProblem(agent, currentWorldState, true);
-                    CalculatePlan(agent, currentWorldState);
+                    pddlModule.GeneratePDDLProblem(agent, currentWorldState, ref note);
+                    CalculatePlan(agent, currentWorldState, ref note);
                 }
             }
             // If the planner completed its work with an error, then recursively try to generate a new file with the Problem
             //    and fetch the plan again.
             else
             {
-                pddlModule.GeneratePDDLProblem(agent, currentWorldState);
-                CalculatePlan(agent, currentWorldState);
+                pddlModule.GeneratePDDLProblem(agent, currentWorldState, ref note);
+                CalculatePlan(agent, currentWorldState, ref note);
             }
         }
 
@@ -222,8 +287,11 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="agent">The acting agent that performs the action.</param>
         /// <param name="currentState">The current state of the storyworld.</param>
-        public void ReceiveAvailableActions (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentState)
+        /// <param name="note">Text to display on the main screen.</param>
+        public void ReceiveAvailableActions (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentState, ref TextBox note)
         {
+            note.Text = "LIST OF ACTIONS AVAILABLE FOR AGENT RECEIVING";
+
             ActionGenerator actionGenerator = new ActionGenerator();
             myAvailableActions = actionGenerator.GetAvailableActions(agent, currentState);
         }
@@ -273,7 +341,7 @@ namespace Narrative_Generator
         /// The method that sets the agent's status.
         /// </summary>
         /// <param name="status">Status value (alive - true / dead - false)</param>
-        public void SetStatus(bool status)
+        public void SetStatus (bool status)
         {
             alive = status;
             UpdateHashCode();
@@ -335,8 +403,11 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="agent">The acting agent that performs the action.</param>
         /// <param name="currentWorldState">The current state of the storyworld.</param>
-        public void RefreshBeliefsAboutTheWorld (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState)
+        /// <param name="note">Text to display on the main screen.</param>
+        public void RefreshBeliefsAboutTheWorld (KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, WorldDynamic currentWorldState, ref TextBox note)
         {
+            note.Text = "AGENT BELIEFS REFRESH";
+
             // Before clearing the information, remember the location in which the agent is located.
             //LocationStatic agentIsHereLoc = agent.Value.GetBeliefs().SearchAgentAmongLocations(agent.Key);
             LocationStatic agentIsHereLoc = currentWorldState.GetLocationByName(currentWorldState.SearchAgentAmongLocations(agent.Key).GetName()).Key;
@@ -646,6 +717,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Checks if the agent knows that one of the other agents is angry.
         /// </summary>
+        /// <returns>True if yes, otherwise false.</returns>
         public bool ThinksThatSomeoneIsAngry()
         {
             foreach (var a in beliefs.GetAgentsInWorld())

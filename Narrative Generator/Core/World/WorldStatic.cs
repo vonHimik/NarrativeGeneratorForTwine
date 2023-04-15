@@ -25,6 +25,7 @@ namespace Narrative_Generator
         private bool uniqWaysToKill;
         private bool strOrdVicSec;
         private bool eachAgentsHasUG;
+        private bool canFindEvidence;
 
         // Hashcode
         private bool hasHashCode;
@@ -44,6 +45,7 @@ namespace Narrative_Generator
             strOrdVicSec = false;
             eachAgentsHasUG = false;
             hasHashCode = false;
+            canFindEvidence = false;
             hashCode = 0;
         }
 
@@ -61,6 +63,7 @@ namespace Narrative_Generator
             uniqWaysToKill = clone.uniqWaysToKill;
             strOrdVicSec = clone.strOrdVicSec;
             eachAgentsHasUG = clone.eachAgentsHasUG;
+            canFindEvidence = clone.canFindEvidence;
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
         }
@@ -81,6 +84,7 @@ namespace Narrative_Generator
             clone.uniqWaysToKill = uniqWaysToKill;
             clone.strOrdVicSec = strOrdVicSec;
             clone.eachAgentsHasUG = eachAgentsHasUG;
+            clone.canFindEvidence = canFindEvidence;
 
             return clone;
         }
@@ -228,6 +232,22 @@ namespace Narrative_Generator
         /// </summary>
         /// <returns>True if yes, otherwise false.</returns>
         public bool GetAgentsHasUniqGoals() { return eachAgentsHasUG; }
+
+        /// <summary>
+        /// Enables a rule that allows agents to find evidences.
+        /// </summary>
+        public void CanFindEvidenceOn() { canFindEvidence = true; }
+
+        /// <summary>
+        /// Disables a rule that allows agents to find evidences.
+        /// </summary>
+        public void CanFindEvidenceOff() { canFindEvidence = false; }
+
+        /// <summary>
+        /// Returns whether the rule allowing agents to find evidences is enabled or not.
+        /// </summary>
+        /// <returns></returns>
+        public bool GetCanFindEvidence() { return canFindEvidence; }
 
         /// <summary>
         /// Method for comparing two WorldStatic instance.

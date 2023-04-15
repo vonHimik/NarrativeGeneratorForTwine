@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using Rivers;
+using System.Windows.Forms;
 
 namespace Narrative_Generator
 {
@@ -13,58 +13,196 @@ namespace Narrative_Generator
         //////////////////////////////////
         /* INTERNAL SYSTEMS COMPONENTS */
         /////////////////////////////////
+        /// <summary>
+        /// An object of the class that manages the generation of the planning domain and the planning problem.
+        /// </summary>
         public PDDL_Module pddlModule = new PDDL_Module();
+        /// <summary>
+        /// An object of the class that manages the assignment and control of the fulfillment of the goals of agents.
+        /// </summary>
         public GoalManager goalManager = new GoalManager();
+        /// <summary>
+        /// An object of the class that manages the creation and control of constraints.
+        /// </summary>
         public ConstraintManager constraintManager = new ConstraintManager();
+        /// <summary>
+        /// An object of the class that manages the agent action process.
+        /// </summary>
         public StoryworldConvergence storyworldConvergence = new StoryworldConvergence();
+        /// <summary>
+        /// An object of the class that manages the description of the story graph in the dot format.
+        /// </summary>
         public GraphСonstructor graphСonstructor = new GraphСonstructor();
+        /// <summary>
+        /// An object of the class that manages the description of the story graph in a format accepted by the Twine platform.
+        /// </summary>
         public TwineGraphConstructor twineGraphConstructor = new TwineGraphConstructor();
 
-        // Output graph
+        /// <summary>
+        /// Story graph, which is a collection of nodes connected by oriented edges.
+        /// </summary>
         public StoryGraph newStoryGraph = new StoryGraph();
 
-        // Settings
+        ///////////////
+        /* SETTINGS */
+        //////////////
+        /// <summary>
+        /// The type of setting in which the story is created.
+        /// </summary>
         public Setting setting;
+        /// <summary>
+        /// Active settings marker: whether the connection between locations will be used explicitly, 
+        ///    or from any one it will be possible to move to any location.
+        /// </summary>
         public bool RandomConnectionOfLocations { get; set; }
+        /// <summary>
+        /// Active settings marker: whether random events occur during the story generation.
+        /// </summary>
         public bool RandomEncounters { get; set; }
+        /// <summary>
+        /// Active settings marker: whether the result of aggressive actions of agents (leading to a change status of agents) will be determined randomly.
+        /// </summary>
         public bool RandomBattlesResults { get; set; }
+        /// <summary>
+        /// Active settings marker: whether the order of agent activity will be chosen randomly.
+        /// </summary>
         public bool RandomDistributionOfInitiative { get; set; }
+        /// <summary>
+        /// Active settings marker: whether to hide "empty" actions.
+        /// </summary>
         public bool HideNothingToDoActions { get; set; }
+        /// <summary>
+        /// Settings: seed for random generation.
+        /// </summary>
         public int Seed { get; set; }
+        /// <summary>
+        /// Settings: limit on the maximum number of nodes in a graph.
+        /// </summary>
         public int MaxNodes { get; set; }
-
+        /// <summary>
+        /// Settings: duration of protection of the protagonist from status change.
+        /// </summary>
+        public int ProtagonistProtectionTime { get; set; }
+        /// <summary>
+        /// Settings: duration of protection of the antagonist from status change.
+        /// </summary>
+        public int AntagonistProtectionTime { get; set; }
+        /// <summary>
+        /// Settings: the chance of success in the search for evidence action.
+        /// </summary>
+        public int EvidenceFindChance { get; set; }
+        /// <summary>
+        /// Active characters behaviours settings marker: whether agents can find evidences in a detective setting
+        /// </summary>
+        public bool CanFindEvidence { get; set; }
+        /// <summary>
+        /// Active characters behaviours settings marker: whether the protagonist will be protected by the system from actions that change the agent's status.
+        /// </summary>
+        public bool ProtagonistWillSurvive { get; set; }
+        /// <summary>
+        /// Active characters behaviours settings marker: whether the antagonist will be protected by the system from actions that change the agent's status.
+        /// </summary>
+        public bool AntagonistWillSurvive { get; set; }
+        /// <summary>
+        /// Active characters behaviours settings marker: each antagonist's "kill" action has a unique description depending on the conditions in which it was performed.
+        /// </summary>
         public bool UniqWaysToKill { get; set; }
+        /// <summary>
+        /// Active characters behaviours settings marker: the antagonist will complete his goals in a strictly defined order.
+        /// </summary>
         public bool StrOrdVicSec { get; set; }
+        /// <summary>
+        /// Active characters behaviours settings marker: each agent has unique goals, chosen randomly.
+        /// </summary>
         public bool EachAgentsHasUG { get; set; }
 
-        // Characters behaviours settings
+        /////////////////////////////////////
+        /* CHARACTERS BEHAVIOURS SETTINGS */
+        ////////////////////////////////////
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: the antagonist is able to initiate conversations with other agents.
+        /// </summary>
         public bool talkativeAntagonist;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: enemies are able to initiate conversations with other agents.
+        /// </summary>
         public bool talkativeEnemies;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: the antagonist know how to lure victims.
+        /// </summary>
         public bool cunningAntagonist;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: enemies know how to lure victims.
+        /// </summary>
         public bool cunningEnemies;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: the antagonist does not use aggressive actions (which can change the agent's status.
+        /// </summary>
         public bool peacefulAntagonist;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: enemies do not use aggressive actions (which can change the agent's status).
+        /// </summary>
         public bool peacefulEnemies;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: the protagonist cannot initiate communication with other agents.
+        /// </summary>
         public bool silentProtagonist;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: ordinary agents cannot initiate communication with other agents.
+        /// </summary>
         public bool silentCharacters;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: the protagonist can use aggressive actions (leading to a change in the agent's status).
+        /// </summary>
         public bool aggresiveProtagonist;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: ordinary agents can use aggressive actions (leading to a change in the agent's status).
+        /// </summary>
         public bool aggresiveCharacters;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: the protagonist becomes cowardly and can use the "run" action.
+        /// </summary>
         public bool cowardlyProtagonist;
+        /// <summary>
+        /// Marker to activation of the agent's behavior setting: ordinary agents become cowardly and can use the "run" action.
+        /// </summary>
         public bool cowardlyCharacters;
 
-        // System state
+        ///////////////////
+        /* SYSTEM STATE */
+        //////////////////
+        /// <summary>
+        /// The current state of the story world.
+        /// </summary>
         public WorldDynamic currentStoryState = new WorldDynamic();
+        /// <summary>
+        /// An indicator of whether at least one goal condition has been reached.
+        /// </summary>
         public bool reachedGoalState = false;
+        /// <summary>
+        /// The number of agents active in this story instance.
+        /// </summary>
         public int AgentsCounter { get; set; }
+        /// <summary>
+        /// The number of locations available in this story instance.
+        /// </summary>
         public int LocationsCounter { get; set; }
 
-        public void ReadUserSettingsInput()
+        /// <summary>
+        /// A method that reads user-selected settings and transfers them to individual system modules.
+        /// </summary>
+        /// <param name="note">Text to display on the main screen.</param>
+        public void ReadUserSettingsInput (ref TextBox note)
         {
+            note.Text = "SETTINGS READING";
+
             // We read the setting and save it in the starting state of the world.
             currentStoryState.GetStaticWorldPart().SetSetting(setting);
 
             // If random connections of locations are defined, or a generic fantasy setting is chosen, 
             //   then we write in the start state information that the locations are interconnected.
-            if (RandomConnectionOfLocations || setting.Equals(Setting.GenericFantasy) || setting.Equals(Setting.Detective))
+            if (RandomConnectionOfLocations || setting.Equals(Setting.GenericFantasy) || setting.Equals(Setting.Detective) 
+                || (setting.Equals(Setting.DragonAge) && RandomEncounters))
             { currentStoryState.GetStaticWorldPart().ConnectionOn(); }
 
             // If a random result of battles is determined, then we write information about this in the starting state.
@@ -73,15 +211,13 @@ namespace Narrative_Generator
             // If it is determined that it is required to hide actions of the "do nothing" type, then we inform the graph construct about this.
             if (HideNothingToDoActions) { graphСonstructor.HideNTDActions(); }
 
-            // If it is determined that some of the actions will be hidden, then we increase the limit of nodes in the story graph.
-            if (HideNothingToDoActions) { MaxNodes = 1500; } else { MaxNodes = 350; }
-
             if (UniqWaysToKill) { currentStoryState.GetStaticWorldPart().UniqWaysToKillOn(); }
             if (StrOrdVicSec) { currentStoryState.GetStaticWorldPart().StrictOrderOfVictimSelectionOn(); }
             if (EachAgentsHasUG) { currentStoryState.GetStaticWorldPart().AgentsHasUniqGoalsOn(); }
+            if (CanFindEvidence) { currentStoryState.GetStaticWorldPart().CanFindEvidenceOn(); }
 
             // We initialize the module for constructing pddl files with the necessary information.
-            pddlModule.Initialization(setting, currentStoryState.GetStaticWorldPart().GetConnectionStatus(), AgentsCounter);
+            pddlModule.Initialization(setting, currentStoryState.GetStaticWorldPart().GetConnectionStatus(), AgentsCounter, CanFindEvidence);
             pddlModule.charactersBehaviourInitialization(talkativeAntagonist, talkativeEnemies, cunningAntagonist, cunningEnemies, peacefulAntagonist, peacefulEnemies,
                                                          silentProtagonist, silentCharacters, aggresiveProtagonist, aggresiveCharacters, cowardlyProtagonist,
                                                          cowardlyCharacters);
@@ -93,9 +229,11 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that creates an initial state of the world based on user preferences.
         /// </summary>
-        public void CreateInitialState()
+        /// <param name="note">Text to display on the main screen.</param>
+        public void CreateInitialState (ref TextBox note)
         {
             // === LOCATIONS CREATING ===
+            note.Text = "LOCATIONS CREATING";
 
             // We create locations, determine their names and the presence of evidence in them.
             List<string> locationNames = CreateLocationsNamesList(LocationsCounter);
@@ -106,6 +244,7 @@ namespace Narrative_Generator
             CreateEnviroment(locations);
 
             // === AGENTS CREATING ===
+            note.Text = "AGENTS CREATING";
 
             // We create sets of attributes for agents: names, states, roles, goals, and beliefs.
             List<string> names = CreateAgentsNamesList(AgentsCounter);
@@ -167,7 +306,9 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that creates a list of names for locations.
         /// </summary>
-        public List<string> CreateLocationsNamesList(int locationsCounter)
+        /// <param name="locationsCounter">The number of locations that should be present in the world.</param>
+        /// <returns>List of names for locations of the specified size.</returns>
+        public List<string> CreateLocationsNamesList (int locationsCounter)
         {
             // We create an empty list.
             List<string> namesList = new List<string>();
@@ -202,8 +343,9 @@ namespace Narrative_Generator
                 case Setting.Detective:
                     specifiedNamesList = new List<string>
                     {
-                        "LivingRoom", "Rock", "Beach", "PlayerRoom", "WargraveRoom", "MacArthurRoom", "BrentRoom", "RogersRoom",
-                        "ArmstrongRoom", "BloreRoom", "LombardRoom", "ClaytonRoom", "MarstonRoom"
+                        /*"LivingRoom", "Rock", "Beach", "PlayerRoom", "WargraveRoom", "MacArthurRoom", "BrentRoom", "RogersRoom",
+                        "ArmstrongRoom", "BloreRoom", "LombardRoom", "ClaytonRoom", "MarstonRoom"*/
+                        "LivingRooms", "Hall", "Rock", "Beach"
                     };
                     break;
                 case Setting.DefaultDemo:
@@ -228,20 +370,16 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that determines in which of the locations the evidence will be located.
         /// </summary>
-        public List<bool> CreateLocationsEvidencesList(int evidenceCount)
+        /// <param name="evidenceCount">The number of evidences to be found.</param>
+        /// <returns>List of booleans variables corresponding to locations with corresponding indexes.</returns>
+        public List<bool> CreateLocationsEvidencesList (int evidenceCount)
         {
             // We create a list that stores information about the presence of evidence in locations.
             List<bool> locationsEvidences = new List<bool>();
 
             for (int i = 0; i < evidenceCount; i++) { locationsEvidences.Add(false); }
 
-            switch (setting)
-            {
-                case Setting.DragonAge: return locationsEvidences;
-                case Setting.GenericFantasy: return locationsEvidences;
-                case Setting.Detective: return locationsEvidences;
-                case Setting.DefaultDemo: return locationsEvidences;
-            }
+            if (!CanFindEvidence) { return locationsEvidences; }
 
             // We go through the list, adding information about the presence of evidence. At the moment - there is no evidence !!!
             // Until we reach the specified cell (there may be more names than necessary).
@@ -254,8 +392,12 @@ namespace Narrative_Generator
             return locationsEvidences;
         }
 
-        // A method that creates a list defining the states of agents.
-        public List<bool> CreateStatusesList(int agentsCounter)
+        /// <summary>
+        /// A method that creates a list defining the states of agents.
+        /// </summary>
+        /// <param name="agentsCounter">The number of agents that will be represented in the world.</param>
+        /// <returns>List of booleans variables corresponding to agents with corresponding indexes.</returns>
+        public List<bool> CreateStatusesList (int agentsCounter)
         {
             // We create an empty list.
             List<bool> statuses = new List<bool>();
@@ -271,7 +413,11 @@ namespace Narrative_Generator
             return statuses;
         }
 
-        // A method that creates a list of names for agents.
+        /// <summary>
+        ///  A method that creates a list of names for agents.
+        /// </summary>
+        /// <param name="agentsCounter">The number of agents that will be represented in the world.</param>
+        /// <returns>List of names for agents of the specified size.</returns>
         public List<string> CreateAgentsNamesList (int agentsCounter)
         {
             // We create an empty list.
@@ -334,7 +480,9 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns a randomly selected location name from a list of locations.
         /// </summary>
-        public string GetRandomLocationName(List<string> namesList)
+        /// <param name="namesList">List of names of locations present in the world.</param>
+        /// <returns>Location name.</returns>
+        public string GetRandomLocationName (List<string> namesList)
         {
             // We get a random number, from 0 to the number of elements in the list.
             Random random = new Random(Seed);
@@ -347,7 +495,9 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that creates a list of roles for agents.
         /// </summary>
-        public List<AgentRole> CreateAgentsRolesList(int agentsCounter)
+        /// <param name="agentsCounter">The number of agents that will be represented in the world.</param>
+        /// <returns>List of agent's roles corresponding to agents with corresponding indexes.</returns>
+        public List<AgentRole> CreateAgentsRolesList (int agentsCounter)
         {
             // We create an empty list.
             List<AgentRole> rolesList = new List<AgentRole>();
@@ -407,10 +557,18 @@ namespace Narrative_Generator
 
         /// <summary>
         /// We get info about agents from user input. From it we find out how many agents there are, what roles they have, their beliefs, 
-        /// and we will have to design them and add them to the game world.
+        ///    and we will have to design them and add them to the game world.
         /// </summary>
-        public void CreateAgents(List<string> names, List<bool> statuses, List<AgentRole> roles, List<Goal> goals, 
-                                 List<WorldContext> beliefs, string spawnLocationName, int numbers, List<string> namesList)
+        /// <param name="names">List of agent names.</param>
+        /// <param name="statuses">List of initial states of agents.</param>
+        /// <param name="roles">List of agent roles.</param>
+        /// <param name="goals">List of agents goals.</param>
+        /// <param name="beliefs">List of agents beliefs.</param>
+        /// <param name="spawnLocationName">List of locations where agents spawn.</param>
+        /// <param name="numbers">The number of agents that will be represented in the world.</param>
+        /// <param name="namesList">List of location names.</param>
+        public void CreateAgents (List<string> names, List<bool> statuses, List<AgentRole> roles, List<Goal> goals, 
+                                  List<WorldContext> beliefs, string spawnLocationName, int numbers, List<string> namesList)
         {
             for (int i = 0; i < numbers; i++)
             {
@@ -472,7 +630,15 @@ namespace Narrative_Generator
                         }
                         break;
                     case Setting.Detective:
-                        CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[i]);
+                        if (i < namesList.Count)
+                        {
+                            CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[i]);
+                        }
+                        else
+                        {
+                            CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[namesList.Count - 1]);
+                        }
+                        //CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[i]);
                         break;
                     case Setting.DefaultDemo:
                         CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*namesList[i]*/ spawnLocationName);
@@ -485,6 +651,12 @@ namespace Narrative_Generator
         /// This method creates a separate agent using the information passed to it. 
         /// Then it places the agent on the environment and passes information about it to it.
         /// </summary>
+        /// <param name="name">Agent name.</param>
+        /// <param name="status">The initial state of the agent.</param>
+        /// <param name="role">Agent role.</param>
+        /// <param name="goals">Agent goals.</param>
+        /// <param name="beliefs">Agent beliefs.</param>
+        /// <param name="spawnLocationName">Agent's spawn location.</param>
         public void CreateAgent (string name, bool status, AgentRole role, Goal goals, WorldContext beliefs, string spawnLocationName)
         {
             // We clone locations from the world.
@@ -512,7 +684,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that adds locations to the current state of the world.
         /// </summary>
-        public void CreateEnviroment(Dictionary<LocationStatic, LocationDynamic> locations)
+        /// <param name="locations">List of locations in the world.</param>
+        public void CreateEnviroment (Dictionary<LocationStatic, LocationDynamic> locations)
         {
             // Add locations to the dynamic component of the current state of the world.
             currentStoryState.AddLocations(locations);
@@ -566,10 +739,12 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        ///  A method that implements a random number generator, in the range 0 through 99, 
+        /// A method that implements a random number generator, in the range 0 through 99, 
         ///     that returns a set of numbers no larger than the specified size.
         /// </summary>
-        public List<int> NumberGenerator(int maximum)
+        /// <param name="maximum">Limit on the size of the generated set.</param>
+        /// <returns>A set of random numbers.</returns>
+        public List<int> NumberGenerator (int maximum)
         {
             // We will instantiate the random number generator.
             Random random = new Random(Seed);
@@ -602,7 +777,9 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that returns a randomly selected number from a specified list of numbers and removes it from the list.
         /// </summary>
-        public int RandomSelectionFromTheList(ref List<int> list)
+        /// <param name="list">A set of numbers.</param>
+        /// <returns>A number randomly selected from a set.</returns>
+        public int RandomSelectionFromTheList (ref List<int> list)
         {
             // We will instantiate the random number generator.
             Random random = new Random(Seed);
@@ -622,8 +799,11 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that defines the constraints imposed on the story.
         /// </summary>
-        public void CreateConstraints()
+        /// <param name="note">Text to display on the main screen.</param>
+        public void CreateConstraints(ref TextBox note)
         {
+            note.Text = "CONSTRAINTS CREATING";
+
             switch (setting)
             {
                 case Setting.DragonAge:
@@ -672,7 +852,7 @@ namespace Narrative_Generator
                                                                              restrictedLocations, playerAgent, 3); // questsLimitFromPlayerBeforeMoveToDenerim
 
 
-                    constraintManager.CreateActionRestrictingConstraint(true, true, false, new HelpMages(), 
+                    constraintManager.CreateActionRestrictingConstraint(true, true, false, new HelpMages(),
                                                                            new List<PlanAction> { new HelpTemplars() }, 0); // helpMagesVsHelpTemplar
 
                     constraintManager.CreateActionRestrictingConstraint(true, true, false, new HelpTemplars(),
@@ -706,8 +886,8 @@ namespace Narrative_Generator
                         constraintManager.CreateRestrictingLocationConstraint(false, false, false, false, false, false, false, true, false, false, false,
                                                                                  locationsForEncauters, enemyes, 0); // locationRestrictingForEnemyes
 
-                        /*constraintManager.CreateRestrictingLocationConstraint(false, false, false, true, false, false, false, false, false, false, false,
-                                                                                 null, enemyes, 0);*/ // revisitBanForEnemyes
+                        constraintManager.CreateRestrictingLocationConstraint(false, false, false, true, false, false, false, false, false, false, false,
+                                                                                 null, enemyes, 0); // revisitBanForEnemyes
 
                         constraintManager.CreateRestrictingLocationConstraint(false, false, false, false, false, false, false, false, true, false, false,
                                                                                  null, enemyes, 0); // doNotMoveEnemyes
@@ -751,17 +931,57 @@ namespace Narrative_Generator
                     constraintManager.CreateAliveConstraint(false, false, true, currentStoryState.GetAgentByName("InsidiousVillain").Key, 0); // endIfBossDied
 
                     break;
-                case Setting.Detective: break;
-                case Setting.DefaultDemo:
-                    // The killer must be alive for the first N turns.
-                    constraintManager.CreateAliveConstraint(true, false, false, currentStoryState.GetAgentByRole(AgentRole.ANTAGONIST).Key, 1);
+                case Setting.Detective:
+                    HashSet<LocationStatic> detectiveLocations = new HashSet<LocationStatic>();
+                    foreach (var location in currentStoryState.GetLocations())
+                    {
+                        detectiveLocations.Add(location.Key);
+                    }
+
+                    HashSet<AgentStateStatic> killerAgent = new HashSet<AgentStateStatic>();
+                    killerAgent.Add(currentStoryState.GetAgentByRole(AgentRole.ANTAGONIST).Key);
+                
+                    constraintManager.CreateRestrictingLocationConstraint(false, false, false, false, true, false, false, false, false, false, false,
+                                                         detectiveLocations, killerAgent, 0); // killerCantMoveTwice
                     break;
+                case Setting.DefaultDemo: break;
+            }
+
+            if (ProtagonistWillSurvive)
+            {
+                if (ProtagonistProtectionTime == 0)
+                {
+                    constraintManager.CreateAliveConstraint(false, true, true, currentStoryState.GetAgentByRole(AgentRole.PLAYER).Key, 
+                        ProtagonistProtectionTime);
+                }
+                else if (ProtagonistProtectionTime > 0)
+                {
+                    constraintManager.CreateAliveConstraint(true, false, true, currentStoryState.GetAgentByRole(AgentRole.PLAYER).Key, 
+                        ProtagonistProtectionTime);
+                }
+            }
+
+            if (AntagonistWillSurvive)
+            {
+                if (AntagonistProtectionTime == 0)
+                {
+                    constraintManager.CreateAliveConstraint(false, true, true, currentStoryState.GetAgentByRole(AgentRole.ANTAGONIST).Key,
+                        AntagonistProtectionTime);
+                }
+                else if (AntagonistProtectionTime > 0)
+                {
+                    constraintManager.CreateAliveConstraint(true, false, true, currentStoryState.GetAgentByRole(AgentRole.ANTAGONIST).Key,
+                        AntagonistProtectionTime);
+                }
             }
         }
 
         /// <summary>
-        /// A method that creates a set of ready-made locations.
+        ///  A method that creates a set of ready-made locations.
         /// </summary>
+        /// <param name="locationNames">List of location names.</param>
+        /// <param name="locationsEvidences">List of evidences in locations.</param>
+        /// <returns>List of generated locations.</returns>
         public Dictionary<LocationStatic, LocationDynamic> CreateLocationSet (List<string> locationNames, List<bool> locationsEvidences)
         {
             // Create an empty set of locations.
@@ -788,6 +1008,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that creates a set of beliefs to convey to agents.
         /// </summary>
+        /// <param name="count">The size of the generated set.</param>
+        /// <returns>List of agents beliefs.</returns>
         public List<WorldContext> CreateBeliefsSet (int count)
         {
             // Create an empty list of beliefs.
@@ -808,6 +1030,7 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that shuffles locations in a transferred set of locations.
         /// </summary>
+        /// <param name="locations">List of locations in the world.</param>
         public void OrderLocationsRandom (ref Dictionary<LocationStatic, LocationDynamic> locations)
         {
             // Sorting locations based on their hashcode values.
@@ -817,6 +1040,8 @@ namespace Narrative_Generator
         /// <summary>
         /// A method that verifies that all locations in the transferred set are connected (there is a way that can bypass all locations).
         /// </summary>
+        /// <param name="locations">List of locations in the world.</param>
+        /// <returns>True if the path through all locations is found, false otherwise.</returns>
         public bool pathExistenceControlling (Dictionary<LocationStatic, LocationDynamic> locations)
         {
             bool result = false;
@@ -856,9 +1081,12 @@ namespace Narrative_Generator
             return result;
         }
 
+
         /// <summary>
         /// A method that randomly assigns connections between locations.
         /// </summary>
+        /// <param name="locations">List of locations in the world.</param>
+        /// <returns>List of locations connected to each other.</returns>
         public Dictionary<LocationStatic, LocationDynamic> LocationsConnection (Dictionary<LocationStatic, LocationDynamic> locations)
         {
             bool pathExists = false;
@@ -880,25 +1108,22 @@ namespace Narrative_Generator
                         //Random random = new Random(Seed);
                         Random random = new Random();
 
-                        int connectionLimit = random.Next(1, 3);
+                        int connectionLimit = random.Next(1, 2); // 3
 
                         // While the location has no connections with other locations.
                         while (location.Key.GetConnectedLocations().Count == 0)
                         {
-                            // We get a random number.
-                            int rand = random.Next(locations.Count);
-
-                            // If the currently considered location is not equal to the location from the list, whose index is equal 
-                            //   to the received random number, and these locations have no connection with each other, and the number of connections 
-                            //   of the location in question is no more than three, as well as the number of links for a location obtained by an index 
-                            //   equal to a random number.
-                            if (!location.Equals(locations.ElementAt(rand)) && !location.Key.ConnectionChecking(locations.ElementAt(rand).Key)
-                                   && location.Key.GetConnectedLocations().Count < connectionLimit
-                                   && locations.ElementAt(rand).Key.GetConnectedLocations().Count < connectionLimit)
+                            for (int i = 0; i < connectionLimit; i++)
                             {
-                                // Then we connect these locations with each other.
-                                location.Key.AddConnection(locations.ElementAt(rand).Key);
-                                locations.ElementAt(rand).Key.AddConnection(location.Key);
+                                // We get a random number.
+                                int rand = random.Next(locations.Count);
+
+                                if (!location.Equals(locations.ElementAt(rand)) && !location.Key.ConnectionChecking(locations.ElementAt(rand).Key))
+                                {
+                                    // Then we connect these locations with each other.
+                                    location.Key.AddConnection(locations.ElementAt(rand).Key);
+                                    locations.ElementAt(rand).Key.AddConnection(location.Key);
+                                }
                             }
                         }
                     }
@@ -938,17 +1163,72 @@ namespace Narrative_Generator
                     }
                 }
             }
+            else if (setting.Equals(Setting.DragonAge) && RandomEncounters)
+            {
+                foreach (var location1 in locations)
+                {
+                    foreach (var location2 in locations)
+                    {
+                        if (location1.Key.GetName().Equals("Lothering") && 
+                            (location2.Key.GetName().Equals("MagesTower") || 
+                             location2.Key.GetName().Equals("BrecilianForest") || 
+                             location2.Key.GetName().Equals("Orzammar")))
+                        {
+                            location1.Key.AddConnection(location2.Key);
+                            location2.Key.AddConnection(location1.Key);
+                        }
+                        else if (location1.Key.GetName().Equals("Road") && 
+                            (location2.Key.GetName().Equals("MagesTower") || 
+                             location2.Key.GetName().Equals("BrecilianForest") || 
+                             location2.Key.GetName().Equals("Orzammar")))
+                        {
+                            location1.Key.AddConnection(location2.Key);
+                            location2.Key.AddConnection(location1.Key);
+                        }
+                        else if (location1.Key.GetName().Equals("Riverside") && 
+                            (location2.Key.GetName().Equals("MagesTower") ||
+                             location2.Key.GetName().Equals("BrecilianForest") ||
+                             location2.Key.GetName().Equals("Orzammar")))
+                        {
+                            location1.Key.AddConnection(location2.Key);
+                            location2.Key.AddConnection(location1.Key);
+                        }
+                        else if (location1.Key.GetName().Equals("Crossroad") && 
+                            (location2.Key.GetName().Equals("MagesTower") ||
+                             location2.Key.GetName().Equals("BrecilianForest") ||
+                             location2.Key.GetName().Equals("Orzammar")))
+                        {
+                            location1.Key.AddConnection(location2.Key);
+                            location2.Key.AddConnection(location1.Key);
+                        }
+                        else if (location1.Key.GetName().Equals("Denerim") &&
+                            (location2.Key.GetName().Equals("MagesTower") ||
+                            location2.Key.GetName().Equals("BrecilianForest") ||
+                            location2.Key.GetName().Equals("Orzammar") ||
+                            location2.Key.GetName().Equals("Crossroad") ||
+                            location2.Key.GetName().Equals("Riverside") ||
+                            location2.Key.GetName().Equals("Road")))
+                        {
+                            location1.Key.AddConnection(location2.Key);
+                            location2.Key.AddConnection(location1.Key);
+                        }
+                        else if (location1.Key.GetName().Equals("DeepRoads") && location2.Key.GetName().Equals("Denerim"))
+                        {
+                            location1.Key.AddConnection(location2.Key);
+                            location2.Key.AddConnection(location1.Key);
+                        }
+                    }
+                }
+            }
             else if (setting.Equals(Setting.Detective))
             {
                 foreach (var location1 in locations)
                 {
                     foreach (var location2 in locations)
                     {
-                        if ((location1.Key.GetName().Equals("Rock") && location2.Key.GetName().Equals("LivingRoom"))
-                            || (location1.Key.GetName().Equals("Beach") && location2.Key.GetName().Equals("LivingRoom"))
-                            || (location1.Key.GetName().Equals("LivingRoom") && location2.Key.GetName().Equals("PlayerRoom"))
-                            || (location1.Key.GetName().Equals("LivingRoom") && location2.Key.GetName().Equals("WargraveRoom"))
-                            || (location1.Key.GetName().Equals("WargraveRoom") && location2.Key.GetName().Equals("MacArturRoom")))
+                        if ((location1.Key.GetName().Equals("Rock") && location2.Key.GetName().Equals("Hall"))
+                            || (location1.Key.GetName().Equals("Beach") && location2.Key.GetName().Equals("Rock"))
+                            || (location1.Key.GetName().Equals("LivingRooms") && location2.Key.GetName().Equals("Hall")))
                         {
                             location1.Key.AddConnection(location2.Key);
                             location2.Key.AddConnection(location1.Key);
@@ -962,18 +1242,77 @@ namespace Narrative_Generator
         }
 
         /// <summary>
+        /// A method that checks the correct connection of nodes in a graph and fixes bugs.
+        /// </summary>
+        /// <param name="newStoryGraph">Generated story graph.</param>
+        public void FixingOfIncorrectlyConnectedNodes (ref StoryGraph newStoryGraph)
+        {
+            for (int i = 1; i < newStoryGraph.GetNodes().Count; i++)
+            {
+                if (newStoryGraph.GetNodes().ElementAt(i).GetEdges().Count == 1 && !newStoryGraph.GetNodes().ElementAt(i).goalState)
+                {
+                    int troubleNodeNumber = newStoryGraph.GetNodes().ElementAt(i).GetNumberInSequence();
+                    int radius = 10;
+
+                    for (int j = troubleNodeNumber; j < troubleNodeNumber + radius; j++)
+                    {
+                        int dif = newStoryGraph.GetNodes().ElementAt(j).GetEdges().Count - newStoryGraph.GetNodes().ElementAt(j).GetLinks().Count;
+                        if (dif > 1)
+                        {
+                            int stopNumber = (newStoryGraph.GetNodes().ElementAt(j).GetEdges().Count - 1) / 2;
+                            int startNumber = (newStoryGraph.GetNodes().ElementAt(j).GetEdges().Count) - 1;
+
+                            for (int z = startNumber; z > stopNumber; z--)
+                            {
+                                newStoryGraph.GetNodes().ElementAt(j).GetEdges().ElementAt(z).SetUpperNode(newStoryGraph.GetNodes().ElementAt(i));
+                                newStoryGraph.GetNodes().ElementAt(i).AddEdge(newStoryGraph.GetNodes().ElementAt(j).GetEdges().ElementAt(z));
+                                newStoryGraph.GetNodes().ElementAt(j).RemoveEdge(newStoryGraph.GetNodes().ElementAt(j).GetEdges().ElementAt(z));
+                            }
+
+                            break;
+                        }
+                    }
+
+                    for (int j = troubleNodeNumber; j > troubleNodeNumber - radius; j--)
+                    {
+                        int dif = newStoryGraph.GetNodes().ElementAt(j).GetEdges().Count - newStoryGraph.GetNodes().ElementAt(j).GetLinks().Count;
+                        if (dif > 1)
+                        {
+                            int stopNumber = (newStoryGraph.GetNodes().ElementAt(j).GetEdges().Count - 1) / 2;
+                            int edgesCount = newStoryGraph.GetNodes().ElementAt(j).GetEdges().Count;
+                            int startNumber = edgesCount - 1;
+
+                            for (int z = startNumber; z > stopNumber; z--)
+                            {
+                                newStoryGraph.GetNodes().ElementAt(j).GetEdges().ElementAt(z).SetUpperNode(newStoryGraph.GetNodes().ElementAt(i));
+                                newStoryGraph.GetNodes().ElementAt(i).AddEdge(newStoryGraph.GetNodes().ElementAt(j).GetEdges().ElementAt(z));
+                                newStoryGraph.GetNodes().ElementAt(j).RemoveEdge(newStoryGraph.GetNodes().ElementAt(j).GetEdges().ElementAt(z));
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Method is an entry point that controls the operation of the algorithm (the sequence of launching other methods).
         /// </summary>
-        public void Start()
+        /// <param name="note">Text to display on the main screen.</param>
+        /// <param name="txtOutputPath">The path to write the resulting files.</param>
+        public void Start (ref TextBox note, string txtOutputPath)
         {
             // We read the settings and create the initial state of the world.
-            ReadUserSettingsInput();
-            CreateInitialState();
-            CreateConstraints();
+            ReadUserSettingsInput(ref note);
+            CreateInitialState(ref note);
+            CreateConstraints(ref note);
             storyworldConvergence.SetConstraints(constraintManager.GetConstraints());
-            pddlModule.GeneratePDDLDomains();
+            pddlModule.GeneratePDDLDomains(ref note);
 
             // We create a start node (root) based on the start state of the world.
+            note.Text = "ROOT NODE CREATING";
             StoryNode root = new StoryNode();
             root.SetWorldState(currentStoryState);
             root.SetActivePlayer(false);
@@ -981,20 +1320,64 @@ namespace Narrative_Generator
             newStoryGraph.SetRoot(root);
 
             // The algorithm calculates a SPECIFIC story.
-            newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot());
+            note.Text = "STORY GRAPH CREATING - START";
+            newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot(), ref note);
+
+            FixingOfIncorrectlyConnectedNodes(ref newStoryGraph);
 
             // Create a visual graph.
-            graphСonstructor.CreateGraph(newStoryGraph, @"D:\Graphviz\bin\newStoryGraph.dt");
+            note.Text = "VISUAL GRAPH CREATING";
+            DialogResult result = MessageBox.Show(
+                "Would you like to continue or move on to the next step?",
+                "Graph visualization",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+
+            if (result == DialogResult.No) {}
+            else if (result == DialogResult.Yes)
+            {
+                graphСonstructor.CreateGraph(newStoryGraph, txtOutputPath + @"\newStoryGraph.dt", ref note);
+            }
 
             // Create an HTML file including Twine engine and generated history.
-            twineGraphConstructor.CreateTwineGraph(newStoryGraph);
+            note.Text = "TWINE FILE CREATING";
+            DialogResult result2 = MessageBox.Show(
+                "Would you like to continue or move on to the next step?",
+                "Creating a file for TWINE based on a graph",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+
+            if (result2 == DialogResult.No) { }
+            else if (result2 == DialogResult.Yes)
+            {
+                twineGraphConstructor.CreateTwineGraph(newStoryGraph, txtOutputPath);
+            }
+
+            DialogResult result3 = MessageBox.Show(
+                "The program has been successfully completed.",
+                "Exit",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1,
+                MessageBoxOptions.DefaultDesktopOnly);
+
+            if (result3 == DialogResult.OK) { return; }
         }
 
         /// <summary>
         /// A method in which we sequentially create a story graph, node by node, starting at the root, using the concept of Breadth First Search.
         /// </summary>
-        public void BFSTraversing(StoryNode rootNode, bool root = true)
+        /// <param name="rootNode">The starting node of the graph (root).</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        /// <param name="root">A marker that is considering the root node.</param>
+        public void BFSTraversing (StoryNode rootNode, ref TextBox note, bool root = true)
         {
+            note.Text = "STORY GRAPH CREATING - CONSTRUCTION";
+
             // We create a queue and a list of visited nodes.
             Queue<StoryNode> queue = new Queue<StoryNode>();
             HashSet<StoryNode> visitedNodes = new HashSet<StoryNode>();
@@ -1024,7 +1407,7 @@ namespace Narrative_Generator
                     if (currentNode.Equals(rootNode) && root)
                     {
                         // We call the method for creating a new node.
-                        Step(newStoryGraph.GetRoot(), actualAgentNumber, root, ref globalNodeNumber, ref queue);
+                        Step(newStoryGraph.GetRoot(), actualAgentNumber, root, ref globalNodeNumber, ref queue, ref note, EvidenceFindChance);
 
                         // Add the considered node back to the queue (in the case of the root, we only changed it and will consider it again),
                         //    and also to the list of visited nodes. We remove the flag indicating that we are considering the root node.
@@ -1039,7 +1422,7 @@ namespace Narrative_Generator
                         actualAgentNumber = GetActualAgentNumber(currentNode.GetWorldState().GetIndexOfAgent(currentNode.GetActiveAgent()), ref currentNode);
 
                         // We call the method to create a new node.
-                        Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber, ref queue);
+                        Step(newStoryGraph.GetNode(currentNode), actualAgentNumber, root, ref globalNodeNumber, ref queue, ref note, EvidenceFindChance);
                     }
                 }
 
@@ -1047,7 +1430,21 @@ namespace Narrative_Generator
                 foreach (StoryNode nextNode in currentNode.GetLinks())
                 {
                     // If one of them has already been visited earlier, then we continue, moving on to the next.
-                    if (visitedNodes.Contains(nextNode)) continue;
+                    if (visitedNodes.Contains(nextNode))
+                    {
+                        continue;
+                    }
+
+                    bool equal = false;
+                    foreach (var visitedNode in visitedNodes)
+                    {
+                        if (visitedNode.Equals(nextNode))
+                        {
+                            equal = true;
+                        }
+                    }
+
+                    if (equal) { continue; }
 
                     // Otherwise, we add them to the queue and the list of visited nodes.
                     queue.Enqueue(nextNode);
@@ -1063,7 +1460,9 @@ namespace Narrative_Generator
         /// A method that traverses the graph according to the concept of breadth-first search 
         ///    and determines the presence of at least one target state in it.
         /// </summary>
-        public bool BFSGoalAchieveControl(StoryNode rootNode)
+        /// <param name="rootNode">The starting node of the graph (root).</param>
+        /// <returns>True if the graph contains at least one node where the goal state is reached, otherwise false.</returns>
+        public bool BFSGoalAchieveControl (StoryNode rootNode)
         {
             // We create a queue and a list of visited nodes.
             Queue<StoryNode> queue = new Queue<StoryNode>();
@@ -1102,9 +1501,12 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// The method that controls the creation of the history graph.
+        /// The method that controls the creation of the story graph.
         /// </summary>
-        public StoryGraph CreateStoryGraph(StoryNode rootNode)
+        /// <param name="rootNode">The starting node of the graph (root).</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        /// <returns>Generated story graph.</returns>
+        public StoryGraph CreateStoryGraph (StoryNode rootNode, ref TextBox note)
         {
             // We clone the root into a separate variable.
             StoryNode originRoot = (StoryNode)rootNode.Clone();
@@ -1112,8 +1514,12 @@ namespace Narrative_Generator
             // We continue to work until at least one target state is reached.
             while (!reachedGoalState)
             {
+                note.Text = "STORY GRAPH CREATING - MAIN CYCLE";
+
                 // We create a new graph by starting to expand the root.
-                BFSTraversing(newStoryGraph.GetRoot());
+                BFSTraversing(newStoryGraph.GetRoot(), ref note);
+
+                note.Text = "GOAL ACHIEVE CONTROL";
 
                 // We go through the created graph, looking for target states in it.
                 BFSGoalAchieveControl(newStoryGraph.GetRoot());
@@ -1121,8 +1527,24 @@ namespace Narrative_Generator
                 // If it was not possible to find even one target state in the constructed graph.
                 if (!reachedGoalState || newStoryGraph.GetNodes().Count > MaxNodes)
                 {
-                    if (HideNothingToDoActions) graphСonstructor.HideNTDActions();
-                    graphСonstructor.CreateGraph(newStoryGraph, @"D:\Graphviz\bin\newStoryGraph.dt");
+                    note.Text = "GRAPH RECREATE";
+
+                    MaxNodes = MaxNodes * 2;
+
+                    DialogResult result = MessageBox.Show(
+                        "Would you like to save your result before trying again?",
+                        "Failed to construct graph",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button1,
+                        MessageBoxOptions.DefaultDesktopOnly);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        if (HideNothingToDoActions) graphСonstructor.HideNTDActions();
+                        graphСonstructor.CreateGraph(newStoryGraph, @"D:\Graphviz\bin\newStoryGraph.dt", ref note);
+                    }
+                    else if (result == DialogResult.No) {}
 
                     // Then we clear the graph, and all the links added to the root.
                     newStoryGraph = new StoryGraph();
@@ -1143,8 +1565,17 @@ namespace Narrative_Generator
         /// <summary>
         /// Convergence in turn asks agents for actions, checks them, applies them, counteracts them, or does not.
         /// </summary>
-        public void Step (StoryNode currentNode, int agentIndex, bool root, ref int globalNodeNumber, ref Queue<StoryNode> queue)
+        /// <param name="currentNode">Considered graph node.</param>
+        /// <param name="agentIndex">The index of the active agent (performing the action).</param>
+        /// <param name="root">A marker that is considering the root node.</param>
+        /// <param name="globalNodeNumber">Last assigned node number.</param>
+        /// <param name="queue">The queue of nodes to be considered.</param>
+        /// <param name="note">Text to display on the main screen.</param>
+        /// <param name="findEvidenceShance">The agent's chance to find a evidence when performing the action to find it.</param>
+        public void Step (StoryNode currentNode, int agentIndex, bool root, ref int globalNodeNumber, ref Queue<StoryNode> queue, ref TextBox note, int findEvidenceShance)
         {
+            note.Text = "AGENT ACTION REQUEST";
+
             // Convergence assigns who is on the turn to the node and then applies the changes to the state of the world.
             currentStoryState = currentNode.GetWorldState();
             currentStoryState.GetStaticWorldPart().IncreaseTurnNumber();
@@ -1159,7 +1590,7 @@ namespace Narrative_Generator
             {
                 // We create a request for action of the specified agent from the specified state.
                 storyworldConvergence.ActionRequest(currentStoryState.GetAgentByIndex(agentIndex), ref newStoryGraph, ref currentStoryState, 
-                                                     currentNode, root, ref globalNodeNumber, ref queue);
+                                                     currentNode, root, ref globalNodeNumber, ref queue, ref note, findEvidenceShance);
             }
         }
 
@@ -1168,6 +1599,7 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="prevNumber">Index of the agent who performed the action in the previous state.</param>
         /// <param name="currentNode">Link to the current node.</param>
+        /// <returns>The index of the agent that is currently to perform the action.</returns>
         public int GetActualAgentNumber (int prevNumber, ref StoryNode currentNode)
         {
             // Flag for checking if the agent being checked is alive.

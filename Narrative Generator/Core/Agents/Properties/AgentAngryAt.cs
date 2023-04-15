@@ -13,11 +13,23 @@ namespace Narrative_Generator
     public class AgentAngryAt : AgentProperty, ICloneable, IEquatable<AgentAngryAt>
     {
         // AgentAngryAt components
+        /// <summary>
+        /// An indicator of whether this agent behavior modifier is active.
+        /// </summary>
         private bool angry;
+        /// <summary>
+        /// Another agent that is the target of this agent behavior modifier.
+        /// </summary>
         private AgentStateStatic objectOfAngry;
 
         // Hashcode
+        /// <summary>
+        /// An indicator of whether a hashcode has been generated for this component.
+        /// </summary>
         private bool hasHashCode;
+        /// <summary>
+        /// The hashcode of this component.
+        /// </summary>
         private int hashCode;
 
         /// <summary>

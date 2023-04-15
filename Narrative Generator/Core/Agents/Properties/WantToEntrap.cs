@@ -12,11 +12,26 @@ namespace Narrative_Generator
     [Serializable]
     public class WantToEntrap : AgentProperty, ICloneable, IEquatable<WantToEntrap>
     {
+        /// <summary>
+        /// An indicator of whether this agent behavior modifier is active.
+        /// </summary>
         private bool entraping;
+        /// <summary>
+        /// Another agent that is the target of this agent behavior modifier.
+        /// </summary>
         private AgentStateStatic whom;
+        /// <summary>
+        /// Location that is the target of this agent behavior modifier.
+        /// </summary>
         private LocationStatic where;
 
+        /// <summary>
+        /// An indicator of whether a hashcode has been generated for this component.
+        /// </summary>
         private bool hasHashCode;
+        /// <summary>
+        /// The hashcode of this component.
+        /// </summary>
         private int hashCode;
 
         /// <summary>

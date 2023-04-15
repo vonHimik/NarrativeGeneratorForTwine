@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Narrative_Generator
 {
@@ -153,14 +154,18 @@ namespace Narrative_Generator
         /// <param name="globalNodeNumber">The number of the last created node.</param>
         /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
         /// <param name="counteract">Indicates whether the action was a counter-reaction or a normal action.</param>
+        /// <param name="note">Text to display on the main screen.</param>
         public void CreateNewNode(PlanAction action,
                                   KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                   WorldDynamic currentState,
                                   StoryNode currentNode,
                                   ref int globalNodeNumber,
                                   bool succsessControl,
-                                  bool counteract)
+                                  bool counteract,
+                                  ref TextBox note)
         {
+            note.Text = "CREATE NEW NODE";
+
             WorldDynamic newState = (WorldDynamic)currentState.Clone();
             if (!succsessControl) { action.Fail(ref newState); }
             else { action.ApplyEffects(ref newState); }
@@ -173,6 +178,7 @@ namespace Narrative_Generator
             // We assign the state of the world (transferred) to the new node.
             newNode.SetWorldState((WorldDynamic)newState.Clone());
 
+            // TO DO: It can be changed to the fact that the agent that is specified in the action being performed is acting.
             newNode.SetActiveAgent(newNode.GetWorldState().GetAgentByName(agent.Key.GetName()));
             if (agent.Key.GetRole() == AgentRole.PLAYER) { newNode.SetActivePlayer(true); }
             else { newNode.SetActivePlayer(false); }
@@ -195,13 +201,17 @@ namespace Narrative_Generator
         /// <param name="currentNode">A graph node that stores the current state.</param>
         /// <param name="globalNodeNumber">The number of the last created node.</param>
         /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
+        /// <param name="note">Text to display on the main screen.</param>
         public void CreateRootNode(PlanAction action,
                                    KeyValuePair<AgentStateStatic, AgentStateDynamic> agent,
                                    WorldDynamic currentState,
                                    StoryNode currentNode,
                                    ref int globalNodeNumber, 
-                                   bool succsessControl)
+                                   bool succsessControl,
+                                   ref TextBox note)
         {
+            note.Text = "CREATING ROOT NODE";
+
             WorldDynamic newState = (WorldDynamic)currentState.Clone();
             if (!succsessControl) { action.Fail(ref newState); }
             else { action.ApplyEffects(ref newState); }
@@ -273,6 +283,7 @@ namespace Narrative_Generator
         /// <param name="queue">Reference to the queue of nodes to be processed.</param>
         /// <param name="succsessControl">Indicates whether the action was successful or not.</param>
         /// <param name="skip">A reference to a variable that will indicate if the creation of a new node should be skipped.</param>
+        /// <param name="note">Text to display on the main screen.</param>
         public void DuplicateNodeConnecting (WorldDynamic currentState, 
                                              PlanAction action, 
                                              KeyValuePair<AgentStateStatic, AgentStateDynamic> agent, 
@@ -280,8 +291,11 @@ namespace Narrative_Generator
                                              int globalNodeNumber,
                                              ref Queue<StoryNode> queue,
                                              bool succsessControl,
-                                             ref bool skip)
+                                             ref bool skip,
+                                             ref TextBox note)
         {
+            note.Text = "DUPLICATE NODE CONNECTING";
+
             StoryNode testNode = CreateTestNode(currentState, action, agent, currentNode, globalNodeNumber, succsessControl);
             testNode.UpdateHashCode();
 
@@ -289,7 +303,8 @@ namespace Narrative_Generator
             {
                 foreach (var checkedNode in nodes)
                 {
-                    if (TwoNodesComparison(testNode, checkedNode) && !currentNode.ConnectedWith(checkedNode))
+                    checkedNode.UpdateHashCode();
+                    if (TwoNodesComparison(testNode, checkedNode) /*&& !currentNode.ConnectedWith(checkedNode)*/ && !currentNode.isChild(checkedNode))
                     {
                         DeleteTestNode(ref testNode);
                         ConnectionTwoNodes(action, currentNode, checkedNode, true);

@@ -13,11 +13,23 @@ namespace Narrative_Generator
     public class AgentStateStatic : IEquatable<AgentStateStatic>, ICloneable
     {
         // Agent properties
+        /// <summary>
+        /// Agent name (must be unique).
+        /// </summary>
         private string name;
+        /// <summary>
+        /// The role of the agent.
+        /// </summary>
         private AgentRole role;
 
         // Hashcode
+        /// <summary>
+        /// An indicator of whether a hashcode has been generated for this component.
+        /// </summary>
         private bool hasHashCode;
+        /// <summary>
+        /// The hashcode of this component.
+        /// </summary>
         private int hashCode;
 
         /// <summary>

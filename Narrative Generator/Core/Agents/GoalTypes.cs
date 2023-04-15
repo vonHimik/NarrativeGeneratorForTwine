@@ -34,7 +34,7 @@ namespace Narrative_Generator
         /// A method that returns the name of the specified goal type.
         /// </summary>
         /// <param name="type">The goal type whose name is the desired to get.</param>
-        /// <returns></returns>
+        /// <returns>Name of the specified goal type</returns>
         public static string GetName (GoalTypes type)
         {
             return Enum.GetName(typeof(GoalTypes), type);

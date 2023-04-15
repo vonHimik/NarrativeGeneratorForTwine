@@ -11,8 +11,17 @@ namespace Narrative_Generator
     /// </summary>
     public class Edge: ICloneable
     {
+        /// <summary>
+        /// The node from which the oriented edge originates. Is the parent of the lower node.
+        /// </summary>
         private StoryNode upperNode;
+        /// <summary>
+        /// The node into which the oriented edge comes. It is a child node of the upper node.
+        /// </summary>
         private StoryNode lowerNode;
+        /// <summary>
+        /// An action that creates a lower node from a upper node.
+        /// </summary>
         private PlanAction action;
 
         /// <summary>
@@ -37,6 +46,12 @@ namespace Narrative_Generator
         public void SetUpperNode (ref StoryNode node) { upperNode = node; }
 
         /// <summary>
+        /// This method allows assign a node for the top vertex of an edge (outgoing, earlier in time).
+        /// </summary>
+        /// <param name="node">The node that will be assigned to the top slot of this edge.</param>
+        public void SetUpperNode (StoryNode node) { upperNode = node; }
+
+        /// <summary>
         /// This method clears the top vertex of an edge from a connected node.
         /// </summary>
         public void ClearUpperNode()
@@ -56,6 +71,12 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="node">The node that will be assigned to the bottom slot of this edge.</param>
         public void SetLowerNode (ref StoryNode node) { lowerNode = node; }
+
+        /// <summary>
+        /// This method allows assign a node to the bottom vertex of an edge (incoming, later in time).
+        /// </summary>
+        /// <param name="node">The node that will be assigned to the bottom slot of this edge.</param>
+        public void SetLowerNode (StoryNode node) { lowerNode = node; }
 
         /// <summary>
         /// This method clears the bottom vertex of an edge from a connected node.

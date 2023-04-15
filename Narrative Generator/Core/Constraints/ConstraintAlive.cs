@@ -12,15 +12,15 @@ namespace Narrative_Generator
     public class ConstraintAlive : WorldConstraint
     {
         /// <summary>
-        /// If true, protects the agent from changing their status to deads, it is required to set a time limit.
+        /// Marker to the type of constraint to apply: protects the agent from changing their status to deads, it is required to set a time limit.
         /// </summary>
         public bool temporaryInvulnerability;
         /// <summary>
-        /// If true, protects the agent from changing their status to dead, without time limit.
+        /// Marker to the type of constraint to apply: protects the agent from changing their status to dead, without time limit.
         /// </summary>
         public bool permanentInvulnerability;
         /// <summary>
-        /// If true, then an instance of this class will monitor the state of the specified agent and return false if it dies.
+        /// Marker to the type of constraint to apply: an instance of this class will monitor the state of the specified agent and return false if it dies.
         /// </summary>
         public bool endIfDied;
         /// <summary>
@@ -63,21 +63,23 @@ namespace Narrative_Generator
         }
 
         /// <summary>
-        /// Overloading a method that checks whether the conditions of the specified constraints are met.
+        /// A method that checks whether the specified world state satisfies constraints.
         /// </summary>
         /// <param name="newState">The new state that will be obtained when applying the action on the current state.</param>
         /// <param name="currentState">The current state of the storyworld.</param>
-        /// <param name="graph">Story graph.</param>
-        /// <param name="currentAction">The action that the current agent has chosen to perform on the current turn.</param>
-        /// <param name="currentNode">A graph node that stores the current state.</param>
-        /// <param name="newNode">A graph node that stores the future state.</param>
-        /// <returns>Returns the result of the check.</returns>
+        /// <param name="graph">Story graph, which is a collection of nodes connected by oriented edges.</param>
+        /// <param name="currentAction">The action currently performed by the agent, and whose influence on changing the world is being checked.</param>
+        /// <param name="currentNode">A node that stores the current world state.</param>
+        /// <param name="newNode">A node that stores the future world state, resulting from applying the current action on the current node.</param>
+        /// <param name="succsessControl">A variable into which the overridden result (succes or fail) of an action can be written.</param>
+        /// <returns>Result of the check.</returns>
         public override bool IsSatisfied (WorldDynamic newState, 
                                           WorldDynamic currentState, 
                                           StoryGraph graph, 
-                                          PlanAction currentAction, 
+                                          ref PlanAction currentAction, 
                                           StoryNode currentNode,
-                                          StoryNode newNode)
+                                          StoryNode newNode,
+                                          ref bool succsessControl)
         {
             if (temporaryInvulnerability && !permanentInvulnerability && targetAgent != null && termOfProtection != 0)
             {
@@ -88,7 +90,13 @@ namespace Narrative_Generator
             }
             else if (permanentInvulnerability && !temporaryInvulnerability && targetAgent != null)
             {
-                return (newState.GetAgentByName(targetAgent.GetName()).Value.GetStatus());
+                if (!newState.GetAgentByName(targetAgent.GetName()).Value.GetStatus())
+                {
+                    currentAction.Fail(ref currentState);
+                    succsessControl = false;
+                }
+
+                return true;
             }
             else if (endIfDied)
             {
