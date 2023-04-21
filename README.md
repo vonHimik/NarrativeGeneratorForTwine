@@ -76,8 +76,8 @@ Should be taken into account that most of these settings are used to generate a 
 
 For example, protection of the agent representing the player by the system leads to a significant increase the branching in story graph, and if both the protagonist and the antagonist are permanently protected by the system, then the generation cannot be completed in principle, if in all goal states one of them must be "dead". In this regard, below are the basic standard settings presets, in which the generation is the fastest and accurately:
 
-* Fantasy - Dragon Age - Kill the antagonist / all enemies - cunning, aggressive
-* Fantasy - Generic fantasy - kill the antagonist / all enemies - cunning, aggressive
+* Fantasy - Dragon Age - kill the antagonist / all enemies - hide NTD - cunning, aggressive
+* Fantasy - Generic fantasy - kill the antagonist / all enemies - random battles resultes - hide NTD - protagonist must survive - cunning, aggressive
 * Detective - kill the antagonist / all enemies - evidence can be found 100% - cunning, aggressive
 
 ## Program work
