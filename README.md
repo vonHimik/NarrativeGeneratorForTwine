@@ -106,4 +106,4 @@ To use Twine, you need to go to https://twinery.org/ and select "Use in your bro
 
 ## Documentation
 
-Documentation in html format was automatically generated for the program using the Doxygen tool. It is also in the archive, in a folder called Autodocumentation HTML. To view it, it is necessary to find a file called Index in this folder and open it.
+Documentation in html format was automatically generated for the program using the Doxygen tool. It is also in the archive, in a folder called Autodocumentation HTML. To view it, it is necessary to find a file named Index in this folder and open it.
