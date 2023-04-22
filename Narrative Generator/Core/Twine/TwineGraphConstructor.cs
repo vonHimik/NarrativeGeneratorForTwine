@@ -36,6 +36,8 @@ namespace Narrative_Generator
             {
                 if (node.GetActivePlayer() || node.goalState)
                 {
+                    if (node.GetEdges().Count == 0) { continue; }
+
                     if (storyNodes.Contains(node.GetEdge(0).GetUpperNode()) && !node.goalState) { continue; }
 
                     if (!startNode) { startNode = true; node.GetEdge(0).GetUpperNode().SetNumberInSequence(0); }

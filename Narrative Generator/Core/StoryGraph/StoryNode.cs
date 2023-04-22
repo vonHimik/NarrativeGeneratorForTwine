@@ -79,6 +79,10 @@ namespace Narrative_Generator
             clone.edges = new HashSet<Edge>(edges);
             clone.numberInSequence = numberInSequence;
 
+            clone.goalState = goalState;
+            clone.skiped = skiped;
+            clone.counteract = counteract;
+
             clone.hasHashCode = true;
             clone.GetHashCode();
 

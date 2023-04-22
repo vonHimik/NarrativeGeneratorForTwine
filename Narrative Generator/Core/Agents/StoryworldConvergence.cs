@@ -345,13 +345,14 @@ namespace Narrative_Generator
             bool constraintsControl = ConstraintsControl(currentGraph, currentState, action, ref succsessControl, currentNode, ref note);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, succsessControl, ref note);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, succsessControl, ref note);
-            bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl, ref note);
-            //bool cyclesControl = true;
+            //bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl, ref note);
+            bool cyclesControl = true;
             
             int nodecounter = currentGraph.GetNodes().Count;
             int edgecounter = currentNode.GetEdges().Count;
 
-            if (constraintsControl && deadEndsControl && cyclesControl && duplicateControl)
+            if (!constraintsControl && agent.Key.GetRole().Equals(AgentRole.PLAYER)) { }
+            else if (constraintsControl && deadEndsControl && cyclesControl && duplicateControl)
             {
                 // If all checks are passed, then we apply the action.
                 ApplyAction(action, currentGraph, agent, currentState, currentNode, root, ref globalNodeNumber, succsessControl, false, ref note);
@@ -988,7 +989,7 @@ namespace Narrative_Generator
                      }
                  }
 
-                 if (stageTwo_ConnectedNode && !counterreactionFound)
+                 if (stageTwo_ConnectedNode /*&& !counterreactionFound*/)
                 {
                     PlanAction counterreactionSkip = new NothingToDo(currentState);
                     counterreactionSkip.Arguments.Add(agent);
@@ -1107,8 +1108,8 @@ namespace Narrative_Generator
             bool constraintsControl = ConstraintsControl(currentGraph, currentState, action, ref succsessControl, currentNode, ref note);
             bool deadEndsControl = DeadEndsControl(action, currentState, agent, succsessControl, ref note);
             bool duplicateControl = DuplicateControl(currentState, action, currentGraph, agent, currentNode, globalNodeNumber, succsessControl, ref note);
-            bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl, ref note);
-            //bool cyclesControl = true;
+            //bool cyclesControl = CyclesControl(currentState, action, currentGraph, agent, currentNode, duplicateControl, globalNodeNumber, succsessControl, ref note);
+            bool cyclesControl = true;
 
             controlOne = constraintsControl & deadEndsControl & cyclesControl;
             controlTwo = duplicateControl;
