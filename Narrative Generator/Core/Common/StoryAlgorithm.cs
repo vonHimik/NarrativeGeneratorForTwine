@@ -1321,7 +1321,7 @@ namespace Narrative_Generator
 
             // The algorithm calculates a SPECIFIC story.
             note.Text = "STORY GRAPH CREATING - START";
-            newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot(), ref note);
+            newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot(), ref note, txtOutputPath);
 
             FixingOfIncorrectlyConnectedNodes(ref newStoryGraph);
 
@@ -1505,8 +1505,9 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="rootNode">The starting node of the graph (root).</param>
         /// <param name="note">Text to display on the main screen.</param>
+        /// <param name="txtOutputPath">The path to write the resulting files.</param>
         /// <returns>Generated story graph.</returns>
-        public StoryGraph CreateStoryGraph (StoryNode rootNode, ref TextBox note)
+        public StoryGraph CreateStoryGraph (StoryNode rootNode, ref TextBox note, string txtOutputPath)
         {
             // We clone the root into a separate variable.
             StoryNode originRoot = (StoryNode)rootNode.Clone();
@@ -1542,7 +1543,7 @@ namespace Narrative_Generator
                     if (result == DialogResult.Yes)
                     {
                         if (HideNothingToDoActions) graphСonstructor.HideNTDActions();
-                        graphСonstructor.CreateGraph(newStoryGraph, @"D:\Graphviz\bin\newStoryGraph.dt", ref note);
+                        graphСonstructor.CreateGraph(newStoryGraph, txtOutputPath + @"\newStoryGraph.dt", ref note);
                     }
                     else if (result == DialogResult.No) {}
 

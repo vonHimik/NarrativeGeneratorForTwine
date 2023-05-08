@@ -176,6 +176,7 @@ namespace Narrative_Generator
 
         private void FantasySubSettingsOn()
         {
+            ClearingSettingChanges();
             grbxSubSettingFantasy.Visible = true;
             grbxSubSettingFantasy.Enabled = true;
             chBoxCanFindEvidence.Enabled = false;
@@ -188,6 +189,7 @@ namespace Narrative_Generator
 
         private void DetectiveSettingOn()
         {
+            ClearingSettingChanges();
             system.setting = Setting.Detective;
             chBoxCanFindEvidence.Enabled = true;
             chBoxUniqKills.Enabled = true;
@@ -195,6 +197,8 @@ namespace Narrative_Generator
             chBoxEachAgentsHasUG.Enabled = true;
             settingSelected = true;
             btnStart.Enabled = true;
+            chBoxCanFindEvidence.Checked = true;
+            txtBoxEvChance.Text = "50";
             system.AgentsCounter = 3;
             system.LocationsCounter = 4; // 8
         }
@@ -203,12 +207,41 @@ namespace Narrative_Generator
 
         private void DefaultDemoSettingOn()
         {
+            ClearingSettingChanges();
             system.setting = Setting.DefaultDemo;
             chBoxCanFindEvidence.Enabled = true;
             settingSelected = true;
             btnStart.Enabled = true;
             system.AgentsCounter = 3; // 7
             system.LocationsCounter = 4; // 8
+        }
+
+        /// <summary>
+        /// A method that resets parameters that can be changed in different settings to standard values.
+        /// </summary>
+        public void ClearingSettingChanges()
+        {
+            chBoxRandConOfLoc.Checked = false;
+            chBoxRandEnc.Checked = false;
+            chBoxRandFightRes.Checked = false;
+            chBoxRandDistOfInit.Checked = false;
+            chBoxCanFindEvidence.Checked = false;
+            txtBoxEvChance.Text = null;
+            chBoxPrtgWillSurv.Checked = false;
+            txtProtagonistSurvTime.Text = "0";
+            chBoxAntognstWillSurv.Checked = false;
+            txtAntagonistSurvTime.Text = "0";
+            chBoxUniqKills.Checked = false;
+            chBoxStrOrdVicSec.Checked = false;
+            chBoxEachAgentsHasUG.Checked = false;
+            chBoxTA.Checked = false;
+            chBoxTE.Checked = false;
+            chBoxPA.Checked = false;
+            chBoxPE.Checked = false;
+            chBoxSP.Checked = false;
+            chBoxSC.Checked = false;
+            chBoxCP.Checked = false;
+            chBoxCC.Checked = false;
         }
 
         //////////////////////////////////
