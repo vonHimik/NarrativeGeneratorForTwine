@@ -24,7 +24,15 @@ This program is a portable application. To run it, double-click on the file call
 
 The first step in setting up is to select the setting in which the narrative will be generated. In this version of the program, there are two options to choose: the Fantasy setting and the Detective setting. The Fantasy setting is divided into two sub-settings: Dragon Age and Generic Fantasy. The choice of setting affects the sets of used agents, locations and actions available to agents, also different settings use their own individual mechanics. The Dragon Age setting simulates the passage of the plot in the same name game, representing the main decisions made by the player and demonstrating the variety of ways to go through this plot. The Generic Fantasy setting serves to represent the average fantasy, as a result of which all the above features of various settings are expressed in a slightly more vaguely averaged style. The Detective setting is based on Agatha Christie's story "Ten Little Indians", representing the classic detective story.
 
-Then it is necessary to choose the type of agent's goals. In this version of the program, only one option is available for selection - based on the status of agents (i.e., eliminate enemy agents). This choice defines a set of conditions for each agent, upon reaching which it is considered that the goal (final) state of the story has been reached and further generation of this branch of the story is terminated. The "type of goals based on the status of the agents" means that the purpose of the agents will be to neutralize the "enemy team".
+Then it is necessary to select the type of the agent's goals. This choice defines a set of conditions for each agent, upon reaching which it is considered that the goal (final) state of the story has been reached and further generation of this story branch stops. There are available three types of goals:
+
+* Type based on the status of agents - means that the purpose of the agents will be to neutralize the "enemy team".
+
+* Type based on reaching a certain location - means that the goal of the main character (player) will be to reach the location specified by the author, while the goal of the rest of the agents will still be to neutralize the "enemy team".
+
+* Type based on the possession of certain items - means that the goal of the main character (player) is to possess the items specified by the author, while the goal of the rest of the agents will still be to neutralize the "enemy team".
+
+It is possible to combine the types of goals in any way, they are not mutually exclusive.
 
 Next step: general system settings. Most of them are related to setting the randomization of various parameters. Therefore, the first possible option is to specify the seed for generation. It is also possible to specify the maximum number of nodes in the story graph, after reaching which the generation will stop, and, if the narrative is not built, the system will offer to start the generation again (restart). Then there are the following items:
 
