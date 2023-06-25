@@ -118,7 +118,10 @@
     <Compile Include="Core\Agents\AgentStateDynamic.cs" />
     <Compile Include="Core\Agents\AgentStateStatic.cs" />
     <Compile Include="Core\Agents\DistanceToAgent.cs" />
-    <Compile Include="Core\Common\ConstraintManager.cs" />
+    <Compile Include="Core\Common\Item.cs" />
+    <Compile Include="Core\Common\ItemsManager.cs" />
+    <Compile Include="Core\Common\ItemsTypes.cs" />
+    <Compile Include="Core\Constraints\ConstraintManager.cs" />
     <Compile Include="Core\Common\GoalManager.cs" />
     <Compile Include="Core\Agents\GoalTypes.cs" />
     <Compile Include="Core\Agents\Properties\AgentAngryAt.cs" />

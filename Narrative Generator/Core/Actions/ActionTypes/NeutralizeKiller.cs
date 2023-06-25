@@ -123,6 +123,22 @@ namespace Narrative_Generator
             stateAgent.Value.ClearTempStates();
             stateKiller.Value.ClearTempStates();
 
+            ItemsManager itemsManager = new ItemsManager();
+
+            if (state.GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy)
+                && stateAgent.Key.GetRole().Equals(AgentRole.PLAYER))
+            {
+                if (stateAgent.Value.GetItems().Count == 0)
+                {
+                    stateAgent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                }
+                else if (stateAgent.Value.GetItems().Count == 1
+                    && stateAgent.Value.GetItems().First().GetItemType().Equals(ItemsTypes.WEAPON))
+                {
+                    stateAgent.Value.AddItem(itemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
+                }
+            }
+
             stateKiller.Value.SetStatus(false);
 
             stateAgent.Value.DecreaseTimeToMove();

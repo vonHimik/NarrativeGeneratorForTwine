@@ -38,6 +38,9 @@ namespace Narrative_Generator
         /// The agent's goals.
         /// </summary>
         private Goal myGoals;
+
+        private List<Item> myItems = new List<Item>();
+
         /// <summary>
         /// The value of the agent's initiative, which determines the order in which agents perform actions.
         /// </summary>
@@ -109,6 +112,7 @@ namespace Narrative_Generator
             myAvailableActions = new List<PlanAction>();
             alive = true;
             myGoals = new Goal();
+            myItems = new List<Item>();
             beliefs = new WorldContext();
             initiative = 0;
             angryAt = new AgentAngryAt();
@@ -136,6 +140,7 @@ namespace Narrative_Generator
             myAvailableActions = new List<PlanAction>(clone.myAvailableActions);
             alive = clone.alive;
             myGoals = (Goal)clone.myGoals.Clone();
+            myItems = new List<Item>(clone.myItems);
             beliefs = (WorldContext)clone.beliefs.Clone();
             initiative = clone.initiative;
             angryAt = (AgentAngryAt)clone.angryAt.Clone();
@@ -166,6 +171,7 @@ namespace Narrative_Generator
 
             myCurrentPlan = new Plan();
             myAvailableActions = new List<PlanAction>();
+            myItems = new List<Item>();
 
             SetStatus(alive);
             SetGoal(goals);
@@ -209,6 +215,9 @@ namespace Narrative_Generator
             clone.myAvailableActions = new List<PlanAction>(myAvailableActions);
             clone.alive = alive;
             clone.myGoals = new Goal(myGoals);
+
+            clone.myItems = new List<Item>(myItems);
+
             clone.beliefs = new WorldContext(beliefs);
             clone.initiative = initiative;
             if (angryAt != null && angryAt.GetObjectOfAngry() != null) { clone.angryAt = new AgentAngryAt(angryAt); }
@@ -850,6 +859,117 @@ namespace Narrative_Generator
         /// Increases the counter of quests completed by this agent by one.
         /// </summary>
         public void CompleteQuest() { complitedQuestsCounter++; }
+
+        /// <summary>
+        /// A method that adds the specified item to the character's possession.
+        /// </summary>
+        /// <param name="item">Adding item.</param>
+        public void AddItem (Item item) { myItems.Add(item); }
+
+        /// <summary>
+        /// A method that adds the set of specified items to the character's possession.
+        /// </summary>
+        /// <param name="items">Adding items.</param>
+        public void AddItems(HashSet<Item> items)
+        {
+            foreach (var item in items)
+            {
+                myItems.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Returns the item with the specified name if it's in the agent's possession.
+        /// </summary>
+        /// <param name="itemName">The name of the returned item.</param>
+        /// <returns>Specified item.</returns>
+        public Item GetItemByName (string itemName)
+        {
+            foreach (var item in myItems)
+            {
+                if (item.GetItemName().Equals(itemName)) { return item; }
+            }
+
+            throw new MissingMemberException();
+        }
+
+        /// <summary>
+        /// Returns the set of items with the specified type if it's in the agent's possession.
+        /// </summary>
+        /// <param name="type">The type of returned items.</param>
+        /// <returns>Set of items.</returns>
+        public HashSet<Item> GetItemsByType (ItemsTypes type)
+        {
+
+            HashSet<Item> items = new HashSet<Item>();
+
+            foreach (var item in myItems)
+            {
+                if (item.GetItemType().Equals(type)) { items.Add(item); }
+            }
+
+            return items;
+        }
+
+        /// <summary>
+        /// Returns a set of all items in the agent's possession.
+        /// </summary>
+        /// <returns>set of items.</returns>
+        public List<Item> GetItems()
+        {
+            return myItems;
+        }
+
+        /// <summary>
+        /// Checking if the agent owns an item with the specified name.
+        /// </summary>
+        /// <param name="itemName">The name of the item being searched.</param>
+        /// <returns>True if the agent owns the specified item, false otherwise.</returns>
+        public bool ItemCheck (string itemName)
+        {
+            foreach (var item in myItems)
+            {
+                if (item.GetItemName().Equals(itemName)) { return true; }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checking if the agent owns items with the specified role.
+        /// </summary>
+        /// <param name="itemType">The type of item being searched.</param>
+        /// <returns>True if the agent owns at least one item of the specified type, false otherwise.</returns>
+        public bool ItemCheck (ItemsTypes itemType)
+        {
+            foreach (var item in myItems)
+            {
+                if (item.GetItemType().Equals(itemType)) { return true; }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Removes an item with the specified name from the list of items owned by the agent.
+        /// </summary>
+        /// <param name="itemName">Specified item's name.</param>
+        public void RemoveItem (string itemName)
+        {
+            foreach (var item in myItems)
+            {
+                if (item.GetItemName().Equals(itemName)) { RemoveItem(item); }
+            }
+        }
+
+        /// <summary>
+        /// Removes the specified item from the list of items owned by the agent.
+        /// </summary>
+        /// <param name="item">Item to remov.</param>
+        public void RemoveItem (Item item)
+        {
+            myItems.Remove(item);
+        }
 
         /// <summary>
         /// Method for comparing two dynamic parts of agent states.

@@ -47,6 +47,7 @@
             this.rbtnGF = new System.Windows.Forms.RadioButton();
             this.rbtnDA = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comBoxGoalLocationSelect = new System.Windows.Forms.ComboBox();
             this.chBoxGoalGetItem = new System.Windows.Forms.CheckBox();
             this.chBoxGoalKill = new System.Windows.Forms.CheckBox();
             this.chBoxGoalReachFinLoc = new System.Windows.Forms.CheckBox();
@@ -60,7 +61,7 @@
             this.chBoxUniqKills = new System.Windows.Forms.CheckBox();
             this.txtAntagonistSurvTime = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.chBoxAntognstWillSurv = new System.Windows.Forms.CheckBox();
+            this.chBoxAntgWillSurv = new System.Windows.Forms.CheckBox();
             this.chBoxPrtgWillSurv = new System.Windows.Forms.CheckBox();
             this.chBoxCanFindEvidence = new System.Windows.Forms.CheckBox();
             this.chBoxTA = new System.Windows.Forms.CheckBox();
@@ -85,6 +86,8 @@
             this.chBoxPA = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.txtBoxNotesField = new System.Windows.Forms.TextBox();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.listBoxItemsSelected = new System.Windows.Forms.ListBox();
             this.grbxSetting.SuspendLayout();
             this.grbxSettings.SuspendLayout();
             this.grbxSubSettingFantasy.SuspendLayout();
@@ -98,7 +101,7 @@
             // btnStart
             // 
             this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(738, 468);
+            this.btnStart.Location = new System.Drawing.Point(702, 553);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(150, 30);
             this.btnStart.TabIndex = 0;
@@ -109,7 +112,7 @@
             // rbtnFantasy
             // 
             this.rbtnFantasy.AutoSize = true;
-            this.rbtnFantasy.Location = new System.Drawing.Point(6, 30);
+            this.rbtnFantasy.Location = new System.Drawing.Point(6, 28);
             this.rbtnFantasy.Name = "rbtnFantasy";
             this.rbtnFantasy.Size = new System.Drawing.Size(79, 21);
             this.rbtnFantasy.TabIndex = 2;
@@ -120,7 +123,7 @@
             // rbtnDetective
             // 
             this.rbtnDetective.AutoSize = true;
-            this.rbtnDetective.Location = new System.Drawing.Point(6, 57);
+            this.rbtnDetective.Location = new System.Drawing.Point(6, 55);
             this.rbtnDetective.Name = "rbtnDetective";
             this.rbtnDetective.Size = new System.Drawing.Size(88, 21);
             this.rbtnDetective.TabIndex = 3;
@@ -144,7 +147,7 @@
             // 
             this.rbtnDefaultDemo.AutoSize = true;
             this.rbtnDefaultDemo.Enabled = false;
-            this.rbtnDefaultDemo.Location = new System.Drawing.Point(6, 84);
+            this.rbtnDefaultDemo.Location = new System.Drawing.Point(6, 82);
             this.rbtnDefaultDemo.Name = "rbtnDefaultDemo";
             this.rbtnDefaultDemo.Size = new System.Drawing.Size(115, 21);
             this.rbtnDefaultDemo.TabIndex = 8;
@@ -179,7 +182,7 @@
             this.grbxSettings.Controls.Add(this.chBoxRandEnc);
             this.grbxSettings.Location = new System.Drawing.Point(257, 12);
             this.grbxSettings.Name = "grbxSettings";
-            this.grbxSettings.Size = new System.Drawing.Size(262, 330);
+            this.grbxSettings.Size = new System.Drawing.Size(262, 415);
             this.grbxSettings.TabIndex = 6;
             this.grbxSettings.TabStop = false;
             this.grbxSettings.Text = "System settings:";
@@ -284,7 +287,7 @@
             // rbtnGF
             // 
             this.rbtnGF.AutoSize = true;
-            this.rbtnGF.Location = new System.Drawing.Point(6, 59);
+            this.rbtnGF.Location = new System.Drawing.Point(6, 58);
             this.rbtnGF.Name = "rbtnGF";
             this.rbtnGF.Size = new System.Drawing.Size(133, 21);
             this.rbtnGF.TabIndex = 9;
@@ -296,7 +299,7 @@
             // rbtnDA
             // 
             this.rbtnDA.AutoSize = true;
-            this.rbtnDA.Location = new System.Drawing.Point(6, 32);
+            this.rbtnDA.Location = new System.Drawing.Point(6, 31);
             this.rbtnDA.Name = "rbtnDA";
             this.rbtnDA.Size = new System.Drawing.Size(105, 21);
             this.rbtnDA.TabIndex = 8;
@@ -307,21 +310,34 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.listBoxItemsSelected);
+            this.groupBox1.Controls.Add(this.comBoxGoalLocationSelect);
             this.groupBox1.Controls.Add(this.chBoxGoalGetItem);
             this.groupBox1.Controls.Add(this.chBoxGoalKill);
             this.groupBox1.Controls.Add(this.chBoxGoalReachFinLoc);
             this.groupBox1.Location = new System.Drawing.Point(12, 224);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(239, 118);
+            this.groupBox1.Size = new System.Drawing.Size(239, 203);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Goal-type:";
             // 
+            // comBoxGoalLocationSelect
+            // 
+            this.comBoxGoalLocationSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comBoxGoalLocationSelect.FormattingEnabled = true;
+            this.comBoxGoalLocationSelect.Location = new System.Drawing.Point(6, 85);
+            this.comBoxGoalLocationSelect.Name = "comBoxGoalLocationSelect";
+            this.comBoxGoalLocationSelect.Size = new System.Drawing.Size(217, 24);
+            this.comBoxGoalLocationSelect.TabIndex = 12;
+            this.comBoxGoalLocationSelect.Visible = false;
+            this.comBoxGoalLocationSelect.DropDown += new System.EventHandler(this.comBoxGoalLocationSelect_DropDown);
+            this.comBoxGoalLocationSelect.SelectedIndexChanged += new System.EventHandler(this.comBoxGoalLocationSelect_SelectedIndexChanged);
+            // 
             // chBoxGoalGetItem
             // 
             this.chBoxGoalGetItem.AutoSize = true;
-            this.chBoxGoalGetItem.Enabled = false;
-            this.chBoxGoalGetItem.Location = new System.Drawing.Point(6, 86);
+            this.chBoxGoalGetItem.Location = new System.Drawing.Point(6, 118);
             this.chBoxGoalGetItem.Name = "chBoxGoalGetItem";
             this.chBoxGoalGetItem.Size = new System.Drawing.Size(166, 21);
             this.chBoxGoalGetItem.TabIndex = 11;
@@ -344,7 +360,6 @@
             // chBoxGoalReachFinLoc
             // 
             this.chBoxGoalReachFinLoc.AutoSize = true;
-            this.chBoxGoalReachFinLoc.Enabled = false;
             this.chBoxGoalReachFinLoc.Location = new System.Drawing.Point(6, 59);
             this.chBoxGoalReachFinLoc.Name = "chBoxGoalReachFinLoc";
             this.chBoxGoalReachFinLoc.Size = new System.Drawing.Size(179, 21);
@@ -365,12 +380,12 @@
             this.groupBox2.Controls.Add(this.chBoxUniqKills);
             this.groupBox2.Controls.Add(this.txtAntagonistSurvTime);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.chBoxAntognstWillSurv);
+            this.groupBox2.Controls.Add(this.chBoxAntgWillSurv);
             this.groupBox2.Controls.Add(this.chBoxPrtgWillSurv);
             this.groupBox2.Controls.Add(this.chBoxCanFindEvidence);
             this.groupBox2.Location = new System.Drawing.Point(525, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(288, 330);
+            this.groupBox2.Size = new System.Drawing.Size(288, 415);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Story settings:";
@@ -468,16 +483,16 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Term of survival:";
             // 
-            // chBoxAntognstWillSurv
+            // chBoxAntgWillSurv
             // 
-            this.chBoxAntognstWillSurv.AutoSize = true;
-            this.chBoxAntognstWillSurv.Location = new System.Drawing.Point(6, 122);
-            this.chBoxAntognstWillSurv.Name = "chBoxAntognstWillSurv";
-            this.chBoxAntognstWillSurv.Size = new System.Drawing.Size(168, 21);
-            this.chBoxAntognstWillSurv.TabIndex = 3;
-            this.chBoxAntognstWillSurv.Text = "Antagonist will survive";
-            this.chBoxAntognstWillSurv.UseVisualStyleBackColor = true;
-            this.chBoxAntognstWillSurv.CheckedChanged += new System.EventHandler(this.chBoxAntognstWillSurv_CheckedChanged);
+            this.chBoxAntgWillSurv.AutoSize = true;
+            this.chBoxAntgWillSurv.Location = new System.Drawing.Point(6, 122);
+            this.chBoxAntgWillSurv.Name = "chBoxAntgWillSurv";
+            this.chBoxAntgWillSurv.Size = new System.Drawing.Size(168, 21);
+            this.chBoxAntgWillSurv.TabIndex = 3;
+            this.chBoxAntgWillSurv.Text = "Antagonist will survive";
+            this.chBoxAntgWillSurv.UseVisualStyleBackColor = true;
+            this.chBoxAntgWillSurv.CheckedChanged += new System.EventHandler(this.chBoxAntgWillSurv_CheckedChanged);
             // 
             // chBoxPrtgWillSurv
             // 
@@ -488,7 +503,7 @@
             this.chBoxPrtgWillSurv.TabIndex = 2;
             this.chBoxPrtgWillSurv.Text = "Protagonist will survive";
             this.chBoxPrtgWillSurv.UseVisualStyleBackColor = true;
-            this.chBoxPrtgWillSurv.CheckedChanged += new System.EventHandler(this.chboxPrtgWillSurv_CheckedChanged);
+            this.chBoxPrtgWillSurv.CheckedChanged += new System.EventHandler(this.chBoxPrtgWillSurv_CheckedChanged);
             // 
             // chBoxCanFindEvidence
             // 
@@ -520,7 +535,7 @@
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Location = new System.Drawing.Point(525, 348);
+            this.groupBox3.Location = new System.Drawing.Point(525, 433);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(660, 111);
             this.groupBox3.TabIndex = 10;
@@ -628,7 +643,7 @@
             this.groupBox4.Controls.Add(this.chBoxCA);
             this.groupBox4.Location = new System.Drawing.Point(819, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(375, 330);
+            this.groupBox4.Size = new System.Drawing.Size(375, 415);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Character behavior:";
@@ -636,7 +651,7 @@
             // chBoxCC
             // 
             this.chBoxCC.AutoSize = true;
-            this.chBoxCC.Location = new System.Drawing.Point(195, 303);
+            this.chBoxCC.Location = new System.Drawing.Point(195, 194);
             this.chBoxCC.Name = "chBoxCC";
             this.chBoxCC.Size = new System.Drawing.Size(158, 21);
             this.chBoxCC.TabIndex = 12;
@@ -647,7 +662,7 @@
             // chBoxCP
             // 
             this.chBoxCP.AutoSize = true;
-            this.chBoxCP.Location = new System.Drawing.Point(13, 300);
+            this.chBoxCP.Location = new System.Drawing.Point(13, 191);
             this.chBoxCP.Name = "chBoxCP";
             this.chBoxCP.Size = new System.Drawing.Size(163, 21);
             this.chBoxCP.TabIndex = 11;
@@ -660,7 +675,7 @@
             this.chBoxAC.AutoSize = true;
             this.chBoxAC.Checked = true;
             this.chBoxAC.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chBoxAC.Location = new System.Drawing.Point(195, 273);
+            this.chBoxAC.Location = new System.Drawing.Point(195, 164);
             this.chBoxAC.Name = "chBoxAC";
             this.chBoxAC.Size = new System.Drawing.Size(171, 21);
             this.chBoxAC.TabIndex = 10;
@@ -673,7 +688,7 @@
             this.chBoxAP.AutoSize = true;
             this.chBoxAP.Checked = true;
             this.chBoxAP.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chBoxAP.Location = new System.Drawing.Point(13, 273);
+            this.chBoxAP.Location = new System.Drawing.Point(13, 164);
             this.chBoxAP.Name = "chBoxAP";
             this.chBoxAP.Size = new System.Drawing.Size(176, 21);
             this.chBoxAP.TabIndex = 9;
@@ -684,7 +699,7 @@
             // chBoxSC
             // 
             this.chBoxSC.AutoSize = true;
-            this.chBoxSC.Location = new System.Drawing.Point(195, 244);
+            this.chBoxSC.Location = new System.Drawing.Point(195, 135);
             this.chBoxSC.Name = "chBoxSC";
             this.chBoxSC.Size = new System.Drawing.Size(136, 21);
             this.chBoxSC.TabIndex = 8;
@@ -695,7 +710,7 @@
             // chBoxSP
             // 
             this.chBoxSP.AutoSize = true;
-            this.chBoxSP.Location = new System.Drawing.Point(13, 244);
+            this.chBoxSP.Location = new System.Drawing.Point(13, 135);
             this.chBoxSP.Name = "chBoxSP";
             this.chBoxSP.Size = new System.Drawing.Size(141, 21);
             this.chBoxSP.TabIndex = 7;
@@ -739,7 +754,7 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.txtBoxNotesField);
-            this.groupBox5.Location = new System.Drawing.Point(12, 348);
+            this.groupBox5.Location = new System.Drawing.Point(12, 433);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(507, 150);
             this.groupBox5.TabIndex = 12;
@@ -756,11 +771,35 @@
             this.txtBoxNotesField.Size = new System.Drawing.Size(495, 113);
             this.txtBoxNotesField.TabIndex = 0;
             // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(858, 554);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(150, 29);
+            this.btnExit.TabIndex = 13;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // listBoxItemsSelected
+            // 
+            this.listBoxItemsSelected.FormattingEnabled = true;
+            this.listBoxItemsSelected.ItemHeight = 16;
+            this.listBoxItemsSelected.Location = new System.Drawing.Point(6, 145);
+            this.listBoxItemsSelected.Name = "listBoxItemsSelected";
+            this.listBoxItemsSelected.ScrollAlwaysVisible = true;
+            this.listBoxItemsSelected.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBoxItemsSelected.Size = new System.Drawing.Size(217, 52);
+            this.listBoxItemsSelected.TabIndex = 14;
+            this.listBoxItemsSelected.Visible = false;
+            this.listBoxItemsSelected.SelectedIndexChanged += new System.EventHandler(this.listBoxItemsSelected_SelectedIndexChanged);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1206, 510);
+            this.ClientSize = new System.Drawing.Size(1206, 592);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -817,7 +856,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox chBoxCanFindEvidence;
         private System.Windows.Forms.CheckBox chBoxTA;
-        private System.Windows.Forms.CheckBox chBoxAntognstWillSurv;
+        private System.Windows.Forms.CheckBox chBoxAntgWillSurv;
         private System.Windows.Forms.CheckBox chBoxPrtgWillSurv;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button button1;
@@ -851,6 +890,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtBoxEvChance;
         private System.Windows.Forms.Label lblEvidence;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.ComboBox comBoxGoalLocationSelect;
+        private System.Windows.Forms.ListBox listBoxItemsSelected;
     }
 }
 

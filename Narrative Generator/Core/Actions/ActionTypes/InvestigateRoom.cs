@@ -101,9 +101,9 @@ namespace Narrative_Generator
         /// <returns>The result of the precondition check.</returns>
         public override bool CheckPreconditions (WorldDynamic state)
         {
-            return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus() 
+            return Agent.Key.GetRole() == AgentRole.USUAL && Agent.Value.GetStatus()
                       && Killer.Key.GetRole() == AgentRole.ANTAGONIST && Killer.Value.GetStatus()
-                      && Location.Value.SearchAgent(Agent.Key) 
+                      && Location.Value.SearchAgent(Agent.Key)
                       && !Agent.Value.CheckIfLocationIsExplored(Location.Key) && Location.Value.CheckEvidence();
         }
 
@@ -117,6 +117,26 @@ namespace Narrative_Generator
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgentClone = state.GetLocationByName(Location.Key.GetName()).Value.GetAgent(Agent);
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateKiller = state.GetAgentByName(Killer.Key.GetName());
             KeyValuePair<LocationStatic, LocationDynamic> stateLocation = state.GetLocationByName(Location.Key.GetName());
+
+            ItemsManager itemsManager = new ItemsManager();
+
+            bool itemsGoalType = false;
+
+            foreach (var goalType in state.GetAgentByRole(AgentRole.PLAYER).Value.GetGoal().GetGoalType())
+            {
+                if (goalType.Equals(GoalTypes.POSSESSION))
+                {
+                    itemsGoalType = true;
+                }
+            }
+
+            if (itemsGoalType)
+            {
+                if (!stateLocation.Value.ItemCheck("Evidence")) { Fail(ref state); return; }
+
+                stateAgent.Value.AddItem(itemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
+                stateLocation.Value.RemoveItem("Evidence");
+            }
 
             stateAgent.Value.ClearTempStates();
             stateKiller.Value.ClearTempStates();
@@ -136,6 +156,7 @@ namespace Narrative_Generator
         public override void Fail (ref WorldDynamic state)
         {
             fail = true;
+            success = false;
 
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgentClone = state.GetLocationByName(Location.Key.GetName()).Value.GetAgent(Agent);

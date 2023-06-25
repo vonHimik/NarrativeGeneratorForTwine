@@ -139,7 +139,7 @@ namespace Narrative_Generator
         /// <param name="aggresiveCharacters">If true, then ordinary agents can use aggressive actions (leading to a change in the agent's status).</param>
         /// <param name="cowardlyProtagonist">If true, then the protagonist becomes cowardly and can use the "run" action.</param>
         /// <param name="cowardlyCharacters">If true, then ordinary agents become cowardly and can use the "run" action.</param>
-        public void charactersBehaviourInitialization(bool talkativeAntagonist, bool talkativeEnemies, bool cunningAntagonist, bool cunningEnemies, bool peacefulAntagonist,
+        public void CharactersBehaviourInitialization(bool talkativeAntagonist, bool talkativeEnemies, bool cunningAntagonist, bool cunningEnemies, bool peacefulAntagonist,
                                                       bool peacefulEnemies, bool silentProtagonist, bool silentCharacters, bool aggresiveProtagonist, bool aggresiveCharacters,
                                                       bool cowardlyProtagonist, bool cowardlyCharacters)
         {
@@ -693,49 +693,116 @@ namespace Narrative_Generator
                 }
             }
 
-            if (agent.Value.GetGoal().GetGoalType().Equals(GoalTypes.STATUS))
+            foreach (var goalType in agent.Value.GetGoal().GetGoalType())
             {
-                switch (agent.Key.GetRole())
+                if (goalType.Equals(GoalTypes.STATUS))
                 {
-                    case AgentRole.USUAL:
-                        foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
-                        {
-                            if (a.Key.GetRole().Equals(AgentRole.ANTAGONIST) || a.Key.GetRole().Equals(AgentRole.ENEMY))
+                    switch (agent.Key.GetRole())
+                    {
+                        case AgentRole.USUAL:
+                            foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
                             {
-                                if (a.Key.GetName() != null && a.Key.GetName() != "" && a.Key.GetName() != "???")
+                                if (a.Key.GetRole().Equals(AgentRole.ANTAGONIST) || a.Key.GetRole().Equals(AgentRole.ENEMY))
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
-                                }
-                                else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck()
-                                    && currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
-                                          Equals(currentWorldState.GetLocationByName(
-                                             currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).
-                                                Value.GetBeliefs().GetMyLocation().GetName())))
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
-                                }
-                                else
-                                {
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
-                                        Value.CountAliveAgents() >= 2 && !agent.Value.CheckTalking() && !silentCharacters)
+                                    if (a.Key.GetName() != null && a.Key.GetName() != "" && a.Key.GetName() != "???")
                                     {
-                                        goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
-                                            + currentWorldState.GetRandomAgentInMyLocation(agent).Key.GetName() + ") ");
+                                        goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
                                     }
-                                    else if (!agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation()) 
-                                        && !agent.Value.GetEvidenceStatus().CheckEvidence() && canFindEvidence)
+                                    else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck()
+                                        && currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
+                                              Equals(currentWorldState.GetLocationByName(
+                                                 currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).
+                                                    Value.GetBeliefs().GetMyLocation().GetName())))
                                     {
-                                        goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " "
-                                            + agent.Value.GetMyLocation().GetName() + ") ");
-                                    }
-                                    else if (agent.Value.CheckTargetLocation() && agent.Value.GetTargetLocation() != null)
-                                    {
-                                        goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                            + agent.Value.GetTargetLocation().GetName() + ") ");
+                                        goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
                                     }
                                     else
                                     {
-                                        if (agent.Value.GetTimeToMove() == 1000) // 0
+                                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).
+                                            Value.CountAliveAgents() >= 2 && !agent.Value.CheckTalking() && !silentCharacters)
+                                        {
+                                            goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
+                                                + currentWorldState.GetRandomAgentInMyLocation(agent).Key.GetName() + ") ");
+                                        }
+                                        else if (!agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation())
+                                            && !agent.Value.GetEvidenceStatus().CheckEvidence() && canFindEvidence)
+                                        {
+                                            goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " "
+                                                + agent.Value.GetMyLocation().GetName() + ") ");
+                                        }
+                                        else if (agent.Value.CheckTargetLocation() && agent.Value.GetTargetLocation() != null)
+                                        {
+                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                + agent.Value.GetTargetLocation().GetName() + ") ");
+                                        }
+                                        else
+                                        {
+                                            if (agent.Value.GetTimeToMove() == 1000) // 0
+                                            {
+                                                if (agent.Value.GetTargetLocation() != null)
+                                                {
+                                                    goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                        + agent.Value.GetTargetLocation().GetName() + ") ");
+                                                }
+                                                else
+                                                {
+                                                    agent.Value.SetTargetLocation(
+                                                        currentWorldState.GetRandomLocationWithout(
+                                                            currentWorldState.GetLocationByName(
+                                                                agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
+
+                                                    goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                        + agent.Value.GetTargetLocation().GetName() + ") ");
+                                                }
+                                            }
+                                            else if (agent.Value.GetTargetLocation() != null && agent.Value.CheckTargetLocation()
+                                                && !currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
+                                            {
+                                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                    + agent.Value.GetTargetLocation().GetName() + ") ");
+                                            }
+                                            else
+                                            {
+                                                goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case AgentRole.PLAYER:
+                            foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
+                            {
+                                if (a.Key.GetRole() == AgentRole.ANTAGONIST || a.Key.GetRole() == AgentRole.ENEMY)
+                                {
+                                    if (a.Key.GetName() != null && a.Key.GetName() != "???" && a.Key.GetName() != "" &&
+                                        agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                    }
+                                    else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck() &&
+                                        agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
+                                    }
+                                    else if (agent.Value.AngryCheck() && currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetStatus())
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
+                                    }
+                                    else
+                                    {
+                                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() >= 2
+                                            && !silentProtagonist)
+                                        {
+                                            goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
+                                                + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
+                                        }
+                                        else if (!agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && canFindEvidence)
+                                        {
+                                            goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " "
+                                                + agent.Value.GetMyLocation().GetName() + ") ");
+                                        }
+                                        else
                                         {
                                             if (agent.Value.GetTargetLocation() != null)
                                             {
@@ -753,164 +820,145 @@ namespace Narrative_Generator
                                                     + agent.Value.GetTargetLocation().GetName() + ") ");
                                             }
                                         }
-                                        else if (agent.Value.GetTargetLocation() != null && agent.Value.CheckTargetLocation() 
-                                            && !currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
-                                        {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                        else
-                                        {
-                                            goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
-                                        }
                                     }
                                 }
                             }
-                        }
-                        break;
-                    case AgentRole.PLAYER:
-                        foreach (var a in agent.Value.GetGoal().GetGoalState().GetAgents())
-                        {
-                            if (a.Key.GetRole() == AgentRole.ANTAGONIST || a.Key.GetRole() == AgentRole.ENEMY)
+                            break;
+                        case AgentRole.ANTAGONIST:
+                            // If the setting is a detective AND the murders must be done in order.
+                            if (currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective) && currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection())
                             {
-                                if (a.Key.GetName() != null && a.Key.GetName() != "???" && a.Key.GetName() != "" &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
+                                foreach (var ag in currentWorldState.GetAgents())
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                    if (ag.Key.GetRole().Equals(AgentRole.USUAL) && ag.Value.GetStatus() && !peacefulAntagonist)
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + ag.Key.GetName() + ") ");
+                                        break;
+                                    }
+                                    else if (ag.Key.GetRole().Equals(AgentRole.PLAYER) && ag.Value.GetStatus() && !peacefulAntagonist)
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + ag.Key.GetName() + ") ");
+                                        break;
+                                    }
                                 }
-                                else if (agent.Value.GetObjectOfAngryComponent() != null && agent.Value.AngryCheck() &&
-                                    agent.Value.GetBeliefs().GetMyLocation().GetName() != currentWorldState.SearchAgentAmongLocationsByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).GetName())
+                            }
+                            // If the location has two live agents and NOT a strict kill order AND the antagonist is not peaceful
+                            else if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2
+                                && !currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection() && !peacefulAntagonist)
+                            {
+                                foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
+                                    if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
+                                    {
+                                        agent.Value.SetObjectOfAngry(a.Key);
+                                        goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                    }
                                 }
-                                else if (agent.Value.AngryCheck() && currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetStatus())
+                            }
+                            // If the agent is alone in the location.
+                            /*else if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 1 && 
+                                !(currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) || 
+                                  currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy) ||
+                                  currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective)))
+                            {
+                                goal = goal.Insert(goal.Length, "(in-room " + currentWorldState.GetRandomAgent(agent).Key.GetName() + " "
+                                                      + currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName()).Key.GetName()
+                                                      + ") ");
+                            }*/
+                            // If the antagonist is angry with someone and that someone is alive And not a strict killing order and not a peaceful antagonist.
+                            else if (agent.Value.AngryCheck() && currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetStatus()
+                                && !currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection() && !peacefulAntagonist)
+                            {
+                                goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
+                            }
+                            //
+                            else if (currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
+                            {
+                                // currentWorldState.GetNearestAgentTo(agent.Value.GetMyLocation()
+                                goal = goal.Insert(goal.Length, "(died " + currentWorldState.GetNearestAgentTo(agent.Value.GetMyLocation()).AgentInfo.GetName() + ") ");
+
+                            }
+                            // in other cases
+                            else
+                            {
+                                // If it's time to move And the locations are connected to each other And not a strict kill order.
+                                if (agent.Value.GetTimeToMove() == 0 && currentWorldState.GetStaticWorldPart().GetConnectionStatus() && !currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection())
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
+                                    goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                       + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
+                                                       + ") ");
                                 }
                                 else
                                 {
-                                    if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() >= 2
-                                        && !silentProtagonist)
-                                    {
-                                        goal = goal.Insert(goal.Length, "(talking " + agent.Key.GetName() + " "
-                                            + currentWorldState.GetRandomAgent(agent).Key.GetName() + ") ");
-                                    }
-                                    else if (!agent.Value.CheckIfLocationIsExplored(agent.Value.GetMyLocation()) && canFindEvidence)
-                                    {
-                                        goal = goal.Insert(goal.Length, "(explored-room " + agent.Key.GetName() + " "
-                                            + agent.Value.GetMyLocation().GetName() + ") ");
-                                    }
-                                    else
-                                    {
-                                        if (agent.Value.GetTargetLocation() != null)
-                                        {
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                        else
-                                        {
-                                            agent.Value.SetTargetLocation(
-                                                currentWorldState.GetRandomLocationWithout(
-                                                    currentWorldState.GetLocationByName(
-                                                        agent.Value.GetBeliefs().GetMyLocation().GetName())).Key);
-
-                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                + agent.Value.GetTargetLocation().GetName() + ") ");
-                                        }
-                                    }
+                                    goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
                                 }
                             }
-                        }
-                        break;
-                    case AgentRole.ANTAGONIST:
-                        // If the setting is a detective AND the murders must be done in order.
-                        if (currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective) && currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection())
-                        {
-                            foreach (var ag in currentWorldState.GetAgents())
+                            break;
+                        case AgentRole.ENEMY:
+                            if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() >= 2
+                                && currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.PlayerOrUsualIsHere() && !peacefulEnemies)
                             {
-                                if (ag.Key.GetRole().Equals(AgentRole.USUAL) && ag.Value.GetStatus() && !peacefulAntagonist)
+                                foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + ag.Key.GetName() + ") ");
-                                    break;
+                                    if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
+                                    {
+                                        goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                    }
                                 }
-                                else if (ag.Key.GetRole().Equals(AgentRole.PLAYER) && ag.Value.GetStatus() && !peacefulAntagonist)
-                                {
-                                    goal = goal.Insert(goal.Length, "(died " + ag.Key.GetName() + ") ");
-                                    break;
-                                }
-                            }
-                        }
-                        // If the location has two live agents and NOT a strict kill order AND the antagonist is not peaceful
-                        else if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 2 
-                            && !currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection() && !peacefulAntagonist)
-                        {
-                            foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
-                            {
-                                if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
-                                {
-                                    agent.Value.SetObjectOfAngry(a.Key);
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
-                                }
-                            }
-                        }
-                        // If the agent is alone in the location.
-                        /*else if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() == 1 && 
-                            !(currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) || 
-                              currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy) ||
-                              currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective)))
-                        {
-                            goal = goal.Insert(goal.Length, "(in-room " + currentWorldState.GetRandomAgent(agent).Key.GetName() + " "
-                                                  + currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName()).Key.GetName()
-                                                  + ") ");
-                        }*/
-                        // If the antagonist is angry with someone and that someone is alive And not a strict killing order and not a peaceful antagonist.
-                        else if (agent.Value.AngryCheck() && currentWorldState.GetAgentByName(agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName()).Value.GetStatus() 
-                            && !currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection() && !peacefulAntagonist)
-                        {
-                            goal = goal.Insert(goal.Length, "(died " + agent.Value.GetObjectOfAngryComponent().GetObjectOfAngry().GetName() + ") ");
-                        }
-                        //
-                        else if (currentWorldState.GetStaticWorldPart().GetSetting().Equals(Setting.Detective))
-                        {
-                            // currentWorldState.GetNearestAgentTo(agent.Value.GetMyLocation()
-                            goal = goal.Insert(goal.Length, "(died " + currentWorldState.GetNearestAgentTo(agent.Value.GetMyLocation()).AgentInfo.GetName() + ") ");
-
-                        }
-                        // in other cases
-                        else
-                        {
-                            // If it's time to move And the locations are connected to each other And not a strict kill order.
-                            if (agent.Value.GetTimeToMove() == 0 && currentWorldState.GetStaticWorldPart().GetConnectionStatus()  && !currentWorldState.GetStaticWorldPart().GetStrictOrderOfVictimSelection())
-                            {
-                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                                   + currentWorldState.GetRandomConnectedLocation(currentWorldState.GetLocationByName(agent.Value.GetMyLocation().GetName())).Key.GetName()
-                                                   + ") ");
                             }
                             else
                             {
-                                goal = goal.Insert(goal.Length, "(wait " + agent.Key.GetName() + " " + ") ");
+                                goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                    + currentWorldState.GetLocationByName(currentWorldState.SearchAgentAmongLocationsByRole(AgentRole.PLAYER).GetName()).Key.GetName()
+                                    + ") ");
                             }
-                        }
-                        break;
-                    case AgentRole.ENEMY:
-                        if (currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.CountAliveAgents() >= 2
-                            && currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.playerOrUsualIsHere() && !peacefulEnemies)
-                        {
-                            foreach (var a in currentWorldState.GetLocationByName(agent.Value.GetBeliefs().GetMyLocation().GetName()).Value.GetAgents())
+                            break;
+                    }
+                }
+
+                if (goalType.Equals(GoalTypes.LOCATION))
+                {
+                    switch (agent.Key.GetRole())
+                    {
+                        case AgentRole.PLAYER:
+
+                            if (agent.Value.GetGoal().GetGoalType().Count == 1)
                             {
-                                if (a.Value.GetStatus() && (a.Key.GetRole() == AgentRole.USUAL || a.Key.GetRole() == AgentRole.PLAYER))
+                                foreach (var location in agent.Value.GetGoal().GetGoalState().GetLocations())
                                 {
-                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                    foreach (var a in location.Value.GetAgents())
+                                    {
+                                        if (a.Key.GetName().Equals(agent.Key.GetName()))
+                                        {
+                                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
+                                                           + location.Key.GetName() + ") ");
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            goal = goal.Insert(goal.Length, "(in-room " + agent.Key.GetName() + " "
-                                + currentWorldState.GetLocationByName(currentWorldState.SearchAgentAmongLocationsByRole(AgentRole.PLAYER).GetName()).Key.GetName()
-                                + ") ");
-                        }
-                        break;
+
+                            break;
+                    }
+                }
+
+                if (goalType.Equals(GoalTypes.POSSESSION))
+                {
+                    switch (agent.Key.GetRole())
+                    {
+                        case AgentRole.PLAYER:
+                           foreach (var a in currentWorldState.GetAgents())
+                            {
+                                if ((a.Key.GetRole().Equals(AgentRole.ANTAGONIST) ||
+                                    a.Key.GetRole().Equals(AgentRole.ENEMY)) && a.Value.GetStatus() 
+                                    && agent.Value.GetGoal().GetGoalType().Count == 1)
+                                {
+                                    agent.Value.SetObjectOfAngry(a.Key);
+                                    goal = goal.Insert(goal.Length, "(died " + a.Key.GetName() + ") ");
+                                    break;
+                                }
+                            }
+                            break;
+                    }
                 }
             }
 

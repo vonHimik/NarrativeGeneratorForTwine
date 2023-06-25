@@ -25,6 +25,9 @@ namespace Narrative_Generator
         /// An object of the class that manages the creation and control of constraints.
         /// </summary>
         public ConstraintManager constraintManager = new ConstraintManager();
+
+        public ItemsManager itemsManager = new ItemsManager();
+
         /// <summary>
         /// An object of the class that manages the agent action process.
         /// </summary>
@@ -115,6 +118,10 @@ namespace Narrative_Generator
         /// Active characters behaviours settings marker: each agent has unique goals, chosen randomly.
         /// </summary>
         public bool EachAgentsHasUG { get; set; }
+
+        public string TargetLocationName { get; set; }
+
+        public List<string> TargetItemsNames = new List<string>();
 
         /////////////////////////////////////
         /* CHARACTERS BEHAVIOURS SETTINGS */
@@ -218,12 +225,12 @@ namespace Narrative_Generator
 
             // We initialize the module for constructing pddl files with the necessary information.
             pddlModule.Initialization(setting, currentStoryState.GetStaticWorldPart().GetConnectionStatus(), AgentsCounter, CanFindEvidence);
-            pddlModule.charactersBehaviourInitialization(talkativeAntagonist, talkativeEnemies, cunningAntagonist, cunningEnemies, peacefulAntagonist, peacefulEnemies,
+            pddlModule.CharactersBehaviourInitialization(talkativeAntagonist, talkativeEnemies, cunningAntagonist, cunningEnemies, peacefulAntagonist, peacefulEnemies,
                                                          silentProtagonist, silentCharacters, aggresiveProtagonist, aggresiveCharacters, cowardlyProtagonist,
                                                          cowardlyCharacters);
 
             // Initialize the Goal Manager.
-            goalManager.Initialization();
+            goalManager.Initialization(TargetLocationName, TargetItemsNames);
         }
 
         /// <summary>
@@ -261,10 +268,12 @@ namespace Narrative_Generator
             DistributionOfInitiative();
             currentStoryState.OrderAgentsByInitiative();
 
+            ItemDistribution();
+
             // The third step in creating an initial state is assigning to agents their goals and beliefs.
 
             // === Goals === //
-            goalManager.AssignGoalsToAgents(ref currentStoryState);
+            goalManager.AssignGoalsToAgents (ref currentStoryState);
 
             // === Beliefs === //
 
@@ -938,9 +947,11 @@ namespace Narrative_Generator
                         detectiveLocations.Add(location.Key);
                     }
 
-                    HashSet<AgentStateStatic> killerAgent = new HashSet<AgentStateStatic>();
-                    killerAgent.Add(currentStoryState.GetAgentByRole(AgentRole.ANTAGONIST).Key);
-                
+                    HashSet<AgentStateStatic> killerAgent = new HashSet<AgentStateStatic>
+                    {
+                        currentStoryState.GetAgentByRole(AgentRole.ANTAGONIST).Key
+                    };
+
                     constraintManager.CreateRestrictingLocationConstraint(false, false, false, false, true, false, false, false, false, false, false,
                                                          detectiveLocations, killerAgent, 0); // killerCantMoveTwice
                     break;
@@ -1042,7 +1053,7 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="locations">List of locations in the world.</param>
         /// <returns>True if the path through all locations is found, false otherwise.</returns>
-        public bool pathExistenceControlling (Dictionary<LocationStatic, LocationDynamic> locations)
+        public bool PathExistenceControlling (Dictionary<LocationStatic, LocationDynamic> locations)
         {
             bool result = false;
 
@@ -1129,7 +1140,7 @@ namespace Narrative_Generator
                     }
 
                     // We check if there is a path that allows you to bypass all locations (i.e. are they all connected).
-                    pathExists = pathExistenceControlling(locations);
+                    pathExists = PathExistenceControlling(locations);
                 }
             }
             else if (setting.Equals(Setting.GenericFantasy))
@@ -1241,6 +1252,69 @@ namespace Narrative_Generator
             return locations;
         }
 
+        public void ItemDistribution()
+        {
+            ItemDistributionInLocation();
+            ItemDistributionAmongAgents();
+        }
+
+        private void ItemDistributionInLocation()
+        {
+            switch (setting)
+            {
+                case Setting.Detective:
+                    foreach (var location in currentStoryState.GetLocations())
+                    {
+                        location.Value.AddItem(itemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
+                    }
+                    break;
+                case Setting.DragonAge: break;
+                case Setting.GenericFantasy: break;
+                case Setting.DefaultDemo:
+                    foreach (var location in currentStoryState.GetLocations())
+                    {
+                        location.Value.AddItem(itemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
+                    }
+                    break;
+            }
+        }
+
+        private void ItemDistributionAmongAgents()
+        {
+            switch (setting)
+            {
+                case Setting.Detective:
+                    foreach (var agent in currentStoryState.GetAgents())
+                    {
+                        if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST))
+                        {
+                            agent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                        }
+                    }
+                    break;
+                case Setting.DragonAge: break;
+                case Setting.GenericFantasy:
+                    foreach (var agent in currentStoryState.GetAgents())
+                    {
+                        if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST))
+                        {
+                            agent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                            agent.Value.AddItem(itemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
+                        }
+                    }
+                    break;
+                case Setting.DefaultDemo:
+                    foreach (var agent in currentStoryState.GetAgents())
+                    {
+                        if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST))
+                        {
+                            agent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                        }
+                    }
+                    break;
+            }
+        }
+
         /// <summary>
         /// A method that checks the correct connection of nodes in a graph and fixes bugs.
         /// </summary>
@@ -1323,7 +1397,10 @@ namespace Narrative_Generator
             note.Text = "STORY GRAPH CREATING - START";
             newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot(), ref note, txtOutputPath);
 
-            FixingOfIncorrectlyConnectedNodes(ref newStoryGraph);
+            if (setting.Equals(Setting.Detective))
+            {
+                FixingOfIncorrectlyConnectedNodes(ref newStoryGraph);
+            }
 
             // Create a visual graph.
             note.Text = "VISUAL GRAPH CREATING";
@@ -1482,7 +1559,10 @@ namespace Narrative_Generator
                 reachedGoalState = goalManager.ControlToAchieveGoalState(ref currentNode);
 
                 // If so, terminate the method and return true.
-                if (reachedGoalState) { return true; }
+                if (reachedGoalState)
+                {
+                    return true;
+                }
 
                 // Otherwise, we go through the nodes associated with the node in question.
                 foreach (StoryNode nextNode in currentNode.GetLinks())
@@ -1522,7 +1602,7 @@ namespace Narrative_Generator
 
                 note.Text = "GOAL ACHIEVE CONTROL";
 
-                // We go through the created graph, looking for target states in it.
+                // We go through the created graph, looking for goal states in it.
                 BFSGoalAchieveControl(newStoryGraph.GetRoot());
 
                 // If it was not possible to find even one target state in the constructed graph.

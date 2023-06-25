@@ -98,6 +98,21 @@ namespace Narrative_Generator
         {
             KeyValuePair<AgentStateStatic, AgentStateDynamic> stateAgent = state.GetAgentByName(Agent.Key.GetName());
 
+            ItemsManager itemsManager = new ItemsManager();
+
+            if (state.GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy))
+            {
+                if (stateAgent.Value.GetItems().Count == 0)
+                {
+                    stateAgent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                }
+                else if (stateAgent.Value.GetItems().Count == 1 
+                    && stateAgent.Value.GetItems().First().GetItemType().Equals(ItemsTypes.WEAPON))
+                {
+                    stateAgent.Value.AddItem(itemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
+                }
+            }
+
             stateAgent.Value.CompleteQuest();
         }
 

@@ -16,7 +16,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Goal type marker.
         /// </summary>
-        private GoalTypes goalType;
+        private List<GoalTypes> goalTypes;
         /// <summary>
         /// Goal state of the world.
         /// </summary>
@@ -37,7 +37,7 @@ namespace Narrative_Generator
         /// </summary>
         public Goal()
         {
-            goalType = new GoalTypes();
+            goalTypes = new List<GoalTypes>();
             goalState = new WorldDynamic();
             hasHashCode = false;
             hashCode = 0;
@@ -49,7 +49,7 @@ namespace Narrative_Generator
         /// <param name="clone">A goal instance that will serve as the basis for creating a new instance.</param>
         public Goal (Goal clone)
         {
-            goalType = clone.goalType;
+            goalTypes = clone.goalTypes;
             goalState = (WorldDynamic)clone.goalState.Clone();
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
@@ -58,11 +58,26 @@ namespace Narrative_Generator
         /// <summary>
         /// A constructor with parameters that takes the values of its type and the target state to construct a new instance of the goal.
         /// </summary>
-        /// <param name="goalType">The type of the goal to construct.</param>
+        /// <param name="goalTypes">The type(s) of the goal to construct.</param>
         /// <param name="goalState">Goal state of the storyworld of the constructed target.</param>
+        public Goal (List<GoalTypes> goalTypes, WorldDynamic goalState)
+        {
+            this.goalTypes = goalTypes;
+            this.goalState = goalState;
+            hasHashCode = false;
+            hashCode = 0;
+        }
+
+        /// <summary>
+        /// Constructor with parameters if the goal type is specified and the goal state is created.
+        /// </summary>
+        /// <param name="goalType">Type of creating goal.</param>
+        /// <param name="goalState">Target state of created goal.</param>
         public Goal (GoalTypes goalType, WorldDynamic goalState)
         {
-            this.goalType = goalType;
+            if (goalTypes == null || goalTypes.Count == 0) { this.goalTypes = new List<GoalTypes>(); }
+            else { goalTypes.Add(goalType); }
+
             this.goalState = goalState;
             hasHashCode = false;
             hashCode = 0;
@@ -76,7 +91,7 @@ namespace Narrative_Generator
         {
             var clone = new Goal();
 
-            clone.goalType = goalType;
+            clone.goalTypes = goalTypes;
             clone.goalState = new WorldDynamic(goalState);
 
             return clone;
@@ -86,13 +101,22 @@ namespace Narrative_Generator
         /// Returns the type of this instance of the goal.
         /// </summary>
         /// <returns>Type of this instance of the goal.</returns>
-        public GoalTypes GetGoalType() { return goalType; }
+        public List<GoalTypes> GetGoalType() { return goalTypes; }
 
         /// <summary>
         /// Returns the goal state of storyworld of this instance of the goal.
         /// </summary>
         /// <returns>Goal state of this instance of the goal.</returns>
         public WorldDynamic GetGoalState() { return goalState; }
+
+        /// <summary>
+        /// Adds a goal type.
+        /// </summary>
+        /// <param name="newGoalType">Goal type to add.</param>
+        public void AddGoalType (GoalTypes newGoalType)
+        {
+            goalTypes.Add(newGoalType);
+        }
 
         /// <summary>
         /// Method for comparing two goal instance.
@@ -103,8 +127,8 @@ namespace Narrative_Generator
         {
             if (anotherGoal == null) { return false; }
 
-            bool goalTypeEquals = (goalType.Equals(anotherGoal.goalType));
-            bool goalTypeReferenceEquals = object.ReferenceEquals(goalType, anotherGoal.goalType);
+            bool goalTypeEquals = (goalTypes.Equals(anotherGoal.goalTypes));
+            bool goalTypeReferenceEquals = object.ReferenceEquals(goalTypes, anotherGoal.goalTypes);
 
             bool goalStateEquals = goalState.Equals(anotherGoal.goalState);
             bool goalStateReferenceEquals = object.ReferenceEquals(goalState, anotherGoal.goalState);
@@ -131,7 +155,7 @@ namespace Narrative_Generator
 
             int hashcode = 18;
 
-            hashcode = hashcode * 42 + goalType.GetHashCode();
+            hashcode = hashcode * 42 + goalTypes.GetHashCode();
             hashcode = hashcode * 42 + goalState.GetHashCode();
 
             hashCode = hashcode;

@@ -12,15 +12,15 @@ namespace Narrative_Generator
     public enum AgentRole
     {
         /// <summary>
-        /// A value to designate the role of an ordinary agent.
+        /// Value to indicate the role of an ordinary agent.
         /// </summary>
         USUAL,
         /// <summary>
-        /// Meaning to denote the role of the story's antagonist.
+        /// Value to indicate the role of the story's antagonist.
         /// </summary>
         ANTAGONIST,
         /// <summary>
-        /// Meaning to denote the player's role.
+        /// Value to indicate the player's role.
         /// </summary>
         PLAYER,
         /// <summary>
@@ -52,7 +52,7 @@ namespace Narrative_Generator
         public static AgentRole GetEnum (string name)
         {
             if (name == "usual") return AgentRole.USUAL;
-            if (name == "killer" || name == "antaganist") return AgentRole.ANTAGONIST;
+            if (name == "killer" || name == "antagonist") return AgentRole.ANTAGONIST;
             if (name == "player") return AgentRole.PLAYER;
             if (name == "boss" || name == "enemy") return AgentRole.ENEMY;
             throw new Exception("UNRECOGNIZED AGENT ROLE: " + name);

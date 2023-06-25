@@ -18,6 +18,8 @@ namespace Narrative_Generator
         private StoryAlgorithm system = new StoryAlgorithm();
         private bool settingSelected = false;
         private bool goalTypeSelected = false;
+        Setting selectedSetting;
+        private bool goalTypeStatusSelected = false;
         private int additionalAgentsInEncounters = 2;
         private int additionalLocationsInEncounters = 3;
         private string outputPath = "";
@@ -39,6 +41,11 @@ namespace Narrative_Generator
                       "7) Specify the address for outputting the resulting files.");
         }
 
+        /// <summary>
+        /// The method that handles pressing the "Start" button.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void BtnStart_Click (object sender, EventArgs e)
         {
             if (settingSelected && goalTypeSelected && outputPathSelected)
@@ -53,11 +60,48 @@ namespace Narrative_Generator
                 if (chBoxCE.Checked) { system.cunningEnemies = true; }
                 if (chBoxAP.Checked) { system.aggresiveProtagonist = true; }
                 if (chBoxAC.Checked) { system.aggresiveCharacters = true; }
+
+                foreach (var selectedItem in listBoxItemsSelected.SelectedItems)
+                {
+                    system.TargetItemsNames.Add(selectedItem.ToString());
+                }
+
                 system.Start(ref txtBoxNotesField, txtOutputPath.Text.ToString());
                 btnStart.Enabled = true;
             }
         }
 
+        /// <summary>
+        /// The method that handles pressing the "Select path" button.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
+        private void btnChoiseOutputPath_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog FBD = new FolderBrowserDialog();
+            if (FBD.ShowDialog() == DialogResult.OK)
+            {
+                outputPath = FBD.SelectedPath;
+                txtOutputPath.Text = FBD.SelectedPath.ToString();
+                outputPathSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// The method that handles pressing the "Exit" button.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
+        }
+
+        /// <summary>
+        /// Text input handler for the "Seed" field, allowing entering only numbers.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void TxtBoxSeed_KeyPress (object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -65,6 +109,11 @@ namespace Narrative_Generator
             if (!Char.IsDigit(number) && number != 8) { e.Handled = true;}
         }
 
+        /// <summary>
+        /// Text input handler for the "Node count" field, allowing entering only numbers.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void TxtBoxNodeCounter_KeyPress (object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -72,6 +121,11 @@ namespace Narrative_Generator
             if (!Char.IsDigit(number) && number != 8) { e.Handled = true; }
         }
 
+        /// <summary>
+        /// Text input handler for the "Term of protagonist survival" field, allowing entering only numbers.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void TxtProtagonistSurvTime_KeyPress (object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -79,6 +133,11 @@ namespace Narrative_Generator
             if (!Char.IsDigit(number) && number != 8) { e.Handled = true; }
         }
 
+        /// <summary>
+        /// Text input handler for the "Term of antagonist survival" field, allowing entering only numbers.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void TxtAntagonistSurvTime_KeyPress (object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -86,6 +145,11 @@ namespace Narrative_Generator
             if (!Char.IsDigit(number) && number != 8) { e.Handled = true; }
         }
 
+        /// <summary>
+        /// Text input handler for the "Find evidence chance" field, allowing entering only numbers.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void txtBoxEvChance_KeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -144,7 +208,7 @@ namespace Narrative_Generator
         /// <summary>
         /// Controls the display of notes (tips) about various interface elements.
         /// </summary>
-        /// <param name="noteText">Display text.</param>
+        /// <param name="noteText">Displayed text in text field.</param>
         public void PrintNote (string noteText)
         {
             txtBoxNotesField.Clear();
@@ -155,6 +219,11 @@ namespace Narrative_Generator
         /*      SETTING CHOISE         */
         /////////////////////////////////
 
+        /// <summary>
+        /// The switch check handler - fantasy setting choose option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void RbtnFantasy_CheckedChanged (object sender, EventArgs e)
         {
             if (rbtnFantasy.Checked) { FantasySubSettingsOn(); }
@@ -162,6 +231,11 @@ namespace Narrative_Generator
             PrintNote("A setting representing a fantasy story, with corresponding agents, locations, and their actions. A choice of subsetting is available.");
         }
 
+        /// <summary>
+        /// The switch check handler - detective setting choose option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void RbtnDetective_CheckedChanged (object sender, EventArgs e)
         {
             if (rbtnDetective.Checked) { DetectiveSettingOn(); }
@@ -169,11 +243,19 @@ namespace Narrative_Generator
             PrintNote("A setting representing a story in the detective genre, with corresponding agents, locations and their actions.");
         }
 
+        /// <summary>
+        /// The switch check handler - default setting choose option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void RbtnDefaultDemo_CheckedChanged (object sender, EventArgs e)
         {
             if (rbtnDefaultDemo.Checked) { DefaultDemoSettingOn(); }
         }
 
+        /// <summary>
+        /// A method that changes the availability of some interface elements when one of the fantasy subsettings is selected.
+        /// </summary>
         private void FantasySubSettingsOn()
         {
             ClearingSettingChanges();
@@ -183,14 +265,22 @@ namespace Narrative_Generator
             chBoxUniqKills.Enabled = false;
             chBoxStrOrdVicSec.Enabled = false;
             chBoxEachAgentsHasUG.Enabled = false;
+            SelectedTargetItemsSectionDeactivation();
         }
 
-        private void FantasySubSettingsOff() { grbxSubSettingFantasy.Visible = false; grbxSubSettingFantasy.Enabled = false;}
+        /// <summary>
+        /// A method that changes the availability of some interface elements if none of the fantasy subsettings is selected.
+        /// </summary>
+        private void FantasySubSettingsOff() { grbxSubSettingFantasy.Visible = false; grbxSubSettingFantasy.Enabled = false; }
 
+        /// <summary>
+        /// A method that changes the availability of some interface elements and some settings when the detective setting is selected.
+        /// </summary>
         private void DetectiveSettingOn()
         {
             ClearingSettingChanges();
             system.setting = Setting.Detective;
+            selectedSetting = Setting.Detective;
             chBoxCanFindEvidence.Enabled = true;
             chBoxUniqKills.Enabled = true;
             chBoxStrOrdVicSec.Enabled = true;
@@ -201,14 +291,36 @@ namespace Narrative_Generator
             txtBoxEvChance.Text = "50";
             system.AgentsCounter = 3;
             system.LocationsCounter = 4; // 8
+
+            rbtnFantasy.Checked = false;
+            rbtnDA.Checked = false;
+            rbtnGF.Checked = false;
+
+            SelectTargetLocationSectionActivation();
+            SelectedTargetItemsSectionActivation();
         }
 
-        private void DetectiveSettingOff() { chBoxUniqKills.Enabled = false; chBoxStrOrdVicSec.Enabled = false; chBoxEachAgentsHasUG.Enabled = false; }
+        /// <summary>
+        /// A method that changes the availability of some interface elements if the detective setting is not selected.
+        /// </summary>
+        private void DetectiveSettingOff()
+        {
+            chBoxUniqKills.Enabled = false;
+            chBoxStrOrdVicSec.Enabled = false;
+            chBoxEachAgentsHasUG.Enabled = false;
 
+            SelectTargetLocationSectionDeactivation();
+            SelectedTargetItemsSectionDeactivation();
+        }
+
+        /// <summary>
+        /// A method that changes the availability of some interface elements and some settings when the default setting is selected.
+        /// </summary>
         private void DefaultDemoSettingOn()
         {
             ClearingSettingChanges();
             system.setting = Setting.DefaultDemo;
+            selectedSetting = Setting.DefaultDemo;
             chBoxCanFindEvidence.Enabled = true;
             settingSelected = true;
             btnStart.Enabled = true;
@@ -229,7 +341,7 @@ namespace Narrative_Generator
             txtBoxEvChance.Text = null;
             chBoxPrtgWillSurv.Checked = false;
             txtProtagonistSurvTime.Text = "0";
-            chBoxAntognstWillSurv.Checked = false;
+            chBoxAntgWillSurv.Checked = false;
             txtAntagonistSurvTime.Text = "0";
             chBoxUniqKills.Checked = false;
             chBoxStrOrdVicSec.Checked = false;
@@ -248,11 +360,17 @@ namespace Narrative_Generator
         /*     SUB-SETTING CHOISE      */
         /////////////////////////////////
 
-        private void RbtnDA_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// The switch check handler - Dragon Age sub-setting choose option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
+        private void RbtnDA_CheckedChanged (object sender, EventArgs e)
         {
             if (rbtnFantasy.Checked && rbtnDA.Checked)
             {
                 system.setting = Setting.DragonAge;
+                selectedSetting = Setting.DragonAge;
                 chBoxRandEnc.Enabled = true;
                 chBoxRandConOfLoc.Enabled = false;
                 chBoxPA.Enabled = false;
@@ -261,6 +379,12 @@ namespace Narrative_Generator
                 btnStart.Enabled = true;
                 system.AgentsCounter = 2;
                 system.LocationsCounter = 6;
+
+                SelectTargetLocationSectionActivation();
+                SelectedTargetItemsSectionDeactivation();
+
+                rbtnGF.Checked = false;
+                rbtnDetective.Checked = false;
             }
             else { chBoxRandEnc.Enabled = false; chBoxRandConOfLoc.Enabled = true; }
 
@@ -268,15 +392,27 @@ namespace Narrative_Generator
                       "With corresponding agents, locations and their actions.");
         }
 
+        /// <summary>
+        /// The switch check handler - Generic Fantasy sub-setting choose option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void RbtnGF_CheckedChanged (object sender, EventArgs e)
         {
             if (rbtnFantasy.Checked && rbtnGF.Checked)
             {
                 system.setting = Setting.GenericFantasy;
+                selectedSetting = Setting.GenericFantasy;
                 settingSelected = true;
                 btnStart.Enabled = true;
                 system.AgentsCounter = 6;
                 system.LocationsCounter = 6;
+
+                SelectTargetLocationSectionActivation();
+                SelectedTargetItemsSectionActivation();
+
+                rbtnDA.Checked = false;
+                rbtnDetective.Checked = false;
             }
 
             PrintNote("A sub-setting that simulates an average fantasy, with agents, locations, and actions appropriate to the subgenre.");
@@ -286,6 +422,11 @@ namespace Narrative_Generator
         /*           SETTINGS          */
         /////////////////////////////////
 
+        /// <summary>
+        /// The chech-box check handler - "random connection of location" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxRandConOfLoc_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxRandConOfLoc.Checked) { system.RandomConnectionOfLocations = true; txtBoxSeed.Enabled = true; }
@@ -293,6 +434,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, connections (paths) between locations are randomly generated. Otherwise, the base presets are used.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "random encaunters" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxRandEnc_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxRandEnc.Checked)
@@ -312,6 +458,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, random encounters (new locations and characters) are added to the story.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "random fights results" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxRandFightRes_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxRandFightRes.Checked) { system.RandomBattlesResults = true; txtBoxSeed.Enabled = true; }
@@ -320,6 +471,11 @@ namespace Narrative_Generator
                       "Otherwise, such an action is always resolved as a success for the one who performed it.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "random distributions of agents initiative" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxRandDistOfInit_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxRandDistOfInit.Checked) { system.RandomDistributionOfInitiative = true; txtBoxSeed.Enabled = true; }
@@ -327,6 +483,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, the value of initiative (which determines the order in which agents act) is randomly distributed.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - hide "empty" actions option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxHideNTDActions_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxHideNTDActions.Checked) { system.HideNothingToDoActions = true; }
@@ -334,25 +495,45 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, empty actions will be removed from the generated render graph.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - goal type is "kill all enemies".
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxGoalKill_CheckedChanged (object sender, EventArgs e)
         {
-            if (chBoxGoalKill.Checked) { goalTypeSelected = true; system.goalManager.KillAntagonistOrAllEnemis = true; }
-            else { goalTypeSelected = false; system.goalManager.KillAntagonistOrAllEnemis = false; }
+            if (chBoxGoalKill.Checked) { goalTypeSelected = true; goalTypeStatusSelected = true; system.goalManager.KillAntagonistOrAllEnemis = true; }
+            else { goalTypeSelected = false; goalTypeStatusSelected = false; system.goalManager.KillAntagonistOrAllEnemis = false; }
             PrintNote("When choosing this type of target conditions, the winning (goal) condition for agents will be a change in status for agents with a certain role.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - goal type is "be in specific location".
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxGoalReachFinLoc_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxGoalReachFinLoc.Checked) { goalTypeSelected = true; system.goalManager.ReachGoalLocation = true; }
             else { goalTypeSelected = false; system.goalManager.ReachGoalLocation = false; }
         }
 
+        /// <summary>
+        /// The chech-box check handler - goal type is "get item".
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void ChBoxGoalGetItem_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxGoalGetItem.Checked) { goalTypeSelected = true; system.goalManager.GetImportantItem = true; }
             else { goalTypeSelected = false; system.goalManager.GetImportantItem = false; }
         }
 
+        /// <summary>
+        /// The chech-box check handler - "unique kill description for every agent" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxUniqKills_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxUniqKills.Checked) { system.UniqWaysToKill = true; }
@@ -360,6 +541,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, each murder (in a detective setting) will contain a unique description.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "strict order of victims selection" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxStrOrdVicSec_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxStrOrdVicSec.Checked) { system.StrOrdVicSec = true; }
@@ -367,6 +553,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, murders (in a detective setting) will be committed by the killer in a specific order.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "each agents has unique goals" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxEachAgentsHasUG_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxEachAgentsHasUG.Checked) { system.EachAgentsHasUG = true; }
@@ -374,6 +565,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, agents will receive random goals, which, however, do not contradict the global goal settings.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "talkative antagonist" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxTA_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxTA.Checked) { system.talkativeAntagonist = true; }
@@ -381,6 +577,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, conversational actions become available to the antagonist agent.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "talkative enemies" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxTE_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxTE.Checked) { system.talkativeEnemies = true; }
@@ -388,6 +589,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, conversational actions become available to enemy agents.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "cunning antagonist" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxCA_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxCA.Checked) { system.cunningAntagonist = true; }
@@ -395,6 +601,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, tricky actions (such as entraping) become available to the antagonist agent.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "cunning enemies" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxCE_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxCE.Checked) { system.cunningEnemies = true; }
@@ -402,6 +613,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, tricky actions (such as luring) become available to enemy agents.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "peaceful antagonist" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxPA_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxPA.Checked) { system.peacefulAntagonist = true; }
@@ -409,6 +625,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, aggressive actions are not available to the antagonist agent.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "peaceful enemies" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxPE_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxPE.Checked) { system.peacefulEnemies = true; }
@@ -416,6 +637,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, aggressive actions are not available to enemy agents");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "silent protagonist" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxSP_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxSP.Checked) { system.silentProtagonist = true; }
@@ -423,6 +649,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, dialog actions are not available to the player.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "silent characters" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxSC_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxSC.Checked) { system.silentCharacters = true; }
@@ -430,6 +661,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, dialog actions are not available to usual agents.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "aggressive protagonist" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxAP_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxAP.Checked) { system.aggresiveProtagonist = true; }
@@ -437,6 +673,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, the player will be able to take aggressive actions towards agents.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "aggressive characters" options.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxAC_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxAC.Checked) { system.aggresiveCharacters = true; }
@@ -444,6 +685,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is enabled, aggressive actions towards other agents become available to usual agents.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "cowardly protagonist" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxCP_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxCP.Checked) { system.cowardlyProtagonist = true; }
@@ -451,6 +697,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, cowardly actions become available to the player, such as fleeing from danger.");
         }
 
+        /// <summary>
+        /// The chech-box check handler - "cowardly characters" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxCC_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxCC.Checked) { system.cowardlyCharacters = true; }
@@ -458,17 +709,11 @@ namespace Narrative_Generator
             PrintNote("When this setting is activated, cowardly actions, such as fleeing from danger, become available to usual agents.");
         }
 
-        private void btnChoiseOutputPath_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog FBD = new FolderBrowserDialog();
-            if (FBD.ShowDialog() == DialogResult.OK)
-            {
-                outputPath = FBD.SelectedPath;
-                txtOutputPath.Text = FBD.SelectedPath.ToString();
-                outputPathSelected = true;
-            }
-        }
-
+        /// <summary>
+        /// The chech-box check handler - "can find evidence" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void chBoxCanFindEvidence_CheckedChanged(object sender, EventArgs e)
         {
             if (chBoxCanFindEvidence.Checked) { system.CanFindEvidence = true; txtBoxEvChance.Enabled = true; }
@@ -478,7 +723,12 @@ namespace Narrative_Generator
                       "enter the percentage chance of success for this action.");
         }
 
-        private void chboxPrtgWillSurv_CheckedChanged (object sender, EventArgs e)
+        /// <summary>
+        /// The chech-box check handler - "protagonist will survive" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
+        private void chBoxPrtgWillSurv_CheckedChanged (object sender, EventArgs e)
         {
             if (chBoxPrtgWillSurv.Checked) { system.ProtagonistWillSurvive = true; txtProtagonistSurvTime.Enabled = true; }
             else { system.ProtagonistWillSurvive = false; txtProtagonistSurvTime.Enabled = false; }
@@ -486,12 +736,106 @@ namespace Narrative_Generator
                       "In the field below, enter the protection period or leave the field empty (0) for unlimited protection.");
         }
 
-        private void chBoxAntognstWillSurv_CheckedChanged (object sender, EventArgs e)
+        /// <summary>
+        /// The chech-box check handler - "antagonist will survive" option.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
+        private void chBoxAntgWillSurv_CheckedChanged (object sender, EventArgs e)
         {
-            if (chBoxAntognstWillSurv.Checked) { system.AntagonistWillSurvive = true; txtAntagonistSurvTime.Enabled = true; }
+            if (chBoxAntgWillSurv.Checked) { system.AntagonistWillSurvive = true; txtAntagonistSurvTime.Enabled = true; }
             else { system.AntagonistWillSurvive = false; txtAntagonistSurvTime.Enabled = false; }
             PrintNote("When this setting is activated, the system will ensure that aggressive actions against the antagonist are not successful. " +
                       "In the field below, enter the protection period or leave the field empty (0) for unlimited protection.");
+        }
+
+        private void comBoxGoalLocationSelect_SelectedIndexChanged (object sender, EventArgs e)
+        {
+            system.TargetLocationName = comBoxGoalLocationSelect.SelectedItem.ToString();
+        }
+
+        private void comBoxGoalLocationSelect_DropDown(object sender, EventArgs e)
+        {
+            SelectedGoalLocationActualization();
+        }
+
+        private void SelectedGoalLocationActualization()
+        {
+            comBoxGoalLocationSelect.Items.Clear();
+
+            switch (selectedSetting)
+            {
+                case Setting.DragonAge:
+                    if (goalTypeStatusSelected)
+                    {
+                        comBoxGoalLocationSelect.Items.AddRange(new string[] { "Denerim" });
+                    }
+                    else if (!goalTypeSelected && !chBoxRandEnc.Checked)
+                    {
+                        comBoxGoalLocationSelect.Items.AddRange(new string[] 
+                        { "Lothering", "MagesTower", "Orzammar", "BrecilianForest", "Denerim" });
+                    }
+                    else if (!goalTypeSelected && chBoxRandEnc.Checked)
+                    {
+                        comBoxGoalLocationSelect.Items.AddRange(new string[] 
+                        { "Lothering", "MagesTower", "Orzammar", "BrecilianForest", "Denerim", "Road", "Crossroad", "Riverside" });
+                    }
+                    break;
+                case Setting.GenericFantasy:
+                    if (goalTypeStatusSelected)
+                    {
+                        comBoxGoalLocationSelect.Items.AddRange(new string[] { "Town" });
+                    }
+                    else
+                    {
+                        comBoxGoalLocationSelect.Items.AddRange(new string[]
+                        { "Village", "Town", "AncientRuins", "MysteriousForest", "Dungeon", "MountainPass" });
+                    }
+                    break;
+                case Setting.Detective: 
+                    comBoxGoalLocationSelect.Items.AddRange(new string[] { "LivingRooms", "Hall", "Rock", "Beach" });
+                    break;
+                case Setting.DefaultDemo:
+                    comBoxGoalLocationSelect.Items.AddRange(new string[] 
+                    { "kitchen", "dining-room", "hall", "garden", "bedroom", "guest-bedroom", "bathroom", "attic" });
+                    break;
+            }
+        }
+
+        private void SelectTargetLocationSectionActivation()
+        {
+            chBoxGoalReachFinLoc.Visible = true;
+            comBoxGoalLocationSelect.Visible = true;
+        }
+
+        private void SelectTargetLocationSectionDeactivation()
+        {
+            chBoxGoalReachFinLoc.Visible = false;
+            comBoxGoalLocationSelect.Visible = false;
+        }
+
+        private void listBoxItemsSelected_SelectedIndexChanged (object sender, EventArgs e)
+        {
+            // listBoxItemsSelected.SelectedItems();
+        }
+
+        private void SelectedTargetItemsSectionActivation()
+        {
+            listBoxItemsSelected.Items.Clear();
+
+            if (rbtnDetective.Checked) { listBoxItemsSelected.Items.AddRange(new string[] { "Evidence" }); }
+            if (rbtnGF.Checked) { listBoxItemsSelected.Items.AddRange(new string[] { "Weapon", "Armor" }); }
+
+            chBoxGoalGetItem.Visible = true;
+            listBoxItemsSelected.Visible = true;
+        }
+
+        private void SelectedTargetItemsSectionDeactivation()
+        {
+            chBoxGoalGetItem.Visible = false;
+            listBoxItemsSelected.Visible = false;
+
+            listBoxItemsSelected.Items.Clear();
         }
     }
 }

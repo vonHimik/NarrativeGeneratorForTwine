@@ -18,6 +18,8 @@ namespace Narrative_Generator
         // List of agents in the location.
         private Dictionary<AgentStateStatic, AgentStateDynamic> agentsAtLocations;
 
+        private HashSet<Item> itemsInLocation = new HashSet<Item>();
+
         // A flag indicating whether the location contains evidence or not.
         private bool containEvidence;
 
@@ -32,6 +34,7 @@ namespace Narrative_Generator
         {
             locationInfo = new LocationStatic();
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
+            itemsInLocation = new HashSet<Item>();
             containEvidence = false;
             hasHashCode = false;
             hashCode = 0;
@@ -46,6 +49,7 @@ namespace Narrative_Generator
             locationInfo = (LocationStatic)clone.locationInfo.Clone();
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>(clone.agentsAtLocations);
             containEvidence = clone.containEvidence;
+            itemsInLocation = clone.itemsInLocation;
             hasHashCode = clone.hasHashCode;
             hashCode = clone.hashCode;
         }
@@ -59,6 +63,7 @@ namespace Narrative_Generator
             locationInfo = new LocationStatic();
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             this.containEvidence = containEvidence;
+            itemsInLocation = new HashSet<Item>();
             hasHashCode = false;
             hashCode = 0;
         }
@@ -74,6 +79,7 @@ namespace Narrative_Generator
             this.locationInfo = locationInfo;
             agentsAtLocations = new Dictionary<AgentStateStatic, AgentStateDynamic>();
             this.containEvidence = containEvidence;
+            itemsInLocation = new HashSet<Item>();
             hasHashCode = false;
             hashCode = 0;
         }
@@ -327,7 +333,7 @@ namespace Narrative_Generator
         /// Checks if there are agents in the given location whose role is Usual or Player.
         /// </summary>
         /// <returns>True if at least one of the agents with the specified role is in this location, false otherwise.</returns>
-        public bool playerOrUsualIsHere()
+        public bool PlayerOrUsualIsHere()
         {
             foreach (var agent in agentsAtLocations)
             {
@@ -351,6 +357,119 @@ namespace Narrative_Generator
             }
 
             return counter;
+        }
+
+        /// <summary>
+        /// Adds the specified item to the list of items in this location.
+        /// </summary>
+        /// <param name="item">Item to add.</param>
+        public void AddItem (Item item)
+        {
+            itemsInLocation.Add(item);
+        }
+
+        /// <summary>
+        /// Adds the set specified items to the list of items in this location.
+        /// </summary>
+        /// <param name="items">Items to add.</param>
+        public void AddItems (HashSet<Item> items)
+        {
+            foreach (var item in items)
+            {
+                itemsInLocation.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Returns the item with the specified name if it is in this location.
+        /// </summary>
+        /// <param name="itemName">The name of the item being searched.</param>
+        /// <returns>Item from location with matching name.</returns>
+        public Item GetItemByName (string itemName)
+        {
+            foreach (var item in itemsInLocation)
+            {
+                if (item.GetItemName().Equals(itemName)) { return item; }
+            }
+
+            throw new MissingMemberException();
+        }
+
+        /// <summary>
+        /// Returns items with the specified type if they are in this location.
+        /// </summary>
+        /// <param name="type">The type of items being searched.</param>
+        /// <returns>Items from location with matching type.</returns>
+        public HashSet<Item> GetItemsByType (ItemsTypes type)
+        {
+            HashSet<Item> items = new HashSet<Item>();
+
+            foreach (var item in itemsInLocation)
+            {
+                if (item.GetItemType().Equals(type)) { items.Add(item); }
+            }
+
+            return items;
+        }
+
+        /// <summary>
+        /// Returns a list of items in this location.
+        /// </summary>
+        /// <returns>The set of items.</returns>
+        public HashSet<Item> GetItems()
+        {
+            return itemsInLocation;
+        }
+
+        /// <summary>
+        /// Checks if this location contains an item with the specified name.
+        /// </summary>
+        /// <param name="itemName">The name of the item being checked.</param>
+        /// <returns>True if the location contains the specified item, false otherwise.</returns>
+        public bool ItemCheck (string itemName)
+        {
+            foreach (var item in itemsInLocation)
+            {
+                if (item.GetItemName().Equals(itemName)) { return true; }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if this location contains an item with the specified type.
+        /// </summary>
+        /// <param name="itemType">The type of the item being checked.</param>
+        /// <returns>True if the location contains the specified item, false otherwise.</returns>
+        public bool ItemCheck (ItemsTypes itemType)
+        {
+            foreach (var item in itemsInLocation)
+            {
+                if (item.GetItemType().Equals(itemType)) { return true; }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Removes an item with the specified name from the list of items in this location (if it has one).
+        /// </summary>
+        /// <param name="itemName">The name of the item to be removed.</param>
+        public void RemoveItem (string itemName)
+        {
+            for (int i = 0; i < itemsInLocation.Count; i++)
+            {
+                if (itemsInLocation.ElementAt(i).GetItemName().Equals(itemName)) { RemoveItem(itemsInLocation.ElementAt(i)); }
+            }
+        }
+
+        /// <summary>
+        /// Removes all items with the specified type from the list of items in this location.
+        /// </summary>
+        /// <param name="item">The type of items to be removed.</param>
+        public void RemoveItem (Item item)
+        {
+            itemsInLocation.Remove(item);
         }
 
         /// <summary>

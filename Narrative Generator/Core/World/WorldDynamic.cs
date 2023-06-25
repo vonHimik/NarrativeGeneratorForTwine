@@ -512,6 +512,44 @@ namespace Narrative_Generator
         }
 
         /// <summary>
+        /// Adds the specified location to the list of locations in this world state.
+        /// </summary>
+        /// <param name="location">Location to add.</param>
+        public void AddLocation (KeyValuePair<LocationStatic, LocationDynamic> location)
+        {
+            LocationStatic sPrefab = (LocationStatic)location.Key.Clone();
+            LocationDynamic dPrefab = (LocationDynamic)location.Value.Clone();
+            currentStateOfLocations.Add(sPrefab, dPrefab);
+
+            // Clear
+            sPrefab = null;
+            dPrefab = null;
+            GC.Collect();
+
+            UpdateHashCode();
+        }
+
+        /// <summary>
+        /// Adds the specified location to the list of locations in this world state and names it separately.
+        /// </summary>
+        /// <param name="location">Adding location.</param>
+        /// <param name="name">The name of adding location.</param>
+        public void AddLocation(KeyValuePair<LocationStatic, LocationDynamic> location, string name)
+        {
+            LocationStatic sPrefab = (LocationStatic)location.Key.Clone();
+            sPrefab.SetName(name);
+            LocationDynamic dPrefab = (LocationDynamic)location.Value.Clone();
+            currentStateOfLocations.Add(sPrefab, dPrefab);
+
+            // Clear
+            sPrefab = null;
+            dPrefab = null;
+            GC.Collect();
+
+            UpdateHashCode();
+        }
+
+        /// <summary>
         /// Returns a location from the list of locations if the key (the static part of the location state) matches.
         /// </summary>
         /// <param name="locationKey">Static part of required location.</param>
