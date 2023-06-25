@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WantToEntrap.EntrapCheck" name="Narrative_Generator.WantToEntrap.EntrapCheck">
+<area shape="rect" id="node1" title="Returns the desire status of this agent to entrap (move) some other agent to some location." alt="" coords="236,5,407,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#ae7aefbb50476b9cc59a28a6ed363e36a" title="A method that checks if this agent wants to entrap some other agent to some location." alt="" coords="5,5,188,45"/>
+</map>

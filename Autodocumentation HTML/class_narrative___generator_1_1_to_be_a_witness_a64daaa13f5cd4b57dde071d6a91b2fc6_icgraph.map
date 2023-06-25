@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.ToBeAWitness.DefineDescription" name="Narrative_Generator.ToBeAWitness.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="224,5,408,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_to_be_a_witness.html#a91ffe348eeacd0b5e1fbd88382f18318" title="A constructor based only on the state of the story world." alt="" coords="5,5,176,45"/>
+</map>

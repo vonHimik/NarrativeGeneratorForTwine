@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Move.Move" name="Narrative_Generator.Move.Move">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,13,209,38"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_move.html#a886b53f5dff9909a717be3a44f7c2fcc" title="A method that creates a description of the action." alt="" coords="257,5,432,45"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.LocationStatic" name="Narrative_Generator.LocationStatic">
+<area shape="rect" id="node1" title="This class stores static (rarely changed) properties of a location and describes methods for interact..." alt="" coords="32,79,221,119"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,88,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="113,5,303,31"/>
+</map>

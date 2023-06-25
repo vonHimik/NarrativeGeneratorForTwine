@@ -1,0 +1,12 @@
+digraph "Narrative_Generator.AgentStateDynamic"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [label="Narrative_Generator.Agent\lStateDynamic",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The class that implements the agent, its behavior and the information it stores. The dynamic part,..."];
+  Node2 -> Node1 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="IEquatable\< AgentStateDynamic \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="ICloneable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

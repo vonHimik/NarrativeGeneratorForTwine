@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.AgentStateStatic" name="Narrative_Generator.AgentStateStatic">
+<area shape="rect" id="node1" title="A class that stores static (rarely changed) agent properties and methods for interacting with them." alt="" coords="105,79,280,119"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,212,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="237,5,319,31"/>
+</map>

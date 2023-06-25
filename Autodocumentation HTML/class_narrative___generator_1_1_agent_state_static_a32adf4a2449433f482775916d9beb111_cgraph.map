@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.AgentStateStatic.Clone" name="Narrative_Generator.AgentStateStatic.Clone">
+<area shape="rect" id="node1" title="Method for cloning an agent." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_static.html#a4f099a7caf5f22743a45796618db1dc7" title="Method&#45;constructor of the static part of the agent (without input parameters)." alt="" coords="228,5,419,45"/>
+</map>

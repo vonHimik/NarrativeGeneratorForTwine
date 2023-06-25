@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Plan.Clone" name="Narrative_Generator.Plan.Clone">
+<area shape="rect" id="node1" title="Method for creating a plan clone instance." alt="" coords="277,5,448,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#ac3e7ff983f7252a9b21753f7c788588e" title="Constructor with parameters of the dynamic part of the agent, which creates a new instance of the age..." alt="" coords="5,5,229,45"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.ToBeAWitness.PreCheckPrecondition" name="Narrative_Generator.ToBeAWitness.PreCheckPrecondition">
+<area shape="rect" id="node1" title="A method that checks the most basic preconditions for an action." alt="" coords="5,69,217,109"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="303,5,477,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#a08a6971e9e037b7bc26cb07ed4bc7a4f" title="Returns a location from the list of locations if the key (the static part of the location state) matc..." alt="" coords="303,69,477,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392" title="Returns the static part (name) of the location where the searched agent is located." alt="" coords="265,133,515,173"/>
+</map>

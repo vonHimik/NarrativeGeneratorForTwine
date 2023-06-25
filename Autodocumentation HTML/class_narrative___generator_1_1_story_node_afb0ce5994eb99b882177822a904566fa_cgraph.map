@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.StoryNode.SetWorldState" name="Narrative_Generator.StoryNode.SetWorldState">
+<area shape="rect" id="node1" title="Sets the storyworld state stored by the node." alt="" coords="5,37,176,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#a832d4cb2c049b8a65cc276ad4c504152" title="Updates (refresh) the current hash code value." alt="" coords="224,37,395,77"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a31e5f4b58da0490f7d565dce4530b123" title="Clears the current hash code value." alt="" coords="443,5,613,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_node.html#a530455ede80b5edd4a0636fe04eebeaf" title="Calculates and returns the hash code of this instance of the StoryNode." alt="" coords="443,69,613,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_world_dynamic.html#a09e69ba75f8c366973719ff2909d36b1" title="Clears the current hash code value." alt="" coords="661,37,836,77"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_world_dynamic.html#aebfe541cb9cba87220afdc0b6e7da30b" title="Calculates and returns the hash code of this instance of the WorldDynamic." alt="" coords="661,101,836,141"/>
+</map>

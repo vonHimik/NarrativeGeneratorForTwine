@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Plan.GetAction" name="Narrative_Generator.Plan.GetAction">
+<area shape="rect" id="node1" title="A method that returns the specified action from the plan." alt="" coords="243,5,413,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#ab77ca91fc870d7295d2aa9e057a8f5df" title="Correlates the list of actions available to the agent with the first action in its action plan,..." alt="" coords="5,5,195,45"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryworldConvergence.SkipTurn" name="Narrative_Generator.StoryworldConvergence.SkipTurn">
+<area shape="rect" id="node1" title="To skip a turn (action), an action &quot;NothingToDo&quot; is created and applied." alt="" coords="5,5,207,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_nothing_to_do.html#a5916d4a5295b1aa22330a8929badb828" title="A method that changes the passed world state according to the effects of the action." alt="" coords="255,5,439,45"/>
+</map>

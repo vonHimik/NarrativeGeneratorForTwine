@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.StoryNode.DeleteLink"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Story\lNode.DeleteLink",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="If the specified node is among the list of nodes linked with this node, then the link will be deleted..."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Storyworld\lConvergence.CyclesControl",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896",tooltip="A method that checks whether the effects of the action under test will cause cycles in the graph."];
+}

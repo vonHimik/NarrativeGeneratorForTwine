@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.WorldContext.GetAgentsInWorld"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.World\lContext.GetAgentsInWorld",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns this agent's set of beliefs about other agents."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateDynamic.ThinksThatSomeone\lIsAngry",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#a2b32be08d3143bb72deb2d3a18f6c432",tooltip="Checks if the agent knows that one of the other agents is angry."];
+}

@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.WantToEntrap.SetLocation" name="Narrative_Generator.WantToEntrap.SetLocation">
+<area shape="rect" id="node1" title="Sets the target location to which this agent wants to move some other agent." alt="" coords="483,5,653,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_want_to_entrap.html#a3a5c2ce0fe668146870600b3f7b7e461" title="Sets the agent that this agent will want to move to some location AND the target location to which th..." alt="" coords="228,5,435,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a8de02a1a6594faa7561440f7d4387cda" title="A method that allows this agent to start entrap the specified agent at the specified location." alt="" coords="5,5,180,45"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.PlanAction.TakeAction" name="Narrative_Generator.PlanAction.TakeAction">
+<area shape="rect" id="node1" title="An abstract method for checking the preconditions of an action and, if they are satisfied,..." alt="" coords="5,37,172,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_plan_action.html#ab063bdf4f0f093c205f424cbe4523943" title="An abstract method for applying changes defined by an action to the current state of the storyworld." alt="" coords="226,5,393,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_plan_action.html#ae3d98713bc16f7aece503c8775216a26" title="An abstract method that determines the fulfillment of the preconditions necessary to perform an actio..." alt="" coords="220,69,399,109"/>
+</map>

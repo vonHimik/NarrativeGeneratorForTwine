@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.AgentStateDynamic.SetStatus" name="Narrative_Generator.AgentStateDynamic.SetStatus">
+<area shape="rect" id="node1" title="The method that sets the agent&#39;s status." alt="" coords="277,37,452,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a19164f64cb621f2e203ab43da59ccb14" title="Adding an agent, basic information about it is specified in separate parameters." alt="" coords="30,5,205,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a78fead52797d21076991a4ae72b75fc3" title="Constructor with parameters." alt="" coords="5,69,229,109"/>
+</map>

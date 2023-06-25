@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.ActionGenerator" name="Narrative_Generator.ActionGenerator">
+<area shape="rect" id="node1" title="A class that generates a list of possible actions for the agent at the moment." alt="" coords="5,108,183,148"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_action_generator.html" title="A class that generates a list of possible actions for the agent at the moment." alt="" coords="5,5,183,45"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.InvestigateRoom.ApplyEffects" name="Narrative_Generator.InvestigateRoom.ApplyEffects">
+<area shape="rect" id="node1" title="A method that changes the passed world state according to the effects of the action." alt="" coords="5,5,207,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_investigate_room.html#a1ef6774d9db8ac0994b9e9894016a399" title="A method that implements the action&#39;s failure effect." alt="" coords="255,5,456,45"/>
+</map>

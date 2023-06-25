@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldDynamic.GetNearestAgentTo" name="Narrative_Generator.WorldDynamic.GetNearestAgentTo">
+<area shape="rect" id="node1" title="Method that returns the closest agent, relative to the location where it was called." alt="" coords="5,29,196,69"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a6f05df943b18f6f2a0291e48dba1dfc2" title="The recursive part of the method for determining distances to agents. Considers searching in a specif..." alt="" coords="244,29,475,69"/>
+</map>

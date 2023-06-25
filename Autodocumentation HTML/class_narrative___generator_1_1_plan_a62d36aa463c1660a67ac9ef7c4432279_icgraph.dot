@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.Plan.GetAction"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Plan.\lGetAction",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that returns the specified action from the plan."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateDynamic.ChooseAction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#ab77ca91fc870d7295d2aa9e057a8f5df",tooltip="Correlates the list of actions available to the agent with the first action in its action plan,..."];
+}

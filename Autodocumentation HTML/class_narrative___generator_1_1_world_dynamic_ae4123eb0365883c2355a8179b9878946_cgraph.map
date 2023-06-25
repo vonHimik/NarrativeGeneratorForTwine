@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldDynamic.GetRandomAgent" name="Narrative_Generator.WorldDynamic.GetRandomAgent">
+<area shape="rect" id="node1" title="A method that returns a random agent from the list of agents, except for the agents that initiates th..." alt="" coords="5,5,185,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a9f88b0e9a4ab518930e6041610402747" title="Returns the first founded agent with the specified name." alt="" coords="233,5,416,45"/>
+</map>

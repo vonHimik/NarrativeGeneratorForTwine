@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldContext.GetMyLocation" name="Narrative_Generator.WorldContext.GetMyLocation">
+<area shape="rect" id="node1" title="Returns the location where the agent thinks he is." alt="" coords="249,5,424,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#aca05f9699fa13ea515688c4612ec4968" title="Returns information about the location in which this agent is located (according to his beliefs)." alt="" coords="5,5,201,45"/>
+</map>

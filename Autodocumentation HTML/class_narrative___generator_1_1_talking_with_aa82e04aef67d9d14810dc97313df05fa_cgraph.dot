@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.TalkingWith.GetHashCode"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Talking\lWith.GetHashCode",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Calculates and returns the hash code of this instance of the TalkingWith."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateStatic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#a2827a4f98ca2a38a486f746f40883d47",tooltip="Clears the current hash code value."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lStateStatic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#acf5f6b1ff2055ef1ab278bb6183d0b67",tooltip="Calculates and returns the hash code of this instance of the static part of the agent's state."];
+}

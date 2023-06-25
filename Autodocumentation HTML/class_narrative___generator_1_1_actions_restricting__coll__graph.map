@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.ActionsRestricting" name="Narrative_Generator.ActionsRestricting">
+<area shape="rect" id="node1" title="A type of constraint that restricts agents from performing actions." alt="" coords="53,108,237,148"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_constraint.html" title="The base class for implementing the constraints imposed on the story." alt="" coords="5,13,120,38"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_plan_action.html" title="A class that implements an action that an agent takes to change the state of the storyworld." alt="" coords="145,5,311,45"/>
+</map>

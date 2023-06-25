@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Plan.Clone" name="Narrative_Generator.Plan.Clone">
+<area shape="rect" id="node1" title="Method for creating a plan clone instance." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_plan.html#acdeb92a08bc175d3b10baafb8428551e" title="Constructor without parameters." alt="" coords="224,13,420,38"/>
+</map>

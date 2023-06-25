@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryNode.isChild" name="Narrative_Generator.StoryNode.isChild">
+<area shape="rect" id="node1" title="Checks if this node is a child of the specified node." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="224,5,395,45"/>
+</map>

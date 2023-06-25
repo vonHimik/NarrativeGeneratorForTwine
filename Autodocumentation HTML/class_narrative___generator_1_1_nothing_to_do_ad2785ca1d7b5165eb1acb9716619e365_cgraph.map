@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.NothingToDo.NothingToDo" name="Narrative_Generator.NothingToDo.NothingToDo">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,5,189,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_nothing_to_do.html#ad28e8d422c6cd7acfebe390cb001f4b6" title="A method that creates a description of the action." alt="" coords="237,5,421,45"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.AgentStateDynamic.GetBeliefs" name="Narrative_Generator.AgentStateDynamic.GetBeliefs">
+<area shape="rect" id="node1" title="The method allows to receive information about the agent&#39;s beliefs about the storyworld (environment)..." alt="" coords="249,5,424,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#aca05f9699fa13ea515688c4612ec4968" title="Returns information about the location in which this agent is located (according to his beliefs)." alt="" coords="5,5,201,45"/>
+</map>

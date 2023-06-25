@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.LocationStatic.ConnectionChecking" name="Narrative_Generator.LocationStatic.ConnectionChecking">
+<area shape="rect" id="node1" title="Checks if there is a path (connection) between this location and the specified location." alt="" coords="5,5,195,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_static.html#a3a196080501e30adb03f127eba710d47" title="Method that returns the name of the location." alt="" coords="243,5,432,45"/>
+</map>

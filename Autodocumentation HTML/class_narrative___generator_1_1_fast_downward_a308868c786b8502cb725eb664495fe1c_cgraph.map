@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.FastDownward.Run" name="Narrative_Generator.FastDownward.Run">
+<area shape="rect" id="node1" title="The method that starts the planner." alt="" coords="5,5,172,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_fast_downward_wrapper.html#a2810884e1f4b153bb70b88515246404a" title="A class that passes some settings and a calling class that directly starts the planner,..." alt="" coords="220,5,463,45"/>
+</map>

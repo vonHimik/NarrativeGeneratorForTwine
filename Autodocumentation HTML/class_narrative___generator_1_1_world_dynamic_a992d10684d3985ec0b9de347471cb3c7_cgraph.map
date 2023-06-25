@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldDynamic.GetRandomConnectedLocation" name="Narrative_Generator.WorldDynamic.GetRandomConnectedLocation">
+<area shape="rect" id="node1" title="Returns a random location that has a path (connection) to the specified location." alt="" coords="5,5,263,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="311,5,508,45"/>
+</map>

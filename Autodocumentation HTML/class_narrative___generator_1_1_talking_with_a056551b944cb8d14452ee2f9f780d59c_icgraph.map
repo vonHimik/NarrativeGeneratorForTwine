@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.TalkingWith.SetInterlocutor" name="Narrative_Generator.TalkingWith.SetInterlocutor">
+<area shape="rect" id="node1" title="Sets the agent of the interlocutor for this agent." alt="" coords="245,5,427,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#aae14c62bbd77a916a1b2d24f2e6fe43e" title="A method that allows an agent to start a conversation with another agent and remember this fact (whil..." alt="" coords="5,5,197,45"/>
+</map>

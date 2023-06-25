@@ -1,0 +1,9 @@
+<map id="Narrative_Generator.WorldStatic.GetHashCode" name="Narrative_Generator.WorldStatic.GetHashCode">
+<area shape="rect" id="node1" title="Calculates and returns the hash code of this instance of the WorldStatic." alt="" coords="1351,35,1525,75"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_static.html#a9f94b4065b2b7331899adb2670407c52" title="Updates (refresh) the current hash code value." alt="" coords="1128,35,1303,75"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_static.html#a5b24dae1f53361ddeeec6443548bab59" title="Adds the specified location to the list of locations." alt="" coords="905,5,1080,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_static.html#ab3627c580224e908bf75b8c64c2b8943" title="Adds the given locations to the list of locations." alt="" coords="683,35,857,75"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_algorithm.html#ac985fa702a6214e07aa89f7bb28713af" title="A method that adds locations to the current state of the world." alt="" coords="452,35,635,75"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406" title="A method that creates an initial state of the world based on user preferences." alt="" coords="224,35,404,75"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,35,176,75"/>
+</map>

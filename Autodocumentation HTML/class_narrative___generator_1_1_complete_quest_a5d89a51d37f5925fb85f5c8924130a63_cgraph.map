@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.CompleteQuest.CompleteQuest" name="Narrative_Generator.CompleteQuest.CompleteQuest">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,5,200,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_complete_quest.html#a1a5746f408c42379d38f4a0bf10b1c36" title="A method that creates a description of the action." alt="" coords="248,5,443,45"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryAlgorithm.PathExistenceControlling" name="Narrative_Generator.StoryAlgorithm.PathExistenceControlling">
+<area shape="rect" id="node1" title="A method that verifies that all locations in the transferred set are connected (there is a way that c..." alt="" coords="5,5,232,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_static.html#a219e327651e7e34dd7a6401c63483477" title="Returns a list of all locations that have a path from this location (they are connected)." alt="" coords="280,5,479,45"/>
+</map>

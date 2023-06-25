@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.Goal.Clone" name="Narrative_Generator.Goal.Clone">
+<area shape="rect" id="node1" title="Method for cloning a goal instance." alt="" coords="549,37,720,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#ac3e7ff983f7252a9b21753f7c788588e" title="Constructor with parameters of the dynamic part of the agent, which creates a new instance of the age..." alt="" coords="277,5,501,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a223529b14368bdbad4fd8775d6c72d92" title="A method for setting a goal for an agent." alt="" coords="302,69,477,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a78fead52797d21076991a4ae72b75fc3" title="Constructor with parameters." alt="" coords="5,69,229,109"/>
+</map>

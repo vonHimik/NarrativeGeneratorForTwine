@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.WorldDynamic.GetRandomEmptyLocation" name="Narrative_Generator.WorldDynamic.GetRandomEmptyLocation">
+<area shape="rect" id="node1" title="Returns a random location where there are no agents." alt="" coords="5,37,239,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="287,5,484,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#a17c72efa8ffcf3a1aec74a25498739f1" title="Checks if there are no agents in the specified location." alt="" coords="298,69,473,109"/>
+</map>

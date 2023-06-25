@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.ListOfDistanceToAgent.Add" name="Narrative_Generator.ListOfDistanceToAgent.Add">
+<area shape="rect" id="node1" title="A method that creates a new distance object and adds it to the list." alt="" coords="5,69,167,109"/>
+<area shape="rect" id="node2" href="$struct_narrative___generator_1_1_list_of_distance_to_agent.html#a01fd88fd28d47e43f09672bdde058e71" title="A method that adds an existing distance object to the list." alt="" coords="222,37,383,77"/>
+<area shape="rect" id="node5" href="$struct_narrative___generator_1_1_list_of_distance_to_agent.html#acabd625e8fb886d5359940faf3192d68" title="A method that creates a new instance of the distance object." alt="" coords="215,101,391,141"/>
+<area shape="rect" id="node3" href="$struct_narrative___generator_1_1_list_of_distance_to_agent.html#ab56de2e18b76eb094921eb8b5fb1e8e6" title="Initializing the list with a starting value." alt="" coords="439,5,645,45"/>
+<area shape="rect" id="node4" href="$struct_narrative___generator_1_1_list_of_distance_to_agent.html#af6f8f1d4ff912a0e2f92956e7cf05d46" title="Method for sorting the list in ascending order of distance." alt="" coords="461,69,623,109"/>
+</map>

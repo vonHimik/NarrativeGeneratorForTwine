@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.TellAboutASuspicious.DefineDescription"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Tell\lAboutASuspicious.DefineDescription",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that creates a description of the action."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Tell\lAboutASuspicious.TellAboutASuspicious",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_tell_about_a_suspicious.html#ad2405f4d7f6b98f4e006b7a917afc709",tooltip="A constructor based only on the state of the story world."];
+}

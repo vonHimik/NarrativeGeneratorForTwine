@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.Talk.PreCheckPrecondition" name="Narrative_Generator.Talk.PreCheckPrecondition">
+<area shape="rect" id="node1" title="A method that checks the most basic preconditions for an action." alt="" coords="5,37,173,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a08a6971e9e037b7bc26cb07ed4bc7a4f" title="Returns a location from the list of locations if the key (the static part of the location state) matc..." alt="" coords="259,5,433,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392" title="Returns the static part (name) of the location where the searched agent is located." alt="" coords="221,69,471,109"/>
+</map>

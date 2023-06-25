@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.StoryworldConvergence.TarjanAlgStep" name="Narrative_Generator.StoryworldConvergence.TarjanAlgStep">
+<area shape="rect" id="node1" title="A method that implements an algorithm that checks for the presence of a cycle in a graph." alt="" coords="5,37,207,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#a97c8781334050ca7df409f2b46584660" title="Returns a list of all nodes connected to this node." alt="" coords="265,5,435,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="255,69,445,109"/>
+</map>

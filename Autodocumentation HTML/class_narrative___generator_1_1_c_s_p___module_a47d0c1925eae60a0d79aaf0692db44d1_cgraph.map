@@ -1,0 +1,10 @@
+<map id="Narrative_Generator.CSP_Module.MassiveAssignVariables" name="Narrative_Generator.CSP_Module.MassiveAssignVariables">
+<area shape="rect" id="node1" title="Method for assigning parameters to several actions of the same type." alt="" coords="5,197,221,237"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_static.html#a9065e3f9e575c62cd237a9cf9078ba38" title="Returns information about whether the rule about the presence of paths (connections) between location..." alt="" coords="302,5,486,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#a2f401eba88665f4e785b1a7051e84b06" title="Returns a location from the list of locations according to the specified index." alt="" coords="297,69,491,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="295,133,493,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_world_dynamic.html#af81aefe2695cd8c460e8490a2b23c489" title="Returns a list of all locations." alt="" coords="307,197,481,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_location_static.html#a3a196080501e30adb03f127eba710d47" title="Method that returns the name of the location." alt="" coords="299,261,489,301"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="299,325,489,365"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392" title="Returns the static part (name) of the location where the searched agent is located." alt="" coords="269,389,519,429"/>
+</map>

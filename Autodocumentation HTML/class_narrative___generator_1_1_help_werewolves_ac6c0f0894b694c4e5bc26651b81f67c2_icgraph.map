@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.HelpWerewolves.DefineDescription" name="Narrative_Generator.HelpWerewolves.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="244,5,440,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_help_werewolves.html#ad531707b26b547143f18167770c4a8a9" title="A constructor based only on the state of the story world." alt="" coords="5,5,196,45"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Talk.Talk" name="Narrative_Generator.Talk.Talk">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,13,197,38"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_talk.html#a20e5132c811200bcf29a457916313319" title="A method that creates a description of the action." alt="" coords="245,5,413,45"/>
+</map>

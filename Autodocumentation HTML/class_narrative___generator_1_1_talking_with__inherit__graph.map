@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.TalkingWith" name="Narrative_Generator.TalkingWith">
+<area shape="rect" id="node1" title="A class that implements the agent&#39;s belief that he is in a conversation with some other agent and sto..." alt="" coords="73,79,281,104"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_property.html" title="Base class for implementing derived classes that implement various properties of agents." alt="" coords="5,5,111,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="135,5,218,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="243,5,417,31"/>
+</map>

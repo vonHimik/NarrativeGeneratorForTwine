@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.LocationDynamic.AddAgent" name="Narrative_Generator.LocationDynamic.AddAgent">
+<area shape="rect" id="node1" title="Adds an agent to the list of agents located in this location." alt="" coords="259,5,448,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_goal_manager.html#a1972c672143df8f969e4a81898e47fca" title="A method that assigns goals to agents based on their role." alt="" coords="5,5,211,45"/>
+</map>

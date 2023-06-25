@@ -1,0 +1,34 @@
+digraph "Narrative_Generator.StoryGraph.DeleteTestNode"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Story\lGraph.DeleteTestNode",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Delete the specified test node."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Storyworld\lConvergence.CyclesControl",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896",tooltip="A method that checks whether the effects of the action under test will cause cycles in the graph."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Story\lGraph.DuplicateNodeConnecting",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_graph.html#a3caa66943f727fc97c6a8d255f8a0db9",tooltip="Connects two nodes if both already exist and are in the graph."];
+  Node3 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Storyworld\lConvergence.ActionControl",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#ab63aeb27180c660c584261acd9e7051d",tooltip="Checking the action for violation of the established constraints and the reachability of the goal sta..."];
+  Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Storyworld\lConvergence.ActionRequest",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a371ff7aeb10e59e3c51971228ea94378",tooltip="The agent updates his beliefs, calculates a plan, chooses an action, assigns variables to it,..."];
+  Node5 -> Node6 [dir="back",color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Story\lAlgorithm.Step",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a14fcd8daa5dd92cef5b985a754ffa59e",tooltip="Convergence in turn asks agents for actions, checks them, applies them, counteracts them,..."];
+  Node6 -> Node7 [dir="back",color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Story\lAlgorithm.BFSTraversing",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa",tooltip="A method in which we sequentially create a story graph, node by node, starting at the root,..."];
+  Node7 -> Node8 [dir="back",color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1",tooltip="The method that controls the creation of the story graph."];
+  Node8 -> Node9 [dir="back",color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node4 -> Node10 [dir="back",color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Storyworld\lConvergence.MultiAVandAC",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a27d193b37c3114cc18d690e4846de59c",tooltip="A method that assigns variables (parameters) and checks the constraints of several actions of the sam..."];
+  Node10 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node4 -> Node11 [dir="back",color="steelblue1",style="solid"];
+  Node11 [label="Narrative_Generator.Storyworld\lConvergence.SingleAVandAC",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a89bee4b7f2aaec44bd5aac2d8f020981",tooltip="A method that assigns variables (parameters) and checks the constraints of one specific action."];
+  Node11 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node3 -> Node12 [dir="back",color="steelblue1",style="solid"];
+  Node12 [label="Narrative_Generator.Storyworld\lConvergence.ActionCounteract",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#add86637023cb151bb7e6ec3483cd500a",tooltip="A method that implements the system's response to an action that should not be applied."];
+  Node12 -> Node4 [dir="back",color="steelblue1",style="solid"];
+}

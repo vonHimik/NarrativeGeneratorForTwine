@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryNode.DeleteLink" name="Narrative_Generator.StoryNode.DeleteLink">
+<area shape="rect" id="node1" title="If the specified node is among the list of nodes linked with this node, then the link will be deleted..." alt="" coords="255,5,425,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896" title="A method that checks whether the effects of the action under test will cause cycles in the graph." alt="" coords="5,5,207,45"/>
+</map>

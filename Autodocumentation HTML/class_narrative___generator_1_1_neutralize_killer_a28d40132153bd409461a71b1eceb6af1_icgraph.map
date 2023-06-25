@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.NeutralizeKiller.DefineDescription" name="Narrative_Generator.NeutralizeKiller.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="252,5,451,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_neutralize_killer.html#a91c02eff18e78811983f98b761cc51c0" title="A constructor based only on the state of the story world." alt="" coords="5,5,204,45"/>
+</map>

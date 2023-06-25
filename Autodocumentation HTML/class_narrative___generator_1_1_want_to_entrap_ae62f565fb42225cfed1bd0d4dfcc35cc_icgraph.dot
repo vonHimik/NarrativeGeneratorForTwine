@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.WantToEntrap.SetLocation"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Want\lToEntrap.SetLocation",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Sets the target location to which this agent wants to move some other agent."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Want\lToEntrap.SetVictimAndLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_want_to_entrap.html#a3a5c2ce0fe668146870600b3f7b7e461",tooltip="Sets the agent that this agent will want to move to some location AND the target location to which th..."];
+  Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lStateDynamic.SetEntrap",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#a8de02a1a6594faa7561440f7d4387cda",tooltip="A method that allows this agent to start entrap the specified agent at the specified location."];
+}

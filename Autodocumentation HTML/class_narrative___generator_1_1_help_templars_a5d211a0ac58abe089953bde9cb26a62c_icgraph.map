@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.HelpTemplars.DefineDescription" name="Narrative_Generator.HelpTemplars.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="220,5,400,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_help_templars.html#ae78e6d33b4c20e13034d8060488c82f2" title="A constructor based only on the state of the story world." alt="" coords="5,5,172,45"/>
+</map>

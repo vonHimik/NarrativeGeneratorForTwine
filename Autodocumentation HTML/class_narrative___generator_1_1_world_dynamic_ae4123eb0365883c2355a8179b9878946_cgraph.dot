@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.WorldDynamic.GetRandomAgent"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.World\lDynamic.GetRandomAgent",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that returns a random agent from the list of agents, except for the agents that initiates th..."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.GetAgentByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a9f88b0e9a4ab518930e6041610402747",tooltip="Returns the first founded agent with the specified name."];
+}

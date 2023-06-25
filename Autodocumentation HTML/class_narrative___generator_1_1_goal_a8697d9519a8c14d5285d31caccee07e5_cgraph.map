@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.Goal.Equals" name="Narrative_Generator.Goal.Equals">
+<area shape="rect" id="node1" title="Method for comparing two goal instance." alt="" coords="5,37,176,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="224,37,399,77"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="455,5,629,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="447,69,637,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="685,5,860,45"/>
+</map>

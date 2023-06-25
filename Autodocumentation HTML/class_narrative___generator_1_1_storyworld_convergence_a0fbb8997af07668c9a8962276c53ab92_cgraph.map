@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.StoryworldConvergence.ProbabilityCalculating" name="Narrative_Generator.StoryworldConvergence.ProbabilityCalculating">
+<area shape="rect" id="node1" title="Calculation of the probability of success of the action." alt="" coords="5,49,231,89"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_static.html#a039920810c5811c6fbb78a49306d7c12" title="Returns information about whether the rule about random battle results is enabled or not." alt="" coords="279,5,493,60"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="291,85,481,125"/>
+</map>

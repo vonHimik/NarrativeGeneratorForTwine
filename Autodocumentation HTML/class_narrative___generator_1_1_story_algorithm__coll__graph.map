@@ -1,0 +1,14 @@
+<map id="Narrative_Generator.StoryAlgorithm" name="Narrative_Generator.StoryAlgorithm">
+<area shape="rect" id="node1" title=" " alt="" coords="675,261,845,301"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_p_d_d_l___module.html" title="A class that controls the creation of a description of the planning domain and planning problem in th..." alt="" coords="281,5,455,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_goal_manager.html" title="A class that manages the goals of agents." alt="" coords="285,69,451,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_constraint_manager.html" title="The class that manages the constraints." alt="" coords="269,133,467,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_items_manager.html" title="The class that controls the creation and management of items." alt="" coords="282,197,454,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_storyworld_convergence.html" title="A class that implements the process of performing an action at all its stages: planning,..." alt="" coords="267,261,469,301"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html" title="The class that controls the conversion of the story graph to dot format." alt="" coords="247,326,489,351"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_twine_graph_constructor.html" title="A class for converting a story graph into an interactive story for Twine." alt="" coords="281,376,455,416"/>
+<area shape="rect" id="node9" href="$class_narrative___generator_1_1_story_graph.html" title="A class that is a representation of a narrative graph, where nodes are states of the world and edges ..." alt="" coords="283,440,453,480"/>
+<area shape="rect" id="node10" href="$class_narrative___generator_1_1_world_dynamic.html" title="A class that implements a dynamic (frequently changed) part of the state of the storyworld that store..." alt="" coords="281,504,455,544"/>
+<area shape="rect" id="node11" title=" " alt="" coords="60,486,143,511"/>
+<area shape="rect" id="node12" title=" " alt="" coords="5,535,197,561"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.WorldContext.WorldContext" name="Narrative_Generator.WorldContext.WorldContext">
+<area shape="rect" id="node1" title="Constructor with parameters of the WorldContext, which creates a new instance of the WorldContext bas..." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0" title="A method for cloning a location." alt="" coords="228,5,417,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b" title="Method constructor for the static part of the location." alt="" coords="465,5,655,45"/>
+</map>

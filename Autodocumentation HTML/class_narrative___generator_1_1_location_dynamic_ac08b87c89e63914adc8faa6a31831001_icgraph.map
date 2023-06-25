@@ -1,0 +1,10 @@
+<map id="Narrative_Generator.LocationDynamic.GetHashCode" name="Narrative_Generator.LocationDynamic.GetHashCode">
+<area shape="rect" id="node1" title="Calculates and returns the hash code of this instance of the LocationDynamic." alt="" coords="733,133,923,173"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_dynamic.html#ab6bd8fcba9b69a16d5fbbe1b76386102" title="Updates (refresh) the current hash code value." alt="" coords="496,133,685,173"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_dynamic.html#a21eb930f4270ae7686e744c0238f643e" title="Adds an agent to the list of agents located in this location." alt="" coords="259,5,448,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_location_dynamic.html#ad5c00a80462501939452795d8cc3fbcd" title="Adds a set of agents to the list of agents located in this location." alt="" coords="259,69,448,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_location_dynamic.html#a6d8ceaf4813edd0f2438337ff4da648c" title="Clears the list of agents in the location." alt="" coords="259,133,448,173"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_location_dynamic.html#a29a54b6fb4ec5991dee2030777bc597f" title="Removes the specified agent from the list of agents in the given location, returning true on success ..." alt="" coords="259,197,448,237"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_location_dynamic.html#a3d45af60515e354aa289b9cbedfe0f35" title="Sets a link to the specified static part of this location." alt="" coords="259,261,448,301"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_goal_manager.html#a1972c672143df8f969e4a81898e47fca" title="A method that assigns goals to agents based on their role." alt="" coords="5,5,211,45"/>
+</map>

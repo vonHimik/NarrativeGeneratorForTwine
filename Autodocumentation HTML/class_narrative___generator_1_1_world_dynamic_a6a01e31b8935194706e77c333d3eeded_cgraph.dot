@@ -1,0 +1,23 @@
+digraph "Narrative_Generator.WorldDynamic.AddLocation"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.World\lDynamic.AddLocation",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Adds the specified location to the list of locations in this world state."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Location\lDynamic.Clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_dynamic.html#a5a41937ad9b6986292101e99a80b604b",tooltip="Returns a clone of the dynamic part of the location that called this method."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Location\lDynamic.LocationDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_dynamic.html#aba8487ebacabba7a24f831c51c609d45",tooltip="Constructor method for the dynamic part of the location, without parameters."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Location\lStatic.Clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0",tooltip="A method for cloning a location."];
+  Node4 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Location\lStatic.LocationStatic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b",tooltip="Method constructor for the static part of the location."];
+  Node1 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.World\lDynamic.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a14ee6a0a9695ebd179d4c378a63fffdc",tooltip="Updates (refresh) the current hash code value."];
+  Node6 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.World\lDynamic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a09e69ba75f8c366973719ff2909d36b1",tooltip="Clears the current hash code value."];
+  Node6 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.World\lDynamic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#aebfe541cb9cba87220afdc0b6e7da30b",tooltip="Calculates and returns the hash code of this instance of the WorldDynamic."];
+}

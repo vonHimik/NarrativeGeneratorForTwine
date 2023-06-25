@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.CounterFight.CounterFight" name="Narrative_Generator.CounterFight.CounterFight">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_counter_fight.html#ac896ec60c48d83823eb47617014c1538" title="A method that creates a description of the action." alt="" coords="239,5,424,45"/>
+</map>

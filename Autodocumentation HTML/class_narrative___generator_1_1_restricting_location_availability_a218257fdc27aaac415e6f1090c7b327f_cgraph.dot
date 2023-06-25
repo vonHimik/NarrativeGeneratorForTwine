@@ -1,0 +1,27 @@
+digraph "Narrative_Generator.RestrictingLocationAvailability.IsSatisfied"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Restricting\lLocationAvailability.IsSatisfied",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="OA method that checks whether the specified world state satisfies constraints."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Goal\lManager.ControlToAchieveGoalState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_goal_manager.html#a03884832e1dbd91103e5fa64610bcad7",tooltip="Checks the achievement of any of the goal conditions (in state)."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Location\lStatic.Equals",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a134e301af8de54a75d413ac5ea7173b7",tooltip="Method for comparing two LocationStatic instance."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.World\lDynamic.GetAgentByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a9f88b0e9a4ab518930e6041610402747",tooltip="Returns the first founded agent with the specified name."];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lNode.GetEdges",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb",tooltip="Returns a list of all edges connected to the this node."];
+  Node1 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.World\lDynamic.GetLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a08a6971e9e037b7bc26cb07ed4bc7a4f",tooltip="Returns a location from the list of locations if the key (the static part of the location state) matc..."];
+  Node1 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Story\lNode.GetNumberInSequence",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f",tooltip="Returns the sequence number of this node."];
+  Node1 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.World\lDynamic.GetStaticWorldPart",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a",tooltip="Returns a component with the static part of the state of this storyworld."];
+  Node1 -> Node9 [color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.World\lStatic.GetTurnNumber",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7",tooltip="Returns the turn number."];
+  Node1 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.World\lDynamic.SearchAgentAmongLocations",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392",tooltip="Returns the static part (name) of the location where the searched agent is located."];
+}

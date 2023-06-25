@@ -1,0 +1,12 @@
+<map id="Narrative_Generator.RestrictingLocationAvailability.IsSatisfied" name="Narrative_Generator.RestrictingLocationAvailability.IsSatisfied">
+<area shape="rect" id="node1" title="OA method that checks whether the specified world state satisfies constraints." alt="" coords="5,261,208,301"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_goal_manager.html#a03884832e1dbd91103e5fa64610bcad7" title="Checks the achievement of any of the goal conditions (in state)." alt="" coords="263,5,498,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_static.html#a134e301af8de54a75d413ac5ea7173b7" title="Method for comparing two LocationStatic instance." alt="" coords="286,69,475,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_dynamic.html#a9f88b0e9a4ab518930e6041610402747" title="Returns the first founded agent with the specified name." alt="" coords="289,133,472,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="295,197,466,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_world_dynamic.html#a08a6971e9e037b7bc26cb07ed4bc7a4f" title="Returns a location from the list of locations if the key (the static part of the location state) matc..." alt="" coords="293,261,468,301"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="285,325,476,365"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="285,389,476,429"/>
+<area shape="rect" id="node9" href="$class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="293,453,468,493"/>
+<area shape="rect" id="node10" href="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392" title="Returns the static part (name) of the location where the searched agent is located." alt="" coords="256,517,505,557"/>
+</map>

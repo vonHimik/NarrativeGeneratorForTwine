@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.LocationStatic.SetName" name="Narrative_Generator.LocationStatic.SetName">
+<area shape="rect" id="node1" title="The method that sets the name of the location." alt="" coords="228,5,417,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a5423775f028b393c27b0d89055266a3e" title="Adds the specified location to the list of locations in this world state and names it separately." alt="" coords="5,5,180,45"/>
+</map>

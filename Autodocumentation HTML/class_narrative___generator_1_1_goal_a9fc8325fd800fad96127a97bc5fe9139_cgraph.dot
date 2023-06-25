@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.Goal.Goal"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Goal.Goal",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The conditional constructor of the goal, which creates a new instance of the goal based on the passed..."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.Clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#ab9b01377b7edd3dce12d65b8af313d01",tooltip="Method for cloning an WorldDynamic instance."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lDynamic.WorldDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af85b19236d5e9562df3f62550eca7176",tooltip="Constructor without parameters."];
+}

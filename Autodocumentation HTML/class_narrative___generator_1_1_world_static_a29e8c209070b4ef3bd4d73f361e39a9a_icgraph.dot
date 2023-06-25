@@ -1,0 +1,22 @@
+digraph "Narrative_Generator.WorldStatic.GetHashCode"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.World\lStatic.GetHashCode",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Calculates and returns the hash code of this instance of the WorldStatic."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lStatic.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#a9f94b4065b2b7331899adb2670407c52",tooltip="Updates (refresh) the current hash code value."];
+  Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lStatic.AddLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#a5b24dae1f53361ddeeec6443548bab59",tooltip="Adds the specified location to the list of locations."];
+  Node3 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.World\lStatic.AddLocations",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#ab3627c580224e908bf75b8c64c2b8943",tooltip="Adds the given locations to the list of locations."];
+  Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lAlgorithm.CreateEnviroment",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ac985fa702a6214e07aa89f7bb28713af",tooltip="A method that adds locations to the current state of the world."];
+  Node5 -> Node6 [dir="back",color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Story\lAlgorithm.CreateInitialState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406",tooltip="A method that creates an initial state of the world based on user preferences."];
+  Node6 -> Node7 [dir="back",color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node2 -> Node4 [dir="back",color="steelblue1",style="solid"];
+}

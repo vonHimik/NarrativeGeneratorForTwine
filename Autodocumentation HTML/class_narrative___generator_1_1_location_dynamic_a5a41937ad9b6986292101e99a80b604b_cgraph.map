@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.LocationDynamic.Clone" name="Narrative_Generator.LocationDynamic.Clone">
+<area shape="rect" id="node1" title="Returns a clone of the dynamic part of the location that called this method." alt="" coords="5,5,195,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_dynamic.html#aba8487ebacabba7a24f831c51c609d45" title="Constructor method for the dynamic part of the location, without parameters." alt="" coords="243,5,432,45"/>
+</map>

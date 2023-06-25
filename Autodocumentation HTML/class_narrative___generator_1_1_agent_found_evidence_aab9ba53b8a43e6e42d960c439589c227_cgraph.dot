@@ -1,0 +1,19 @@
+digraph "Narrative_Generator.AgentFoundEvidence.SetCriminal"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Agent\lFoundEvidence.SetCriminal",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Sets information about the agent against which the evidence points."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lFoundEvidence.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_found_evidence.html#af7434ee7eb10f7a205b119daf2cad3f1",tooltip="Updates (refresh) the current hash code value."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lFoundEvidence.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_found_evidence.html#a76ec5fd88de5d5d24947c421603085b8",tooltip="Clears the current hash code value."];
+  Node2 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Agent\lFoundEvidence.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_found_evidence.html#a44e1bbe8c16ffaa694befd9bb2ebc25b",tooltip="Calculates and returns the hash code of this instance of the AgentFoundEvidence."];
+  Node4 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Agent\lStateStatic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#a2827a4f98ca2a38a486f746f40883d47",tooltip="Clears the current hash code value."];
+  Node4 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Agent\lStateStatic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#acf5f6b1ff2055ef1ab278bb6183d0b67",tooltip="Calculates and returns the hash code of this instance of the static part of the agent's state."];
+}

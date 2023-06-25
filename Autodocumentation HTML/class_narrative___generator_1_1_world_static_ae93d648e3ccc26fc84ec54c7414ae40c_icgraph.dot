@@ -1,0 +1,17 @@
+digraph "Narrative_Generator.WorldStatic.GetUniqWaysToKillStatus"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.World\lStatic.GetUniqWaysToKillStatus",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns whether the unique kill descriptions rule is enabled or not."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Kill.\lDefineDescription",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_kill.html#a45f6a739f55e41274e910ec3cc96ba7a",tooltip="A method that creates a description of the action."];
+  Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Kill.\lApplyEffects",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_kill.html#ad4b58776181cc35c717116125ef8d0f5",tooltip="A method that changes the passed world state according to the effects of the action."];
+  Node2 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Kill.Fail",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_kill.html#aa2f49750f379e76d20ff01031dba34ca",tooltip="A method that implements the action's failure effect."];
+  Node2 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Kill.Kill",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_kill.html#a0898a607ab66af8323d90bc6756d3ab5",tooltip="A constructor based only on the state of the story world."];
+}

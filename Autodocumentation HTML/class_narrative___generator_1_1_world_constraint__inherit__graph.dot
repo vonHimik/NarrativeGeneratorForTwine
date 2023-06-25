@@ -1,0 +1,15 @@
+digraph "Narrative_Generator.WorldConstraint"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.World\lConstraint",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The base class for implementing the constraints imposed on the story."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Actions\lRestricting",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_actions_restricting.html",tooltip="A type of constraint that restricts agents from performing actions."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Constraint\lAlive",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_constraint_alive.html",tooltip="A class that implements constraints imposed by story on the lifetime of an agent."];
+  Node1 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Restricting\lLocationAvailability",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_restricting_location_availability.html",tooltip="A class that implements constraints on movement around locations."];
+}

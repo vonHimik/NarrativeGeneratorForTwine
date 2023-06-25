@@ -1,0 +1,11 @@
+<map id="Narrative_Generator.AgentFoundEvidence.GetCriminal" name="Narrative_Generator.AgentFoundEvidence.GetCriminal">
+<area shape="rect" id="node1" title="Returns information about the agent against which the evidence points." alt="" coords="1619,37,1801,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a9c4c58704106854ff310abb99ff59957" title="Deep cloning of an agent." alt="" coords="1396,37,1571,77"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#a93919193054a82b0b981e59cecc55cf1" title="Adds the specified agent to the specified location." alt="" coords="1144,5,1348,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_storyworld_convergence.html#a27d193b37c3114cc18d690e4846de59c" title="A method that assigns variables (parameters) and checks the constraints of several actions of the sam..." alt="" coords="1145,69,1347,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_storyworld_convergence.html#a371ff7aeb10e59e3c51971228ea94378" title="The agent updates his beliefs, calculates a plan, chooses an action, assigns variables to it,..." alt="" coords="895,69,1096,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_algorithm.html#a14fcd8daa5dd92cef5b985a754ffa59e" title="Convergence in turn asks agents for actions, checks them, applies them, counteracts them,..." alt="" coords="676,69,847,109"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa" title="A method in which we sequentially create a story graph, node by node, starting at the root,..." alt="" coords="457,69,628,109"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1" title="The method that controls the creation of the story graph." alt="" coords="224,69,409,109"/>
+<area shape="rect" id="node9" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,69,176,109"/>
+</map>

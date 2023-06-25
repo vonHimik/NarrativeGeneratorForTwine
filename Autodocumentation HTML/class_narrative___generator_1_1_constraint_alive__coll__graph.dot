@@ -1,0 +1,16 @@
+digraph "Narrative_Generator.ConstraintAlive"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [label="Narrative_Generator.Constraint\lAlive",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A class that implements constraints imposed by story on the lifetime of an agent."];
+  Node2 -> Node1 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="WorldConstraint",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_constraint.html",tooltip="The base class for implementing the constraints imposed on the story."];
+  Node3 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" targetAgent" ];
+  Node3 [label="Narrative_Generator.Agent\lStateStatic",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html",tooltip="A class that stores static (rarely changed) agent properties and methods for interacting with them."];
+  Node4 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="IEquatable\< AgentStateStatic \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="ICloneable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

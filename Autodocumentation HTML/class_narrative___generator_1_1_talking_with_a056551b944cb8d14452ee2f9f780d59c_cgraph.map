@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.TalkingWith.SetInterlocutor" name="Narrative_Generator.TalkingWith.SetInterlocutor">
+<area shape="rect" id="node1" title="Sets the agent of the interlocutor for this agent." alt="" coords="5,37,187,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_talking_with.html#a5e80a55088bd6cd89bc09529d7bdd378" title="Updates (refresh) the current hash code value." alt="" coords="235,37,416,77"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_talking_with.html#ad8c90710fe669126ecd8f7be504e200b" title="Clears the current hash code value." alt="" coords="464,5,645,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_talking_with.html#aa82e04aef67d9d14810dc97313df05fa" title="Calculates and returns the hash code of this instance of the TalkingWith." alt="" coords="464,69,645,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_agent_state_static.html#a2827a4f98ca2a38a486f746f40883d47" title="Clears the current hash code value." alt="" coords="693,37,875,77"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_agent_state_static.html#acf5f6b1ff2055ef1ab278bb6183d0b67" title="Calculates and returns the hash code of this instance of the static part of the agent&#39;s state." alt="" coords="697,101,871,141"/>
+</map>

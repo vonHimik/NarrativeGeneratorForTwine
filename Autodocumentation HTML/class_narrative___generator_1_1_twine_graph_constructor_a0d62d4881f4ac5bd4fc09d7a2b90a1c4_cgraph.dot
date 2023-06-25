@@ -1,0 +1,23 @@
+digraph "Narrative_Generator.TwineGraphConstructor.SearchNextNode"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Twine\lGraphConstructor.SearchNextNode",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Method for finding the next node in which the right to act is passed to the player."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Story\lNode.GetActivePlayer",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4",tooltip="Returns the player's activity status in the state stored by this node."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Story\lNode.GetEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399",tooltip="Returns the specified edge from the list of edges connected to the this node."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Story\lNode.GetFirstEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8",tooltip="Returns the first edge from a list of all edges connected to the this node."];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lNode.GetLastEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e",tooltip="Returns the last edge from a list of all edges connected to the this node."];
+  Node1 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Edge.\lGetLowerNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61",tooltip="This method returns the node attached to the bottom vertex of this edge."];
+  Node1 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Story\lNode.GetNumberInSequence",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f",tooltip="Returns the sequence number of this node."];
+  Node1 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.Edge.\lGetUpperNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c",tooltip="This method returns the node attached to the top vertex of this edge."];
+}

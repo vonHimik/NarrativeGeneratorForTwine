@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.ConstraintManager.CreateAliveConstraint" name="Narrative_Generator.ConstraintManager.CreateAliveConstraint">
+<area shape="rect" id="node1" title="A method for creating an instance of a constraint imposed by story on the lifetime of an agent." alt="" coords="5,5,205,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_constraint_manager.html#a7768bd0a14cfebbcfc24b4e2569b66c2" title="Adds the specified constraint to the constraint list." alt="" coords="253,5,452,45"/>
+</map>

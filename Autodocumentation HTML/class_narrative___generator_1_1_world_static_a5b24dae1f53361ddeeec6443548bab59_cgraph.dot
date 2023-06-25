@@ -1,0 +1,15 @@
+digraph "Narrative_Generator.WorldStatic.AddLocation"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.World\lStatic.AddLocation",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Adds the specified location to the list of locations."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lStatic.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#a9f94b4065b2b7331899adb2670407c52",tooltip="Updates (refresh) the current hash code value."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lStatic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#ae4a4a83a804d66f03361899f966b9417",tooltip="Clears the current hash code value."];
+  Node2 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.World\lStatic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#a29e8c209070b4ef3bd4d73f361e39a9a",tooltip="Calculates and returns the hash code of this instance of the WorldStatic."];
+}

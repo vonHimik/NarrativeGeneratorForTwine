@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.Kill.DefineDescription" name="Narrative_Generator.Kill.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="236,63,399,103"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_kill.html#ad4b58776181cc35c717116125ef8d0f5" title="A method that changes the passed world state according to the effects of the action." alt="" coords="15,5,178,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_kill.html#aa2f49750f379e76d20ff01031dba34ca" title="A method that implements the action&#39;s failure effect." alt="" coords="5,70,188,95"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_kill.html#a0898a607ab66af8323d90bc6756d3ab5" title="A constructor based only on the state of the story world." alt="" coords="7,119,187,145"/>
+</map>

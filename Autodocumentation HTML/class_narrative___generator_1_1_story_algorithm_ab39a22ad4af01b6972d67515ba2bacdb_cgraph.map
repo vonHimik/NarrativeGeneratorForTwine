@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.StoryAlgorithm.CreateLocationSet" name="Narrative_Generator.StoryAlgorithm.CreateLocationSet">
+<area shape="rect" id="node1" title="A method that creates a set of ready&#45;made locations." alt="" coords="5,37,193,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#a73dba10d328512add62c4f2c566ceafd" title="A method that randomly assigns connections between locations." alt="" coords="249,5,451,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_algorithm.html#a16d41e5fe12b406b92439274e61b0084" title="A method that shuffles locations in a transferred set of locations." alt="" coords="241,69,459,109"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#aeebbccb1d667af9502951f839ee8bb16" title="A method that verifies that all locations in the transferred set are connected (there is a way that c..." alt="" coords="507,5,733,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_location_static.html#a219e327651e7e34dd7a6401c63483477" title="Returns a list of all locations that have a path from this location (they are connected)." alt="" coords="781,5,980,45"/>
+</map>

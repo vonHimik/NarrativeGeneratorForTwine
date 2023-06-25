@@ -1,0 +1,31 @@
+digraph "Narrative_Generator.StoryAlgorithm"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Story\lAlgorithm",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" pddlModule" ];
+  Node2 [label="Narrative_Generator.PDDL\l_Module",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_p_d_d_l___module.html",tooltip="A class that controls the creation of a description of the planning domain and planning problem in th..."];
+  Node3 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" goalManager" ];
+  Node3 [label="Narrative_Generator.Goal\lManager",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_goal_manager.html",tooltip="A class that manages the goals of agents."];
+  Node4 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" constraintManager" ];
+  Node4 [label="Narrative_Generator.Constraint\lManager",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_constraint_manager.html",tooltip="The class that manages the constraints."];
+  Node5 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" itemsManager" ];
+  Node5 [label="Narrative_Generator.Items\lManager",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_items_manager.html",tooltip="The class that controls the creation and management of items."];
+  Node6 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" storyworldConvergence" ];
+  Node6 [label="Narrative_Generator.Storyworld\lConvergence",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html",tooltip="A class that implements the process of performing an action at all its stages: planning,..."];
+  Node7 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" graphСonstructor" ];
+  Node7 [label="Narrative_Generator.GraphСonstructor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html",tooltip="The class that controls the conversion of the story graph to dot format."];
+  Node8 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" twineGraphConstructor" ];
+  Node8 [label="Narrative_Generator.Twine\lGraphConstructor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html",tooltip="A class for converting a story graph into an interactive story for Twine."];
+  Node9 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" newStoryGraph" ];
+  Node9 [label="Narrative_Generator.Story\lGraph",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_graph.html",tooltip="A class that is a representation of a narrative graph, where nodes are states of the world and edges ..."];
+  Node10 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" currentStoryState" ];
+  Node10 [label="Narrative_Generator.World\lDynamic",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html",tooltip="A class that implements a dynamic (frequently changed) part of the state of the storyworld that store..."];
+  Node11 -> Node10 [dir="back",color="steelblue1",style="solid"];
+  Node11 [label="ICloneable",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 -> Node10 [dir="back",color="steelblue1",style="solid"];
+  Node12 [label="IEquatable\< WorldDynamic \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

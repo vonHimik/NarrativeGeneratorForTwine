@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.AgentStateStatic.AgentStateStatic" name="Narrative_Generator.AgentStateStatic.AgentStateStatic">
+<area shape="rect" id="node1" title="Method&#45;constructor of the static part of the agent (with input parameters)." alt="" coords="5,37,196,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_static.html#a35afb17595bcc902d0699944a04ac631" title="A method that assigns a role to an agent." alt="" coords="244,5,419,45"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_agent_state_static.html#ad50006634536af999ec75020fbac13b7" title="A method that assigns the name of the agent." alt="" coords="244,69,419,109"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_static.html#afb4030bd95ae5b4dbad586fdb6e4f111" title="Updates (refresh) the current hash code value." alt="" coords="467,37,659,77"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_agent_state_static.html#a2827a4f98ca2a38a486f746f40883d47" title="Clears the current hash code value." alt="" coords="707,5,888,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_agent_state_static.html#acf5f6b1ff2055ef1ab278bb6183d0b67" title="Calculates and returns the hash code of this instance of the static part of the agent&#39;s state." alt="" coords="710,69,885,109"/>
+</map>

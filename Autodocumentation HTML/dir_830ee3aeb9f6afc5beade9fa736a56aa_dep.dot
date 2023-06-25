@@ -1,0 +1,12 @@
+digraph "C:/Users/User Asus/source/repos/Narrative Generator/Narrative Generator/Core/Constraints"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_c7590eee68671ea755030b0a1af0a58e {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="Core", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_c7590eee68671ea755030b0a1af0a58e.html",tooltip=""]
+  dir_830ee3aeb9f6afc5beade9fa736a56aa [label="Constraints", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_830ee3aeb9f6afc5beade9fa736a56aa.html",tooltip=""];
+  }
+}

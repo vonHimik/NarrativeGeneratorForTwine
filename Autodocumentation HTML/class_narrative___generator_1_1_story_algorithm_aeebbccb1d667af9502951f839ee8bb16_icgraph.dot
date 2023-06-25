@@ -1,0 +1,17 @@
+digraph "Narrative_Generator.StoryAlgorithm.PathExistenceControlling"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Story\lAlgorithm.PathExistenceControlling",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that verifies that all locations in the transferred set are connected (there is a way that c..."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Story\lAlgorithm.LocationsConnection",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a73dba10d328512add62c4f2c566ceafd",tooltip="A method that randomly assigns connections between locations."];
+  Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Story\lAlgorithm.CreateLocationSet",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ab39a22ad4af01b6972d67515ba2bacdb",tooltip="A method that creates a set of ready-made locations."];
+  Node3 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Story\lAlgorithm.CreateInitialState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406",tooltip="A method that creates an initial state of the world based on user preferences."];
+  Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+}

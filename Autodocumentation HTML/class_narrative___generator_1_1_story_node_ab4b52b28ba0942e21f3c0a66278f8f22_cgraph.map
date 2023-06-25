@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryNode.Clone" name="Narrative_Generator.StoryNode.Clone">
+<area shape="rect" id="node1" title="Method for cloning an StoryNode instance." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#a48457d0cb7f257faead36791966a8a87" title="Constructor without parameters." alt="" coords="224,5,395,45"/>
+</map>

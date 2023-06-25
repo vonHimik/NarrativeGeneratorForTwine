@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.TwineGraphConstructor.AddFightNode" name="Narrative_Generator.TwineGraphConstructor.AddFightNode">
+<area shape="rect" id="node1" title="An optional node that describes the result of the fight action and provides details." alt="" coords="5,37,216,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="264,5,488,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="274,69,478,109"/>
+</map>

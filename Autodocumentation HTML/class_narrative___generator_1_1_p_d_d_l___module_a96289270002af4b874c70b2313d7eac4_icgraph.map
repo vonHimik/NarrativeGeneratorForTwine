@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.PDDL_Module.TellAboutSuspicious" name="Narrative_Generator.PDDL_Module.TellAboutSuspicious">
+<area shape="rect" id="node1" title="The method that writes the action of the antagonist to the file &#45; &quot;tell about a suspicious&quot;." alt="" coords="485,5,679,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_p_d_d_l___module.html#a5fa90c8961fae6766a985569fe2b1b62" title="A method that generates a planning domain, based on the story world, in the PDDL language." alt="" coords="224,5,437,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+</map>

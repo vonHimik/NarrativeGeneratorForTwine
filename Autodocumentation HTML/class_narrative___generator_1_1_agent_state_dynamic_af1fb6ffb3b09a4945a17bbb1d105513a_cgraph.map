@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.AgentStateDynamic.CheckTargetLocation" name="Narrative_Generator.AgentStateDynamic.CheckTargetLocation">
+<area shape="rect" id="node1" title="A method to find out if a target location exists for this agent." alt="" coords="5,5,236,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_static.html#a3a196080501e30adb03f127eba710d47" title="Method that returns the name of the location." alt="" coords="284,5,473,45"/>
+</map>

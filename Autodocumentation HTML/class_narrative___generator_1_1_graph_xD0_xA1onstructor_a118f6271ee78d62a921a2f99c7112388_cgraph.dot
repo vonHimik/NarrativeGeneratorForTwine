@@ -1,0 +1,17 @@
+digraph "Narrative_Generator.GraphСonstructor.CreateGraph"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.GraphСonstructor.\lCreateGraph",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that describes the transmitted story graph in text format and creates a visualization based ..."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Story\lNode.AddEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a0a65add5dec78fa836cec82ba6cea413",tooltip="Adds the specified edge to the list of edges connected to this node."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Story\lNode.GetEdges",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb",tooltip="Returns a list of all edges connected to the this node."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Story\lNode.RemoveEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a92e61e0d5774d9f75f2812c89540a2ad",tooltip="Removes the specified edge from the list of all edges connected to the this node."];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.GraphСonstructor.\lSaveGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#ac35f0aadbeebf2a0661dc6a3c1f0cdd5",tooltip="A method that saves the textual description of the graph to a file with the specified name."];
+}

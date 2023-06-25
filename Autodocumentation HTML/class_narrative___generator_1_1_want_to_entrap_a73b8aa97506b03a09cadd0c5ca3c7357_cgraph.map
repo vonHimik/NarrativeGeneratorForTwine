@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.WantToEntrap.WantToEntrap" name="Narrative_Generator.WantToEntrap.WantToEntrap">
+<area shape="rect" id="node1" title="Constructor with parameters of the WantToEntrap, which creates a new instance of the WantToEntrap bas..." alt="" coords="5,37,176,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_static.html#a32adf4a2449433f482775916d9beb111" title="Method for cloning an agent." alt="" coords="231,5,406,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0" title="A method for cloning a location." alt="" coords="224,69,413,109"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_static.html#a4f099a7caf5f22743a45796618db1dc7" title="Method&#45;constructor of the static part of the agent (without input parameters)." alt="" coords="461,5,652,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b" title="Method constructor for the static part of the location." alt="" coords="462,69,651,109"/>
+</map>

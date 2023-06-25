@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.StoryAlgorithm.BFSGoalAchieveControl"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Story\lAlgorithm.BFSGoalAchieveControl",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that traverses the graph according to the concept of breadth-first search and determines the..."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Goal\lManager.ControlToAchieveGoalState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_goal_manager.html#a03884832e1dbd91103e5fa64610bcad7",tooltip="Checks the achievement of any of the goal conditions (in state)."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Story\lNode.GetLinks",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a97c8781334050ca7df409f2b46584660",tooltip="Returns a list of all nodes connected to this node."];
+}

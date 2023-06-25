@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.LocationStatic.SetName"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Location\lStatic.SetName",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The method that sets the name of the location."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.AddLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a5423775f028b393c27b0d89055266a3e",tooltip="Adds the specified location to the list of locations in this world state and names it separately."];
+}

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.AgentStateDynamic.SetBeliefs" name="Narrative_Generator.AgentStateDynamic.SetBeliefs">
+<area shape="rect" id="node1" title="A method that allows to establish the agent&#39;s beliefs about the storyworld (environment)." alt="" coords="277,5,452,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a78fead52797d21076991a4ae72b75fc3" title="Constructor with parameters." alt="" coords="5,5,229,45"/>
+</map>

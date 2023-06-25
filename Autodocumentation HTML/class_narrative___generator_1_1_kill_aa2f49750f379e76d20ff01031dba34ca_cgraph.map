@@ -1,0 +1,10 @@
+<map id="Narrative_Generator.Kill.Fail" name="Narrative_Generator.Kill.Fail">
+<area shape="rect" id="node1" title="A method that implements the action&#39;s failure effect." alt="" coords="5,141,188,166"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_items_manager.html#a38472beab694e7ba564e5ce448d87c21" title="A method for creation a new item." alt="" coords="236,69,408,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_kill.html#a45f6a739f55e41274e910ec3cc96ba7a" title="A method that creates a description of the action." alt="" coords="241,165,403,205"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_item.html#afc9c465f0210c8a90f8348ece69cf9d0" title="Sets the name of the item." alt="" coords="477,5,646,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_item.html#a9fd066de5b2875514e75450633acdc61" title="Sets the type of the item." alt="" coords="477,69,646,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="474,133,649,173"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="466,197,657,237"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_world_static.html#ae93d648e3ccc26fc84ec54c7414ae40c" title="Returns whether the unique kill descriptions rule is enabled or not." alt="" coords="456,261,667,301"/>
+</map>

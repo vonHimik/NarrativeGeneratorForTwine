@@ -1,0 +1,33 @@
+digraph "Narrative_Generator.WorldDynamic.AddAgentIntoLocation"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.World\lDynamic.AddAgentIntoLocation",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Adds the specified agent to the specified location."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateDynamic.Clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#a9c4c58704106854ff310abb99ff59957",tooltip="Deep cloning of an agent."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lStateDynamic.AgentStateDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#ab0ac5fa49a393c8df2037bdae7e878f9",tooltip="Parameterless constructor."];
+  Node2 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Agent\lFoundEvidence.GetCriminal",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_found_evidence.html#a619e96a78dc90f5e0724ae4cbc8514c8",tooltip="Returns information about the agent against which the evidence points."];
+  Node2 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Talking\lWith.GetInterlocutor",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_talking_with.html#a9630a44137e151c7d458a874f105d33f",tooltip="Returns information about the agent of the interlocutor."];
+  Node2 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Want\lToEntrap.GetLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_want_to_entrap.html#aa256faa1c89b96a8e891bb9ae4359222",tooltip="Returns the target location to which this agent would like to move some other agent."];
+  Node2 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Agent\lAngryAt.GetObjectOfAngry",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_angry_at.html#a6ef7f5c118ceedebc1923599ee19545c",tooltip="Returns information about the agent that this agent is angry with."];
+  Node2 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.Want\lToEntrap.GetVictim",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_want_to_entrap.html#aa48dd89b640d761cb6f98a1236b43b36",tooltip="Returns information about the agent that this agent would like to move to some location."];
+  Node1 -> Node9 [color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.Agent\lStateStatic.Clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#a32adf4a2449433f482775916d9beb111",tooltip="Method for cloning an agent."];
+  Node9 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Agent\lStateStatic.AgentStateStatic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#a4f099a7caf5f22743a45796618db1dc7",tooltip="Method-constructor of the static part of the agent (without input parameters)."];
+  Node1 -> Node11 [color="steelblue1",style="solid"];
+  Node11 [label="Narrative_Generator.World\lDynamic.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a14ee6a0a9695ebd179d4c378a63fffdc",tooltip="Updates (refresh) the current hash code value."];
+  Node11 -> Node12 [color="steelblue1",style="solid"];
+  Node12 [label="Narrative_Generator.World\lDynamic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a09e69ba75f8c366973719ff2909d36b1",tooltip="Clears the current hash code value."];
+  Node11 -> Node13 [color="steelblue1",style="solid"];
+  Node13 [label="Narrative_Generator.World\lDynamic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#aebfe541cb9cba87220afdc0b6e7da30b",tooltip="Calculates and returns the hash code of this instance of the WorldDynamic."];
+}

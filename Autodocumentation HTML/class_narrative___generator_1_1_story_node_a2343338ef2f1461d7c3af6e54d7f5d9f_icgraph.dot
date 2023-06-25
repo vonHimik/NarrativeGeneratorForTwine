@@ -1,0 +1,30 @@
+digraph "Narrative_Generator.StoryNode.GetNumberInSequence"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Story\lNode.GetNumberInSequence",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns the sequence number of this node."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Twine\lGraphConstructor.AddEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1",tooltip="A method that creates a representation of an edge in a graph - in Twine it is a connection between no..."];
+  Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Twine\lGraphConstructor.AddNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937",tooltip="A method that creates text for an individual node."];
+  Node3 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Twine\lGraphConstructor.CreateTwineGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74",tooltip="A method for converting a story graph into an interactive story for Twine."];
+  Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node1 -> Node6 [dir="back",color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Actions\lRestricting.IsSatisfied",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_actions_restricting.html#a3691a868f1d5651f63c812c349b6ef3c",tooltip="A method that checks whether the specified world state satisfies constraints."];
+  Node1 -> Node7 [dir="back",color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Restricting\lLocationAvailability.IsSatisfied",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_restricting_location_availability.html#a218257fdc27aaac415e6f1090c7b327f",tooltip="OA method that checks whether the specified world state satisfies constraints."];
+  Node1 -> Node8 [dir="back",color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.Twine\lGraphConstructor.SearchNextNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4",tooltip="Method for finding the next node in which the right to act is passed to the player."];
+  Node8 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node1 -> Node9 [dir="back",color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.Storyworld\lConvergence.TarjanAlgStep",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#afd7eff6c34ea2d8177b40b45ed9efb10",tooltip="A method that implements an algorithm that checks for the presence of a cycle in a graph."];
+  Node9 -> Node10 [dir="back",color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Storyworld\lConvergence.CyclesControl",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896",tooltip="A method that checks whether the effects of the action under test will cause cycles in the graph."];
+  Node9 -> Node9 [dir="back",color="steelblue1",style="solid"];
+}

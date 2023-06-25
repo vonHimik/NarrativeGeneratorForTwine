@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldContext.GetAgentsInWorld" name="Narrative_Generator.WorldContext.GetAgentsInWorld">
+<area shape="rect" id="node1" title="Returns this agent&#39;s set of beliefs about other agents." alt="" coords="280,13,457,53"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a2b32be08d3143bb72deb2d3a18f6c432" title="Checks if the agent knows that one of the other agents is angry." alt="" coords="5,5,232,60"/>
+</map>

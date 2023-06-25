@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.StoryAlgorithm.BFSGoalAchieveControl" name="Narrative_Generator.StoryAlgorithm.BFSGoalAchieveControl">
+<area shape="rect" id="node1" title="A method that traverses the graph according to the concept of breadth&#45;first search and determines the..." alt="" coords="5,37,225,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_goal_manager.html#a03884832e1dbd91103e5fa64610bcad7" title="Checks the achievement of any of the goal conditions (in state)." alt="" coords="273,5,508,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a97c8781334050ca7df409f2b46584660" title="Returns a list of all nodes connected to this node." alt="" coords="305,69,476,109"/>
+</map>

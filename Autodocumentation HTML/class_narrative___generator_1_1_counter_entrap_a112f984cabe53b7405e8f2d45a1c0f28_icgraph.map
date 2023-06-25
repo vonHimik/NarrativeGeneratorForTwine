@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.CounterEntrap.DefineDescription" name="Narrative_Generator.CounterEntrap.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="239,5,424,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_counter_entrap.html#a6dcad7a190d654bb0efe9d3005adc5a3" title="A constructor based only on the state of the story world." alt="" coords="5,5,191,45"/>
+</map>

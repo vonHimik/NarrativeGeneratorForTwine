@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldDynamic.GetFirstAgent" name="Narrative_Generator.WorldDynamic.GetFirstAgent">
+<area shape="rect" id="node1" title="Returns the first agent from the list of agents." alt="" coords="224,5,399,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+</map>

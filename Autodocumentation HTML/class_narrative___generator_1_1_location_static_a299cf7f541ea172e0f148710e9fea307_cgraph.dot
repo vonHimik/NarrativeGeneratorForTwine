@@ -1,0 +1,15 @@
+digraph "Narrative_Generator.LocationStatic.AddConnection"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Location\lStatic.AddConnection",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Adds a path (connection) between this location and the specified location."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Location\lStatic.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a278b5216e43a1c69ba3730e8cdaad164",tooltip="Updates (refresh) the current hash code value."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Location\lStatic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a7d9ed82d1e88a7362f28742b114f158f",tooltip="Clears the current hash code value."];
+  Node2 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Location\lStatic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#afdf0469fcf16de27c9e6aec0cceac571",tooltip="Calculates and returns the hash code of this instance of the LocationStatic."];
+}

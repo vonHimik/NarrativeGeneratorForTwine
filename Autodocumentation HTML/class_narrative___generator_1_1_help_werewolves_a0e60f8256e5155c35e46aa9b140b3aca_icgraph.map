@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.HelpWerewolves.PreCheckPrecondition" name="Narrative_Generator.HelpWerewolves.PreCheckPrecondition">
+<area shape="rect" id="node1" title="A method that checks the most basic preconditions for an action." alt="" coords="548,5,772,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_action_generator.html#a4452d6b604097b3e5f892d2267d1ff40" title="A method that returns all valid NOW actions for the agent, given the context." alt="" coords="301,5,500,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a3763f0932f3cd8e9615b67ce43dbf4dd" title="Populates the list of actions available to the agent." alt="" coords="5,5,253,45"/>
+</map>

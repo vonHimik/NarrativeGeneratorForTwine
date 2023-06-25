@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.AgentFoundEvidence.SetCriminal" name="Narrative_Generator.AgentFoundEvidence.SetCriminal">
+<area shape="rect" id="node1" title="Sets information about the agent against which the evidence points." alt="" coords="508,5,689,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#af2e9936da42cf34810e62c0c5588ff95" title="A method to give this agent evidence against the specified agent." alt="" coords="277,5,460,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a78fead52797d21076991a4ae72b75fc3" title="Constructor with parameters." alt="" coords="5,5,229,45"/>
+</map>

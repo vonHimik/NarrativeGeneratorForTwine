@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.WantToEntrap" name="Narrative_Generator.WantToEntrap">
+<area shape="rect" id="node1" title="A class that implements the agent&#39;s beliefs about whether he wants to entrap (move) some other agent ..." alt="" coords="91,79,262,119"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_property.html" title="Base class for implementing derived classes that implement various properties of agents." alt="" coords="5,5,111,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="135,5,218,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="243,5,433,31"/>
+</map>

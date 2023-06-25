@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.AgentStateDynamic.GetMyLocation" name="Narrative_Generator.AgentStateDynamic.GetMyLocation">
+<area shape="rect" id="node1" title="Returns information about the location in which this agent is located (according to his beliefs)." alt="" coords="5,69,201,109"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#af6ebc897d6bda2c0dbdc7ef47e5d4efc" title="The method allows to receive information about the agent&#39;s beliefs about the storyworld (environment)..." alt="" coords="257,5,431,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_context.html#a661f506590b8ecbd9d2c1a757adb09d6" title="Returns the location where the agent thinks he is." alt="" coords="257,69,431,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_location_static.html#a3a196080501e30adb03f127eba710d47" title="Method that returns the name of the location." alt="" coords="249,133,439,173"/>
+</map>

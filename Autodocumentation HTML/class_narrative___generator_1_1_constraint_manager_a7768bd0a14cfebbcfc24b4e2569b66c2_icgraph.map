@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.ConstraintManager.AddConstraint" name="Narrative_Generator.ConstraintManager.AddConstraint">
+<area shape="rect" id="node1" title="Adds the specified constraint to the constraint list." alt="" coords="777,69,976,109"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_constraint_manager.html#a9c93659376c1279cb6ad16a8d0338b50" title="A method for creating an instance of a constraint on the possibility of performing certain actions or..." alt="" coords="457,5,729,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_constraint_manager.html#ad57e3b5ef3bae981c265dc0cb49d446f" title="A method for creating an instance of a constraint imposed by story on the lifetime of an agent." alt="" coords="493,69,693,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_constraint_manager.html#ad24f2229c54cb17338f44cf0282b5c5f" title="A method for creating an instance of a constraint on the availability of locations." alt="" coords="481,134,706,189"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a2170a99b955e35b088b310b1ee1b0f46" title="A method that defines the constraints imposed on the story." alt="" coords="224,69,409,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,69,176,109"/>
+</map>

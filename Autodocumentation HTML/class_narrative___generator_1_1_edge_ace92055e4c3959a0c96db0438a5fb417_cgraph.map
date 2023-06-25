@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.Edge.Clone" name="Narrative_Generator.Edge.Clone">
+<area shape="rect" id="node1" title="A method that implements edge cloning." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#ab4b52b28ba0942e21f3c0a66278f8f22" title="Method for cloning an StoryNode instance." alt="" coords="228,5,399,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a48457d0cb7f257faead36791966a8a87" title="Constructor without parameters." alt="" coords="447,5,617,45"/>
+</map>

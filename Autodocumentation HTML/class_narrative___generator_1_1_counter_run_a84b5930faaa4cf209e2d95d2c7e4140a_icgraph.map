@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.CounterRun.DefineDescription" name="Narrative_Generator.CounterRun.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="239,5,424,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_counter_run.html#acc1cb534191b4b01782815657de00cb3" title="A constructor based only on the state of the story world." alt="" coords="5,5,191,45"/>
+</map>

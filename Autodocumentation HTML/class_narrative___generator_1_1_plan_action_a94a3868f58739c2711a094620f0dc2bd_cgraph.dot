@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.PlanAction.TakeAction"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Plan\lAction.TakeAction",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="An abstract method for checking the preconditions of an action and, if they are satisfied,..."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Plan\lAction.ApplyEffects",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_plan_action.html#ab063bdf4f0f093c205f424cbe4523943",tooltip="An abstract method for applying changes defined by an action to the current state of the storyworld."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Plan\lAction.CheckPreconditions",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_plan_action.html#ae3d98713bc16f7aece503c8775216a26",tooltip="An abstract method that determines the fulfillment of the preconditions necessary to perform an actio..."];
+}

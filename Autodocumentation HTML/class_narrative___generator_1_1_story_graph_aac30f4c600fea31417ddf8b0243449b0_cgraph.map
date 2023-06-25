@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.StoryGraph.ConnectionTwoNodes" name="Narrative_Generator.StoryGraph.ConnectionTwoNodes">
+<area shape="rect" id="node1" title="Connects two specified nodes with an edge." alt="" coords="5,133,192,173"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#a0a65add5dec78fa836cec82ba6cea413" title="Adds the specified edge to the list of edges connected to this node." alt="" coords="242,5,413,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a6da2821e1cf905da08707fda5a37e865" title="Adds a link between this node and the specified node." alt="" coords="242,69,413,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_edge.html#a625fa4798706d61e614fb566fd0edfa8" title="This method allows assign an action to this edge." alt="" coords="240,133,415,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_edge.html#aea254584cdf3cba13fff7dec93d815d1" title="This method allows assign a node to the bottom vertex of an edge (incoming, later in time)." alt="" coords="240,197,415,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_edge.html#a333fc7e422c6c51818a933d53fcc1f37" title="This method allows assign a node for the top vertex of an edge (outgoing, earlier in time)." alt="" coords="240,261,415,301"/>
+</map>

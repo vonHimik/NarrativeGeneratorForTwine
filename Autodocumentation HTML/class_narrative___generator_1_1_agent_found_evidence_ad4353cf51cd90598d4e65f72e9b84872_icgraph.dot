@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.AgentFoundEvidence.Clone"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Agent\lFoundEvidence.Clone",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Method for cloning an AgentFoundEvidence instance."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateDynamic.AgentStateDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#ac3e7ff983f7252a9b21753f7c788588e",tooltip="Constructor with parameters of the dynamic part of the agent, which creates a new instance of the age..."];
+}

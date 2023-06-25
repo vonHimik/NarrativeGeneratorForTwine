@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.ConstraintAlive" name="Narrative_Generator.ConstraintAlive">
+<area shape="rect" id="node1" title="A class that implements constraints imposed by story on the lifetime of an agent." alt="" coords="5,79,204,119"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_constraint.html" title="The base class for implementing the constraints imposed on the story." alt="" coords="47,5,162,31"/>
+</map>

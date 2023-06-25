@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.AgentStateDynamic.GetBeliefs"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Agent\lStateDynamic.GetBeliefs",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="The method allows to receive information about the agent's beliefs about the storyworld (environment)..."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateDynamic.GetMyLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#aca05f9699fa13ea515688c4612ec4968",tooltip="Returns information about the location in which this agent is located (according to his beliefs)."];
+}

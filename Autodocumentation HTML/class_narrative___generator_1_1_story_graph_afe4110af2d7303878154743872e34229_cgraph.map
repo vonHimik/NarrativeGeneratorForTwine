@@ -1,0 +1,10 @@
+<map id="Narrative_Generator.StoryGraph.NodeExistenceControl" name="Narrative_Generator.StoryGraph.NodeExistenceControl">
+<area shape="rect" id="node1" title="Checking for the presence of the specified node in the graph." alt="" coords="5,37,196,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_graph.html#a87cf32c4d674ebd68744e77652666b57" title="Returns a list of nodes in the storygraph." alt="" coords="254,5,425,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_graph.html#abfe67f4625eff5dfe462e905ffa23f47" title="Method for comparing two nodes with each other." alt="" coords="244,69,435,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="483,69,653,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="701,69,876,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="932,37,1107,77"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="924,101,1115,141"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1163,37,1337,77"/>
+</map>

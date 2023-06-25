@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.HelpLordHarrowmont.CheckPreconditions" name="Narrative_Generator.HelpLordHarrowmont.CheckPreconditions">
+<area shape="rect" id="node1" title="A method that checks preconditions for an action." alt="" coords="5,37,241,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="297,5,472,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="289,69,480,109"/>
+</map>

@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.StoryworldConvergence.ProbabilityCalculating"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Storyworld\lConvergence.ProbabilityCalculating",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Calculation of the probability of success of the action."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lStatic.GetRandomBattlesResults\lStatus",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#a039920810c5811c6fbb78a49306d7c12",tooltip="Returns information about whether the rule about random battle results is enabled or not."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lDynamic.GetStaticWorldPart",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a",tooltip="Returns a component with the static part of the state of this storyworld."];
+}

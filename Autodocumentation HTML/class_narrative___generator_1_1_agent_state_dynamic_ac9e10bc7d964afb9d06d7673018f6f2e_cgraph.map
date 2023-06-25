@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.AgentStateDynamic.RefreshBeliefsAboutTheWorld" name="Narrative_Generator.AgentStateDynamic.RefreshBeliefsAboutTheWorld">
+<area shape="rect" id="node1" title="Updates the agent&#39;s beliefs about the location where he is." alt="" coords="5,62,231,117"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="305,5,502,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_static.html#a3a196080501e30adb03f127eba710d47" title="Method that returns the name of the location." alt="" coords="309,69,498,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392" title="Returns the static part (name) of the location where the searched agent is located." alt="" coords="279,133,528,173"/>
+</map>

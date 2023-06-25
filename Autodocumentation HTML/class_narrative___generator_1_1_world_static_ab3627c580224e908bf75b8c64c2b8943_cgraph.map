@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.WorldStatic.AddLocations" name="Narrative_Generator.WorldStatic.AddLocations">
+<area shape="rect" id="node1" title="Adds the given locations to the list of locations." alt="" coords="5,37,180,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_static.html#a5b24dae1f53361ddeeec6443548bab59" title="Adds the specified location to the list of locations." alt="" coords="228,8,403,48"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_static.html#a9f94b4065b2b7331899adb2670407c52" title="Updates (refresh) the current hash code value." alt="" coords="451,37,625,77"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_static.html#ae4a4a83a804d66f03361899f966b9417" title="Clears the current hash code value." alt="" coords="673,5,848,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_world_static.html#a29e8c209070b4ef3bd4d73f361e39a9a" title="Calculates and returns the hash code of this instance of the WorldStatic." alt="" coords="673,69,848,109"/>
+</map>

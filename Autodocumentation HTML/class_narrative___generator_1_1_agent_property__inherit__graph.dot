@@ -1,0 +1,17 @@
+digraph "Narrative_Generator.AgentProperty"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Agent\lProperty",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Base class for implementing derived classes that implement various properties of agents."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lAngryAt",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_angry_at.html",tooltip="A class representing the state of the agent's anger and the object of this anger."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lFoundEvidence",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_found_evidence.html",tooltip="A class that implements the knowledge and memory of an agent regarding the evidence found on other ag..."];
+  Node1 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.TalkingWith",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_talking_with.html",tooltip="A class that implements the agent's belief that he is in a conversation with some other agent and sto..."];
+  Node1 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Want\lToEntrap",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_want_to_entrap.html",tooltip="A class that implements the agent's beliefs about whether he wants to entrap (move) some other agent ..."];
+}

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.TalkingWith.TalkingCheck" name="Narrative_Generator.TalkingWith.TalkingCheck">
+<area shape="rect" id="node1" title="Returns the status of the conversation." alt="" coords="240,5,421,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#aae214ac75783ce186049cf6e3022398b" title="Method for checking if this agent is talking to some other agent." alt="" coords="5,5,192,45"/>
+</map>

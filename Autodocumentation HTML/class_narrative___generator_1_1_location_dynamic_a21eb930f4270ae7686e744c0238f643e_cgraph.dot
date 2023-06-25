@@ -1,0 +1,15 @@
+digraph "Narrative_Generator.LocationDynamic.AddAgent"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Location\lDynamic.AddAgent",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Adds an agent to the list of agents located in this location."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Location\lDynamic.UpdateHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_dynamic.html#ab6bd8fcba9b69a16d5fbbe1b76386102",tooltip="Updates (refresh) the current hash code value."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Location\lDynamic.ClearHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_dynamic.html#a0645d494bdac6ea587d5a78f71f86e39",tooltip="Clears the current hash code value."];
+  Node2 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Location\lDynamic.GetHashCode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_dynamic.html#ac08b87c89e63914adc8faa6a31831001",tooltip="Calculates and returns the hash code of this instance of the LocationDynamic."];
+}

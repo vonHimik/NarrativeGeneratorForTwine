@@ -1,0 +1,15 @@
+<map id="Narrative_Generator.StoryGraph.CreateRootNode" name="Narrative_Generator.StoryGraph.CreateRootNode">
+<area shape="rect" id="node1" title="Create a root node for the storygraph and inserts it." alt="" coords="5,165,176,205"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_plan_action.html#ab063bdf4f0f093c205f424cbe4523943" title="An abstract method for applying changes defined by an action to the current state of the storyworld." alt="" coords="235,5,402,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#ab9b01377b7edd3dce12d65b8af313d01" title="Method for cloning an WorldDynamic instance." alt="" coords="231,69,406,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_plan_action.html#aeef93553ad0b2818f98f300d071894b8" title="An abstract method for defining behavior if the result of an action fails." alt="" coords="235,133,402,173"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_node.html#a5f22f22845e931c184f1803c313914ac" title="Sets whether the player takes an action in the state stored by this node or not." alt="" coords="233,197,404,237"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_story_node.html#a24bce72b6e59bf435415b2c686532254" title="Sets the sequence number of this node." alt="" coords="224,261,413,301"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_story_node.html#afb0ce5994eb99b882177822a904566fa" title="Sets the storyworld state stored by the node." alt="" coords="233,325,404,365"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_dynamic.html#af85b19236d5e9562df3f62550eca7176" title="Constructor without parameters." alt="" coords="461,69,636,109"/>
+<area shape="rect" id="node9" href="$class_narrative___generator_1_1_story_node.html#a832d4cb2c049b8a65cc276ad4c504152" title="Updates (refresh) the current hash code value." alt="" coords="463,325,634,365"/>
+<area shape="rect" id="node10" href="$class_narrative___generator_1_1_story_node.html#a31e5f4b58da0490f7d565dce4530b123" title="Clears the current hash code value." alt="" coords="684,293,855,333"/>
+<area shape="rect" id="node11" href="$class_narrative___generator_1_1_story_node.html#a530455ede80b5edd4a0636fe04eebeaf" title="Calculates and returns the hash code of this instance of the StoryNode." alt="" coords="684,357,855,397"/>
+<area shape="rect" id="node12" href="$class_narrative___generator_1_1_world_dynamic.html#a09e69ba75f8c366973719ff2909d36b1" title="Clears the current hash code value." alt="" coords="903,325,1077,365"/>
+<area shape="rect" id="node13" href="$class_narrative___generator_1_1_world_dynamic.html#aebfe541cb9cba87220afdc0b6e7da30b" title="Calculates and returns the hash code of this instance of the WorldDynamic." alt="" coords="903,389,1077,429"/>
+</map>

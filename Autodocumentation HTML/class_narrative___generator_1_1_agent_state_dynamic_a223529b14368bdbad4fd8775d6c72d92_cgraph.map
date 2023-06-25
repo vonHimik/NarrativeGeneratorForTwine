@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.AgentStateDynamic.SetGoal" name="Narrative_Generator.AgentStateDynamic.SetGoal">
+<area shape="rect" id="node1" title="A method for setting a goal for an agent." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_goal.html#adc79aa6974ffd1d0767dbc2563415d1c" title="Method for cloning a goal instance." alt="" coords="228,5,399,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_goal.html#aed1412b5403dd33650796a92f4863537" title="Constructor without parameters." alt="" coords="447,13,645,38"/>
+</map>

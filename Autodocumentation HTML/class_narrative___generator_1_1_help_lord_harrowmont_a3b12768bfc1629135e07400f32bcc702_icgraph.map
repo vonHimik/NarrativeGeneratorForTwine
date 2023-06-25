@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.HelpLordHarrowmont.DefineDescription" name="Narrative_Generator.HelpLordHarrowmont.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="293,5,515,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_help_lord_harrowmont.html#a1441f3c5ecf9ea713f1b12b1003b17b4" title="A constructor based only on the state of the story world." alt="" coords="5,5,245,45"/>
+</map>

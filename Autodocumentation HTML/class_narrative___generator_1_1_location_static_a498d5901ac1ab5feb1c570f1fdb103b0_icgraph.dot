@@ -1,0 +1,31 @@
+digraph "Narrative_Generator.LocationStatic.Clone"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Location\lStatic.Clone",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method for cloning a location."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.AddLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a6a01e31b8935194706e77c333d3eeded",tooltip="Adds the specified location to the list of locations in this world state."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lDynamic.AddLocations",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a0eb5d49b29fe3b43d7ea4d7f969b9919",tooltip="Adds the specified locations to the list of locations."];
+  Node3 -> Node4 [dir="back",color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Story\lAlgorithm.CreateEnviroment",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ac985fa702a6214e07aa89f7bb28713af",tooltip="A method that adds locations to the current state of the world."];
+  Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lAlgorithm.CreateInitialState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406",tooltip="A method that creates an initial state of the world based on user preferences."];
+  Node5 -> Node6 [dir="back",color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node1 -> Node7 [dir="back",color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Agent\lStateDynamic.AgentStateDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#ac3e7ff983f7252a9b21753f7c788588e",tooltip="Constructor with parameters of the dynamic part of the agent, which creates a new instance of the age..."];
+  Node1 -> Node8 [dir="back",color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.Goal\lManager.AssignGoalsToAgents",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_goal_manager.html#a1972c672143df8f969e4a81898e47fca",tooltip="A method that assigns goals to agents based on their role."];
+  Node1 -> Node9 [dir="back",color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.Beliefs\lAboutAgent.BeliefsAboutAgent",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_beliefs_about_agent.html#ab04cf107b4c374bc703bce83b5e9b29a",tooltip="Constructor with parameters of the BeliefsAboutAgent, which creates a new instance of the BeliefsAbou..."];
+  Node1 -> Node10 [dir="back",color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Location\lDynamic.LocationDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_dynamic.html#abf60cec6943d9c89661ff4c9804bc36b",tooltip="Constructor with parameters of the LocationDynamic, which creates a new instance of the LocationDynam..."];
+  Node1 -> Node11 [dir="back",color="steelblue1",style="solid"];
+  Node11 [label="Narrative_Generator.Want\lToEntrap.WantToEntrap",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_want_to_entrap.html#a73b8aa97506b03a09cadd0c5ca3c7357",tooltip="Constructor with parameters of the WantToEntrap, which creates a new instance of the WantToEntrap bas..."];
+  Node1 -> Node12 [dir="back",color="steelblue1",style="solid"];
+  Node12 [label="Narrative_Generator.World\lContext.WorldContext",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_context.html#a9a85a546876e8360b3db14b4617e6254",tooltip="Constructor with parameters of the WorldContext, which creates a new instance of the WorldContext bas..."];
+}

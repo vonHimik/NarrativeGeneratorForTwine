@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.AgentStateDynamic.CheckTalking"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Agent\lStateDynamic.CheckTalking",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Method for checking if this agent is talking to some other agent."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Talking\lWith.TalkingCheck",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_talking_with.html#a529532ceff7b47e297cff845af313075",tooltip="Returns the status of the conversation."];
+}

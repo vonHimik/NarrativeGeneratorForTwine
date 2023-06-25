@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.AgentAngryAt.SetObjectOfAngry" name="Narrative_Generator.AgentAngryAt.SetObjectOfAngry">
+<area shape="rect" id="node1" title="Assigns an agent that this agent is angry with." alt="" coords="539,37,717,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a497521944d62ee6c1a22c8649625bf0c" title="A method that allows to clear the information that the this agent is angry with some other agent (del..." alt="" coords="297,5,471,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#ad59176331a9c868a59db5a0c0605ba79" title="A method that allows to set the agent with which this agent will be angry." alt="" coords="277,69,491,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_agent_state_dynamic.html#a78fead52797d21076991a4ae72b75fc3" title="Constructor with parameters." alt="" coords="5,69,229,109"/>
+</map>

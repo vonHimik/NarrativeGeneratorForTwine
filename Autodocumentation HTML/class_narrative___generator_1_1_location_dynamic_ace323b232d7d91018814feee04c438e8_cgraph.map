@@ -1,0 +1,3 @@
+<map id="Narrative_Generator.LocationDynamic.RemoveItem" name="Narrative_Generator.LocationDynamic.RemoveItem">
+<area shape="rect" id="node1" title="Removes an item with the specified name from the list of items in this location (if it has one)." alt="" coords="5,29,195,69"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.WorldStatic.Clone" name="Narrative_Generator.WorldStatic.Clone">
+<area shape="rect" id="node1" title="Method for cloning an WorldStatic instance." alt="" coords="243,37,417,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a97dc3159cb47c2f3b17fd9337a82c62e" title="Adds a component with a static part of the state of this storyworld." alt="" coords="5,5,195,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#a3492e9e18c5de75a5d66fa063bcd81f1" title="Constructor with parameters of the WorldDynamic, which creates a new instance of the WorldDynamic bas..." alt="" coords="13,69,187,109"/>
+</map>

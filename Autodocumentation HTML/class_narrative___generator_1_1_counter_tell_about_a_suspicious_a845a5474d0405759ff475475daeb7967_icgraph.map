@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.CounterTellAboutASuspicious.DefineDescription" name="Narrative_Generator.CounterTellAboutASuspicious.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="272,13,527,53"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_counter_tell_about_a_suspicious.html#a4317c19eb61f2cb3a5fb7db0b21c196e" title="A constructor based only on the state of the story world." alt="" coords="5,5,224,60"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.HelpElfs.DefineDescription" name="Narrative_Generator.HelpElfs.DefineDescription">
+<area shape="rect" id="node1" title="A method that creates a description of the action." alt="" coords="220,5,387,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_help_elfs.html#a60229420fc9e54ddb9cd47ab61f21e6e" title="A constructor based only on the state of the story world." alt="" coords="5,5,172,45"/>
+</map>

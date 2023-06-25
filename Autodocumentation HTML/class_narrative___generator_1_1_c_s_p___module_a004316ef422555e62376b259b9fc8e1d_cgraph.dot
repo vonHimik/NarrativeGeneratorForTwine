@@ -1,0 +1,30 @@
+digraph "Narrative_Generator.CSP_Module.AssignVariables"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.CSP\l_Module.AssignVariables",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that assigns parameters to an action."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.GetAgentByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a9f88b0e9a4ab518930e6041610402747",tooltip="Returns the first founded agent with the specified name."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lDynamic.GetAgents",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a4ab92e373f7498899df96f08e78b83e0",tooltip="Returns a list of all agents."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.World\lStatic.GetConnectionStatus",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#a9065e3f9e575c62cd237a9cf9078ba38",tooltip="Returns information about whether the rule about the presence of paths (connections) between location..."];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.World\lDynamic.GetLocation",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a08a6971e9e037b7bc26cb07ed4bc7a4f",tooltip="Returns a location from the list of locations if the key (the static part of the location state) matc..."];
+  Node1 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.World\lDynamic.GetLocationByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0",tooltip="Returns a location from the list of locations if the specified name matches the name of the location."];
+  Node1 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Location\lStatic.GetName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a3a196080501e30adb03f127eba710d47",tooltip="Method that returns the name of the location."];
+  Node1 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.World\lDynamic.GetRandomLocationWithout",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a3d555bba82cd7d78d3656e0ca2d9cd10",tooltip="A method that returns a random location, excluding the specified one."];
+  Node8 -> Node6 [color="steelblue1",style="solid"];
+  Node1 -> Node9 [color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.World\lStatic.GetSetting",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea",tooltip="Returns information about the current setting."];
+  Node1 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.World\lDynamic.GetStaticWorldPart",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a",tooltip="Returns a component with the static part of the state of this storyworld."];
+  Node1 -> Node11 [color="steelblue1",style="solid"];
+  Node11 [label="Narrative_Generator.World\lDynamic.SearchAgentAmongLocations",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#afa3a27662c29eaa346633550fc179392",tooltip="Returns the static part (name) of the location where the searched agent is located."];
+}

@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.WorldConstraint" name="Narrative_Generator.WorldConstraint">
+<area shape="rect" id="node1" title="The base class for implementing the constraints imposed on the story." alt="" coords="5,69,180,109"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_actions_restricting.html" title="A type of constraint that restricts agents from performing actions." alt="" coords="237,5,421,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_constraint_alive.html" title="A class that implements constraints imposed by story on the lifetime of an agent." alt="" coords="230,69,429,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_restricting_location_availability.html" title="A class that implements constraints on movement around locations." alt="" coords="228,133,431,173"/>
+</map>

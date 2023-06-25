@@ -1,0 +1,16 @@
+digraph "C:/Users/User Asus/source/repos/Narrative Generator"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_bd529974035ceba8fa66b1439ec1f47e {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="repos", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_bd529974035ceba8fa66b1439ec1f47e.html",tooltip=""]
+  subgraph clusterdir_281daf5fbc83e5807e3caf969bd58722 {
+    graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_281daf5fbc83e5807e3caf969bd58722.html",tooltip=""]
+    dir_281daf5fbc83e5807e3caf969bd58722 [shape=plaintext, label="Narrative Generator"];
+  dir_67718065439304a64a71cedc9da2c435 [label="Narrative Generator", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_67718065439304a64a71cedc9da2c435.html",tooltip=""];
+  }
+  }
+}

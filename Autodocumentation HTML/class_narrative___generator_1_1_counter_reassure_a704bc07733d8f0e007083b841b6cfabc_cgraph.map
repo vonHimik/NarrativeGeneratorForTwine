@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.CounterReassure.CounterReassure" name="Narrative_Generator.CounterReassure.CounterReassure">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_counter_reassure.html#ab9a4702abd929f00ea649d6718d4637a" title="A method that creates a description of the action." alt="" coords="239,5,424,45"/>
+</map>

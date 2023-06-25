@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.StoryAlgorithm.CreateLocationsEvidencesList" name="Narrative_Generator.StoryAlgorithm.CreateLocationsEvidencesList">
+<area shape="rect" id="node1" title="A method that determines in which of the locations the evidence will be located." alt="" coords="452,5,707,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406" title="A method that creates an initial state of the world based on user preferences." alt="" coords="224,5,404,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.StoryGraph.GetRoot" name="Narrative_Generator.StoryGraph.GetRoot">
+<area shape="rect" id="node1" title="Returns the root node of the storygraph." alt="" coords="756,113,927,153"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa" title="A method in which we sequentially create a story graph, node by node, starting at the root,..." alt="" coords="522,5,693,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1" title="The method that controls the creation of the story graph." alt="" coords="249,56,434,96"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,113,176,153"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,171,459,211"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896" title="A method that checks whether the effects of the action under test will cause cycles in the graph." alt="" coords="507,221,708,261"/>
+</map>

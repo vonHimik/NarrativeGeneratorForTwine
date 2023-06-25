@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldContext.AddAgentInBeliefs" name="Narrative_Generator.WorldContext.AddAgentInBeliefs">
+<area shape="rect" id="node1" title="Add (new) beliefs about another agent to this agent." alt="" coords="232,5,409,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_context.html#a345b92454e999adb03721e09d9b884f4" title="Iterates through the provided list of agents and adds information about them to that agent&#39;s beliefs." alt="" coords="5,5,184,45"/>
+</map>

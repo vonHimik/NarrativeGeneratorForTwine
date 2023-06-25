@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.HelpTemplars" name="Narrative_Generator.HelpTemplars">
+<area shape="rect" id="node1" title="The class that implements the agent&#39;s action: &quot;Help Templars&quot;." alt="" coords="5,79,172,119"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_plan_action.html" title="A class that implements an action that an agent takes to change the state of the storyworld." alt="" coords="46,5,131,31"/>
+</map>

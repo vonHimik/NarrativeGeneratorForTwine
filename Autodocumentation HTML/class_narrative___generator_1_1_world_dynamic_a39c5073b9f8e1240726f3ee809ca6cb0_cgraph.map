@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldDynamic.GetRandomLocation" name="Narrative_Generator.WorldDynamic.GetRandomLocation">
+<area shape="rect" id="node1" title="A method that returns a random location." alt="" coords="5,5,200,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="248,5,445,45"/>
+</map>

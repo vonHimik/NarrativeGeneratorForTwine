@@ -1,0 +1,14 @@
+<map id="Narrative_Generator.WorldDynamic.AddLocation" name="Narrative_Generator.WorldDynamic.AddLocation">
+<area shape="rect" id="node1" title="Adds the specified location to the list of locations in this world state and names it separately." alt="" coords="5,101,180,141"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_dynamic.html#a5a41937ad9b6986292101e99a80b604b" title="Returns a clone of the dynamic part of the location that called this method." alt="" coords="228,5,417,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0" title="A method for cloning a location." alt="" coords="228,69,417,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_location_static.html#a90cfb7b8318a836075dd94a4cb4dc7b3" title="The method that sets the name of the location." alt="" coords="228,133,417,173"/>
+<area shape="rect" id="node10" href="$class_narrative___generator_1_1_world_dynamic.html#a14ee6a0a9695ebd179d4c378a63fffdc" title="Updates (refresh) the current hash code value." alt="" coords="233,197,412,237"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_dynamic.html#aba8487ebacabba7a24f831c51c609d45" title="Constructor method for the dynamic part of the location, without parameters." alt="" coords="465,5,655,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b" title="Method constructor for the static part of the location." alt="" coords="465,69,655,109"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_location_static.html#a278b5216e43a1c69ba3730e8cdaad164" title="Updates (refresh) the current hash code value." alt="" coords="465,133,655,173"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_location_static.html#a7d9ed82d1e88a7362f28742b114f158f" title="Clears the current hash code value." alt="" coords="703,101,892,141"/>
+<area shape="rect" id="node9" href="$class_narrative___generator_1_1_location_static.html#afdf0469fcf16de27c9e6aec0cceac571" title="Calculates and returns the hash code of this instance of the LocationStatic." alt="" coords="703,165,892,205"/>
+<area shape="rect" id="node11" href="$class_narrative___generator_1_1_world_dynamic.html#a09e69ba75f8c366973719ff2909d36b1" title="Clears the current hash code value." alt="" coords="473,197,647,237"/>
+<area shape="rect" id="node12" href="$class_narrative___generator_1_1_world_dynamic.html#aebfe541cb9cba87220afdc0b6e7da30b" title="Calculates and returns the hash code of this instance of the WorldDynamic." alt="" coords="473,261,647,301"/>
+</map>

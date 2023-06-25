@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.StoryNode.Clone" name="Narrative_Generator.StoryNode.Clone">
+<area shape="rect" id="node1" title="Method for cloning an StoryNode instance." alt="" coords="457,37,628,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_edge.html#ace92055e4c3959a0c96db0438a5fb417" title="A method that implements edge cloning." alt="" coords="229,5,404,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1" title="The method that controls the creation of the story graph." alt="" coords="224,69,409,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,69,176,109"/>
+</map>

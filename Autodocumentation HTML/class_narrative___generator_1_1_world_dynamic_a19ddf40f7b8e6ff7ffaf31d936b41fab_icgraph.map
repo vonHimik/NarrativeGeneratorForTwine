@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.WorldDynamic.AddAgent" name="Narrative_Generator.WorldDynamic.AddAgent">
+<area shape="rect" id="node1" title="Adds the passed agent to the list of agents." alt="" coords="889,5,1064,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#a4cd644771823eb0574d4b6eae41a2448" title="This method creates a separate agent using the information passed to it. Then it places the agent on ..." alt="" coords="671,5,841,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#aea7d09ec565334bea6711f39b69c81d7" title="We get info about agents from user input. From it we find out how many agents there are,..." alt="" coords="452,5,623,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406" title="A method that creates an initial state of the world based on user preferences." alt="" coords="224,5,404,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+</map>

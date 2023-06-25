@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryNode.DeleteLink" name="Narrative_Generator.StoryNode.DeleteLink">
+<area shape="rect" id="node1" title="If the specified node is among the list of nodes linked with this node, then the link will be deleted..." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#a97c8781334050ca7df409f2b46584660" title="Returns a list of all nodes connected to this node." alt="" coords="224,5,395,45"/>
+</map>

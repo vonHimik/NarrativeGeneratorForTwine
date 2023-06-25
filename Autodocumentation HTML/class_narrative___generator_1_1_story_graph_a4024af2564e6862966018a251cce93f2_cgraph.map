@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.StoryGraph.SetRoot" name="Narrative_Generator.StoryGraph.SetRoot">
+<area shape="rect" id="node1" title="Sets the root node for the storygraph." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_graph.html#ae385d927dff633e65abe67aac889ad68" title="Adds a node to the list of nodes in the story graph." alt="" coords="224,5,395,45"/>
+</map>

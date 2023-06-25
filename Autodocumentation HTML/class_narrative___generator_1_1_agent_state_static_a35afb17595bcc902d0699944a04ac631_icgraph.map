@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.AgentStateStatic.AssignRole" name="Narrative_Generator.AgentStateStatic.AssignRole">
+<area shape="rect" id="node1" title="A method that assigns a role to an agent." alt="" coords="244,37,419,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a19164f64cb621f2e203ab43da59ccb14" title="Adding an agent, basic information about it is specified in separate parameters." alt="" coords="13,5,188,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_static.html#ae181ad784535b49a0a91e4184ea86144" title="Method&#45;constructor of the static part of the agent (with input parameters)." alt="" coords="5,69,196,109"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.Reassure.PreCheckPrecondition" name="Narrative_Generator.Reassure.PreCheckPrecondition">
+<area shape="rect" id="node1" title="A method that checks the most basic preconditions for an action." alt="" coords="5,37,204,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="260,5,435,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="252,69,443,109"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="491,5,665,45"/>
+</map>

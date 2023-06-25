@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.ActionsRestricting.IsSatisfied" name="Narrative_Generator.ActionsRestricting.IsSatisfied">
+<area shape="rect" id="node1" title="A method that checks whether the specified world state satisfies constraints." alt="" coords="5,133,189,173"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="245,5,420,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="247,69,418,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="247,133,418,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="237,197,428,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="245,261,420,301"/>
+</map>

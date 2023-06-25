@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.AgentStateStatic.AssignRole"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Agent\lStateStatic.AssignRole",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that assigns a role to an agent."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.AddAgent",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a19164f64cb621f2e203ab43da59ccb14",tooltip="Adding an agent, basic information about it is specified in separate parameters."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lStateStatic.AgentStateStatic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_static.html#ae181ad784535b49a0a91e4184ea86144",tooltip="Method-constructor of the static part of the agent (with input parameters)."];
+}

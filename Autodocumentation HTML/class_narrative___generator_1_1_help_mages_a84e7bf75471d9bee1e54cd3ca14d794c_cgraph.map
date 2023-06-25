@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.HelpMages.HelpMages" name="Narrative_Generator.HelpMages.HelpMages">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,5,172,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_help_mages.html#a32b425567f368895766d76ffb0bc90f6" title="A method that creates a description of the action." alt="" coords="220,5,387,45"/>
+</map>

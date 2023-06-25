@@ -1,0 +1,8 @@
+<map id="Narrative_Generator.StoryNode.GetFirstEdge" name="Narrative_Generator.StoryNode.GetFirstEdge">
+<area shape="rect" id="node1" title="Returns the first edge from a list of all edges connected to the this node." alt="" coords="1240,5,1411,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="965,5,1192,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="736,5,917,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="507,5,688,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,5,459,45"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+</map>

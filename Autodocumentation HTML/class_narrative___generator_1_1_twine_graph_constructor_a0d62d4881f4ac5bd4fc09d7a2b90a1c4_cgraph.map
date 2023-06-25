@@ -1,0 +1,10 @@
+<map id="Narrative_Generator.TwineGraphConstructor.SearchNextNode" name="Narrative_Generator.TwineGraphConstructor.SearchNextNode">
+<area shape="rect" id="node1" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="5,197,232,237"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="290,5,461,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="290,69,461,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8" title="Returns the first edge from a list of all edges connected to the this node." alt="" coords="290,133,461,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="290,197,461,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="288,261,463,301"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="280,325,471,365"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="288,389,463,429"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.AgentStateDynamic.SetAgentInfo" name="Narrative_Generator.AgentStateDynamic.SetAgentInfo">
+<area shape="rect" id="node1" title="Assigns static (unchanging) information about this agent." alt="" coords="228,5,411,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_dynamic.html#a6c60b2be40667d15cfce67b5597337a8" title="Add the agent to the existing collection of agents using only the specified role and name." alt="" coords="5,5,180,45"/>
+</map>

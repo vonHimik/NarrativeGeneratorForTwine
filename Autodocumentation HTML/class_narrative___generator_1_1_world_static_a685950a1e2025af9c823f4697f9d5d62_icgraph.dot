@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.WorldStatic.Clone"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.World\lStatic.Clone",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Method for cloning an WorldStatic instance."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.World\lDynamic.SetStaticWorldPart",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a97dc3159cb47c2f3b17fd9337a82c62e",tooltip="Adds a component with a static part of the state of this storyworld."];
+  Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lDynamic.WorldDynamic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a3492e9e18c5de75a5d66fa063bcd81f1",tooltip="Constructor with parameters of the WorldDynamic, which creates a new instance of the WorldDynamic bas..."];
+}

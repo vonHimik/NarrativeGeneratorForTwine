@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.StoryNode.RemoveEdge" name="Narrative_Generator.StoryNode.RemoveEdge">
+<area shape="rect" id="node1" title="Removes the specified edge from the list of all edges connected to the this node." alt="" coords="752,65,923,105"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#a118f6271ee78d62a921a2f99c7112388" title="A method that describes the transmitted story graph in text format and creates a visualization based ..." alt="" coords="457,33,704,73"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896" title="A method that checks whether the effects of the action under test will cause cycles in the graph." alt="" coords="480,97,681,137"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1" title="The method that controls the creation of the story graph." alt="" coords="224,5,409,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,35,176,75"/>
+</map>

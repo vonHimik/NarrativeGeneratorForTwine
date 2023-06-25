@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.ActionGenerator"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [label="Narrative_Generator.Action\lGenerator",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A class that generates a list of possible actions for the agent at the moment."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" INSTANCE" ];
+  Node2 [label="Narrative_Generator.Action\lGenerator",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_action_generator.html",tooltip="A class that generates a list of possible actions for the agent at the moment."];
+  Node2 -> Node2 [dir="back",color="darkorchid3",style="dashed",label=" INSTANCE" ];
+}

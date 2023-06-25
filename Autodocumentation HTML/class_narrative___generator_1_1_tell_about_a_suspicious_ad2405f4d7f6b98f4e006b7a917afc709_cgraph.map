@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.TellAboutASuspicious.TellAboutASuspicious" name="Narrative_Generator.TellAboutASuspicious.TellAboutASuspicious">
+<area shape="rect" id="node1" title="A constructor based only on the state of the story world." alt="" coords="5,5,265,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_tell_about_a_suspicious.html#ab0ef7c3836f172f3ad6765cf2d0c0f41" title="A method that creates a description of the action." alt="" coords="313,5,548,45"/>
+</map>

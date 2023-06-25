@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.RestrictingLocationAvailability" name="Narrative_Generator.RestrictingLocationAvailability">
+<area shape="rect" id="node1" title="A class that implements constraints on movement around locations." alt="" coords="5,79,208,119"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_constraint.html" title="The base class for implementing the constraints imposed on the story." alt="" coords="49,5,164,31"/>
+</map>

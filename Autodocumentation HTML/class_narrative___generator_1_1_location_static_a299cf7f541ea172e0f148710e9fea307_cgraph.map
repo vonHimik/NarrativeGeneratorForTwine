@@ -1,0 +1,6 @@
+<map id="Narrative_Generator.LocationStatic.AddConnection" name="Narrative_Generator.LocationStatic.AddConnection">
+<area shape="rect" id="node1" title="Adds a path (connection) between this location and the specified location." alt="" coords="5,37,195,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_static.html#a278b5216e43a1c69ba3730e8cdaad164" title="Updates (refresh) the current hash code value." alt="" coords="243,37,432,77"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_static.html#a7d9ed82d1e88a7362f28742b114f158f" title="Clears the current hash code value." alt="" coords="480,5,669,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_location_static.html#afdf0469fcf16de27c9e6aec0cceac571" title="Calculates and returns the hash code of this instance of the LocationStatic." alt="" coords="480,69,669,109"/>
+</map>

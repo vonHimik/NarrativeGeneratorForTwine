@@ -1,0 +1,7 @@
+<map id="Narrative_Generator.TwineGraphConstructor.AddIntermediateNode" name="Narrative_Generator.TwineGraphConstructor.AddIntermediateNode">
+<area shape="rect" id="node1" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="5,101,257,141"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="305,5,529,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="330,69,505,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="332,133,503,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="315,197,519,237"/>
+</map>

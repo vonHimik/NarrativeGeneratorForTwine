@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.WorldContext.GetRandomLocationWithout" name="Narrative_Generator.WorldContext.GetRandomLocationWithout">
+<area shape="rect" id="node1" title="A method that returns a random location, excluding the specified one." alt="" coords="5,5,240,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_context.html#a21d794893d0c5bd3d46a747d267b13c3" title="Searches this agent&#39;s beliefs for information about the location with the specified name and returns ..." alt="" coords="288,5,479,45"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.AgentStateDynamic.ThinksThatSomeoneIsAngry" name="Narrative_Generator.AgentStateDynamic.ThinksThatSomeoneIsAngry">
+<area shape="rect" id="node1" title="Checks if the agent knows that one of the other agents is angry." alt="" coords="5,5,232,60"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_world_context.html#aa40c33b66eed8eb14baa93079c616048" title="Returns this agent&#39;s set of beliefs about other agents." alt="" coords="280,13,457,53"/>
+</map>

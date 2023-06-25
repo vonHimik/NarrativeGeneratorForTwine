@@ -1,0 +1,5 @@
+<map id="Narrative_Generator.ItemsManager.CreateItem" name="Narrative_Generator.ItemsManager.CreateItem">
+<area shape="rect" id="node1" title="A method for creation a new item." alt="" coords="5,37,177,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_item.html#afc9c465f0210c8a90f8348ece69cf9d0" title="Sets the name of the item." alt="" coords="225,5,395,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_item.html#a9fd066de5b2875514e75450633acdc61" title="Sets the type of the item." alt="" coords="225,69,395,109"/>
+</map>

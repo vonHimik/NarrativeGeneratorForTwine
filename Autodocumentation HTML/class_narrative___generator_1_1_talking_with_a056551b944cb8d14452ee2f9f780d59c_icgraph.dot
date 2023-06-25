@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.TalkingWith.SetInterlocutor"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Talking\lWith.SetInterlocutor",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Sets the agent of the interlocutor for this agent."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Agent\lStateDynamic.SetInterlocutor",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#aae14c62bbd77a916a1b2d24f2e6fe43e",tooltip="A method that allows an agent to start a conversation with another agent and remember this fact (whil..."];
+}

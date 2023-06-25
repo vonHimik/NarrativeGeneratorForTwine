@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Kill" name="Narrative_Generator.Kill">
+<area shape="rect" id="node1" title="The class that implements the agent&#39;s action: &quot;Kill&quot;." alt="" coords="5,79,164,104"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_plan_action.html" title="A class that implements an action that an agent takes to change the state of the storyworld." alt="" coords="42,5,127,31"/>
+</map>

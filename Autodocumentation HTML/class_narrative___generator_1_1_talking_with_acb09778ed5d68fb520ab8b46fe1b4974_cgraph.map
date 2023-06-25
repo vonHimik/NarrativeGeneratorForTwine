@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.TalkingWith.Clone" name="Narrative_Generator.TalkingWith.Clone">
+<area shape="rect" id="node1" title="Method for cloning an TalkingWith instance." alt="" coords="5,5,187,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_talking_with.html#a05bee069ccc8228db2a537d68b013964" title="Constructor without parameters." alt="" coords="235,5,416,45"/>
+</map>

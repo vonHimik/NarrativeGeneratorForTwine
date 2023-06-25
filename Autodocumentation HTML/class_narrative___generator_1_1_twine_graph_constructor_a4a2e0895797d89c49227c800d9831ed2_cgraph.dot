@@ -1,0 +1,17 @@
+digraph "Narrative_Generator.TwineGraphConstructor.AddIntermediateNode"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Twine\lGraphConstructor.AddIntermediateNode",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method for creating a node that is used to create a contextual relationship between other nodes."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Twine\lGraphConstructor.AddSpecialNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68",tooltip="A method for creating special nodes that are not originally present in the graph."];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.World\lDynamic.GetAgentByRole",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61",tooltip="Returns the first founded agent with the specified role."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Story\lNode.GetWorldState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb",tooltip="Returns the storyworld state stored by the node."];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Twine\lGraphConstructor.InsertSpaces",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64",tooltip="A method that separates compound words into separate ones, using capital letters as a separator."];
+}

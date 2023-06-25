@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.ConstraintManager.CreateRestrictingLocationConstraint" name="Narrative_Generator.ConstraintManager.CreateRestrictingLocationConstraint">
+<area shape="rect" id="node1" title="A method for creating an instance of a constraint on the availability of locations." alt="" coords="5,5,231,60"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_constraint_manager.html#a7768bd0a14cfebbcfc24b4e2569b66c2" title="Adds the specified constraint to the constraint list." alt="" coords="279,13,477,53"/>
+</map>

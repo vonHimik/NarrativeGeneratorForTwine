@@ -1,0 +1,9 @@
+<map id="Narrative_Generator.BeliefsAboutAgent.BeliefsAboutAgent" name="Narrative_Generator.BeliefsAboutAgent.BeliefsAboutAgent">
+<area shape="rect" id="node1" title="Constructor with parameters of the BeliefsAboutAgent, which creates a new instance of the BeliefsAbou..." alt="" coords="5,69,207,109"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_static.html#a32adf4a2449433f482775916d9beb111" title="Method for cloning an agent." alt="" coords="262,5,437,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_agent_angry_at.html#a2438c88dad503f42ffdb26443bf0e795" title="Method for cloning an AgentAngryAt instance." alt="" coords="262,69,437,109"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0" title="A method for cloning a location." alt="" coords="255,133,444,173"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_static.html#a4f099a7caf5f22743a45796618db1dc7" title="Method&#45;constructor of the static part of the agent (without input parameters)." alt="" coords="492,5,683,45"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_agent_angry_at.html#a9d264333a42ef87bc6d22c7dc6c6bb90" title="Constructor without parameters." alt="" coords="500,69,675,109"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b" title="Method constructor for the static part of the location." alt="" coords="493,133,682,173"/>
+</map>

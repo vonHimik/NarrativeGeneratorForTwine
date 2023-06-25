@@ -1,0 +1,9 @@
+<map id="Narrative_Generator.AgentStateDynamic.Clone" name="Narrative_Generator.AgentStateDynamic.Clone">
+<area shape="rect" id="node1" title="Deep cloning of an agent." alt="" coords="5,165,180,205"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_agent_state_dynamic.html#ab0ac5fa49a393c8df2037bdae7e878f9" title="Parameterless constructor." alt="" coords="228,5,452,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_found_evidence.html#a619e96a78dc90f5e0724ae4cbc8514c8" title="Returns information about the agent against which the evidence points." alt="" coords="249,69,431,109"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_talking_with.html#a9630a44137e151c7d458a874f105d33f" title="Returns information about the agent of the interlocutor." alt="" coords="249,133,431,173"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_want_to_entrap.html#aa256faa1c89b96a8e891bb9ae4359222" title="Returns the target location to which this agent would like to move some other agent." alt="" coords="255,197,425,237"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_agent_angry_at.html#a6ef7f5c118ceedebc1923599ee19545c" title="Returns information about the agent that this agent is angry with." alt="" coords="251,261,429,301"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_want_to_entrap.html#aa48dd89b640d761cb6f98a1236b43b36" title="Returns information about the agent that this agent would like to move to some location." alt="" coords="255,325,425,365"/>
+</map>

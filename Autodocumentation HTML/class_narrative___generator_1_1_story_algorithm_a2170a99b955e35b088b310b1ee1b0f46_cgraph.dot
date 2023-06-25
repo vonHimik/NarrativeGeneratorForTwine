@@ -1,0 +1,27 @@
+digraph "Narrative_Generator.StoryAlgorithm.CreateConstraints"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Story\lAlgorithm.CreateConstraints",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that defines the constraints imposed on the story."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Constraint\lManager.CreateActionRestrictingConstraint",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_constraint_manager.html#a9c93659376c1279cb6ad16a8d0338b50",tooltip="A method for creating an instance of a constraint on the possibility of performing certain actions or..."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Constraint\lManager.AddConstraint",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_constraint_manager.html#a7768bd0a14cfebbcfc24b4e2569b66c2",tooltip="Adds the specified constraint to the constraint list."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Constraint\lManager.CreateAliveConstraint",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_constraint_manager.html#ad57e3b5ef3bae981c265dc0cb49d446f",tooltip="A method for creating an instance of a constraint imposed by story on the lifetime of an agent."];
+  Node4 -> Node3 [color="steelblue1",style="solid"];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Constraint\lManager.CreateRestrictingLocation\lConstraint",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_constraint_manager.html#ad24f2229c54cb17338f44cf0282b5c5f",tooltip="A method for creating an instance of a constraint on the availability of locations."];
+  Node5 -> Node3 [color="steelblue1",style="solid"];
+  Node1 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.World\lDynamic.GetAgentByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a9f88b0e9a4ab518930e6041610402747",tooltip="Returns the first founded agent with the specified name."];
+  Node1 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.World\lDynamic.GetAgentByRole",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61",tooltip="Returns the first founded agent with the specified role."];
+  Node1 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.World\lDynamic.GetLocationByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0",tooltip="Returns a location from the list of locations if the specified name matches the name of the location."];
+  Node1 -> Node9 [color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.World\lDynamic.GetLocations",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af81aefe2695cd8c460e8490a2b23c489",tooltip="Returns a list of all locations."];
+}

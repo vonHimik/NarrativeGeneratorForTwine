@@ -1,0 +1,13 @@
+digraph "Narrative_Generator.InvestigateRoom.PreCheckPrecondition"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Investigate\lRoom.PreCheckPrecondition",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that checks the most basic preconditions for an action."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Action\lGenerator.GetAvailableActions",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_action_generator.html#a4452d6b604097b3e5f892d2267d1ff40",tooltip="A method that returns all valid NOW actions for the agent, given the context."];
+  Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Agent\lStateDynamic.ReceiveAvailableActions",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_agent_state_dynamic.html#a3763f0932f3cd8e9615b67ce43dbf4dd",tooltip="Populates the list of actions available to the agent."];
+}
