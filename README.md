@@ -100,11 +100,13 @@ Also, during the generation process, may occur events that require the user's at
 
 ## Visualization (Graphviz)
 
-To visualize the story graph, we recommend use the Graphviz program. It is available both online and as an installable program. Various online versions contain a significant number of restrictions, including restrictions on the size of the graph being built, on its scalability, and others. The portable version contains much fewer of them, so it is better to use it.
+To visualize the story graph, we use the Graphviz tool integrated into our program. It automatically generates a visualization (image) in PNG format based on the generated DOT format file, placing it in the same directory as all other resulting files.
 
-To do this, download the version that suits you from the official website (https://graphviz.org/download/).
+If it's necessary, you can visualize the generated DOT files manually by yourself. For example, you can download a different version of the Graphviz tool or use a different tool, including available online. Note, however, that the online versions are much more restrictive than the portable versions.
 
-After installation, in the directory with the program, in the sub-directory bin, you can place a file in DOT format and visualize it using the command line. To do this, you need to call it in this sub-directory, for example, by entering "cmd" in the Explorer address bar, or by changing the active directory in the command line itself. Then, at the command prompt, enter the following: "dot -Tpng -O [FILENAME].dot". The file name must be specified corresponding to the DOT file that you want to visualize. In the case of the story graph visualization, the file name is "newStoryGraph".
+As an example, the procedure for visualization when manually using the portable version of Graphviz:
+
+After installation, in the directory with the program, in the sub-directory bin, you can place a file in DOT format and visualize it using the command line. To do this, you need to call it in this sub-directory, for example, by entering "cmd" in the Explorer address bar, or by changing the active directory in the command line itself. Then, at the command prompt, enter the following: "dot -Tpng -O [FILENAME].dot". The file name must be specified corresponding to the DOT file that you want to visualize.
 
 ## Interactive story run (Twine)
 
