@@ -32,6 +32,8 @@ var annotated_dup =
       [ "Goal", "class_narrative___generator_1_1_goal.html", "class_narrative___generator_1_1_goal" ],
       [ "GoalManager", "class_narrative___generator_1_1_goal_manager.html", "class_narrative___generator_1_1_goal_manager" ],
       [ "GraphСonstructor", "class_narrative___generator_1_1_graph_xD0_xA1onstructor.html", "class_narrative___generator_1_1_graph_xD0_xA1onstructor" ],
+      [ "Graphviz", "class_narrative___generator_1_1_graphviz.html", "class_narrative___generator_1_1_graphviz" ],
+      [ "GraphvizWrapper", "class_narrative___generator_1_1_graphviz_wrapper.html", "class_narrative___generator_1_1_graphviz_wrapper" ],
       [ "HelpElfs", "class_narrative___generator_1_1_help_elfs.html", "class_narrative___generator_1_1_help_elfs" ],
       [ "HelpLordHarrowmont", "class_narrative___generator_1_1_help_lord_harrowmont.html", "class_narrative___generator_1_1_help_lord_harrowmont" ],
       [ "HelpMages", "class_narrative___generator_1_1_help_mages.html", "class_narrative___generator_1_1_help_mages" ],

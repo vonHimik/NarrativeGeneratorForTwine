@@ -1,5 +1,5 @@
 <map id="Narrative_Generator.StoryAlgorithm" name="Narrative_Generator.StoryAlgorithm">
-<area shape="rect" id="node1" title=" " alt="" coords="675,261,845,301"/>
+<area shape="rect" id="node1" title="A class that implements the phased execution of a program algorithm." alt="" coords="675,261,845,301"/>
 <area shape="rect" id="node2" href="$class_narrative___generator_1_1_p_d_d_l___module.html" title="A class that controls the creation of a description of the planning domain and planning problem in th..." alt="" coords="281,5,455,45"/>
 <area shape="rect" id="node3" href="$class_narrative___generator_1_1_goal_manager.html" title="A class that manages the goals of agents." alt="" coords="285,69,451,109"/>
 <area shape="rect" id="node4" href="$class_narrative___generator_1_1_constraint_manager.html" title="The class that manages the constraints." alt="" coords="269,133,467,173"/>

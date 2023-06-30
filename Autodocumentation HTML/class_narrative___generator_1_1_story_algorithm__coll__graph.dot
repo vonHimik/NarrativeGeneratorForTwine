@@ -5,7 +5,7 @@ digraph "Narrative_Generator.StoryAlgorithm"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node1 [label="Narrative_Generator.Story\lAlgorithm",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 [label="Narrative_Generator.Story\lAlgorithm",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A class that implements the phased execution of a program algorithm."];
   Node2 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" pddlModule" ];
   Node2 [label="Narrative_Generator.PDDL\l_Module",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_p_d_d_l___module.html",tooltip="A class that controls the creation of a description of the planning domain and planning problem in th..."];
   Node3 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" goalManager" ];

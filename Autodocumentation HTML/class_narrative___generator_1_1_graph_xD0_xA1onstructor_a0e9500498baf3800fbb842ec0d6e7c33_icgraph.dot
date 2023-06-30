@@ -7,8 +7,8 @@ digraph "Narrative_Generator.GraphСonstructor.CreateGraph"
   rankdir="RL";
   Node1 [label="Narrative_Generator.GraphСonstructor.\lCreateGraph",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that describes the transmitted story graph in text format and creates a visualization based ..."];
   Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
-  Node2 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1",tooltip="The method that controls the creation of the story graph."];
+  Node2 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#af62b9aaf409a5a30248c0fc5f0055723",tooltip="The method that controls the creation of the story graph."];
   Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
-  Node3 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node3 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
   Node1 -> Node3 [dir="back",color="steelblue1",style="solid"];
 }

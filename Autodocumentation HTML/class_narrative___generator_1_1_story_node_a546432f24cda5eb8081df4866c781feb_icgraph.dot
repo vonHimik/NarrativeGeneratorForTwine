@@ -15,9 +15,9 @@ digraph "Narrative_Generator.StoryNode.GetEdges"
   Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
   Node5 [label="Narrative_Generator.Story\lAlgorithm.BFSTraversing",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa",tooltip="A method in which we sequentially create a story graph, node by node, starting at the root,..."];
   Node5 -> Node6 [dir="back",color="steelblue1",style="solid"];
-  Node6 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1",tooltip="The method that controls the creation of the story graph."];
+  Node6 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#af62b9aaf409a5a30248c0fc5f0055723",tooltip="The method that controls the creation of the story graph."];
   Node6 -> Node7 [dir="back",color="steelblue1",style="solid"];
-  Node7 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node7 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
   Node2 -> Node8 [dir="back",color="steelblue1",style="solid"];
   Node8 [label="Narrative_Generator.Storyworld\lConvergence.MultiAVandAC",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a27d193b37c3114cc18d690e4846de59c",tooltip="A method that assigns variables (parameters) and checks the constraints of several actions of the sam..."];
   Node8 -> Node3 [dir="back",color="steelblue1",style="solid"];
@@ -38,12 +38,13 @@ digraph "Narrative_Generator.StoryNode.GetEdges"
   Node14 [label="Narrative_Generator.Edge.\lClearEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#a7a51f9a218902782b289e949def0abdc",tooltip="This method completely clears the edge, removing both nodes attached to it and the action attached to..."];
   Node13 -> Node15 [dir="back",color="steelblue1",style="solid"];
   Node15 [label="Narrative_Generator.Storyworld\lConvergence.CyclesControl",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896",tooltip="A method that checks whether the effects of the action under test will cause cycles in the graph."];
+  Node15 -> Node2 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node16 [dir="back",color="steelblue1",style="solid"];
   Node16 [label="Narrative_Generator.Edge.\lClearUpperNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#ac4df3c6f37a68162ce9f1feaf7aed164",tooltip="This method clears the top vertex of an edge from a connected node."];
   Node16 -> Node14 [dir="back",color="steelblue1",style="solid"];
   Node16 -> Node15 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node17 [dir="back",color="steelblue1",style="solid"];
-  Node17 [label="Narrative_Generator.GraphСonstructor.\lCreateGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#a118f6271ee78d62a921a2f99c7112388",tooltip="A method that describes the transmitted story graph in text format and creates a visualization based ..."];
+  Node17 [label="Narrative_Generator.GraphСonstructor.\lCreateGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#a0e9500498baf3800fbb842ec0d6e7c33",tooltip="A method that describes the transmitted story graph in text format and creates a visualization based ..."];
   Node17 -> Node6 [dir="back",color="steelblue1",style="solid"];
   Node17 -> Node7 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node6 [dir="back",color="steelblue1",style="solid"];

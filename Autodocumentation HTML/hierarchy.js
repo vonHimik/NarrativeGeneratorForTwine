@@ -14,6 +14,8 @@ var hierarchy =
     [ "Narrative_Generator.FastDownwardWrapper", "class_narrative___generator_1_1_fast_downward_wrapper.html", null ],
     [ "Narrative_Generator.GoalManager", "class_narrative___generator_1_1_goal_manager.html", null ],
     [ "Narrative_Generator.GraphСonstructor", "class_narrative___generator_1_1_graph_xD0_xA1onstructor.html", null ],
+    [ "Narrative_Generator.Graphviz", "class_narrative___generator_1_1_graphviz.html", null ],
+    [ "Narrative_Generator.GraphvizWrapper", "class_narrative___generator_1_1_graphviz_wrapper.html", null ],
     [ "ICloneable", null, [
       [ "Narrative_Generator.AgentAngryAt", "class_narrative___generator_1_1_agent_angry_at.html", null ],
       [ "Narrative_Generator.AgentFoundEvidence", "class_narrative___generator_1_1_agent_found_evidence.html", null ],

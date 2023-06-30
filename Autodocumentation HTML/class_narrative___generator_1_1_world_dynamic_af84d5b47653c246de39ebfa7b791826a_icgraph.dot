@@ -50,7 +50,7 @@ digraph "Narrative_Generator.WorldDynamic.GetStaticWorldPart"
   Node21 -> Node22 [dir="back",color="steelblue1",style="solid"];
   Node22 [label="Narrative_Generator.Story\lAlgorithm.CreateInitialState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406",tooltip="A method that creates an initial state of the world based on user preferences."];
   Node22 -> Node9 [dir="back",color="steelblue1",style="solid"];
-  Node9 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node9 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
   Node1 -> Node23 [dir="back",color="steelblue1",style="solid"];
   Node23 [label="Narrative_Generator.Twine\lGraphConstructor.CreateTwineGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74",tooltip="A method for converting a story graph into an interactive story for Twine."];
   Node23 -> Node9 [dir="back",color="steelblue1",style="solid"];
@@ -73,6 +73,7 @@ digraph "Narrative_Generator.WorldDynamic.GetStaticWorldPart"
   Node30 -> Node7 [dir="back",color="steelblue1",style="solid"];
   Node30 -> Node33 [dir="back",color="steelblue1",style="solid"];
   Node33 [label="Narrative_Generator.Storyworld\lConvergence.CyclesControl",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a8b24e6d35f950febee35af944abef896",tooltip="A method that checks whether the effects of the action under test will cause cycles in the graph."];
+  Node33 -> Node4 [dir="back",color="steelblue1",style="solid"];
   Node30 -> Node34 [dir="back",color="steelblue1",style="solid"];
   Node34 [label="Narrative_Generator.Story\lGraph.DuplicateNodeConnecting",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_graph.html#a3caa66943f727fc97c6a8d255f8a0db9",tooltip="Connects two nodes if both already exist and are in the graph."];
   Node34 -> Node4 [dir="back",color="steelblue1",style="solid"];

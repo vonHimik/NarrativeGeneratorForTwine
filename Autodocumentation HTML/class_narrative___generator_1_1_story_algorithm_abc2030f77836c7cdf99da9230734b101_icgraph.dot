@@ -9,5 +9,5 @@ digraph "Narrative_Generator.StoryAlgorithm.CreateAgentsNamesList"
   Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
   Node2 [label="Narrative_Generator.Story\lAlgorithm.CreateInitialState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#ae4b5d3307d83ac01751624e9bfea9406",tooltip="A method that creates an initial state of the world based on user preferences."];
   Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
-  Node3 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node3 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
 }

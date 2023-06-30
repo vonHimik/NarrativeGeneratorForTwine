@@ -1,5 +1,5 @@
 <map id="Narrative_Generator.TwineGraphConstructor.CreateHTMLFileWithGame" name="Narrative_Generator.TwineGraphConstructor.CreateHTMLFileWithGame">
 <area shape="rect" id="node1" title="Method for writing the generated text and html markup to a file of the corresponding format." alt="" coords="507,5,728,60"/>
 <area shape="rect" id="node2" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,13,459,53"/>
-<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,13,176,53"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,13,176,53"/>
 </map>

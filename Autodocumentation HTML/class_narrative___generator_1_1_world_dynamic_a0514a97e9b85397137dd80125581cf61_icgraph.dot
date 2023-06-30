@@ -15,7 +15,7 @@ digraph "Narrative_Generator.WorldDynamic.GetAgentByRole"
   Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
   Node5 [label="Narrative_Generator.Twine\lGraphConstructor.CreateTwineGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74",tooltip="A method for converting a story graph into an interactive story for Twine."];
   Node5 -> Node6 [dir="back",color="steelblue1",style="solid"];
-  Node6 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
+  Node6 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
   Node1 -> Node7 [dir="back",color="steelblue1",style="solid"];
   Node7 [label="Narrative_Generator.Twine\lGraphConstructor.AddInvestigateNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d",tooltip="An optional node that describes the result of the search evidences action and provides details."];
   Node7 -> Node3 [dir="back",color="steelblue1",style="solid"];
@@ -33,7 +33,7 @@ digraph "Narrative_Generator.WorldDynamic.GetAgentByRole"
   Node12 -> Node13 [dir="back",color="steelblue1",style="solid"];
   Node13 [label="Narrative_Generator.Story\lAlgorithm.BFSTraversing",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa",tooltip="A method in which we sequentially create a story graph, node by node, starting at the root,..."];
   Node13 -> Node14 [dir="back",color="steelblue1",style="solid"];
-  Node14 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1",tooltip="The method that controls the creation of the story graph."];
+  Node14 [label="Narrative_Generator.Story\lAlgorithm.CreateStoryGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#af62b9aaf409a5a30248c0fc5f0055723",tooltip="The method that controls the creation of the story graph."];
   Node14 -> Node6 [dir="back",color="steelblue1",style="solid"];
   Node10 -> Node15 [dir="back",color="steelblue1",style="solid"];
   Node15 [label="Narrative_Generator.Storyworld\lConvergence.MultiAVandAC",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_storyworld_convergence.html#a27d193b37c3114cc18d690e4846de59c",tooltip="A method that assigns variables (parameters) and checks the constraints of several actions of the sam..."];

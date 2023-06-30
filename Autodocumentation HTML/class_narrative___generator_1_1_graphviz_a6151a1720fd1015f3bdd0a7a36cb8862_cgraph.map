@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.Graphviz.Run" name="Narrative_Generator.Graphviz.Run">
+<area shape="rect" id="node1" title="The method that starts the renderer." alt="" coords="5,13,223,38"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_graphviz_wrapper.html#ae1759ddd195c0625305d56750b641c74" title="A method that launches a method that controls the launch and configuration of the rendering process,..." alt="" coords="271,5,461,45"/>
+</map>

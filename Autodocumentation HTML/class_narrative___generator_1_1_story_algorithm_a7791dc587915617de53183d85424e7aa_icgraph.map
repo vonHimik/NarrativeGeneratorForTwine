@@ -1,5 +1,5 @@
 <map id="Narrative_Generator.StoryAlgorithm.BFSTraversing" name="Narrative_Generator.StoryAlgorithm.BFSTraversing">
 <area shape="rect" id="node1" title="A method in which we sequentially create a story graph, node by node, starting at the root,..." alt="" coords="457,5,628,45"/>
-<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#a14b46d881caea879deaf6900c24930c1" title="The method that controls the creation of the story graph." alt="" coords="224,5,409,45"/>
-<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#af62b9aaf409a5a30248c0fc5f0055723" title="The method that controls the creation of the story graph." alt="" coords="224,5,409,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
 </map>

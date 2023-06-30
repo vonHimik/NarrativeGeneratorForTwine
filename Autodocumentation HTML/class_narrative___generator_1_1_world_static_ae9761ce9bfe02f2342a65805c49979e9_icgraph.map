@@ -1,5 +1,5 @@
 <map id="Narrative_Generator.WorldStatic.SetSetting" name="Narrative_Generator.WorldStatic.SetSetting">
 <area shape="rect" id="node1" title="Sets the specified setting." alt="" coords="487,5,661,45"/>
 <area shape="rect" id="node2" href="$class_narrative___generator_1_1_story_algorithm.html#aaa3a1cf9539b50679b3bd20596338c07" title="A method that reads user&#45;selected settings and transfers them to individual system modules." alt="" coords="224,5,439,45"/>
-<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a84193cf4bd94e0c652a31dbb175214d1" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
 </map>

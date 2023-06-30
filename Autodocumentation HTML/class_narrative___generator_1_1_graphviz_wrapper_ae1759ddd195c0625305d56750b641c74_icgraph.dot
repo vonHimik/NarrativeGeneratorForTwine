@@ -1,0 +1,11 @@
+digraph "Narrative_Generator.GraphvizWrapper.RunGraphviz"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="RL";
+  Node1 [label="Narrative_Generator.Graphviz\lWrapper.RunGraphviz",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that launches a method that controls the launch and configuration of the rendering process,..."];
+  Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Graphviz.Run",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graphviz.html#a6151a1720fd1015f3bdd0a7a36cb8862",tooltip="The method that starts the renderer."];
+}

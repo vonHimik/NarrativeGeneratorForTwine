@@ -13,5 +13,5 @@ digraph "Narrative_Generator.GraphСonstructor.CreateGraph"
   Node1 -> Node4 [color="steelblue1",style="solid"];
   Node4 [label="Narrative_Generator.Story\lNode.RemoveEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a92e61e0d5774d9f75f2812c89540a2ad",tooltip="Removes the specified edge from the list of all edges connected to the this node."];
   Node1 -> Node5 [color="steelblue1",style="solid"];
-  Node5 [label="Narrative_Generator.GraphСonstructor.\lSaveGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#ac35f0aadbeebf2a0661dc6a3c1f0cdd5",tooltip="A method that saves the textual description of the graph to a file with the specified name."];
+  Node5 [label="Narrative_Generator.GraphСonstructor.\lSaveGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_graph_xD0_xA1onstructor.html#a6e48ccd1fe815c76a41504941e5fa67b",tooltip="A method that saves the textual description of the graph to a file with the specified name."];
 }

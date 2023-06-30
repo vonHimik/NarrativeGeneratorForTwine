@@ -1,5 +1,5 @@
 <map id="Narrative_Generator.FastDownwardWrapper.RunFastDownward" name="Narrative_Generator.FastDownwardWrapper.RunFastDownward">
-<area shape="rect" id="node1" title="A class that passes some settings and a calling class that directly starts the planner,..." alt="" coords="456,29,699,69"/>
+<area shape="rect" id="node1" title="A method that passes some settings and a calling class that directly starts the planner,..." alt="" coords="456,29,699,69"/>
 <area shape="rect" id="node2" href="$class_narrative___generator_1_1_fast_downward.html#a308868c786b8502cb725eb664495fe1c" title="The method that starts the planner." alt="" coords="241,29,408,69"/>
 <area shape="rect" id="node3" href="$class_narrative___generator_1_1_agent_state_dynamic.html#aef438ac549caf27382b2c01cf2a218c6" title="Calculate an action plan for the agent based on PDDL files with descriptions of the domain and proble..." alt="" coords="5,29,193,69"/>
 </map>
