@@ -92,7 +92,7 @@ For example, protection of the agent representing the player by the system leads
 
 When the setting is completed, it is necessary to press the "Start" button. The program will start its work.
 
-To start the generation process, some of the settings must be specified mandatory. These include the choice of setting, the choice of the type of agent's goals and the selecting of the path for outputting the resulting files. If something from this list is not performed, then the "Start" button will not be available for clicking.
+To start the generation process, some of the settings must be specified mandatory. These include the choice of setting, the choice of the type of agent's goals, the selecting of the path for outputting the resulting files and selecting name for these files. If something from this list is not performed, then the "Start" button will not be available for clicking.
 
 In the process of work, the program will inform about its current state in a special window in the lower left corner. Also, when selecting settings, this window will display brief descriptions of each of them.
 
