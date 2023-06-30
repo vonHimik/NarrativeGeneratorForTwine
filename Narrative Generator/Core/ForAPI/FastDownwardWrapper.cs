@@ -14,7 +14,7 @@ namespace Narrative_Generator
     class FastDownwardWrapper
     {
         /// <summary>
-        /// The class in which the process settings (planner launch) are set and it is launched.
+        /// The method in which the process settings (planner launch) are sets and it is launched.
         /// </summary>
         /// <param name="path">Where the process will be launched from.</param>
         /// <param name="commands">The command to pass to the process.</param>
@@ -31,14 +31,14 @@ namespace Narrative_Generator
             if (process.Start())
             {
                 note.Text = "PROCESS START - CMD";
-                process.WaitForExit(/*30000*/);
+                process.WaitForExit();
                 return true;
             }
             else { return false; }
         }
 
         /// <summary>
-        /// A class that passes some settings and a calling class that directly starts the planner, itself called from the outside.
+        /// A method that passes some settings and a calling class that directly starts the planner, itself called from the outside.
         /// </summary>
         /// <param name="domainPDDLFileName">The name of the file that describes the planning domain.</param>
         /// <param name="problemPDDLFileName">The name of the file describing the planning problem.</param>

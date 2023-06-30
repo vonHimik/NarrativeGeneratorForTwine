@@ -34,11 +34,11 @@ namespace Narrative_Generator
             PrintNote("Steps before starting:" + Environment.NewLine +
                       "1) Select a setting." + Environment.NewLine +
                       "2) Select a sub-setting (if available)." + Environment.NewLine +
-                      "3) Select the type of agents goals." + Environment.NewLine +
+                      "3) Select the type(s) of agents goals." + Environment.NewLine +
                       "4) Set the system settings (if necessary)." + Environment.NewLine +
                       "5) Set the story settings (if necessary)." + Environment.NewLine +
                       "6) Set the agent behavior settings (if necessary)." + Environment.NewLine +
-                      "7) Specify the address for outputting the resulting files.");
+                      "7) Specify the address and name for outputting the resulting files.");
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Narrative_Generator
         /// <param name="e">Event data.</param>
         private void BtnStart_Click (object sender, EventArgs e)
         {
-            if (settingSelected && goalTypeSelected && outputPathSelected)
+            if (settingSelected && goalTypeSelected && outputPathSelected && txtOutputName.Text.Count() != 0)
             {
                 btnStart.Enabled = false;
                 SeedControl();
@@ -66,7 +66,7 @@ namespace Narrative_Generator
                     system.TargetItemsNames.Add(selectedItem.ToString());
                 }
 
-                system.Start(ref txtBoxNotesField, txtOutputPath.Text.ToString());
+                system.Start(ref txtBoxNotesField, txtOutputPath.Text.ToString(), txtOutputName.Text.ToString());
                 btnStart.Enabled = true;
             }
         }
@@ -516,6 +516,7 @@ namespace Narrative_Generator
         {
             if (chBoxGoalReachFinLoc.Checked) { goalTypeSelected = true; system.goalManager.ReachGoalLocation = true; }
             else { goalTypeSelected = false; system.goalManager.ReachGoalLocation = false; }
+            PrintNote("When choosing this type of target conditions, the winning (goal) condition for main character (player) will be to locate it in the specified location. The choice of location is carried out by selecting ONE location from the drop-down list.");
         }
 
         /// <summary>
@@ -527,6 +528,7 @@ namespace Narrative_Generator
         {
             if (chBoxGoalGetItem.Checked) { goalTypeSelected = true; system.goalManager.GetImportantItem = true; }
             else { goalTypeSelected = false; system.goalManager.GetImportantItem = false; }
+            PrintNote("When choosing this type of target conditions, the winning (goal) condition for main character (player) will consist in the possession of certain items. The selection of the required items is carried out by selecting (marking) items from the list.");
         }
 
         /// <summary>
@@ -749,16 +751,30 @@ namespace Narrative_Generator
                       "In the field below, enter the protection period or leave the field empty (0) for unlimited protection.");
         }
 
+        /// <summary>
+        /// A method that detects a change in the index of the selected object from the list of locations 
+        /// and writes the result of the change to the corresponding variable.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
         private void comBoxGoalLocationSelect_SelectedIndexChanged (object sender, EventArgs e)
         {
             system.TargetLocationName = comBoxGoalLocationSelect.SelectedItem.ToString();
         }
 
-        private void comBoxGoalLocationSelect_DropDown(object sender, EventArgs e)
+        /// <summary>
+        /// The event handler for the dropdown list call.
+        /// </summary>
+        /// <param name="sender">Reference to the control/object that raised the event.</param>
+        /// <param name="e">Event data.</param>
+        private void comBoxGoalLocationSelect_DropDown (object sender, EventArgs e)
         {
             SelectedGoalLocationActualization();
         }
 
+        /// <summary>
+        /// Method that updates the content of the drop-down list of locations.
+        /// </summary>
         private void SelectedGoalLocationActualization()
         {
             comBoxGoalLocationSelect.Items.Clear();
@@ -802,23 +818,27 @@ namespace Narrative_Generator
             }
         }
 
+        /// <summary>
+        /// A method that activates an interface element that allows to select a target location.
+        /// </summary>
         private void SelectTargetLocationSectionActivation()
         {
             chBoxGoalReachFinLoc.Visible = true;
             comBoxGoalLocationSelect.Visible = true;
         }
 
+        /// <summary>
+        /// A method that deactivates an interface element that allows to select a target location.
+        /// </summary>
         private void SelectTargetLocationSectionDeactivation()
         {
             chBoxGoalReachFinLoc.Visible = false;
             comBoxGoalLocationSelect.Visible = false;
         }
 
-        private void listBoxItemsSelected_SelectedIndexChanged (object sender, EventArgs e)
-        {
-            // listBoxItemsSelected.SelectedItems();
-        }
-
+        /// <summary>
+        /// A method that activates an interface element that allows to select a target items.
+        /// </summary>
         private void SelectedTargetItemsSectionActivation()
         {
             listBoxItemsSelected.Items.Clear();
@@ -830,6 +850,9 @@ namespace Narrative_Generator
             listBoxItemsSelected.Visible = true;
         }
 
+        /// <summary>
+        /// A method that deactivates an interface element that allows to select a target items.
+        /// </summary>
         private void SelectedTargetItemsSectionDeactivation()
         {
             chBoxGoalGetItem.Visible = false;

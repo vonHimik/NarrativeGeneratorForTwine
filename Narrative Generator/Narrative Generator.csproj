@@ -139,6 +139,8 @@
     <Compile Include="Core\Constraints\ConstraintAlive.cs" />
     <Compile Include="Core\Constraints\WorldConstraint.cs" />
     <Compile Include="Core\ForAPI\FastDownward.cs" />
+    <Compile Include="Core\ForAPI\Graphviz.cs" />
+    <Compile Include="Core\ForAPI\GraphvizWrapper.cs" />
     <Compile Include="Core\StoryGraph\StoryGraph.cs" />
     <Compile Include="Core\StoryGraph\StoryNode.cs" />
     <Compile Include="Core\Agents\StoryworldConvergence.cs" />

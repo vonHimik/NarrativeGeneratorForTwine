@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,13 +28,16 @@ namespace Narrative_Generator
         /// </summary>
         public void ShowNTDActions() { hideNothingToDoActios = false; }
 
+        Graphviz graphviz = new Graphviz();
+
         /// <summary>
         /// A method that describes the transmitted story graph in text format and creates a visualization based on it.
         /// </summary>
         /// <param name="storyGraph">Story graph, which is a collection of nodes connected by oriented edges.</param>
-        /// <param name="graphName">The path to the saved file.</param>
+        /// <param name="filePath">The path to the saved files.</param>
+        /// <param name="graphName">The name of the saved files.</param>
         /// <param name="note">Text to display on the main screen.</param>
-        public void CreateGraph(StoryGraph storyGraph, string graphName, ref TextBox note)
+        public void CreateGraph (StoryGraph storyGraph, string filePath, string graphName, ref TextBox note)
         {
             HashSet<Edge> edges = new HashSet<Edge>();
             string graphSTR = "digraph G { \r\n";
@@ -489,23 +493,32 @@ namespace Narrative_Generator
             graphSTR = graphSTR.Insert(graphSTR.Length, "}");
 
             // Save the resulting graph to a text file.
-            SaveGraph(graphName, graphSTR, ref note);
+            SaveGraph(filePath, graphName, graphSTR, ref note);
+        }
+
+        public void GraphVisualization (string path, string name, ref TextBox note)
+        {
+            note.Text = "VISUALIZATION STARTING";
+            graphviz.Run(path, name, ref note);
         }
 
         /// <summary>
         /// A method that saves the textual description of the graph to a file with the specified name.
         /// </summary>
-        /// <param name="fileName">The path to the saved file.</param>
+        /// <param name="filePath">The path to the saved files.</param>
+        /// <param name="fileName">The name of the saved files.</param>
         /// <param name="graph">Generated description of the story graph in dot format.</param>
         /// <param name="note">Text to display on the main screen.</param>
-        public void SaveGraph(string fileName, string graph, ref TextBox note)
+        public void SaveGraph(string filePath, string fileName, string graph, ref TextBox note)
         {
             note.Text = "GRAPH SAVING IN FILE";
 
-            FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite);
+            FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
             StreamWriter streamWriter = new StreamWriter(file, Encoding.GetEncoding(1251));
             streamWriter.Write(graph);
             streamWriter.Close();
+
+            GraphVisualization(filePath, fileName, ref note);
         }
     }
 }

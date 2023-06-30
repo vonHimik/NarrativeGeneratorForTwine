@@ -47,6 +47,7 @@
             this.rbtnGF = new System.Windows.Forms.RadioButton();
             this.rbtnDA = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listBoxItemsSelected = new System.Windows.Forms.ListBox();
             this.comBoxGoalLocationSelect = new System.Windows.Forms.ComboBox();
             this.chBoxGoalGetItem = new System.Windows.Forms.CheckBox();
             this.chBoxGoalKill = new System.Windows.Forms.CheckBox();
@@ -87,7 +88,8 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.txtBoxNotesField = new System.Windows.Forms.TextBox();
             this.btnExit = new System.Windows.Forms.Button();
-            this.listBoxItemsSelected = new System.Windows.Forms.ListBox();
+            this.lblOutputName = new System.Windows.Forms.Label();
+            this.txtOutputName = new System.Windows.Forms.TextBox();
             this.grbxSetting.SuspendLayout();
             this.grbxSettings.SuspendLayout();
             this.grbxSubSettingFantasy.SuspendLayout();
@@ -322,6 +324,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Goal-type:";
             // 
+            // listBoxItemsSelected
+            // 
+            this.listBoxItemsSelected.FormattingEnabled = true;
+            this.listBoxItemsSelected.ItemHeight = 16;
+            this.listBoxItemsSelected.Location = new System.Drawing.Point(6, 145);
+            this.listBoxItemsSelected.Name = "listBoxItemsSelected";
+            this.listBoxItemsSelected.ScrollAlwaysVisible = true;
+            this.listBoxItemsSelected.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBoxItemsSelected.Size = new System.Drawing.Size(217, 52);
+            this.listBoxItemsSelected.TabIndex = 14;
+            this.listBoxItemsSelected.Visible = false;
+            // 
             // comBoxGoalLocationSelect
             // 
             this.comBoxGoalLocationSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -374,8 +388,11 @@
             this.groupBox2.Controls.Add(this.txtBoxEvChance);
             this.groupBox2.Controls.Add(this.lblEvidence);
             this.groupBox2.Controls.Add(this.chBoxEachAgentsHasUG);
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.txtProtagonistSurvTime);
+            this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.chBoxStrOrdVicSec);
+            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.chBoxUniqKills);
             this.groupBox2.Controls.Add(this.txtAntagonistSurvTime);
@@ -529,12 +546,11 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.txtOutputName);
+            this.groupBox3.Controls.Add(this.lblOutputName);
             this.groupBox3.Controls.Add(this.btnChoiseOutputPath);
             this.groupBox3.Controls.Add(this.txtOutputPath);
             this.groupBox3.Controls.Add(this.lblOutputPath);
-            this.groupBox3.Controls.Add(this.button1);
-            this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Location = new System.Drawing.Point(525, 433);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(660, 111);
@@ -544,7 +560,7 @@
             // 
             // btnChoiseOutputPath
             // 
-            this.btnChoiseOutputPath.Location = new System.Drawing.Point(425, 72);
+            this.btnChoiseOutputPath.Location = new System.Drawing.Point(324, 33);
             this.btnChoiseOutputPath.Name = "btnChoiseOutputPath";
             this.btnChoiseOutputPath.Size = new System.Drawing.Size(125, 23);
             this.btnChoiseOutputPath.TabIndex = 7;
@@ -554,7 +570,7 @@
             // 
             // txtOutputPath
             // 
-            this.txtOutputPath.Location = new System.Drawing.Point(236, 72);
+            this.txtOutputPath.Location = new System.Drawing.Point(136, 34);
             this.txtOutputPath.Name = "txtOutputPath";
             this.txtOutputPath.ReadOnly = true;
             this.txtOutputPath.Size = new System.Drawing.Size(182, 22);
@@ -563,16 +579,16 @@
             // lblOutputPath
             // 
             this.lblOutputPath.AutoSize = true;
-            this.lblOutputPath.Location = new System.Drawing.Point(143, 72);
+            this.lblOutputPath.Location = new System.Drawing.Point(7, 37);
             this.lblOutputPath.Name = "lblOutputPath";
-            this.lblOutputPath.Size = new System.Drawing.Size(87, 17);
+            this.lblOutputPath.Size = new System.Drawing.Size(116, 17);
             this.lblOutputPath.TabIndex = 5;
-            this.lblOutputPath.Text = "Output path:";
+            this.lblOutputPath.Text = "Output files path:";
             // 
             // button1
             // 
             this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(425, 34);
+            this.button1.Location = new System.Drawing.Point(9, 364);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(125, 22);
             this.button1.TabIndex = 2;
@@ -583,7 +599,7 @@
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(237, 34);
+            this.textBox1.Location = new System.Drawing.Point(6, 336);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(182, 22);
@@ -594,7 +610,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(102, 37);
+            this.label1.Location = new System.Drawing.Point(6, 316);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 17);
             this.label1.TabIndex = 0;
@@ -781,18 +797,23 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // listBoxItemsSelected
+            // lblOutputName
             // 
-            this.listBoxItemsSelected.FormattingEnabled = true;
-            this.listBoxItemsSelected.ItemHeight = 16;
-            this.listBoxItemsSelected.Location = new System.Drawing.Point(6, 145);
-            this.listBoxItemsSelected.Name = "listBoxItemsSelected";
-            this.listBoxItemsSelected.ScrollAlwaysVisible = true;
-            this.listBoxItemsSelected.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBoxItemsSelected.Size = new System.Drawing.Size(217, 52);
-            this.listBoxItemsSelected.TabIndex = 14;
-            this.listBoxItemsSelected.Visible = false;
-            this.listBoxItemsSelected.SelectedIndexChanged += new System.EventHandler(this.listBoxItemsSelected_SelectedIndexChanged);
+            this.lblOutputName.AutoSize = true;
+            this.lblOutputName.Location = new System.Drawing.Point(6, 78);
+            this.lblOutputName.Name = "lblOutputName";
+            this.lblOutputName.Size = new System.Drawing.Size(123, 17);
+            this.lblOutputName.TabIndex = 8;
+            this.lblOutputName.Text = "Output files name:";
+            // 
+            // txtOutputName
+            // 
+            this.txtOutputName.Location = new System.Drawing.Point(136, 75);
+            this.txtOutputName.Name = "txtOutputName";
+            this.txtOutputName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.txtOutputName.Size = new System.Drawing.Size(182, 22);
+            this.txtOutputName.TabIndex = 9;
+            this.txtOutputName.Text = "newStoryGraph";
             // 
             // MainWindow
             // 
@@ -893,6 +914,8 @@
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.ComboBox comBoxGoalLocationSelect;
         private System.Windows.Forms.ListBox listBoxItemsSelected;
+        private System.Windows.Forms.TextBox txtOutputName;
+        private System.Windows.Forms.Label lblOutputName;
     }
 }
 

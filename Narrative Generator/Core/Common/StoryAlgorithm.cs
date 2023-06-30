@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace Narrative_Generator
 {
+    /// <summary>
+    /// A class that implements the phased execution of a program algorithm.
+    /// </summary>
     class StoryAlgorithm
     {
         //////////////////////////////////
@@ -25,7 +28,9 @@ namespace Narrative_Generator
         /// An object of the class that manages the creation and control of constraints.
         /// </summary>
         public ConstraintManager constraintManager = new ConstraintManager();
-
+        /// <summary>
+        /// An object of the class that manages the distribution and control of items.
+        /// </summary>
         public ItemsManager itemsManager = new ItemsManager();
 
         /// <summary>
@@ -118,9 +123,13 @@ namespace Narrative_Generator
         /// Active characters behaviours settings marker: each agent has unique goals, chosen randomly.
         /// </summary>
         public bool EachAgentsHasUG { get; set; }
-
+        /// <summary>
+        /// A variable that stores the name of the location where the player-agent must be in order to reach the goal state of the story.
+        /// </summary>
         public string TargetLocationName { get; set; }
-
+        /// <summary>
+        /// A variable that stores the name of the items that the player-agent must possess in order to reach the goal state of the story.
+        /// </summary>
         public List<string> TargetItemsNames = new List<string>();
 
         /////////////////////////////////////
@@ -1376,7 +1385,8 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="note">Text to display on the main screen.</param>
         /// <param name="txtOutputPath">The path to write the resulting files.</param>
-        public void Start (ref TextBox note, string txtOutputPath)
+        /// <param name="txtOutputName">The name of the resulting files.</param>
+        public void Start (ref TextBox note, string txtOutputPath, string txtOutputName)
         {
             // We read the settings and create the initial state of the world.
             ReadUserSettingsInput(ref note);
@@ -1395,7 +1405,7 @@ namespace Narrative_Generator
 
             // The algorithm calculates a SPECIFIC story.
             note.Text = "STORY GRAPH CREATING - START";
-            newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot(), ref note, txtOutputPath);
+            newStoryGraph = CreateStoryGraph(newStoryGraph.GetRoot(), ref note, txtOutputPath, txtOutputName);
 
             if (setting.Equals(Setting.Detective))
             {
@@ -1415,7 +1425,7 @@ namespace Narrative_Generator
             if (result == DialogResult.No) {}
             else if (result == DialogResult.Yes)
             {
-                graphСonstructor.CreateGraph(newStoryGraph, txtOutputPath + @"\newStoryGraph.dt", ref note);
+                graphСonstructor.CreateGraph(newStoryGraph, txtOutputPath + @"/" + txtOutputName + @".dt", txtOutputName, ref note);
             }
 
             // Create an HTML file including Twine engine and generated history.
@@ -1586,8 +1596,9 @@ namespace Narrative_Generator
         /// <param name="rootNode">The starting node of the graph (root).</param>
         /// <param name="note">Text to display on the main screen.</param>
         /// <param name="txtOutputPath">The path to write the resulting files.</param>
+        /// <param name="txtOutputName">The name of the resulting files.</param>
         /// <returns>Generated story graph.</returns>
-        public StoryGraph CreateStoryGraph (StoryNode rootNode, ref TextBox note, string txtOutputPath)
+        public StoryGraph CreateStoryGraph (StoryNode rootNode, ref TextBox note, string txtOutputPath, string txtOutputName)
         {
             // We clone the root into a separate variable.
             StoryNode originRoot = (StoryNode)rootNode.Clone();
@@ -1623,7 +1634,7 @@ namespace Narrative_Generator
                     if (result == DialogResult.Yes)
                     {
                         if (HideNothingToDoActions) graphСonstructor.HideNTDActions();
-                        graphСonstructor.CreateGraph(newStoryGraph, txtOutputPath + @"\newStoryGraph.dt", ref note);
+                        graphСonstructor.CreateGraph(newStoryGraph, txtOutputPath + @"/" + txtOutputName + @".dt", txtOutputName, ref note);
                     }
                     else if (result == DialogResult.No) {}
 
