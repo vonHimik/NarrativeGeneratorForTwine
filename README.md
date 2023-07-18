@@ -34,7 +34,7 @@ Then it is necessary to select the type of the agent's goals. This choice define
 
 It is possible to combine the types of goals in any way, they are not mutually exclusive.
 
-Next step: general system settings. Most of them are related to setting the randomization of various parameters. Therefore, the first possible option is to specify the seed for generation. It is also possible to specify the maximum number of nodes in the story graph, after reaching which the generation will stop, and, if the narrative is not built, the system will offer to start the generation again (restart). Then there are the following items:
+Next step: general system settings. Most of them are related to setting the randomization of various parameters. Therefore, the first possible option is to specify the seed for generation. It is also possible to specify the maximum number of nodes in the story graph, after reaching which the generation will stop, and, if the narrative is not built, the system will offer to start the generation again (restart). In addition, here it is possible to enter a key for the OpenAI API, after which the Text-Davinci-003 model will be used when generating descriptive texts (for an interactive story loaded into Twine). Then there are the following items:
 
 * Random connection of locations. Not available with the Dragon Age setting. By default, all locations are initially assigned links with other locations. When this setting is enabled, links will be established instead randomly.
 
@@ -113,6 +113,10 @@ After installation, in the directory with the program, in the sub-directory bin,
 To run an interactive story based on a generated story graph, you must use the Twine framework. It is also available both online and as an installable program. In this case, there is no significant difference between them, so it will be enough to use the online service.
 
 To use Twine, you need to go to https://twinery.org/ and select "Use in your browser". In the editor that opens, for adding the generated story, click on the "Library" menu item, then on the "Import" item, after which a new interface element will pop up in the lower right corner of the screen, offer you to select a file to upload. Click on the corresponding button, and in the dialog box that opens, select the required file. To run a story, select it with a single click, then select the "Build" menu item and click "Play".
+
+## Obtaining an OpenAI API Key
+
+To get the key, you need to register on the official OpenAI website (https://platform.openai.com/). Then, in the profile settings, select the "API keys" item and click the "Create a new secret key" button. After that, the system will generate a secret key for you and issue a small grant (for trial use).
 
 ## Documentation
 
