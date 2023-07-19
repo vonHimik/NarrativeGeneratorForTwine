@@ -650,16 +650,15 @@ namespace Narrative_Generator
                     case Setting.Detective:
                         if (i < namesList.Count)
                         {
-                            CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[i]);
+                            CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], namesList[i]);
                         }
                         else
                         {
-                            CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[namesList.Count - 1]);
+                            CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], namesList[namesList.Count - 1]);
                         }
-                        //CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*"LivingRoom"*/ namesList[i]);
                         break;
                     case Setting.DefaultDemo:
-                        CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], /*namesList[i]*/ spawnLocationName);
+                        CreateAgent(names[i], statuses[i], roles[i], goals[i], beliefs[i], spawnLocationName);
                         break;
                 }
             }
@@ -1274,7 +1273,7 @@ namespace Narrative_Generator
                 case Setting.Detective:
                     foreach (var location in currentStoryState.GetLocations())
                     {
-                        location.Value.AddItem(itemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
+                        location.Value.AddItem(ItemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
                     }
                     break;
                 case Setting.DragonAge: break;
@@ -1282,7 +1281,7 @@ namespace Narrative_Generator
                 case Setting.DefaultDemo:
                     foreach (var location in currentStoryState.GetLocations())
                     {
-                        location.Value.AddItem(itemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
+                        location.Value.AddItem(ItemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
                     }
                     break;
             }
@@ -1297,7 +1296,7 @@ namespace Narrative_Generator
                     {
                         if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST))
                         {
-                            agent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                            agent.Value.AddItem(ItemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
                         }
                     }
                     break;
@@ -1307,8 +1306,8 @@ namespace Narrative_Generator
                     {
                         if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST))
                         {
-                            agent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
-                            agent.Value.AddItem(itemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
+                            agent.Value.AddItem(ItemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                            agent.Value.AddItem(ItemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
                         }
                     }
                     break;
@@ -1317,7 +1316,7 @@ namespace Narrative_Generator
                     {
                         if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST))
                         {
-                            agent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                            agent.Value.AddItem(ItemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
                         }
                     }
                     break;

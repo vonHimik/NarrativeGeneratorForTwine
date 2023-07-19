@@ -67,7 +67,7 @@ namespace Narrative_Generator
             else { action.ApplyEffects(ref worldForTest); }
 
             StoryNode testNode = new StoryNode();
-            testNode.SetWorldState(worldForTest);
+            testNode.SetWorldState((WorldDynamic)worldForTest.Clone());
 
             foreach (var constraint in constraints)
             {

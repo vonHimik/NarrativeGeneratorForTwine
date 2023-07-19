@@ -12,6 +12,12 @@ namespace Narrative_Generator
     /// </summary>
     class TwineGraphConstructor
     {
+        OpenAI openAI = new OpenAI();
+        
+        public string ApiKey { get; set; }
+
+        public bool OpenAIGeneration { get; set; }
+
         /// <summary>
         /// A method for converting a story graph into an interactive story for Twine.
         /// </summary>
@@ -44,7 +50,17 @@ namespace Narrative_Generator
 
                     if (node.GetActivePlayer() && !node.goalState)
                     {
-                        AddNode(ref positionX, ref positionY, node.GetEdge(0).GetUpperNode(), ref twineGraphCode);
+                        // В узел сверху может приходить несколько граней
+                        // Нужно пройтись по всем граням и выбирать для расширения те, в которых текущий узел является нижним
+                        //AddNode(ref positionX, ref positionY, node.GetEdge(0).GetUpperNode(), ref twineGraphCode);
+
+                        foreach (var edge in node.GetEdges())
+                        {
+                            if (edge.GetLowerNode().Equals(node))
+                            {
+                                AddNode(ref positionX, ref positionY, edge.GetUpperNode(), ref twineGraphCode);
+                            }
+                        }
                     }
                     else if (node.goalState)
                     {
@@ -77,7 +93,7 @@ namespace Narrative_Generator
             string nodeContent = "";
 
             nodeContent = nodeContent.Insert(nodeContent.Length, "<tw-passagedata pid=\"" + nodeID + "\" name=\"Node " + nodeID + "\" tags=\"\" " +
-                "position=\"" + positionX + "," + positionY + "\" size=\"200,200\">" + AddText(node));
+                "position=\"" + positionX + "," + positionY + "\" size=\"200,200\">" + AddTextAsync(node).Result);
 
             if (!node.goalState)
             {
@@ -306,8 +322,17 @@ namespace Narrative_Generator
 
             if (testedNode.GetActivePlayer())
             {
-                testedNode = testedNode.GetLastEdge().GetLowerNode();
-                number = testedNode.GetNumberInSequence();
+                if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge)
+                    && !testedNode.GetLastEdge().GetLowerNode().GetActivePlayer())
+                {
+                    testedNode = testedNode.GetLastEdge().GetLowerNode();
+                    number = testedNode.GetNumberInSequence();
+                }
+                else
+                {
+                    number = testedNode.GetNumberInSequence();
+                    return number;
+                }
             }
 
             while (!testedNode.GetActivePlayer())
@@ -315,7 +340,13 @@ namespace Narrative_Generator
                 if (testedNode.goalState) { number = testedNode.GetNumberInSequence(); break; }
                 else testedNode = testedNode.GetEdge(1).GetLowerNode();
 
-                if (testedNode.GetActivePlayer()) { number = testedNode.GetFirstEdge().GetUpperNode().GetNumberInSequence(); }
+                if (testedNode.GetActivePlayer())
+                {
+                    //number = testedNode.GetFirstEdge().GetUpperNode().GetNumberInSequence();
+                    return number;
+                }
+
+                number = testedNode.GetNumberInSequence();
             }
 
             return number;
@@ -326,7 +357,7 @@ namespace Narrative_Generator
         /// </summary>
         /// <param name="node">The node for which the description is generated.</param>
         /// <returns>Description of the node in text format.</returns>
-        public string AddText (StoryNode node)
+        public async Task<string> AddTextAsync (StoryNode node)
         {
             string text = "";
 
@@ -354,19 +385,41 @@ namespace Narrative_Generator
             }
             else
             {
-                text = text.Insert(text.Length, Environment.NewLine + "You are in a location: " +
-                InsertSpaces(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)node.GetEdge(edgeNumber).GetAction().Arguments[0]).Value.GetMyLocation().GetName())
-                + Environment.NewLine + "The following people are also here: ");
+                text = text.Insert(text.Length, /*Environment.NewLine +*/ "You are in a location: " +
+                InsertSpaces(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)node.GetEdge(edgeNumber).GetAction().Arguments[0]).Value.GetMyLocation().GetName()));
 
-                foreach (var agent in node.GetWorldState().GetLocationByName(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)node.GetEdge(edgeNumber).GetAction().Arguments[0]).Value.GetMyLocation().GetName()).Value.GetAgents())
+                if (node.GetWorldState().GetLocationByName(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)node.GetEdge(edgeNumber).GetAction().Arguments[0]).Value.GetMyLocation().GetName()).Value.GetAgents().Count > 1)
                 {
-                    if (!agent.Key.GetRole().Equals(AgentRole.PLAYER))
+                    text = text.Insert(text.Length, /*Environment.NewLine +*/ ", the following people are also here: ");
+
+                    foreach (var agent in node.GetWorldState().GetLocationByName(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)node.GetEdge(edgeNumber).GetAction().Arguments[0]).Value.GetMyLocation().GetName()).Value.GetAgents())
                     {
-                        text = text.Insert(text.Length, InsertSpaces(agent.Key.GetName()) + " ");
+                        if (!agent.Key.GetRole().Equals(AgentRole.PLAYER))
+                        {
+                            text = text.Insert(text.Length, InsertSpaces(agent.Key.GetName()));
+
+                            if (!agent.Key.Equals
+                                (node.GetWorldState().GetLocationByName(((KeyValuePair<AgentStateStatic, AgentStateDynamic>)node.GetEdge(edgeNumber).
+                                GetAction().Arguments[0]).Value.GetMyLocation().GetName()).Value.GetAgents().Last().Key))
+                            {
+                                text = text.Insert(text.Length, ", ");
+                            }
+                        }
                     }
                 }
+                else
+                {
+                    text = text.Insert(text.Length, /*Environment.NewLine +*/ ", there is no one except you. ");
+                }
 
-                text = text.Insert(text.Length, Environment.NewLine + "You can perform the following actions: ");
+                if (OpenAIGeneration)
+                {
+                    var generatedText = OpenAI.CompletionRequest(text, ApiKey).Result;
+
+                    text = generatedText;
+                }
+
+                text = text.Insert(text.Length, Environment.NewLine + Environment.NewLine + "You can perform the following actions: ");
             }            
 
             return text;

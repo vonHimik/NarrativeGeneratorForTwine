@@ -35,6 +35,8 @@
             this.rbtnDefaultDemo = new System.Windows.Forms.RadioButton();
             this.chBoxRandEnc = new System.Windows.Forms.CheckBox();
             this.grbxSettings = new System.Windows.Forms.GroupBox();
+            this.txtApiKey = new System.Windows.Forms.TextBox();
+            this.lblApiKey = new System.Windows.Forms.Label();
             this.txtBoxNodeCount = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chBoxHideNTDActions = new System.Windows.Forms.CheckBox();
@@ -56,8 +58,11 @@
             this.txtBoxEvChance = new System.Windows.Forms.TextBox();
             this.lblEvidence = new System.Windows.Forms.Label();
             this.chBoxEachAgentsHasUG = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.txtProtagonistSurvTime = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.chBoxStrOrdVicSec = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.chBoxUniqKills = new System.Windows.Forms.CheckBox();
             this.txtAntagonistSurvTime = new System.Windows.Forms.TextBox();
@@ -67,12 +72,11 @@
             this.chBoxCanFindEvidence = new System.Windows.Forms.CheckBox();
             this.chBoxTA = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtOutputName = new System.Windows.Forms.TextBox();
+            this.lblOutputName = new System.Windows.Forms.Label();
             this.btnChoiseOutputPath = new System.Windows.Forms.Button();
             this.txtOutputPath = new System.Windows.Forms.TextBox();
             this.lblOutputPath = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.chBoxCA = new System.Windows.Forms.CheckBox();
             this.chBoxCE = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -88,8 +92,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.txtBoxNotesField = new System.Windows.Forms.TextBox();
             this.btnExit = new System.Windows.Forms.Button();
-            this.lblOutputName = new System.Windows.Forms.Label();
-            this.txtOutputName = new System.Windows.Forms.TextBox();
             this.grbxSetting.SuspendLayout();
             this.grbxSettings.SuspendLayout();
             this.grbxSubSettingFantasy.SuspendLayout();
@@ -163,7 +165,7 @@
             // 
             this.chBoxRandEnc.AutoSize = true;
             this.chBoxRandEnc.Enabled = false;
-            this.chBoxRandEnc.Location = new System.Drawing.Point(18, 135);
+            this.chBoxRandEnc.Location = new System.Drawing.Point(18, 192);
             this.chBoxRandEnc.Name = "chBoxRandEnc";
             this.chBoxRandEnc.Size = new System.Drawing.Size(158, 21);
             this.chBoxRandEnc.TabIndex = 5;
@@ -173,6 +175,8 @@
             // 
             // grbxSettings
             // 
+            this.grbxSettings.Controls.Add(this.txtApiKey);
+            this.grbxSettings.Controls.Add(this.lblApiKey);
             this.grbxSettings.Controls.Add(this.txtBoxNodeCount);
             this.grbxSettings.Controls.Add(this.label3);
             this.grbxSettings.Controls.Add(this.chBoxHideNTDActions);
@@ -188,6 +192,22 @@
             this.grbxSettings.TabIndex = 6;
             this.grbxSettings.TabStop = false;
             this.grbxSettings.Text = "System settings:";
+            // 
+            // txtApiKey
+            // 
+            this.txtApiKey.Location = new System.Drawing.Point(15, 123);
+            this.txtApiKey.Name = "txtApiKey";
+            this.txtApiKey.Size = new System.Drawing.Size(235, 22);
+            this.txtApiKey.TabIndex = 13;
+            // 
+            // lblApiKey
+            // 
+            this.lblApiKey.AutoSize = true;
+            this.lblApiKey.Location = new System.Drawing.Point(15, 103);
+            this.lblApiKey.Name = "lblApiKey";
+            this.lblApiKey.Size = new System.Drawing.Size(110, 17);
+            this.lblApiKey.TabIndex = 12;
+            this.lblApiKey.Text = "OpenAI API key:";
             // 
             // txtBoxNodeCount
             // 
@@ -211,7 +231,7 @@
             // chBoxHideNTDActions
             // 
             this.chBoxHideNTDActions.AutoSize = true;
-            this.chBoxHideNTDActions.Location = new System.Drawing.Point(18, 216);
+            this.chBoxHideNTDActions.Location = new System.Drawing.Point(18, 273);
             this.chBoxHideNTDActions.Name = "chBoxHideNTDActions";
             this.chBoxHideNTDActions.Size = new System.Drawing.Size(214, 21);
             this.chBoxHideNTDActions.TabIndex = 9;
@@ -243,7 +263,7 @@
             // chBoxRandDistOfInit
             // 
             this.chBoxRandDistOfInit.AutoSize = true;
-            this.chBoxRandDistOfInit.Location = new System.Drawing.Point(18, 189);
+            this.chBoxRandDistOfInit.Location = new System.Drawing.Point(18, 246);
             this.chBoxRandDistOfInit.Name = "chBoxRandDistOfInit";
             this.chBoxRandDistOfInit.Size = new System.Drawing.Size(227, 21);
             this.chBoxRandDistOfInit.TabIndex = 7;
@@ -254,7 +274,7 @@
             // chBoxRandFightRes
             // 
             this.chBoxRandFightRes.AutoSize = true;
-            this.chBoxRandFightRes.Location = new System.Drawing.Point(18, 162);
+            this.chBoxRandFightRes.Location = new System.Drawing.Point(18, 219);
             this.chBoxRandFightRes.Name = "chBoxRandFightRes";
             this.chBoxRandFightRes.Size = new System.Drawing.Size(175, 21);
             this.chBoxRandFightRes.TabIndex = 7;
@@ -265,7 +285,7 @@
             // chBoxRandConOfLoc
             // 
             this.chBoxRandConOfLoc.AutoSize = true;
-            this.chBoxRandConOfLoc.Location = new System.Drawing.Point(18, 107);
+            this.chBoxRandConOfLoc.Location = new System.Drawing.Point(18, 164);
             this.chBoxRandConOfLoc.Name = "chBoxRandConOfLoc";
             this.chBoxRandConOfLoc.Size = new System.Drawing.Size(232, 21);
             this.chBoxRandConOfLoc.TabIndex = 7;
@@ -438,6 +458,17 @@
             this.chBoxEachAgentsHasUG.Visible = false;
             this.chBoxEachAgentsHasUG.CheckedChanged += new System.EventHandler(this.chBoxEachAgentsHasUG_CheckedChanged);
             // 
+            // button1
+            // 
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(9, 364);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(125, 22);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Select file";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            // 
             // txtProtagonistSurvTime
             // 
             this.txtProtagonistSurvTime.Enabled = false;
@@ -449,6 +480,16 @@
             this.txtProtagonistSurvTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtProtagonistSurvTime.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtProtagonistSurvTime_KeyPress);
             // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(6, 336);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(182, 22);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Visible = false;
+            // 
             // chBoxStrOrdVicSec
             // 
             this.chBoxStrOrdVicSec.AutoSize = true;
@@ -459,6 +500,17 @@
             this.chBoxStrOrdVicSec.Text = "Strict order of victim selection";
             this.chBoxStrOrdVicSec.UseVisualStyleBackColor = true;
             this.chBoxStrOrdVicSec.CheckedChanged += new System.EventHandler(this.chBoxStrOrdVicSec_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(6, 316);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(123, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Scenario-file path:";
+            this.label1.Visible = false;
             // 
             // label4
             // 
@@ -558,6 +610,24 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Files settings:";
             // 
+            // txtOutputName
+            // 
+            this.txtOutputName.Location = new System.Drawing.Point(136, 75);
+            this.txtOutputName.Name = "txtOutputName";
+            this.txtOutputName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.txtOutputName.Size = new System.Drawing.Size(182, 22);
+            this.txtOutputName.TabIndex = 9;
+            this.txtOutputName.Text = "newStoryGraph";
+            // 
+            // lblOutputName
+            // 
+            this.lblOutputName.AutoSize = true;
+            this.lblOutputName.Location = new System.Drawing.Point(6, 78);
+            this.lblOutputName.Name = "lblOutputName";
+            this.lblOutputName.Size = new System.Drawing.Size(123, 17);
+            this.lblOutputName.TabIndex = 8;
+            this.lblOutputName.Text = "Output files name:";
+            // 
             // btnChoiseOutputPath
             // 
             this.btnChoiseOutputPath.Location = new System.Drawing.Point(324, 33);
@@ -584,38 +654,6 @@
             this.lblOutputPath.Size = new System.Drawing.Size(116, 17);
             this.lblOutputPath.TabIndex = 5;
             this.lblOutputPath.Text = "Output files path:";
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(9, 364);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(125, 22);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Select file";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(6, 336);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(182, 22);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(6, 316);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Scenario-file path:";
-            this.label1.Visible = false;
             // 
             // chBoxCA
             // 
@@ -797,24 +835,6 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // lblOutputName
-            // 
-            this.lblOutputName.AutoSize = true;
-            this.lblOutputName.Location = new System.Drawing.Point(6, 78);
-            this.lblOutputName.Name = "lblOutputName";
-            this.lblOutputName.Size = new System.Drawing.Size(123, 17);
-            this.lblOutputName.TabIndex = 8;
-            this.lblOutputName.Text = "Output files name:";
-            // 
-            // txtOutputName
-            // 
-            this.txtOutputName.Location = new System.Drawing.Point(136, 75);
-            this.txtOutputName.Name = "txtOutputName";
-            this.txtOutputName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.txtOutputName.Size = new System.Drawing.Size(182, 22);
-            this.txtOutputName.TabIndex = 9;
-            this.txtOutputName.Text = "newStoryGraph";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -916,6 +936,8 @@
         private System.Windows.Forms.ListBox listBoxItemsSelected;
         private System.Windows.Forms.TextBox txtOutputName;
         private System.Windows.Forms.Label lblOutputName;
+        private System.Windows.Forms.TextBox txtApiKey;
+        private System.Windows.Forms.Label lblApiKey;
     }
 }
 

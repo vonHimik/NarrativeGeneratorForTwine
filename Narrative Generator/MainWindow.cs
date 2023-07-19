@@ -66,6 +66,13 @@ namespace Narrative_Generator
                     system.TargetItemsNames.Add(selectedItem.ToString());
                 }
 
+                // Installing the OpenAI API Key.
+                if (txtApiKey.Text != "")
+                {
+                    system.twineGraphConstructor.OpenAIGeneration = true;
+                    system.twineGraphConstructor.ApiKey = txtApiKey.Text;
+                }
+
                 system.Start(ref txtBoxNotesField, txtOutputPath.Text.ToString(), txtOutputName.Text.ToString());
                 btnStart.Enabled = true;
             }

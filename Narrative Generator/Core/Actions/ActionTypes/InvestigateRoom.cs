@@ -134,7 +134,7 @@ namespace Narrative_Generator
             {
                 if (!stateLocation.Value.ItemCheck("Evidence")) { Fail(ref state); return; }
 
-                stateAgent.Value.AddItem(itemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
+                stateAgent.Value.AddItem(ItemsManager.CreateItem("Evidence", ItemsTypes.EVIDENCE));
                 stateLocation.Value.RemoveItem("Evidence");
             }
 

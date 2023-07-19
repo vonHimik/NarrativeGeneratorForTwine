@@ -104,12 +104,12 @@ namespace Narrative_Generator
             {
                 if (stateAgent.Value.GetItems().Count == 0)
                 {
-                    stateAgent.Value.AddItem(itemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
+                    stateAgent.Value.AddItem(ItemsManager.CreateItem("Weapon", ItemsTypes.WEAPON));
                 }
                 else if (stateAgent.Value.GetItems().Count == 1 
                     && stateAgent.Value.GetItems().First().GetItemType().Equals(ItemsTypes.WEAPON))
                 {
-                    stateAgent.Value.AddItem(itemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
+                    stateAgent.Value.AddItem(ItemsManager.CreateItem("Armor", ItemsTypes.ARMOR));
                 }
             }
 

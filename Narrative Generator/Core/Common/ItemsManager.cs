@@ -19,7 +19,7 @@ namespace Narrative_Generator
         /// <param name="name">New item name.</param>
         /// <param name="type">New item type.</param>
         /// <returns>New item.</returns>
-        public Item CreateItem (string name, ItemsTypes type)
+        public static Item CreateItem (string name, ItemsTypes type)
         {
             Item newItem = new Item();
             newItem.SetItemName(name);

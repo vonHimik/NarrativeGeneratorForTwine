@@ -12,7 +12,6 @@ namespace Narrative_Generator
     [Serializable]
     public class Goal : ICloneable, IEquatable<Goal>
     {
-        // Goal components
         /// <summary>
         /// Goal type marker.
         /// </summary>

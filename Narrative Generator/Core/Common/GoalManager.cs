@@ -126,8 +126,6 @@ namespace Narrative_Generator
                             }
                             if (goalType.Equals(GoalTypes.LOCATION))
                             {
-                                // СЮДА ЗАПИСАТЬ СОСТОЯНИЯ МИРА ГДЕ АГЕНТ В НУЖНОЙ ЛОКАЦИИ
-
                                 LocationStatic newStatic = new LocationStatic();
                                 LocationDynamic newDynamic = new LocationDynamic();
                                 KeyValuePair<LocationStatic, LocationDynamic> newLocation = new KeyValuePair<LocationStatic, LocationDynamic>(newStatic, newDynamic);
@@ -144,7 +142,14 @@ namespace Narrative_Generator
                             }
                             if (goalType.Equals(GoalTypes.POSSESSION))
                             {
-                                /* Not Implemented yet */
+                                agent.Value.GetGoal().GetGoalState().
+                                    AddAgent((AgentStateStatic)agent.Key.Clone(), (AgentStateDynamic)agent.Value.Clone());
+
+                                foreach (var item in targetItemsNames)
+                                {
+                                    agent.Value.GetGoal().GetGoalState().GetAgentByRole(AgentRole.PLAYER).Value.
+                                        AddItem(ItemsManager.CreateItem(item, ItemsTypesUtils.GetEnum(item.ToLower())));
+                                }
                             }
                         }
 
@@ -221,8 +226,6 @@ namespace Narrative_Generator
             // Collects goals from all agents and adds them to the goal list.
             foreach (var Agent in currentNode.GetWorldState().GetAgents())
             {
-                //allGoalStates.Add(agent.Value.GetGoal());
-
                 bool antagonistPresent = false;
                 int antagonistsCounter = 0;
                 int enemyCounter = 0;
@@ -247,7 +250,8 @@ namespace Narrative_Generator
 
                 foreach (var agent in currentNode.GetWorldState().GetAgents())
                 {
-                    if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST) || agent.Key.GetRole().Equals(AgentRole.ENEMY)) { antagonistsCounter++; }
+                    if (agent.Key.GetRole().Equals(AgentRole.ANTAGONIST) 
+                        || agent.Key.GetRole().Equals(AgentRole.ENEMY)) { antagonistsCounter++; }
                 }
 
                 foreach (var agent in currentNode.GetWorldState().GetAgents())
@@ -278,34 +282,24 @@ namespace Narrative_Generator
 
                             if (killCounter == currentNode.GetWorldState().GetAgents().Count - antagonistsCounter)
                             {
-                                //currentNode.goalState = true;
-                                //return true;
                                 goalHit++;
                             }
                             else if (killerDied && !(Agent.Key.GetRole().Equals(AgentRole.ANTAGONIST) || Agent.Key.GetRole().Equals(AgentRole.ENEMY)))
                             {
-                                //currentNode.goalState = true;
-                                //return true;
                                 goalHit++;
                             }
                             else if (playerDied && !Agent.Key.GetRole().Equals(AgentRole.PLAYER))
                             {
-                                //currentNode.goalState = true;
-                                //return true;
                                 goalHit++;
                             }
                             else if (!antagonistPresent && killedEnemyCointer.Equals(antagonistsCounter))
                             {
-                                //currentNode.goalState = true;
-                                //return true;
                                 goalHit++;
                             }
 
                             break;
 
                         case GoalTypes.LOCATION:
-
-                            // СЮДА ЗАПИСАТЬ СПОСОБ ПРОВЕРКИ ТОГО ЧТО НУЖНЫЙ АГЕНТ (ПОКА - ИГРОК) В НУЖНОЙ ЛОКАЦИИ
 
                             foreach (var location in currentNode.GetWorldState().GetLocations())
                             {
@@ -315,8 +309,6 @@ namespace Narrative_Generator
                                     {
                                         if (agent.Key.GetRole().Equals(AgentRole.PLAYER))
                                         {
-                                            //currentNode.goalState = true;
-                                            //return true;
                                             goalHit++;
                                         }
                                     }
@@ -326,24 +318,13 @@ namespace Narrative_Generator
                             break;
 
                         case GoalTypes.POSSESSION:
-                            /*foreach (var itemName in targetItemsNames)
-                            {
-                                foreach (var item in Agent.Value.GetItems())
-                                {
-                                    if (item.GetItemName().Equals(itemName))
-                                    {
-                                        targetItemCounter++;
-                                    }
-                                }
-                            }*/
-
                             for (int i = 0; i < tempTargetItemsList.Count; i++)
                             {
                                 for (int j = 0; j < tempAgentItemsList.Count; j++)
                                 {
                                     if (tempAgentItemsList[i].Equals(tempAgentItemsList[j]))
                                     {
-                                        tempTargetItemsList.RemoveAt(i); //i--;
+                                        tempTargetItemsList.RemoveAt(i);
                                         tempAgentItemsList.RemoveAt(j); j--;
 
                                         if (tempTargetItemsList.Count == 0)
