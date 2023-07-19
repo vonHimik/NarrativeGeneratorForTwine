@@ -1,0 +1,4 @@
+<map id="Narrative_Generator.OpenAI.CompletionRequest" name="Narrative_Generator.OpenAI.CompletionRequest">
+<area shape="rect" id="node1" title="A method that configures and creates a request to OpenAI to create a text completion." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2" title="A method that separates the generated text completion from the general response body,..." alt="" coords="224,5,395,45"/>
+</map>

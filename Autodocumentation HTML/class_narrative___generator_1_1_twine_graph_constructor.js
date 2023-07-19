@@ -6,7 +6,7 @@ var class_narrative___generator_1_1_twine_graph_constructor =
     [ "AddInvestigateNode", "class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d", null ],
     [ "AddNode", "class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937", null ],
     [ "AddSpecialNode", "class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68", null ],
-    [ "AddText", "class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24", null ],
+    [ "AddTextAsync", "class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147", null ],
     [ "CreateHTMLFileWithGame", "class_narrative___generator_1_1_twine_graph_constructor.html#af0a8985245d29a55b2522cbb3085393e", null ],
     [ "CreateTwineGraph", "class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74", null ],
     [ "InsertSpaces", "class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64", null ],

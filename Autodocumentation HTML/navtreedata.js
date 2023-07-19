@@ -52,7 +52,7 @@ var NAVTREEINDEX =
 "class_narrative___generator_1_1_agent_state_static.html#a32adf4a2449433f482775916d9beb111",
 "class_narrative___generator_1_1_counter_neutralize_killer.html",
 "class_narrative___generator_1_1_goal.html#aed1412b5403dd33650796a92f4863537",
-"class_narrative___generator_1_1_kill.html#aa2f49750f379e76d20ff01031dba34ca",
+"class_narrative___generator_1_1_kill.html#ac94073bde2897dd55923c94e016debbe",
 "class_narrative___generator_1_1_plan_action.html#a42f08e0eb0bc82f80d0dbec19eb02358",
 "class_narrative___generator_1_1_story_algorithm.html#aef12ea2040e47a546119d1c4bcae098d",
 "class_narrative___generator_1_1_to_be_a_witness.html#ae91993192345c407b2f32850d66b1476",

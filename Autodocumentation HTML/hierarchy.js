@@ -53,6 +53,7 @@ var hierarchy =
     [ "Narrative_Generator.Item", "class_narrative___generator_1_1_item.html", null ],
     [ "Narrative_Generator.ItemsManager", "class_narrative___generator_1_1_items_manager.html", null ],
     [ "Narrative_Generator.ListOfDistanceToAgent", "struct_narrative___generator_1_1_list_of_distance_to_agent.html", null ],
+    [ "Narrative_Generator.OpenAI", "class_narrative___generator_1_1_open_a_i.html", null ],
     [ "Narrative_Generator.PDDL_Module", "class_narrative___generator_1_1_p_d_d_l___module.html", null ],
     [ "Narrative_Generator.PlanAction", "class_narrative___generator_1_1_plan_action.html", [
       [ "Narrative_Generator.CompleteQuest", "class_narrative___generator_1_1_complete_quest.html", null ],

@@ -7,7 +7,7 @@ digraph "Narrative_Generator.WorldDynamic.GetLocationByName"
   rankdir="RL";
   Node1 [label="Narrative_Generator.World\lDynamic.GetLocationByName",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Returns a location from the list of locations if the specified name matches the name of the location."];
   Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
-  Node2 [label="Narrative_Generator.Twine\lGraphConstructor.AddText",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24",tooltip="Method for creating a description of the reached node."];
+  Node2 [label="Narrative_Generator.Twine\lGraphConstructor.AddTextAsync",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147",tooltip="Method for creating a description of the reached node."];
   Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
   Node3 [label="Narrative_Generator.Twine\lGraphConstructor.AddNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937",tooltip="A method that creates text for an individual node."];
   Node3 -> Node4 [dir="back",color="steelblue1",style="solid"];

@@ -1,11 +1,14 @@
 <map id="Narrative_Generator.GoalManager.AssignGoalsToAgents" name="Narrative_Generator.GoalManager.AssignGoalsToAgents">
-<area shape="rect" id="node1" title="A method that assigns goals to agents based on their role." alt="" coords="5,101,211,141"/>
+<area shape="rect" id="node1" title="A method that assigns goals to agents based on their role." alt="" coords="5,133,211,173"/>
 <area shape="rect" id="node2" href="$class_narrative___generator_1_1_location_dynamic.html#a21eb930f4270ae7686e744c0238f643e" title="Adds an agent to the list of agents located in this location." alt="" coords="259,37,448,77"/>
 <area shape="rect" id="node6" href="$class_narrative___generator_1_1_location_dynamic.html#a5a41937ad9b6986292101e99a80b604b" title="Returns a clone of the dynamic part of the location that called this method." alt="" coords="259,101,448,141"/>
 <area shape="rect" id="node8" href="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0" title="A method for cloning a location." alt="" coords="259,165,448,205"/>
+<area shape="rect" id="node10" href="$class_narrative___generator_1_1_items_manager.html#a7c70c85947860fd9ef0bdc33e733ea7c" title="A method for creation a new item." alt="" coords="267,229,439,269"/>
 <area shape="rect" id="node3" href="$class_narrative___generator_1_1_location_dynamic.html#ab6bd8fcba9b69a16d5fbbe1b76386102" title="Updates (refresh) the current hash code value." alt="" coords="496,37,685,77"/>
 <area shape="rect" id="node4" href="$class_narrative___generator_1_1_location_dynamic.html#a0645d494bdac6ea587d5a78f71f86e39" title="Clears the current hash code value." alt="" coords="733,5,923,45"/>
 <area shape="rect" id="node5" href="$class_narrative___generator_1_1_location_dynamic.html#ac08b87c89e63914adc8faa6a31831001" title="Calculates and returns the hash code of this instance of the LocationDynamic." alt="" coords="733,69,923,109"/>
 <area shape="rect" id="node7" href="$class_narrative___generator_1_1_location_dynamic.html#aba8487ebacabba7a24f831c51c609d45" title="Constructor method for the dynamic part of the location, without parameters." alt="" coords="496,101,685,141"/>
 <area shape="rect" id="node9" href="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b" title="Method constructor for the static part of the location." alt="" coords="496,165,685,205"/>
+<area shape="rect" id="node11" href="$class_narrative___generator_1_1_item.html#afc9c465f0210c8a90f8348ece69cf9d0" title="Sets the name of the item." alt="" coords="506,229,675,269"/>
+<area shape="rect" id="node12" href="$class_narrative___generator_1_1_item.html#a9fd066de5b2875514e75450633acdc61" title="Sets the type of the item." alt="" coords="506,293,675,333"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="Narrative_Generator.StoryNode.GetActiveAgent" name="Narrative_Generator.StoryNode.GetActiveAgent">
-<area shape="rect" id="node1" title="Returns information about the active agent." alt="" coords="960,37,1131,77"/>
-<area shape="rect" id="node2" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24" title="Method for creating a description of the reached node." alt="" coords="736,5,912,45"/>
-<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa" title="A method in which we sequentially create a story graph, node by node, starting at the root,..." alt="" coords="739,69,909,109"/>
+<area shape="rect" id="node1" title="Returns information about the active agent." alt="" coords="997,37,1168,77"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147" title="Method for creating a description of the reached node." alt="" coords="736,5,949,45"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa" title="A method in which we sequentially create a story graph, node by node, starting at the root,..." alt="" coords="757,69,928,109"/>
 <area shape="rect" id="node3" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="507,5,688,45"/>
 <area shape="rect" id="node4" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,5,459,45"/>
 <area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,37,176,77"/>

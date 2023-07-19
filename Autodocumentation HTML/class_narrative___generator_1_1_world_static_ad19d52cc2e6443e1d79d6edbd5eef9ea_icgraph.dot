@@ -93,4 +93,11 @@ digraph "Narrative_Generator.WorldStatic.GetSetting"
   Node1 -> Node37 [dir="back",color="steelblue1",style="solid"];
   Node37 [label="Narrative_Generator.Neutralize\lKiller.PreCheckPrecondition",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_neutralize_killer.html#ab3ad901a419f5b558896879812cf5f98",tooltip="A method that checks the most basic preconditions for an action."];
   Node37 -> Node27 [dir="back",color="steelblue1",style="solid"];
+  Node1 -> Node38 [dir="back",color="steelblue1",style="solid"];
+  Node38 [label="Narrative_Generator.Twine\lGraphConstructor.SearchNextNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4",tooltip="Method for finding the next node in which the right to act is passed to the player."];
+  Node38 -> Node39 [dir="back",color="steelblue1",style="solid"];
+  Node39 [label="Narrative_Generator.Twine\lGraphConstructor.AddEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1",tooltip="A method that creates a representation of an edge in a graph - in Twine it is a connection between no..."];
+  Node39 -> Node40 [dir="back",color="steelblue1",style="solid"];
+  Node40 [label="Narrative_Generator.Twine\lGraphConstructor.AddNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937",tooltip="A method that creates text for an individual node."];
+  Node40 -> Node21 [dir="back",color="steelblue1",style="solid"];
 }

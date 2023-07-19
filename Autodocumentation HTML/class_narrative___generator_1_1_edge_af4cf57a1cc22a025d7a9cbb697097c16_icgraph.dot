@@ -15,7 +15,7 @@ digraph "Narrative_Generator.Edge.GetAction"
   Node4 -> Node5 [dir="back",color="steelblue1",style="solid"];
   Node5 [label="Narrative_Generator.Story\lAlgorithm.Start",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d",tooltip="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..."];
   Node1 -> Node6 [dir="back",color="steelblue1",style="solid"];
-  Node6 [label="Narrative_Generator.Twine\lGraphConstructor.AddText",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24",tooltip="Method for creating a description of the reached node."];
+  Node6 [label="Narrative_Generator.Twine\lGraphConstructor.AddTextAsync",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147",tooltip="Method for creating a description of the reached node."];
   Node6 -> Node3 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node7 [dir="back",color="steelblue1",style="solid"];
   Node7 [label="Narrative_Generator.Actions\lRestricting.IsSatisfied",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_actions_restricting.html#a3691a868f1d5651f63c812c349b6ef3c",tooltip="A method that checks whether the specified world state satisfies constraints."];

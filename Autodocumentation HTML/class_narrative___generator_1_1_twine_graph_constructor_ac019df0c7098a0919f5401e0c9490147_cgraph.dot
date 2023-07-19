@@ -1,0 +1,27 @@
+digraph "Narrative_Generator.TwineGraphConstructor.AddTextAsync"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [label="Narrative_Generator.Twine\lGraphConstructor.AddTextAsync",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Method for creating a description of the reached node."];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="Narrative_Generator.Open\lAI.CompletionRequest",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_open_a_i.html#abcde31321766edc4c5f32b310b64898e",tooltip="A method that configures and creates a request to OpenAI to create a text completion."];
+  Node2 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="Narrative_Generator.Open\lAI.GetText",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2",tooltip="A method that separates the generated text completion from the general response body,..."];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="Narrative_Generator.Edge.\lGetAction",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16",tooltip="This method returns the action attached to this edge."];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="Narrative_Generator.Story\lNode.GetActiveAgent",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d",tooltip="Returns information about the active agent."];
+  Node1 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Story\lNode.GetEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399",tooltip="Returns the specified edge from the list of edges connected to the this node."];
+  Node1 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Story\lNode.GetEdges",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb",tooltip="Returns a list of all edges connected to the this node."];
+  Node1 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="Narrative_Generator.World\lDynamic.GetLocationByName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0",tooltip="Returns a location from the list of locations if the specified name matches the name of the location."];
+  Node1 -> Node9 [color="steelblue1",style="solid"];
+  Node9 [label="Narrative_Generator.Story\lNode.GetWorldState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb",tooltip="Returns the storyworld state stored by the node."];
+  Node1 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Twine\lGraphConstructor.InsertSpaces",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64",tooltip="A method that separates compound words into separate ones, using capital letters as a separator."];
+}

@@ -50,6 +50,7 @@ var annotated_dup =
       [ "Move", "class_narrative___generator_1_1_move.html", "class_narrative___generator_1_1_move" ],
       [ "NeutralizeKiller", "class_narrative___generator_1_1_neutralize_killer.html", "class_narrative___generator_1_1_neutralize_killer" ],
       [ "NothingToDo", "class_narrative___generator_1_1_nothing_to_do.html", "class_narrative___generator_1_1_nothing_to_do" ],
+      [ "OpenAI", "class_narrative___generator_1_1_open_a_i.html", null ],
       [ "PDDL_Module", "class_narrative___generator_1_1_p_d_d_l___module.html", "class_narrative___generator_1_1_p_d_d_l___module" ],
       [ "Plan", "class_narrative___generator_1_1_plan.html", "class_narrative___generator_1_1_plan" ],
       [ "PlanAction", "class_narrative___generator_1_1_plan_action.html", "class_narrative___generator_1_1_plan_action" ],

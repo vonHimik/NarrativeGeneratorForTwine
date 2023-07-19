@@ -87,12 +87,13 @@ var searchData=
   ['getstrictorderofvictimselection_84',['GetStrictOrderOfVictimSelection',['../class_narrative___generator_1_1_world_static.html#a978572d7da8b43e568774df9bb756f05',1,'Narrative_Generator::WorldStatic']]],
   ['gettalking_85',['GetTalking',['../class_narrative___generator_1_1_agent_state_dynamic.html#ac87fb3467d40f1951eb39f0236cc9ecf',1,'Narrative_Generator::AgentStateDynamic']]],
   ['gettargetlocation_86',['GetTargetLocation',['../class_narrative___generator_1_1_agent_state_dynamic.html#a5c939a2c11a66bd459343c475f0bf551',1,'Narrative_Generator::AgentStateDynamic']]],
-  ['gettimetomove_87',['GetTimeToMove',['../class_narrative___generator_1_1_agent_state_dynamic.html#a6c9838edff4a3e716fe9d5a7b0eaa6f3',1,'Narrative_Generator::AgentStateDynamic']]],
-  ['getturnnumber_88',['GetTurnNumber',['../class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7',1,'Narrative_Generator::WorldStatic']]],
-  ['getuniqwaystokillstatus_89',['GetUniqWaysToKillStatus',['../class_narrative___generator_1_1_world_static.html#ae93d648e3ccc26fc84ec54c7414ae40c',1,'Narrative_Generator::WorldStatic']]],
-  ['getuppernode_90',['GetUpperNode',['../class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c',1,'Narrative_Generator::Edge']]],
-  ['getvictim_91',['GetVictim',['../class_narrative___generator_1_1_want_to_entrap.html#aa48dd89b640d761cb6f98a1236b43b36',1,'Narrative_Generator::WantToEntrap']]],
-  ['getworldstate_92',['GetWorldState',['../class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb',1,'Narrative_Generator::StoryNode']]],
-  ['goal_93',['Goal',['../class_narrative___generator_1_1_goal.html#aed1412b5403dd33650796a92f4863537',1,'Narrative_Generator.Goal.Goal()'],['../class_narrative___generator_1_1_goal.html#a9fc8325fd800fad96127a97bc5fe9139',1,'Narrative_Generator.Goal.Goal(Goal clone)'],['../class_narrative___generator_1_1_goal.html#a30e3118e7fcef0f9da3768b2b6498932',1,'Narrative_Generator.Goal.Goal(List&lt; GoalTypes &gt; goalTypes, WorldDynamic goalState)'],['../class_narrative___generator_1_1_goal.html#a681e9abb2346c5c064aea42a356c8316',1,'Narrative_Generator.Goal.Goal(GoalTypes goalType, WorldDynamic goalState)']]],
-  ['graphviz_94',['Graphviz',['../class_narrative___generator_1_1_graphviz.html#a0471f86e851c4830f2a983cb0fc6e9a0',1,'Narrative_Generator::Graphviz']]]
+  ['gettext_87',['GetText',['../class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2',1,'Narrative_Generator::OpenAI']]],
+  ['gettimetomove_88',['GetTimeToMove',['../class_narrative___generator_1_1_agent_state_dynamic.html#a6c9838edff4a3e716fe9d5a7b0eaa6f3',1,'Narrative_Generator::AgentStateDynamic']]],
+  ['getturnnumber_89',['GetTurnNumber',['../class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7',1,'Narrative_Generator::WorldStatic']]],
+  ['getuniqwaystokillstatus_90',['GetUniqWaysToKillStatus',['../class_narrative___generator_1_1_world_static.html#ae93d648e3ccc26fc84ec54c7414ae40c',1,'Narrative_Generator::WorldStatic']]],
+  ['getuppernode_91',['GetUpperNode',['../class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c',1,'Narrative_Generator::Edge']]],
+  ['getvictim_92',['GetVictim',['../class_narrative___generator_1_1_want_to_entrap.html#aa48dd89b640d761cb6f98a1236b43b36',1,'Narrative_Generator::WantToEntrap']]],
+  ['getworldstate_93',['GetWorldState',['../class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb',1,'Narrative_Generator::StoryNode']]],
+  ['goal_94',['Goal',['../class_narrative___generator_1_1_goal.html#aed1412b5403dd33650796a92f4863537',1,'Narrative_Generator.Goal.Goal()'],['../class_narrative___generator_1_1_goal.html#a9fc8325fd800fad96127a97bc5fe9139',1,'Narrative_Generator.Goal.Goal(Goal clone)'],['../class_narrative___generator_1_1_goal.html#a30e3118e7fcef0f9da3768b2b6498932',1,'Narrative_Generator.Goal.Goal(List&lt; GoalTypes &gt; goalTypes, WorldDynamic goalState)'],['../class_narrative___generator_1_1_goal.html#a681e9abb2346c5c064aea42a356c8316',1,'Narrative_Generator.Goal.Goal(GoalTypes goalType, WorldDynamic goalState)']]],
+  ['graphviz_95',['Graphviz',['../class_narrative___generator_1_1_graphviz.html#a0471f86e851c4830f2a983cb0fc6e9a0',1,'Narrative_Generator::Graphviz']]]
 ];

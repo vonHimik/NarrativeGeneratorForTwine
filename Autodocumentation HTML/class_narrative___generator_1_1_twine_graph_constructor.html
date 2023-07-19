@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('class_narrative___generator_1_1_twine_
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="class_narrative___generator_1_1_twine_graph_constructor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Narrative_Generator.TwineGraphConstructor Class Reference</div></div>
 </div><!--header-->
@@ -125,15 +126,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d62d4881f4ac5bd4fc09d7a2b90a1c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4">SearchNextNode</a> (<a class="el" href="class_narrative___generator_1_1_story_node.html">StoryNode</a> currentNode)</td></tr>
 <tr class="memdesc:a0d62d4881f4ac5bd4fc09d7a2b90a1c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for finding the next node in which the right to act is passed to the player.  <br /></td></tr>
 <tr class="separator:a0d62d4881f4ac5bd4fc09d7a2b90a1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a667523a4748d26fa3a33fe215a641f24"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24">AddText</a> (<a class="el" href="class_narrative___generator_1_1_story_node.html">StoryNode</a> node)</td></tr>
-<tr class="memdesc:a667523a4748d26fa3a33fe215a641f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for creating a description of the reached node.  <br /></td></tr>
-<tr class="separator:a667523a4748d26fa3a33fe215a641f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac019df0c7098a0919f5401e0c9490147"><td class="memItemLeft" align="right" valign="top">async Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147">AddTextAsync</a> (<a class="el" href="class_narrative___generator_1_1_story_node.html">StoryNode</a> node)</td></tr>
+<tr class="memdesc:ac019df0c7098a0919f5401e0c9490147"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for creating a description of the reached node.  <br /></td></tr>
+<tr class="separator:ac019df0c7098a0919f5401e0c9490147"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93c90b8b66be571d8d833f952417ce64"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64">InsertSpaces</a> (string text)</td></tr>
 <tr class="memdesc:a93c90b8b66be571d8d833f952417ce64"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method that separates compound words into separate ones, using capital letters as a separator.  <br /></td></tr>
 <tr class="separator:a93c90b8b66be571d8d833f952417ce64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0a8985245d29a55b2522cbb3085393e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_narrative___generator_1_1_twine_graph_constructor.html#af0a8985245d29a55b2522cbb3085393e">CreateHTMLFileWithGame</a> (string twineGraphCode, <a class="el" href="namespace_narrative___generator.html#a451d349809a50ffa58f92e8044432aeb">Setting</a> setting, string path)</td></tr>
 <tr class="memdesc:af0a8985245d29a55b2522cbb3085393e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method for writing the generated text and html markup to a file of the corresponding format.  <br /></td></tr>
 <tr class="separator:af0a8985245d29a55b2522cbb3085393e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:aaa20daab9225b97fbf1ec448bb1ebf9c"><td class="memItemLeft" align="right" valign="top"><a id="aaa20daab9225b97fbf1ec448bb1ebf9c" name="aaa20daab9225b97fbf1ec448bb1ebf9c"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>ApiKey</b><code> [get, set]</code></td></tr>
+<tr class="separator:aaa20daab9225b97fbf1ec448bb1ebf9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad00e6653db1224bca045a7514ca4a3e1"><td class="memItemLeft" align="right" valign="top"><a id="ad00e6653db1224bca045a7514ca4a3e1" name="ad00e6653db1224bca045a7514ca4a3e1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>OpenAIGeneration</b><code> [get, set]</code></td></tr>
+<tr class="separator:ad00e6653db1224bca045a7514ca4a3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class for converting a story graph into an interactive story for Twine. </p>
@@ -205,29 +215,29 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a3cc543ef2ad669f20d596ece8a6a51a1_cgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a3cc543ef2ad669f20d596ece8a6a51a1_cgraph" alt=""/></div>
 <map name="aclass_narrative___generator_1_1_twine_graph_constructor_a3cc543ef2ad669f20d596ece8a6a51a1_cgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a3cc543ef2ad669f20d596ece8a6a51a1_cgraph">
-<area shape="rect" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="5,324,187,364"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="255,68,466,108"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="545,18,749,58"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="235,196,487,236"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="239,132,482,172"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="275,260,446,300"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="273,324,448,364"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="559,353,734,393"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="551,417,742,457"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="559,737,734,777"/>
-<area shape="rect" href="class_narrative___generator_1_1_plan_action.html#a6050f27ca8a5f3ab4e8f7b10d66c4da0" title="In counter&#45;actions, returns the name of the action that caused the system to react." alt="" coords="277,604,444,644"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="247,489,474,529"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="535,82,759,122"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="559,146,734,186"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="561,210,732,250"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="559,274,734,314"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="815,242,989,282"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="807,306,997,346"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1045,242,1220,282"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="561,481,732,521"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="561,545,732,585"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8" title="Returns the first edge from a list of all edges connected to the this node." alt="" coords="561,609,732,649"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="561,673,732,713"/>
+<area shape="rect" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="5,330,187,370"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="255,74,466,114"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="545,10,749,50"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="235,202,487,242"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="239,138,482,178"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="275,268,446,308"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="273,504,448,544"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="559,330,734,370"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="551,700,742,740"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="273,568,448,608"/>
+<area shape="rect" href="class_narrative___generator_1_1_plan_action.html#a6050f27ca8a5f3ab4e8f7b10d66c4da0" title="In counter&#45;actions, returns the name of the action that caused the system to react." alt="" coords="277,632,444,672"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="247,390,474,430"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="535,74,759,114"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="559,138,734,178"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="561,202,732,242"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="559,266,734,306"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="815,266,989,306"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="807,390,997,430"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1045,266,1220,306"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="561,508,732,548"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="561,572,732,612"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="561,636,732,676"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="559,394,734,434"/>
 </map>
 </div>
 <div class="dynheader">
@@ -590,34 +600,36 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a11d69d897952a7af20c3c8bd7831c937_cgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a11d69d897952a7af20c3c8bd7831c937_cgraph" alt=""/></div>
 <map name="aclass_narrative___generator_1_1_twine_graph_constructor_a11d69d897952a7af20c3c8bd7831c937_cgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a11d69d897952a7af20c3c8bd7831c937_cgraph">
-<area shape="rect" title="A method that creates text for an individual node." alt="" coords="5,633,187,673"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="235,347,416,387"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="781,424,971,464"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24" title="Method for creating a description of the reached node." alt="" coords="237,808,413,848"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="505,1019,675,1059"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="485,584,695,624"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="774,584,978,624"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="464,648,716,688"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="469,712,711,752"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="505,37,675,77"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="503,776,677,816"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="789,104,963,144"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="789,168,963,208"/>
-<area shape="rect" href="class_narrative___generator_1_1_plan_action.html#a6050f27ca8a5f3ab4e8f7b10d66c4da0" title="In counter&#45;actions, returns the name of the action that caused the system to react." alt="" coords="507,101,673,141"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="477,267,703,307"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="764,648,988,688"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="789,712,963,752"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="791,776,961,816"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="789,37,963,77"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="1044,5,1219,45"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="1036,69,1227,109"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1275,5,1449,45"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="791,296,961,336"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="791,488,961,528"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8" title="Returns the first edge from a list of all edges connected to the this node." alt="" coords="791,360,961,400"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="791,232,961,272"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="505,904,675,944"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="491,840,689,880"/>
+<area shape="rect" title="A method that creates text for an individual node." alt="" coords="5,761,187,801"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="251,373,432,413"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="813,769,1003,809"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147" title="Method for creating a description of the reached node." alt="" coords="235,821,448,861"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="537,1064,707,1104"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="517,5,727,45"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="806,267,1010,307"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="496,197,748,237"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="501,261,743,301"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="537,427,707,467"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="535,757,709,797"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="821,463,995,503"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="535,69,709,109"/>
+<area shape="rect" href="class_narrative___generator_1_1_plan_action.html#a6050f27ca8a5f3ab4e8f7b10d66c4da0" title="In counter&#45;actions, returns the name of the action that caused the system to react." alt="" coords="539,133,705,173"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="509,592,735,632"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="796,139,1020,179"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="821,203,995,243"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="823,399,993,439"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="821,335,995,375"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="1076,335,1251,375"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="1068,491,1259,531"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1307,335,1481,375"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="823,641,993,681"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="823,880,993,920"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="823,705,993,745"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="821,527,995,567"/>
+<area shape="rect" href="class_narrative___generator_1_1_open_a_i.html#abcde31321766edc4c5f32b310b64898e" title="A method that configures and creates a request to OpenAI to create a text completion." alt="" coords="537,1000,707,1040"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="537,821,707,861"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="523,885,721,925"/>
+<area shape="rect" href="class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2" title="A method that separates the generated text completion from the general response body,..." alt="" coords="823,1000,993,1040"/>
 </map>
 </div>
 <div class="dynheader">
@@ -713,14 +725,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a667523a4748d26fa3a33fe215a641f24" name="a667523a4748d26fa3a33fe215a641f24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a667523a4748d26fa3a33fe215a641f24">&#9670;&#160;</a></span>AddText()</h2>
+<a id="ac019df0c7098a0919f5401e0c9490147" name="ac019df0c7098a0919f5401e0c9490147"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac019df0c7098a0919f5401e0c9490147">&#9670;&#160;</a></span>AddTextAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">string Narrative_Generator.TwineGraphConstructor.AddText </td>
+          <td class="memname">async Task&lt; string &gt; Narrative_Generator.TwineGraphConstructor.AddTextAsync </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_narrative___generator_1_1_story_node.html">StoryNode</a>&#160;</td>
           <td class="paramname"><em>node</em></td><td>)</td>
@@ -740,24 +752,26 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_cgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_cgraph" alt=""/></div>
-<map name="aclass_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_cgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_cgraph">
-<area shape="rect" title="Method for creating a description of the reached node." alt="" coords="5,197,181,237"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="244,5,419,45"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="246,69,417,109"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="246,133,417,173"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="246,197,417,237"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="233,261,430,301"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="246,325,417,365"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="229,389,433,429"/>
+<div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_cgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_cgraph" alt=""/></div>
+<map name="aclass_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_cgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_cgraph">
+<area shape="rect" title="Method for creating a description of the reached node." alt="" coords="5,229,219,269"/>
+<area shape="rect" href="class_narrative___generator_1_1_open_a_i.html#abcde31321766edc4c5f32b310b64898e" title="A method that configures and creates a request to OpenAI to create a text completion." alt="" coords="283,5,454,45"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="281,69,456,109"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="283,133,454,173"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="283,197,454,237"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="283,261,454,301"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="270,325,467,365"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="283,389,454,429"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="267,453,471,493"/>
+<area shape="rect" href="class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2" title="A method that separates the generated text completion from the general response body,..." alt="" coords="519,5,689,45"/>
 </map>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_icgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_icgraph" alt=""/></div>
-<map name="aclass_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_icgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a667523a4748d26fa3a33fe215a641f24_icgraph">
-<area shape="rect" title="Method for creating a description of the reached node." alt="" coords="736,5,912,45"/>
+<div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_icgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_icgraph" alt=""/></div>
+<map name="aclass_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_icgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_ac019df0c7098a0919f5401e0c9490147_icgraph">
+<area shape="rect" title="Method for creating a description of the reached node." alt="" coords="736,5,949,45"/>
 <area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="507,5,688,45"/>
 <area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,5,459,45"/>
 <area shape="rect" href="class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,5,176,45"/>
@@ -859,38 +873,39 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a791e9c39f029bb3cafd20ad6ceae1b74_cgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a791e9c39f029bb3cafd20ad6ceae1b74_cgraph" alt=""/></div>
 <map name="aclass_narrative___generator_1_1_twine_graph_constructor_a791e9c39f029bb3cafd20ad6ceae1b74_cgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a791e9c39f029bb3cafd20ad6ceae1b74_cgraph">
-<area shape="rect" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="5,1110,240,1150"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="308,496,489,536"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="1113,858,1284,898"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="1359,776,1549,816"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#af0a8985245d29a55b2522cbb3085393e" title="Method for writing the generated text and html markup to a file of the corresponding format." alt="" coords="288,1134,509,1189"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_graph.html#a3100813aee5d85fa50becce42ddf5e8e" title="Returns the root node of the storygraph." alt="" coords="313,1214,484,1254"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="311,1278,486,1318"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="557,350,739,390"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="1103,22,1294,62"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24" title="Method for creating a description of the reached node." alt="" coords="560,768,736,808"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="827,496,998,536"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="807,382,1018,422"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="1097,611,1301,651"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="787,675,1039,715"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="791,611,1034,651"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="827,318,998,358"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="825,739,1000,779"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="1111,86,1286,126"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="1111,342,1286,382"/>
-<area shape="rect" href="class_narrative___generator_1_1_plan_action.html#a6050f27ca8a5f3ab4e8f7b10d66c4da0" title="In counter&#45;actions, returns the name of the action that caused the system to react." alt="" coords="829,88,996,128"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="799,203,1026,243"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="1087,547,1311,587"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="1111,675,1286,715"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="1111,416,1286,456"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="1367,416,1541,456"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1597,416,1772,456"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="1113,150,1284,190"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="1113,482,1284,522"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8" title="Returns the first edge from a list of all edges connected to the this node." alt="" coords="1113,214,1284,254"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="1113,278,1284,318"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="827,918,998,958"/>
-<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="814,854,1011,894"/>
+<area shape="rect" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="5,1090,240,1130"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="308,342,489,382"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="1145,943,1316,983"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="1391,667,1581,707"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="1143,828,1318,868"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#af0a8985245d29a55b2522cbb3085393e" title="Method for writing the generated text and html markup to a file of the corresponding format." alt="" coords="288,1294,509,1349"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_graph.html#a3100813aee5d85fa50becce42ddf5e8e" title="Returns the root node of the storygraph." alt="" coords="313,1374,484,1414"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="573,743,755,783"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="1135,418,1326,458"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147" title="Method for creating a description of the reached node." alt="" coords="557,284,771,324"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="859,312,1030,352"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="839,1179,1050,1219"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="1129,1028,1333,1068"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="819,1051,1071,1091"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="823,1115,1066,1155"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a0b05d9dcfa6423f4247cceba1ad62eef" title="Method for comparing two StoryNode instance." alt="" coords="859,440,1030,480"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="857,376,1032,416"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="1143,724,1318,764"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="857,771,1032,811"/>
+<area shape="rect" href="class_narrative___generator_1_1_plan_action.html#a6050f27ca8a5f3ab4e8f7b10d66c4da0" title="In counter&#45;actions, returns the name of the action that caused the system to react." alt="" coords="861,835,1028,875"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="831,555,1058,595"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a324be232bfef7d9042f243bc2d8d8e68" title="A method for creating special nodes that are not originally present in the graph." alt="" coords="1119,1156,1343,1196"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a0514a97e9b85397137dd80125581cf61" title="Returns the first founded agent with the specified role." alt="" coords="1143,1092,1318,1132"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a3b7c061efc8d23cb561bc940800e6a48" title="Method for comparing two WorldDynamic instance." alt="" coords="1143,354,1318,394"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#aac70b40850296f313ceaf4f0bcad1549" title="Method for comparing two WorldStatic instance." alt="" coords="1399,354,1573,394"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#addfc6eedbd7e250cca63bec54ef714a7" title="Returns the turn number." alt="" coords="1629,354,1804,394"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="1145,546,1316,586"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="1145,482,1316,522"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="1145,610,1316,650"/>
+<area shape="rect" href="class_narrative___generator_1_1_open_a_i.html#abcde31321766edc4c5f32b310b64898e" title="A method that configures and creates a request to OpenAI to create a text completion." alt="" coords="859,70,1030,110"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="859,248,1030,288"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="846,134,1043,174"/>
+<area shape="rect" href="class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2" title="A method that separates the generated text completion from the general response body,..." alt="" coords="1145,70,1316,110"/>
 </map>
 </div>
 <div class="dynheader">
@@ -934,15 +949,15 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a93c90b8b66be571d8d833f952417ce64_icgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a93c90b8b66be571d8d833f952417ce64_icgraph" alt=""/></div>
 <map name="aclass_narrative___generator_1_1_twine_graph_constructor_a93c90b8b66be571d8d833f952417ce64_icgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a93c90b8b66be571d8d833f952417ce64_icgraph">
-<area shape="rect" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="1265,106,1469,146"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="736,106,917,146"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="986,42,1197,82"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="965,106,1217,146"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="970,170,1213,210"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24" title="Method for creating a description of the reached node." alt="" coords="739,198,915,238"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="507,166,688,206"/>
-<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,166,459,206"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,166,176,206"/>
+<area shape="rect" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="1297,105,1501,145"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3cc543ef2ad669f20d596ece8a6a51a1" title="A method that creates a representation of an edge in a graph &#45; in Twine it is a connection between no..." alt="" coords="752,105,933,145"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a2564c4abf0c8bf471810ce8cf78d3769" title="An optional node that describes the result of the fight action and provides details." alt="" coords="1018,41,1229,81"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a4a2e0895797d89c49227c800d9831ed2" title="A method for creating a node that is used to create a contextual relationship between other nodes." alt="" coords="997,105,1249,145"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d" title="An optional node that describes the result of the search evidences action and provides details." alt="" coords="1002,169,1245,209"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147" title="Method for creating a description of the reached node." alt="" coords="736,197,949,237"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a11d69d897952a7af20c3c8bd7831c937" title="A method that creates text for an individual node." alt="" coords="507,165,688,205"/>
+<area shape="rect" href="class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74" title="A method for converting a story graph into an interactive story for Twine." alt="" coords="224,165,459,205"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_algorithm.html#a5adcd998433cb838e814c1eb81ea753d" title="Method is an entry point that controls the operation of the algorithm (the sequence of launching othe..." alt="" coords="5,165,176,205"/>
 </map>
 </div>
 
@@ -977,14 +992,15 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_narrative___generator_1_1_twine_graph_constructor_a0d62d4881f4ac5bd4fc09d7a2b90a1c4_cgraph.png" border="0" usemap="#aclass_narrative___generator_1_1_twine_graph_constructor_a0d62d4881f4ac5bd4fc09d7a2b90a1c4_cgraph" alt=""/></div>
 <map name="aclass_narrative___generator_1_1_twine_graph_constructor_a0d62d4881f4ac5bd4fc09d7a2b90a1c4_cgraph" id="aclass_narrative___generator_1_1_twine_graph_constructor_a0d62d4881f4ac5bd4fc09d7a2b90a1c4_cgraph">
-<area shape="rect" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="5,197,232,237"/>
+<area shape="rect" title="Method for finding the next node in which the right to act is passed to the player." alt="" coords="5,229,232,269"/>
 <area shape="rect" href="class_narrative___generator_1_1_story_node.html#afff95dd2a4192c3088c243f8c23302e4" title="Returns the player&#39;s activity status in the state stored by this node." alt="" coords="290,5,461,45"/>
 <area shape="rect" href="class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="290,69,461,109"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8" title="Returns the first edge from a list of all edges connected to the this node." alt="" coords="290,133,461,173"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="290,197,461,237"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="288,261,463,301"/>
-<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="280,325,471,365"/>
-<area shape="rect" href="class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c" title="This method returns the node attached to the top vertex of this edge." alt="" coords="288,389,463,429"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e" title="Returns the last edge from a list of all edges connected to the this node." alt="" coords="290,133,461,173"/>
+<area shape="rect" href="class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61" title="This method returns the node attached to the bottom vertex of this edge." alt="" coords="288,197,463,237"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f" title="Returns the sequence number of this node." alt="" coords="280,261,471,301"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea" title="Returns information about the current setting." alt="" coords="288,325,463,365"/>
+<area shape="rect" href="class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a" title="Returns a component with the static part of the state of this storyworld." alt="" coords="280,389,471,429"/>
+<area shape="rect" href="class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="290,453,461,493"/>
 </map>
 </div>
 <div class="dynheader">

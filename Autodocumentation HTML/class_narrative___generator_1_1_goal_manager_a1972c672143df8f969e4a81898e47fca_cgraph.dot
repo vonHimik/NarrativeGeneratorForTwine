@@ -22,4 +22,10 @@ digraph "Narrative_Generator.GoalManager.AssignGoalsToAgents"
   Node8 [label="Narrative_Generator.Location\lStatic.Clone",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a498d5901ac1ab5feb1c570f1fdb103b0",tooltip="A method for cloning a location."];
   Node8 -> Node9 [color="steelblue1",style="solid"];
   Node9 [label="Narrative_Generator.Location\lStatic.LocationStatic",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_location_static.html#a280497c90776ec47db6a306081b0930b",tooltip="Method constructor for the static part of the location."];
+  Node1 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Items\lManager.CreateItem",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_items_manager.html#a7c70c85947860fd9ef0bdc33e733ea7c",tooltip="A method for creation a new item."];
+  Node10 -> Node11 [color="steelblue1",style="solid"];
+  Node11 [label="Narrative_Generator.Item.\lSetItemName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_item.html#afc9c465f0210c8a90f8348ece69cf9d0",tooltip="Sets the name of the item."];
+  Node10 -> Node12 [color="steelblue1",style="solid"];
+  Node12 [label="Narrative_Generator.Item.\lSetItemType",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_item.html#a9fd066de5b2875514e75450633acdc61",tooltip="Sets the type of the item."];
 }

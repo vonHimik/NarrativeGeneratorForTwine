@@ -1,0 +1,12 @@
+<map id="Narrative_Generator.TwineGraphConstructor.AddTextAsync" name="Narrative_Generator.TwineGraphConstructor.AddTextAsync">
+<area shape="rect" id="node1" title="Method for creating a description of the reached node." alt="" coords="5,229,219,269"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_open_a_i.html#abcde31321766edc4c5f32b310b64898e" title="A method that configures and creates a request to OpenAI to create a text completion." alt="" coords="283,5,454,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_edge.html#af4cf57a1cc22a025d7a9cbb697097c16" title="This method returns the action attached to this edge." alt="" coords="281,69,456,109"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_story_node.html#ad12b92efc9b06a4ee82d4f975a4c5f1d" title="Returns information about the active agent." alt="" coords="283,133,454,173"/>
+<area shape="rect" id="node6" href="$class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399" title="Returns the specified edge from the list of edges connected to the this node." alt="" coords="283,197,454,237"/>
+<area shape="rect" id="node7" href="$class_narrative___generator_1_1_story_node.html#a546432f24cda5eb8081df4866c781feb" title="Returns a list of all edges connected to the this node." alt="" coords="283,261,454,301"/>
+<area shape="rect" id="node8" href="$class_narrative___generator_1_1_world_dynamic.html#a43619eb102a56e16a22a5aa5d5b7c1b0" title="Returns a location from the list of locations if the specified name matches the name of the location." alt="" coords="270,325,467,365"/>
+<area shape="rect" id="node9" href="$class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb" title="Returns the storyworld state stored by the node." alt="" coords="283,389,454,429"/>
+<area shape="rect" id="node10" href="$class_narrative___generator_1_1_twine_graph_constructor.html#a93c90b8b66be571d8d833f952417ce64" title="A method that separates compound words into separate ones, using capital letters as a separator." alt="" coords="267,453,471,493"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_open_a_i.html#adc89ec43874cc3b27525a0f9406f87e2" title="A method that separates the generated text completion from the general response body,..." alt="" coords="519,5,689,45"/>
+</map>

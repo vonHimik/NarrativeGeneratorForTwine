@@ -7,11 +7,15 @@ digraph "Narrative_Generator.Item.SetItemType"
   rankdir="RL";
   Node1 [label="Narrative_Generator.Item.\lSetItemType",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Sets the type of the item."];
   Node1 -> Node2 [dir="back",color="steelblue1",style="solid"];
-  Node2 [label="Narrative_Generator.Items\lManager.CreateItem",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_items_manager.html#a38472beab694e7ba564e5ce448d87c21",tooltip="A method for creation a new item."];
+  Node2 [label="Narrative_Generator.Items\lManager.CreateItem",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_items_manager.html#a7c70c85947860fd9ef0bdc33e733ea7c",tooltip="A method for creation a new item."];
   Node2 -> Node3 [dir="back",color="steelblue1",style="solid"];
   Node3 [label="Narrative_Generator.Complete\lQuest.ApplyEffects",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_complete_quest.html#aa908d9da80a0fd1e81a78a0e16710fbb",tooltip="A method that changes the passed world state according to the effects of the action."];
   Node2 -> Node4 [dir="back",color="steelblue1",style="solid"];
-  Node4 [label="Narrative_Generator.Neutralize\lKiller.ApplyEffects",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_neutralize_killer.html#afba0997150151a565f7c15a2dc3aa6b8",tooltip="A method that changes the passed world state according to the effects of the action."];
+  Node4 [label="Narrative_Generator.Investigate\lRoom.ApplyEffects",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_investigate_room.html#a779af619c50f6c505c712e7ef2ef7b26",tooltip="A method that changes the passed world state according to the effects of the action."];
   Node2 -> Node5 [dir="back",color="steelblue1",style="solid"];
-  Node5 [label="Narrative_Generator.Kill.Fail",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_kill.html#aa2f49750f379e76d20ff01031dba34ca",tooltip="A method that implements the action's failure effect."];
+  Node5 [label="Narrative_Generator.Neutralize\lKiller.ApplyEffects",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_neutralize_killer.html#afba0997150151a565f7c15a2dc3aa6b8",tooltip="A method that changes the passed world state according to the effects of the action."];
+  Node2 -> Node6 [dir="back",color="steelblue1",style="solid"];
+  Node6 [label="Narrative_Generator.Goal\lManager.AssignGoalsToAgents",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_goal_manager.html#a1972c672143df8f969e4a81898e47fca",tooltip="A method that assigns goals to agents based on their role."];
+  Node2 -> Node7 [dir="back",color="steelblue1",style="solid"];
+  Node7 [label="Narrative_Generator.Kill.Fail",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_kill.html#aa2f49750f379e76d20ff01031dba34ca",tooltip="A method that implements the action's failure effect."];
 }

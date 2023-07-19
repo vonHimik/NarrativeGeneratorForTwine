@@ -1,4 +1,7 @@
 <map id="Narrative_Generator.InvestigateRoom.ApplyEffects" name="Narrative_Generator.InvestigateRoom.ApplyEffects">
-<area shape="rect" id="node1" title="A method that changes the passed world state according to the effects of the action." alt="" coords="5,5,207,45"/>
-<area shape="rect" id="node2" href="$class_narrative___generator_1_1_investigate_room.html#a1ef6774d9db8ac0994b9e9894016a399" title="A method that implements the action&#39;s failure effect." alt="" coords="255,5,456,45"/>
+<area shape="rect" id="node1" title="A method that changes the passed world state according to the effects of the action." alt="" coords="5,69,207,109"/>
+<area shape="rect" id="node2" href="$class_narrative___generator_1_1_items_manager.html#a7c70c85947860fd9ef0bdc33e733ea7c" title="A method for creation a new item." alt="" coords="269,37,441,77"/>
+<area shape="rect" id="node5" href="$class_narrative___generator_1_1_investigate_room.html#a1ef6774d9db8ac0994b9e9894016a399" title="A method that implements the action&#39;s failure effect." alt="" coords="255,101,456,141"/>
+<area shape="rect" id="node3" href="$class_narrative___generator_1_1_item.html#afc9c465f0210c8a90f8348ece69cf9d0" title="Sets the name of the item." alt="" coords="504,5,673,45"/>
+<area shape="rect" id="node4" href="$class_narrative___generator_1_1_item.html#a9fd066de5b2875514e75450633acdc61" title="Sets the type of the item." alt="" coords="504,69,673,109"/>
 </map>

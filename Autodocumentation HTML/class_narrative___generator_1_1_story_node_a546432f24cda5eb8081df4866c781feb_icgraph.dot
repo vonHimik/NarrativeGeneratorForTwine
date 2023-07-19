@@ -30,7 +30,7 @@ digraph "Narrative_Generator.StoryNode.GetEdges"
   Node11 [label="Narrative_Generator.Twine\lGraphConstructor.CreateTwineGraph",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a791e9c39f029bb3cafd20ad6ceae1b74",tooltip="A method for converting a story graph into an interactive story for Twine."];
   Node11 -> Node7 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node12 [dir="back",color="steelblue1",style="solid"];
-  Node12 [label="Narrative_Generator.Twine\lGraphConstructor.AddText",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24",tooltip="Method for creating a description of the reached node."];
+  Node12 [label="Narrative_Generator.Twine\lGraphConstructor.AddTextAsync",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147",tooltip="Method for creating a description of the reached node."];
   Node12 -> Node10 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node13 [dir="back",color="steelblue1",style="solid"];
   Node13 [label="Narrative_Generator.Edge.\lClearLowerNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#abe257059d754af7ce9b85e25c8de6c8c",tooltip="This method clears the bottom vertex of an edge from a connected node."];

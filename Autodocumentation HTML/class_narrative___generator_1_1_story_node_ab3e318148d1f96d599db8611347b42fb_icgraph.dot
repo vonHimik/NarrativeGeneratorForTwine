@@ -20,7 +20,7 @@ digraph "Narrative_Generator.StoryNode.GetWorldState"
   Node7 [label="Narrative_Generator.Twine\lGraphConstructor.AddInvestigateNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d",tooltip="An optional node that describes the result of the search evidences action and provides details."];
   Node7 -> Node3 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node8 [dir="back",color="steelblue1",style="solid"];
-  Node8 [label="Narrative_Generator.Twine\lGraphConstructor.AddText",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24",tooltip="Method for creating a description of the reached node."];
+  Node8 [label="Narrative_Generator.Twine\lGraphConstructor.AddTextAsync",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147",tooltip="Method for creating a description of the reached node."];
   Node8 -> Node4 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node9 [dir="back",color="steelblue1",style="solid"];
   Node9 [label="Narrative_Generator.Story\lAlgorithm.BFSTraversing",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_algorithm.html#a7791dc587915617de53183d85424e7aa",tooltip="A method in which we sequentially create a story graph, node by node, starting at the root,..."];
@@ -60,5 +60,8 @@ digraph "Narrative_Generator.StoryNode.GetWorldState"
   Node22 -> Node13 [dir="back",color="steelblue1",style="solid"];
   Node22 -> Node18 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node5 [dir="back",color="steelblue1",style="solid"];
+  Node1 -> Node23 [dir="back",color="steelblue1",style="solid"];
+  Node23 [label="Narrative_Generator.Twine\lGraphConstructor.SearchNextNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a0d62d4881f4ac5bd4fc09d7a2b90a1c4",tooltip="Method for finding the next node in which the right to act is passed to the player."];
+  Node23 -> Node3 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node15 [dir="back",color="steelblue1",style="solid"];
 }

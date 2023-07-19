@@ -24,6 +24,6 @@ digraph "Narrative_Generator.TwineGraphConstructor.InsertSpaces"
   Node8 [label="Narrative_Generator.Twine\lGraphConstructor.AddInvestigateNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a3557e0657349f1c93b30d9ddea327e2d",tooltip="An optional node that describes the result of the search evidences action and provides details."];
   Node8 -> Node2 [dir="back",color="steelblue1",style="solid"];
   Node1 -> Node9 [dir="back",color="steelblue1",style="solid"];
-  Node9 [label="Narrative_Generator.Twine\lGraphConstructor.AddText",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#a667523a4748d26fa3a33fe215a641f24",tooltip="Method for creating a description of the reached node."];
+  Node9 [label="Narrative_Generator.Twine\lGraphConstructor.AddTextAsync",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_twine_graph_constructor.html#ac019df0c7098a0919f5401e0c9490147",tooltip="Method for creating a description of the reached node."];
   Node9 -> Node3 [dir="back",color="steelblue1",style="solid"];
 }

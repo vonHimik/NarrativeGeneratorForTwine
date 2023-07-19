@@ -7,7 +7,7 @@ digraph "Narrative_Generator.NeutralizeKiller.ApplyEffects"
   rankdir="LR";
   Node1 [label="Narrative_Generator.Neutralize\lKiller.ApplyEffects",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="A method that changes the passed world state according to the effects of the action."];
   Node1 -> Node2 [color="steelblue1",style="solid"];
-  Node2 [label="Narrative_Generator.Items\lManager.CreateItem",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_items_manager.html#a38472beab694e7ba564e5ce448d87c21",tooltip="A method for creation a new item."];
+  Node2 [label="Narrative_Generator.Items\lManager.CreateItem",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_items_manager.html#a7c70c85947860fd9ef0bdc33e733ea7c",tooltip="A method for creation a new item."];
   Node2 -> Node3 [color="steelblue1",style="solid"];
   Node3 [label="Narrative_Generator.Item.\lSetItemName",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_item.html#afc9c465f0210c8a90f8348ece69cf9d0",tooltip="Sets the name of the item."];
   Node2 -> Node4 [color="steelblue1",style="solid"];
