@@ -320,7 +320,9 @@ namespace Narrative_Generator
 
             if (testedNode.GetActivePlayer())
             {
-                if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge)
+                if ((currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) 
+                    || currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy)
+                    )
                     && !testedNode.GetLastEdge().GetLowerNode().GetActivePlayer())
                 {
                     testedNode = testedNode.GetLastEdge().GetLowerNode();
@@ -328,7 +330,8 @@ namespace Narrative_Generator
                 }
                 else
                 {
-                    if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge))
+                    if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge)
+                        || currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy))
                     {
                         number = testedNode.GetNumberInSequence();
                         return number;
@@ -346,7 +349,8 @@ namespace Narrative_Generator
                 if (testedNode.goalState) { number = testedNode.GetNumberInSequence(); break; }
                 else testedNode = testedNode.GetEdge(1).GetLowerNode();
 
-                if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge))
+                if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge) ||
+                    currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.GenericFantasy))
                 {
                     if (testedNode.GetActivePlayer()) { return number; }
                     number = testedNode.GetNumberInSequence();
