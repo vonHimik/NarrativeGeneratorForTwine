@@ -11,15 +11,19 @@ digraph "Narrative_Generator.TwineGraphConstructor.SearchNextNode"
   Node1 -> Node3 [color="steelblue1",style="solid"];
   Node3 [label="Narrative_Generator.Story\lNode.GetEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a75f2c93d3724997297d8311f2c715399",tooltip="Returns the specified edge from the list of edges connected to the this node."];
   Node1 -> Node4 [color="steelblue1",style="solid"];
-  Node4 [label="Narrative_Generator.Story\lNode.GetLastEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e",tooltip="Returns the last edge from a list of all edges connected to the this node."];
+  Node4 [label="Narrative_Generator.Story\lNode.GetFirstEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a9e010bf5ca4801abde5e47eb8c9988a8",tooltip="Returns the first edge from a list of all edges connected to the this node."];
   Node1 -> Node5 [color="steelblue1",style="solid"];
-  Node5 [label="Narrative_Generator.Edge.\lGetLowerNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61",tooltip="This method returns the node attached to the bottom vertex of this edge."];
+  Node5 [label="Narrative_Generator.Story\lNode.GetLastEdge",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a5c6172671b9fe780c0fce4befd03234e",tooltip="Returns the last edge from a list of all edges connected to the this node."];
   Node1 -> Node6 [color="steelblue1",style="solid"];
-  Node6 [label="Narrative_Generator.Story\lNode.GetNumberInSequence",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f",tooltip="Returns the sequence number of this node."];
+  Node6 [label="Narrative_Generator.Edge.\lGetLowerNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#aab549aff7f3d2a7181902be614cdcc61",tooltip="This method returns the node attached to the bottom vertex of this edge."];
   Node1 -> Node7 [color="steelblue1",style="solid"];
-  Node7 [label="Narrative_Generator.World\lStatic.GetSetting",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea",tooltip="Returns information about the current setting."];
+  Node7 [label="Narrative_Generator.Story\lNode.GetNumberInSequence",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#a2343338ef2f1461d7c3af6e54d7f5d9f",tooltip="Returns the sequence number of this node."];
   Node1 -> Node8 [color="steelblue1",style="solid"];
-  Node8 [label="Narrative_Generator.World\lDynamic.GetStaticWorldPart",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a",tooltip="Returns a component with the static part of the state of this storyworld."];
+  Node8 [label="Narrative_Generator.World\lStatic.GetSetting",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_static.html#ad19d52cc2e6443e1d79d6edbd5eef9ea",tooltip="Returns information about the current setting."];
   Node1 -> Node9 [color="steelblue1",style="solid"];
-  Node9 [label="Narrative_Generator.Story\lNode.GetWorldState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb",tooltip="Returns the storyworld state stored by the node."];
+  Node9 [label="Narrative_Generator.World\lDynamic.GetStaticWorldPart",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_world_dynamic.html#af84d5b47653c246de39ebfa7b791826a",tooltip="Returns a component with the static part of the state of this storyworld."];
+  Node1 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="Narrative_Generator.Edge.\lGetUpperNode",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_edge.html#a53ec80be25b5c5ddcd633e5d1916e98c",tooltip="This method returns the node attached to the top vertex of this edge."];
+  Node1 -> Node11 [color="steelblue1",style="solid"];
+  Node11 [label="Narrative_Generator.Story\lNode.GetWorldState",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$class_narrative___generator_1_1_story_node.html#ab3e318148d1f96d599db8611347b42fb",tooltip="Returns the storyworld state stored by the node."];
 }

@@ -50,8 +50,6 @@ namespace Narrative_Generator
 
                     if (node.GetActivePlayer() && !node.goalState)
                     {
-                        // В узел сверху может приходить несколько граней
-                        // Нужно пройтись по всем граням и выбирать для расширения те, в которых текущий узел является нижним
                         //AddNode(ref positionX, ref positionY, node.GetEdge(0).GetUpperNode(), ref twineGraphCode);
 
                         foreach (var edge in node.GetEdges())
@@ -330,8 +328,16 @@ namespace Narrative_Generator
                 }
                 else
                 {
-                    number = testedNode.GetNumberInSequence();
-                    return number;
+                    if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge))
+                    {
+                        number = testedNode.GetNumberInSequence();
+                        return number;
+                    }
+                    else
+                    {
+                        testedNode = testedNode.GetLastEdge().GetLowerNode();
+                        number = testedNode.GetNumberInSequence();
+                    }
                 }
             }
 
@@ -340,13 +346,15 @@ namespace Narrative_Generator
                 if (testedNode.goalState) { number = testedNode.GetNumberInSequence(); break; }
                 else testedNode = testedNode.GetEdge(1).GetLowerNode();
 
-                if (testedNode.GetActivePlayer())
+                if (currentNode.GetWorldState().GetStaticWorldPart().GetSetting().Equals(Setting.DragonAge))
                 {
-                    //number = testedNode.GetFirstEdge().GetUpperNode().GetNumberInSequence();
-                    return number;
+                    if (testedNode.GetActivePlayer()) { return number; }
+                    number = testedNode.GetNumberInSequence();
                 }
-
-                number = testedNode.GetNumberInSequence();
+                else
+                {
+                    if (testedNode.GetActivePlayer()) { number = testedNode.GetFirstEdge().GetUpperNode().GetNumberInSequence(); }
+                }
             }
 
             return number;
