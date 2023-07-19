@@ -118,6 +118,8 @@ To use Twine, you need to go to https://twinery.org/ and select "Use in your bro
 
 To get the key, you need to register on the official OpenAI website (https://platform.openai.com/). Then, in the profile settings, select the "API keys" item and click the "Create a new secret key" button. After that, the system will generate a secret key for you and issue a small grant (for trial use).
 
+However, it is worth taking into account that the trial tariff has significant restrictions on its use. Including the limitation on the number of requests for a certain time, which, when using this tariff, may not lead to a completely satisfactory result.
+
 ## Documentation
 
 Documentation in html format was automatically generated for the program using the Doxygen tool. It is also in the archive, in a folder called Autodocumentation HTML. To view it, it is necessary to find a file named Index in this folder and open it.
